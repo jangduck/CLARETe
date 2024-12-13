@@ -8,6 +8,8 @@ div#container {
 	border: solid 1px red;
 }
 
-div.form_list {
+div.formDiv {
 	border: solid 1px blue;
+	width: 640px;
+	height: 68px;
 }
