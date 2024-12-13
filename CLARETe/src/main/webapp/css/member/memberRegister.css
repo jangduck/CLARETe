@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+body {
+	background-color: #F4F3E8;
+}
+
+div#container {
+	border: solid 1px red;
+}
+
+div.form_list {
+	border: solid 1px blue;
+}
