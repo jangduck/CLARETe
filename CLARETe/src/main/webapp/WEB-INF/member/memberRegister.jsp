@@ -2,13 +2,21 @@
     pageEncoding="UTF-8"%>
 <%
     String ctxPath = request.getContextPath();
-    //    /SEMI
+    //    /CLARETe
 %> 
-   
+
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/memberRegister.css" />
 
+<!-- Optional JavaScript -->
+<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.7.1.min.js"></script>
+<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js" ></script> 
 
+<%-- jQueryUI CSS 및 JS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
+<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script> 
+
+<%-- 직접 만든 JS --%>
 <script type="text/javascript" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="<%= ctxPath%>/js/member/memberRegister.js"></script>
     
@@ -17,64 +25,73 @@
       <h2>로고</h2>
       <form name="registerFrm">
          <h4>회원가입</h4>
-            <div id="divId">
+            <div id="divId" class="formDiv">
                <span>아이디</span>
                <input type="text" name="id" id="id" placeholder="아이디를 입력해주세요" />
                <input type="button" id="idCheck" value="중복확인" onclick="duplicateId()" />
+               <span class="error">아이디는 필수입력 사항입니다.</span>
             </div>
             
-            <div id="divPwd">
+            <div id="divPwd" class="formDiv">
                <span>비밀번호</span>
                <input type="text" name="pwd" id="pwd" placeholder="비밀번호를 입력해주세요" />
+               <span class="error">암호는 영문자,숫자,특수기호가 혼합된 8~15 글자로 입력하세요.</span>
             </div>
             
             
-            <div id="divPwdCheck">
+            <div id="divPwdCheck" class="formDiv">
                <span>비밀번호확인</span>
                <input type="text" id="pwdCheck" placeholder="비밀번호를 한번 더 입력해주세요" />
+               <span class="error">비밀번호가 일치하지 않습니다.</span>
             </div>
          
-            <div id="divName">
+            <div id="divName" class="formDiv">
                <span>이름</span>
                <input type="text" name="name" id="name" placeholder="이름을 입력해주세요" />
+               <span class="error">이름은 필수입력 사항입니다.</span>
             </div>
             
             
-            <div id="divEmail">
+            <div id="divEmail" class="formDiv">
                <span>이메일</span>
                <input type="text" name="email" id="email" placeholder="예: hongkd@naver.com" />
                <input type="button" id="emailCheck" value="중복확인" onclick="duplicateEmail()" />
+               <span class="error">이메일 형식에 맞지 않습니다.</span>
             </div>
             
-            <div id="divMobile">
+            <div id="divMobile" class="formDiv">
                <span>휴대폰</span>
                <input type="text" name="mobile" id="mobile" placeholder="숫자만 입력해주세요" />
+               <span class="error">숫자만 입력해주세요.</span>
             </div>
             
-            <div id="divPostcode">
+            <div id="divPostcode" class="formDiv">
                <span>우편번호</span>
                <input type="text" name="postcode" id="postcode" placeholder="우편번호" />
                <%-- 우편번호 찾기 --%>
                <input type="button" id="zipcodeSearch" value="우편번호 찾기" onclick="searchPostcode()"/>
+               <span class="error">우편번호 형식에 맞지 않습니다.</span>
             </div>
             
-            <div id="divAddress">
+            <div id="divAddress" class="formDiv">
                <span>주소</span>
                <input type="text" name="address" id="address" size="40" maxlength="200" placeholder="주소" /><br>
                <span>상세주소</span>
-                    <input type="text" name="detailaddress" id="detailAddress" size="40" maxlength="200" placeholder="상세주소" />&nbsp;
-                    <input type="text" name="extraaddress" id="extraAddress" size="40" maxlength="200" placeholder="참고항목" />  
+               <input type="text" name="detailaddress" id="detailAddress" size="40" maxlength="200" placeholder="상세주소" />&nbsp;
+               <input type="text" name="extraaddress" id="extraAddress" size="40" maxlength="200" placeholder="참고항목" />  
+               <span class="error">주소를 입력하세요.</span>
             </div>
             
-            <div id="divGender">
+            <div id="divGender" class="formDiv">
                <span>성별</span>
                <input type="radio" name="gender" value="1" id="male" /><label for="male" style="margin-left: 1.5%;">남자</label>
                     <input type="radio" name="gender" value="2" id="female" style="margin-left: 10%;" /><label for="female" style="margin-left: 1.5%;">여자</label>
             </div>
             
-            <div id="divBirthday">
+            <div id="divBirthday" class="formDiv">
                <span>생년월일</span>
-               <input type="text" name="birthday" id="birthday" placeholder="YYYY/MM/DD" />
+               <input type="text" name="birthday" id="datepicker" placeholder="YYYY/MM/DD" />
+               <span class="error">생년월일은 마우스로만 클릭하세요.</span>
             </div>
          
               <div id="submit">
