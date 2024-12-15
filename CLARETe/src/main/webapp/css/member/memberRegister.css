@@ -111,7 +111,10 @@ label {
     font-size: 0.9rem;
 }
 
-span.error {
+
+span.error,
+#idCheckResult,
+#emailCheckResult {
     color: red;
     font-size: 0.8rem;
     position: absolute;

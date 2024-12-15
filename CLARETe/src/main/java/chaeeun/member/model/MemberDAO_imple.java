@@ -128,10 +128,10 @@ public class MemberDAO_imple implements MemberDAO {
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, member.getM_id());
-			pstmt.setString(2, member.getM_pwd());
+			pstmt.setString(2, Sha256.encrypt(member.getM_pwd()));
 			pstmt.setString(3, member.getM_name());
-			pstmt.setString(4, member.getM_email());
-			pstmt.setString(5, member.getM_mobile());
+			pstmt.setString(4, aes.encrypt(member.getM_email()));
+			pstmt.setString(5, aes.encrypt(member.getM_mobile()));
 			pstmt.setString(6, member.getM_postcode());
 			pstmt.setString(7, member.getM_address());
 			pstmt.setString(8, member.getM_detail_address());
@@ -141,11 +141,74 @@ public class MemberDAO_imple implements MemberDAO {
 			
 			result = pstmt.executeUpdate();
 			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+			  e.printStackTrace();
 		} finally {
 			close();
 		}
 		
 		return result;
+	}
+
+
+	// 아이디 중복체크 (중복이면 true 리턴, 중복 아니면 false 리턴)
+	@Override
+	public boolean idDuplicateCheck(String m_id) throws SQLException {
+		
+		boolean isExists = false;
+		
+		try {
+			  conn = ds.getConnection();
+			  
+			  String sql = " select m_id "
+			  		     + " from tbl_member "
+			  		     + " where m_id = ? ";
+			  
+			  pstmt = conn.prepareStatement(sql);
+			  pstmt.setString(1, m_id);
+			  
+			  rs = pstmt.executeQuery();
+			  
+			  isExists = rs.next(); // 행이 있으면(중복된 userid) true,
+			                        // 행이 없으면(사용가능한 userid) false
+			  
+		} finally {
+			close();
+		}
+		
+		return isExists;
+	}
+
+
+	// 이메일 중복검사
+	@Override
+	public boolean emailDuplicateCheck(String email) throws SQLException {
+
+		boolean isExists = false;
+		
+		try {
+			  conn = ds.getConnection();
+			  
+			  String sql = " select m_email "
+			  		     + " from tbl_member "
+			  		     + " where m_email = ? ";
+			  
+			  pstmt = conn.prepareStatement(sql);
+			  pstmt.setString(1, aes.encrypt(email));
+			  
+			  rs = pstmt.executeQuery();
+			  
+			  isExists = rs.next(); // 행이 있으면(중복된 userid) true,
+			                        // 행이 없으면(사용가능한 userid) false
+			  
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return isExists;
+		
 	}
 
 }

@@ -1,3 +1,6 @@
+let b_idcheck_click = false;
+let b_emailcheck_click = false;
+
 $(document).ready(function() {
 	
 	$("span.error").hide();
@@ -6,18 +9,23 @@ $(document).ready(function() {
 	// "아이디" input 태그 포커스 벗어나면 blur 이벤트 처리
 	$("input#id").blur((e) => {
 		
-		const id = $(e.target).val().trim();
-		if (id == "") {
-			// 아이디가 공백 or 미입력 인 경우
+		const regExp_id = /^[a-zA-Z][a-zA-Z0-9]{5,15}$/;
+		const bool = regExp_id.test($(e.target).val());
+
+		if (!bool) {
+			// 아이디가 정규표현식에 위배된 경우
 			$("form[name='registerFrm'] :input").prop("disabled", true);
 			$(e.target).prop("disabled", false);
 			$(e.target).val("").focus();
-			$(e.target).parent().find("span.error").show();
+			$(e.target).parent().find("span#idCheckResult").hide();
+			$(e.target).parent().find("span.error").show();		
 		} else {
 			// 정상적으로 입력한 경우
 			$("form[name='registerFrm'] :input").prop("disabled", false);
+			$(e.target).parent().find("span#idCheckResult").show();
 			$(e.target).parent().find("span.error").hide();
-		}	
+		}
+
 	});	// end of $("input#id").blur((e) => {})
 	
 	
@@ -130,8 +138,9 @@ $(document).ready(function() {
 		
 		if (!bool) {
 			// 우편번호가 정규표현식에 위배된 경우 
+			$("input[type='button'][value='우편번호 검색']").prop("disabled", false); // 검색 버튼 활성화
 			$("form[name='registerFrm'] :input").prop("disabled", true);
-			$(e.target).prop("disabled", false);
+			$(e.target).prop("disabled", false);			
 			$(e.target).val("").focus();
 			$(e.target).parent().find("span.error").show();
 		} else {
@@ -148,19 +157,56 @@ $(document).ready(function() {
     $("input#address").attr("readonly", true);
     $("input#extraAddress").attr("readonly", true);
 	
+	$("input#datepicker").datepicker({
+		dateFormat: 'yy-mm-dd'  
+		,showOtherMonths: true  
+		,showMonthAfterYear:true 
+		,changeYear: true        
+		,changeMonth: true                     
+		,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12']
+		,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] 
+		,dayNamesMin: ['일','월','화','수','목','금','토'] 
+		,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일']       
+	});
+	
+	$("input#datepicker").bind("keyup", e=>{
+		$(e.target).val("").next().show();
+	}); // 생년월일에 키보드로 입력하는 경우
+
+	$("input#datepicker").bind("change", e=>{
+	    if($(e.target).val() != "") {
+	        $(e.target).next().hide();
+	    }
+	}); // 생년월일에 마우스로 값을 변경하는 경우
+	
+	// "전체 동의" 체크박스 클릭 이벤트 처리
+	$("input#agreeAll").change((e) => {
+	    const isChecked = $(e.target).is(":checked");
+	    // 전체 동의 상태에 따라 모든 체크박스 상태 변경
+	    $("input[name='agreeTerms'], input[name='agreePrivacy'], input[name='agreeAge']").prop("checked", isChecked);
+	});
+
+	// 개별 체크박스 클릭 이벤트 처리 (하나라도 해제되면 전체동의 해제)
+	$("input[name='agreeTerms'], input[name='agreePrivacy'], input[name='agreeAge']").change(() => {
+	    const allChecked = $("input[name='agreeTerms'], input[name='agreePrivacy'], input[name='agreeAge']").length ===
+	                       $("input[name='agreeTerms']:checked, input[name='agreePrivacy']:checked, input[name='agreeAge']:checked").length;
+	    $("input#agreeAll").prop("checked", allChecked);
+	});
+
+	// "약관 보기" 클릭 이벤트
+   	$("#toggleTerms1").click((e) => {
+       	e.preventDefault(); // 링크 기본 동작 방지
+       	$("#termsContent1").toggle(); // 약관 내용 보이기/숨기기
+   	});
+	
+	// "약관 보기" 클릭 이벤트
+   	$("#toggleTerms2").click((e) => {
+       	e.preventDefault(); // 링크 기본 동작 방지
+       	$("#termsContent2").toggle(); // 약관 내용 보이기/숨기기
+   	});
+		
 });
 
-$("input#datepicker").datepicker({
-	dateFormat: 'yy-mm-dd'  //Input Display Format 변경
-	,showOtherMonths: true   //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-	,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
-	,changeYear: true        //콤보박스에서 년 선택 가능
-	,changeMonth: true       //콤보박스에서 월 선택 가능                
-	,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
-	,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
-	,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
-	,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트          
-});
 
 // === "우편번호 찾기" 버튼 클릭 이벤트 === //
 function searchPostcode() {
@@ -214,13 +260,140 @@ function searchPostcode() {
 } // end of function searchPostcode() {}
 
 
+// === "아이디중복확인" 버튼 클릭 이벤트 === //
+function duplicateId() {
+	
+	b_idcheck_click = true;
+
+	$.ajax({
+		url: "idDuplicateCheck.cl",
+		data: {"m_id": $("input#id").val()},  
+		type: "post", 
+		dataType: "json", 
+
+        success: function(json) {
+            if (json.isExists) {
+				console.log("사용중");
+                // 입력한 userid가 이미 사용중이라면
+                $("span#idcheckResult").html($("input#id").val() + "은 이미 사용중 이므로 다른 아이디를 입력하세요").css({"color":"red"});
+                $("input#userid").val("");
+            } else {
+				console.log("사용가능");
+                // 입력한 userid가 존재하지 않는 경우라면
+                $("span#idcheckResult").html($("input#id").val() + "은 사용가능 합니다.").css({"color":"navy"});
+            }
+        },
+        error: function(request, status, error){
+            alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+        }
+    });  
+
+} // end of function duplicateId() {}
+
+// 아이디 값이 변경되면 가입하기 버튼을 클릭 시 "아이디중복확인"을 클릭유무를 알아보기 위한 용도 초기화 시키기
+$("input#id").bind("change", function(){
+	b_idcheck_click = false;
+});
+
+// === "이메일중복확인" 버튼 클릭 이벤트 === //
+function duplicateEmail() {
+	
+	b_emailcheck_click = true;
+	
+	$.ajax({
+		url: "emailDuplicateCheck.cl",
+        data: {"m_email": $("input#email").val()},    
+        type: "post",
+        async: true,    
+        dataType: "json",
+        success: function(json) {
+            if (json.isExists) {
+                // 입력한 email가 이미 사용중이라면
+                $("span#emailCheckResult").html($("input#email").val() + "은 이미 사용중 이므로 다른 이메일을 입력하세요").css({"color":"red"});
+                $("input#email").val("");
+            } else {
+                // 입력한 email가 존재하지 않는 경우라면
+                $("span#emailCheckResult").html($("input#email").val() + "은 사용가능 합니다.").css({"color":"navy"});
+            }
+        },
+        error: function(request, status, error) {
+            alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+        }
+	});
+	
+} // end of function duplicateEmail() {}
+
+// 이메일 값이 변경되면 가입하기 버튼을 클릭 시 "이메일중복확인"을 클릭유무를 알아보기 위한 용도 초기화 시키기
+$("input#email").bind("change", function(){
+	b_emailcheck_click = false;
+});
+
 // === "가입하기" 버튼 클릭 이벤트 === //
 function goRegister() {
 
-   const frm = document.registerFrm; 
-   console.log(frm);
-   frm.action = "memberRegister.cl";
-   frm.method = "post";
-   frm.submit();
+	// 필수 입력사항에 모두 입력이 되었는지 검사하기 시작 //
+	let b_requiredInfo = true;
+	
+	const requiredInfo_list = document.querySelectorAll("input.requiredInfo");
+   	for(let i=0; i<requiredInfo_list.length; i++) {
+      	const val = requiredInfo_list[i].value.trim();
+      	if(val == "") {
+         	alert("*로 표시된 필수입력사항은 모두 입력하셔야 합니다.");
+         	b_requiredInfo = false;
+        	break;
+      	}
+   	}
+	
+	if(!b_requiredInfo){
+		return;// goRegister() 함수를 종료한다.
+	}
+	
+	if(!b_idcheck_click){
+      	// "아이디 중복확인"을 클릭하지 않은 경우
+      	alert("아이디 중복확인을 클릭하셔야 합니다.");
+      	return; // goRegister() 함수 종료
+   	}
+	
+	if(!b_emailcheck_click){
+		// "이메일 중복확인을 클릭하지 않은 경우"
+		alert("이메일 중복확인을 클릭하셔야 합니다.");
+		return; // goRegister() 함수 종료
+   	};
+	
+	// ** 우편번호 및 주소를 입력했는지 검사하기 시작 ** //
+   	let b_addressInfo = true;
+	
+	const arr_addressInfo = [];
+   	arr_addressInfo.push($("input#postcode").val());
+   	arr_addressInfo.push($("input#address").val());
+   	arr_addressInfo.push($("input#detailAddress").val());
+   	arr_addressInfo.push($("input#extraAddress").val());
+	   
+	for(let i=0; i<arr_addressInfo.length; i++){
+  		if(arr_addressInfo[i].trim() == "") {
+    		alert("우편번호 및 주소를 입력하셔야 합니다.");
+     		b_addressInfo = false;
+     		break;
+  		}
+	}
+	
+	if(!b_addressInfo){
+		return;// goRegister() 함수를 종료한다.
+	}
+	   
+	// ** 약관에 동의를 했는지 검사하기 시작 ** //
+	const totalCheckboxes = $("input.agree").length; // 약관 체크박스 총 개수
+	const checkedCheckboxes = $("input.agree:checked").length; // 체크된 약관 개수
+
+	if (checkedCheckboxes < totalCheckboxes) {
+	    alert("모든 필수 약관에 동의하셔야 합니다.");
+	    return; // 함수 종료
+	}
+	
+   	const frm = document.registerFrm; 
+   	console.log(frm);
+   	frm.action = "memberRegister.cl";
+   	frm.method = "post";
+   	frm.submit();
    
 } // end of function goRegister() {}
