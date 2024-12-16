@@ -35,7 +35,7 @@
                 <div>
                     <div class="header-icon-wrapper">
                         <ul>
-                            <li><a href="#">Login</a></li>
+                            <li><a href="<%= ctxPath%>/login/loginView.cl">Login</a></li>
                             <li><a href="<%= ctxPath%>/member/memberRegister.cl">Sign Up</a></li>
                             <li><a href="#">My Page</a></li>
                         </ul>

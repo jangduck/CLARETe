@@ -211,4 +211,47 @@ public class MemberDAO_imple implements MemberDAO {
 		
 	}
 
+
+	// 로그인
+	@Override
+	public MemberVO login(Map<String, String> paraMap) throws SQLException {
+		
+	    MemberVO member = null;
+
+	    try {
+	        conn = ds.getConnection();
+
+	        String sql = " select m_id, m_pwd, m_name, m_email, m_mobile, m_postcode, "
+	                   + " m_address, m_detail_address, m_extra, m_gender, m_birth "
+	                   + " from tbl_member "
+	                   + " where m_id = ? and m_pwd = ? ";
+
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, paraMap.get("id")); // m_id 키 확인
+	        pstmt.setString(2, paraMap.get("pwd")); // 암호화된 비밀번호
+
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	            member = new MemberVO();
+	            member.setM_id(rs.getString("m_id"));
+	            member.setM_pwd(rs.getString("m_pwd"));
+	            member.setM_name(rs.getString("m_name"));
+	            member.setM_email(rs.getString("m_email"));
+	            member.setM_mobile(rs.getString("m_mobile"));
+	            member.setM_postcode(rs.getString("m_postcode"));
+	            member.setM_address(rs.getString("m_address"));
+	            member.setM_detail_address(rs.getString("m_detail_address"));
+	            member.setM_extra(rs.getString("m_extra"));
+	            member.setM_gender(rs.getString("m_gender"));
+	            member.setM_birth(rs.getString("m_birth"));
+	        }
+	    } finally {
+	        close();
+	    }
+
+	    return member;
+	}
+
+
 }

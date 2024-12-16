@@ -2,6 +2,7 @@ package chaeeun.member.model;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import member.domain.MemberVO;
 
@@ -18,5 +19,8 @@ public interface MemberDAO {
 
    // 이메일 중복검사
    boolean emailDuplicateCheck(String email) throws SQLException;
+
+   // 로그인
+   MemberVO login(Map<String, String> paraMap) throws SQLException;
    
 }
