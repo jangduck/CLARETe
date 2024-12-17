@@ -37,13 +37,38 @@
 			<div class="cart_container">
 			
 			</div>
+			
+			
 			<div class="payment_go_box">
 			
+    			<div class="payment_info">
+        			<a class="order_product">주문상품</a>
+        			<hr>
+
+        			<!-- 총 상품 금액 -->
+        			<div style="display: flex; justify-content: space-between; margin: 10px 0;">
+            			<span class="product_amount">총 상품 금액</span>
+            			<span class="product_price">76,000</span>
+        			</div>
+
+        			<!-- 총 할인 금액 -->
+        			<div style="display: flex; justify-content: space-between; margin: 10px 0;">
+            			<span class="shipping">배송비</span>
+            			<span class="shipping_price">0</span>
+        			</div>
+        			<hr>
+
+        			<!-- 결제 예정 금액 -->
+        			<div style="display: flex; justify-content: space-between; font-weight: bold; margin: 20px 0;">
+            			<span class="total">결제 예정 금액</span>
+            			<span class="total_price">76,000</span>
+        			</div>
+    			</div>
+
+	    		<!-- 주문하기 버튼 -->
+	    		<button id="btn-order">주문하기</button>
 			</div>
-		</div>
-		
-		<div id="goOrder">
-			<button type="button" id="btn_order">주문하기</button>
+
 		</div>
 		
 
