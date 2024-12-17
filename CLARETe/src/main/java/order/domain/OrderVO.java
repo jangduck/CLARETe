@@ -1,15 +1,81 @@
 package order.domain;
 
+import cart.domain.CartVO;
+import delivery.domain.DeliveryVO;
+import member.domain.MemberVO;
+import option.domain.OptionVO;
+import product.domain.ProductVO;
+
 public class OrderVO {
-	int o_num; // ÁÖ¹®¹øÈ£
+	int o_num; // ï¿½Ö¹ï¿½ï¿½ï¿½È£
 	String fk_m_id; // fk_userid
-	int fk_d_num; // ¹è¼ÛÁö¹øÈ£
-	int fk_op_num; //  ¿É¼Ç¹øÈ£
-	String o_date; // ÁÖ¹®³¯Â¥
-	int status; // ¹è¼ÛÇöÈ² ¹è¼ÛÀü0, ¹è¼ÛÁß1, ¹è¼ÛÈÄ2
-	String o_price; // ÁÖ¹®±İ¾×
+	int fk_d_num; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	int fk_op_num; //  ï¿½É¼Ç¹ï¿½È£
+	String o_date; // ï¿½Ö¹ï¿½ï¿½ï¿½Â¥
+	int status; // ï¿½ï¿½ï¿½ï¿½ï¿½È² ï¿½ï¿½ï¿½ï¿½ï¿½0, ï¿½ï¿½ï¿½ï¿½ï¿½1, ï¿½ï¿½ï¿½ï¿½ï¿½2
+	String o_price; // ï¿½Ö¹ï¿½ï¿½İ¾ï¿½
+	
+// MemberVO ì¡°ì¸	
+	private MemberVO membervo;
+
+	public MemberVO getMembervo() {
+		return membervo;
+	}
+	public void setMembervo(MemberVO membervo) {
+		this.membervo = membervo;
+	}
 	
 	
+// DeliveryVO ì¡°ì¸ 
+	private DeliveryVO deliveryvo;
+
+	public DeliveryVO getDeliveryvo() {
+		return deliveryvo;
+	}
+
+	public void setDeliveryvo(DeliveryVO deliveryvo) {
+		this.deliveryvo = deliveryvo;
+	}
+	
+
+// OptionVO ì¡°ì¸
+	private OptionVO optionvo;
+
+	public OptionVO getOptionvo() {
+		return optionvo;
+	}
+
+	public void setOptionvo(OptionVO optionvo) {
+		this.optionvo = optionvo;
+	}
+	
+
+// ProductVO ì¡°ì¸ 
+	private ProductVO productvo;
+
+	public ProductVO getProductvo() {
+		return productvo;
+	}
+
+	public void setProductvo(ProductVO productvo) {
+		this.productvo = productvo;
+	}
+	
+	
+// CartVO ì¡°ì¸ 
+	private CartVO cartvo;
+
+	public CartVO getCartvo() {
+		return cartvo;
+	}
+
+	public void setCartvo(CartVO cartvo) {
+		this.cartvo = cartvo;
+	}
+	
+	
+	
+
 	public int getO_num() {
 		return o_num;
 	}
@@ -52,7 +118,6 @@ public class OrderVO {
 	public void setO_price(String o_price) {
 		this.o_price = o_price;
 	}
-	
-	
+
 	
 }
