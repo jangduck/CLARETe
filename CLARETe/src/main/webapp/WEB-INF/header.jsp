@@ -16,9 +16,16 @@
     <title>금쪽이</title>
     <link rel="stylesheet" href="./css/header.css">
     <link rel="stylesheet" href="./css/section.css">
+    
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
+    <!-- 해더, 푸터 css -->
+    <link rel="stylesheet" href="<%= ctxPath %>/css/index/header.css">
+	<link rel="stylesheet" href="<%= ctxPath %>/css/index/footer.css">
+	
+	<!-- Optional JavaScript -->
+	<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.7.1.min.js"></script>
 </head>
 <body> 
     <div id="container">
@@ -32,7 +39,7 @@
                     </ul>
                 </div>
                 <div class="header-logo">
-                    <a href="#">
+                    <a href="<%= ctxPath%>/">
                         <h2>LOGO</h2>
                     </a>
                 </div>
@@ -41,13 +48,13 @@
                         <ul>
                         	<c:if test="${not empty sessionScope.loginuser}">
                         		<li><a href="<%= ctxPath%>/login/logout.cl">Logout</a></li>
-                        		<li><a href="#">My Page</a></li>
+                        		<li><a href="<%= ctxPath%>/mypage/mypage.cl">My Page</a></li>
                         	</c:if>
                         	
                         	<c:if test="${empty sessionScope.loginuser}">
                         		<li><a href="<%= ctxPath%>/login/loginView.cl">Login</a></li>
                             	<li><a href="<%= ctxPath%>/member/memberRegister.cl">Sign Up</a></li>
-                            	<li><a href="#">My Page</a></li>
+                            	<li><a href="<%= ctxPath%>/login/loginView.cl">My Page</a></li>
                         	</c:if>
                             
                         </ul>
@@ -105,7 +112,6 @@
 
         
     </div>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
         // === 토글 되는 nav바 시작 === //
         let hamburger_cnt=0;

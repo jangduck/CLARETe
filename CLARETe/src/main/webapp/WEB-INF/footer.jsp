@@ -12,10 +12,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>금쪽이</title>
-    <link rel="stylesheet" href="./css/header_02.css">
-    <link rel="stylesheet" href="./css/footer.css">
-    <!-- Link Swiper's CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 <body> 
     <div id="container">
@@ -64,7 +60,6 @@
             </div>
         </footer>
     </div>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
         // === 토글 되는 nav바 시작 === //
         let hamburger_cnt=0;
@@ -192,42 +187,5 @@
 
 
     </script>    
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-        var swiper = new Swiper(".mySwiper", {
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        pagination : {
-            el:".swiper-pagination",
-            clickable:true,
-        },
-        mousewheel:false,
-        keyboard:true,
-        loop: true,
-        autoplay:true,
-        sildesPerView:1,
-        spaceBetween:0,
-        effect:'fade',
-        speed:1000,
-        
-        });
-
-        var swiper = new Swiper('.mySwiper',{
-            sildesPerView: 1,
-            breakpoints:{
-                640:{
-                    sildesPerView:2,
-                },
-                768:{
-                    sildesPerView:3,
-                },
-                1024:{
-                    sildesPerView:4,
-                },
-            }
-        });
-    </script>
 </body>
 </html>
