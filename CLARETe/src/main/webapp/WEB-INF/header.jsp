@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
+    
 <%
     String ctxPath = request.getContextPath();
     //    /MyMVC
@@ -15,6 +18,7 @@
     <link rel="stylesheet" href="./css/section.css">
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
 </head>
 <body> 
     <div id="container">
@@ -35,9 +39,17 @@
                 <div>
                     <div class="header-icon-wrapper">
                         <ul>
-                            <li><a href="<%= ctxPath%>/login/loginView.cl">Login</a></li>
-                            <li><a href="<%= ctxPath%>/member/memberRegister.cl">Sign Up</a></li>
-                            <li><a href="#">My Page</a></li>
+                        	<c:if test="${not empty sessionScope.loginuser}">
+                        		<li><a href="<%= ctxPath%>/login/logout.cl">Logout</a></li>
+                        		<li><a href="#">My Page</a></li>
+                        	</c:if>
+                        	
+                        	<c:if test="${empty sessionScope.loginuser}">
+                        		<li><a href="<%= ctxPath%>/login/loginView.cl">Login</a></li>
+                            	<li><a href="<%= ctxPath%>/member/memberRegister.cl">Sign Up</a></li>
+                            	<li><a href="#">My Page</a></li>
+                        	</c:if>
+                            
                         </ul>
                     </div>
                 </div>
