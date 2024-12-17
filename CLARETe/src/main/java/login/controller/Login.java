@@ -50,9 +50,23 @@ public class Login extends AbstractController {
 			if(loginuser != null) {
 				System.out.println(id + "로그인 성공");
 				
-				super.setRedirect(false); 
-		        super.setViewPage("/WEB-INF/index.jsp");
-			} else {
+				/*
+				 	여기에 휴면 코드 추가
+				 */
+				
+				HttpSession session = request.getSession();
+				session.setAttribute("loginuser", loginuser);
+				
+				/*
+			 		여기에비밀번호 변경 3개월 코드 추가
+				 */
+				
+				super.setRedirect(true);
+				super.setViewPage(request.getContextPath()+"/index.cl");
+		        
+			} // end of if(loginuser != null) {}
+			
+			else {
 				String message = "로그인 실패";
 		        String loc = "javascript:history.back()";
 		         
