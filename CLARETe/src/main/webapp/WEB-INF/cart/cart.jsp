@@ -25,19 +25,61 @@
 
 <jsp:include page="../header.jsp"></jsp:include>
 
-<section style="width: 100%; height: 100vh; padding-top: 4.5rem">
+<section style="width: 100%; height: auto; margin-bottom: 100px; padding-top: 4.5rem">
 
 	<div id="all_container">
 		<div>
 			<a class="cart">장바구니</a>
-			<a>1.장바구니 > 2.주문서 작성 > 3.주문완료</a>
+			<a class="step">1.장바구니 > 2.주문서 작성 > 3.주문완료</a>
 		</div>	
 		
 		<div id="productList">
 			<div class="cart_container">
-			
+				
+				<div class="menuDiv">
+					<a class="a_cart">장바구니 상품</a>
+					<button type="button" class="all">전체선택</button>
+					<button type="button" class="all" id="btn_cancel">전체해제</button>
+				</div>
+				
+				<div class="product">
+					<div class="upDiv">
+						
+						<input type="checkbox">
+							<%-- <img src="<%= ctxPath%>/images/kakao.png" />--%>
+							<div style="width: 64px; height: 64px; background-color: black; "></div>
+							<div class="infoDiv">
+								향수이름
+								<br>
+								32,500
+							</div>
+							가격*개수
+							X
+					</div>
+					<div class="downDiv">
+						-옵션 50ml
+						
+						<div>		
+							<div class="counter-container">
+						        <div class="counter-button" id="decrease">-</div>
+						        <div class="counter-value" id="counter">1</div>
+						        <div class="counter-button" id="increase">+</div>
+						    </div>
+						    주문하기
+						</div>
+  
+					</div>
+					
+					
+				</div>
+				
+				
+				
+				<div class="product">
+
+				</div>
+
 			</div>
-			
 			
 			<div class="payment_go_box">
 			
@@ -71,7 +113,17 @@
 
 		</div>
 		
-
+		<div class="totalDiv">
+			<div class="totalA">
+				<a>[배송]</a> <br> <hr class="totalHr">
+				<a>상품구매금액 : </a>
+				<a>76,000</a>
+				<a> + 배송비 0 (무료)</a> <br> <hr class="totalHr">
+				<a>합계 : </a> 
+				<a>76,000</a>
+			</div>	
+		</div>
+			
 	</div>
 
 
