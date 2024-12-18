@@ -22,7 +22,6 @@
 <%-- 직접 만든 JS --%>
 <script type="text/javascript" src="<%= ctxPath%>/js/cart/cart.js"></script>
 
-
 <jsp:include page="../header.jsp"></jsp:include>
 
 <section style="width: 100%; height: auto; margin-bottom: 100px; padding-top: 4.5rem">
@@ -36,7 +35,9 @@
 		<div id="productList">
 			<div class="cart_container">
 				
+				<hr>
 				<div class="menuDiv">
+				
 					<a class="a_cart">장바구니 상품</a>
 					<button type="button" class="all">전체선택</button>
 					<button type="button" class="all" id="btn_cancel">전체해제</button>
@@ -53,11 +54,15 @@
 								<br>
 								32,500
 							</div>
-							가격*개수
-							X
+							<span class="priceSpan">32,500</span>
+							<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6D6D6D" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+							  <line x1="18" y1="6" x2="6" y2="18"></line>
+							  <line x1="6" y1="6" x2="18" y2="18"></line>
+							</svg>
+
 					</div>
 					<div class="downDiv">
-						-옵션 50ml
+						<span class="optionSpan">-옵션 50ml</span>
 						
 						<div>		
 							<div class="counter-container">
@@ -65,7 +70,7 @@
 						        <div class="counter-value" id="counter">1</div>
 						        <div class="counter-button" id="increase">+</div>
 						    </div>
-						    주문하기
+						    <a class="orderA">주문하기<a>
 						</div>
   
 					</div>
@@ -78,7 +83,7 @@
 				<div class="product">
 
 				</div>
-
+=
 			</div>
 			
 			<div class="payment_go_box">
@@ -112,6 +117,8 @@
 			</div>
 
 		</div>
+		
+		<hr>
 		
 		<div class="totalDiv">
 			<div class="totalA">
