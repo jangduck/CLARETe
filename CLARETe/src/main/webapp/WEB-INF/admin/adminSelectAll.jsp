@@ -40,7 +40,7 @@
                 <li>
                     <div>상품관리</div>
                     <ul>
-                        <li>상품조회</li>
+                        <a href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a>
                         <li>상품 카테고리 별 조회</li>
                         <li>상품등록</li>
                         <li>상품 재고 관리</li>
@@ -74,99 +74,35 @@
 		<div class="first-div">
 			<div style="margin: 30px 0px 0px 30px;">
 				<form action="<%=ctxPath%>/memberSearch" method="GET">
-				
-				
-					<%-- <!-- 회원 유형 필터 -->
-					<div style="display: flex; gap: 8px; flex-wrap: wrap;">
-						<div class="input-box">
-							<div>
-								<label for="memberType">회원 유형</label>
-							</div>
-							<div>
-								<select id="memberType" name="memberType">
-									<option value="all"
-										<%="all".equals(request.getParameter("memberType")) ? "selected" : ""%>>전체회원</option>
-									<option value="order"
-										<%="order".equals(request.getParameter("memberType")) ? "selected" : ""%>>주문회원</option>
-								</select>
-							</div>
-						</div>
-					</div>
 
-					<script>
-						$(document).ready(function() {
-							$('#memberType').change(function() {
-								const memberType = $(this).val();
-								if (memberType === 'all') {
-									alert('전체 회원 조회');
-								} else if (memberType === 'order') {
-									alert('주문 회원 조회');
-								}
-								$(this).closest('form').submit(); // 폼 제출
-							});
-						});
-					</script> --%>
+					<form name="member_search_frm">
+                    	<select name="searchType">
+                    		<option value="">검색대상</option>
+                    		<option value="userid">유저아이디</option>
+                    		<option value="username">유저명</option>
+                    		<option value="delete">삭제여부</option>
+                    		<option value="hyumen">휴면여부</option>
+                    	</select>
+                    	&nbsp;
+                    	<input type="text" name="searchWord" />
+                    </form>
 
-
-
-					<!-- 유저 아이디와 유저명 -->
-					<div style="display: flex; gap: 8px; flex-wrap: wrap;">
-						<div class="input-box">
-							<div>
-								<label for="userid">유저 아이디</label>
-							</div>
-							<div>
-								<input type="text" id="userid" name="userid"
-									placeholder="유저 아이디를 입력하세요">
-							</div>
-						</div>
-						<div class="input-box">
-							<div>
-								<label for="username">유저명</label>
-							</div>
-							<div>
-								<input type="text" id="username" name="username"
-									placeholder="유저명을 입력하세요">
-							</div>
-						</div>
-					</div>
-
-					<!-- 삭제 여부와 휴면 여부 -->
-					<div style="display: flex; gap: 8px; flex-wrap: wrap;">
-						<div class="input-box">
-							<div>
-								<label for="deleted">삭제여부</label>
-							</div>
-							<div>
-								<input type="text" id="deleted" name="deleted" placeholder="전체">
-							</div>
-						</div>
-						<div class="input-box">
-							<div>
-								<label for="dormant">휴면여부</label>
-							</div>
-							<div>
-								<input type="text" id="dormant" name="dormant" placeholder="전체">
-							</div>
-						</div>
-					</div>
-
-					<!-- 버튼 -->
-					<div class="form-btn-box">
-						<input type="submit" class="btn search" value="검색" /> <input
-							type="reset" class="btn reset" value="초기화" />
-					</div>
-				</form>
+                    <!-- 버튼 -->
+                    <div class="form-btn-box">
+                        <input type="submit" class="btn search" value="검색" />
+                        <input type="reset" class="btn reset" value="초기화" />
+                    </div>
+                </form>
 			</div>
 
-
-
-			<div class="second-div">
+		</div>
+		
+		<div class="second-div">
 				<h4
 					style="font-weight: bold; text-align: center; margin-top: 50px; padding: 2% 0;">모든회원조회</h4>
 
-				<div class="table-container">
-					<table style="width: 100% !important;" class="table">
+				<div class="table-container" style="overflow-x: auto">
+					<table style="width: 100% !important;" class="table table-bordered text-center table-responsive">
 						<thead class="thead-light">
 
 							<tr>
@@ -229,10 +165,8 @@
 					</ul>
 				</nav>
 
-			</div>
-
-
-
-		</div></section>
+			</div> <%-- 세컨 --%>
+		
+		</section>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>

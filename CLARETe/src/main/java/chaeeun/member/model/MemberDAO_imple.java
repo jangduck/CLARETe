@@ -254,4 +254,13 @@ public class MemberDAO_imple implements MemberDAO {
 	}
 
 
+	
+	// *** admin > 페이징 처리를 한 모든 회원 또는 검색한 회원 목록 보여주기 //
+	@Override
+	public List<MemberVO> select_Member_paging(Map<String, String> paraMap) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

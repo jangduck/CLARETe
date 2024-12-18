@@ -23,4 +23,5 @@ public interface MemberDAO {
    // 로그인
    MemberVO login(Map<String, String> paraMap) throws SQLException;
    
+   
 }

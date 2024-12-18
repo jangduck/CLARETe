@@ -6,7 +6,7 @@ public class ProductVO {
 	String p_season;		//카테고리(계절)
 	String p_name;			//제품명
 	String p_ex;			//제품설명
-	String p_price;			//가격
+	int p_price;			//가격
 	int p_inven;			//재고
 	String p_register;		//제품등록일
 	String p_release;		//발매일
@@ -38,11 +38,11 @@ public class ProductVO {
 	public void setP_ex(String p_ex) {
 		this.p_ex = p_ex;
 	}
-	public String getP_price() {
+	public int getP_price() {
 		return p_price;
 	}
-	public void setP_price(String p_price) {
-		this.p_price = p_price;
+	public void setP_price(int i) {
+		this.p_price = i;
 	}
 	public int getP_inven() {
 		return p_inven;

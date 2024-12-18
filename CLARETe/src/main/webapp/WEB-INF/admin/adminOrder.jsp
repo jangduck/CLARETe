@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="java.util.*" %>
 
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/admin/admin_section.css">
@@ -28,7 +29,7 @@
 			<li>
 				<div>상품관리</div>
 				<ul>
-					<li>상품조회</li>
+					<a href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a>
 					<li>상품 카테고리 별 조회</li>
 					<li>상품등록</li>
 					<li>상품 재고 관리</li>
@@ -147,12 +148,12 @@
 						<thead class="thead-light">
 							<tr>
 								<th>주문번호</th>
-								<th>주문일자</th>
+								<th>주문날짜</th>
 								<th>회원아이디</th>
 								<th>상품명</th>
 								<th>제품수량</th>
 								<th>주문금액</th>
-								<th>배송상태</th>
+								<th>배송현황</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -161,9 +162,10 @@
 									<tr>
 										<td>${order.o_num}</td>
 										<td>${order.o_date}</td>
+										<td>${order.fk_m_id}</td>
 										<td>${order.productvo.p_name}</td>
-										<td>${order.cartvo.c_count}</td>
-										<td>${order.o_price}</td>
+										<td>${order.orderdetailvo.od_count}</td>
+	    								<td>${order.o_price}</td>
 										<td>
 											<c:choose>
 												<c:when test="${order.status == 0}">결제 대기</c:when>
@@ -172,6 +174,12 @@
 												<c:otherwise>배송 완료</c:otherwise>
 											</c:choose>
 										</td>
+										
+<%-- 									<td>${order.membervo.m_name}</td>
+										<td>${order.membervo.m_email}</td>
+										<td>${order.membervo.m_mobile}</td> --%>
+										
+										
 										
 									</tr>
 								</c:forEach>	
