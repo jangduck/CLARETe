@@ -150,29 +150,31 @@
 <%-- 푸터 include 받아옴 --%>
     
 <script>
-$(document).ready(function(){
-	//=== 년도 구해서 -5년도까지 option 태그에 넣기 === //
-	let today = new Date();
-	
-	console.log(today);
-	
-	let year = today.getFullYear();
-	let yearsAgo
-	let html = ``;
-	
-	// console.log(year-1);
-	
-	for(let i=0; i<5; i++){
-		console.log(year - i);
+
+		//=== 년도 구해서 -5년도까지 option 태그에 넣기 === //
+		let today = new Date();
 		
-	    html += `<option name="option-year" value="${year - i}">${year - i}년</option>`
-	    	// console.log(html);
-	    // 여기서 해당 셀랙터를 잡으려면 .on을 해야 잘 잡히겠죠..? 기억 하시죠?
-	}
+		console.log(today);
+		
+		let year = today.getFullYear();
+		let yearsAgo
+		let html = '';
+		
+		// console.log(year-1);
+		
+		for(let i=0; i<5; i++){
+			console.log(year - i);
+			
+			html += '<option name="option-year" value="' + (year - i) + '">' + (year - i) + '년</option>';
+		    // 여기서 해당 셀랙터를 잡으려면 .on을 해야 잘 잡히겠죠..? 기억 하시죠?
+		    	console.log(html);
+		}
+		
+		$(".select").html(html);
+		
 	
-	$('select').html(html);
-	// === 년도 구해서 -5년도까지 option 태그에 넣기 === //
-});
+		// === 년도 구해서 -5년도까지 option 태그에 넣기 === //
+
 </script><!-- 제이쿼리 이용해서 현재 년도의 -5년도까지 option으로 넣음 이거 클릭시 값 넘어가게 처리하세요 .on() 으로 해야합니다 참고! -->
 </body>
 </html>
