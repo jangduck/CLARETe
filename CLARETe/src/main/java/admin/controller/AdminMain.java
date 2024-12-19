@@ -34,7 +34,7 @@ public class AdminMain extends AbstractController {
 			super.setViewPage("/WEB-INF/msg.jsp");
 		}
 		
-		
 	}
 
 }
+
