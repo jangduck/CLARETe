@@ -3,10 +3,10 @@
     padding: 0px;
 }
 
-body{
+.allbody{
     width: 100%;
     height: auto;
-    background-color: #F1F5F9;
+    background-color: #F1F5F9 !important;
 }
 
 a{

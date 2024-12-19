@@ -7,6 +7,25 @@
     String ctxPath = request.getContextPath();
 %>
     
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 상품관리</title>
+    <link rel="stylesheet" href="<%= ctxPath%>/css/admin/admin_header.css">
+    <link rel="stylesheet" href="<%= ctxPath%>/css/admin/admin_section.css">
+    <link rel="stylesheet" href="<%= ctxPath%>/css/admin/admin_insert.css">
+    
+    <!-- Bootstrap CSS -->
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.2-dist/css/bootstrap.min.css" > 
+	
+	<!-- Optional JavaScript -->
+	<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.7.1.min.js"></script>
+	<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js" ></script> 
+
+</head>
+<body class="allbody" style="background-color: #F1F5F9 !important; width: 100% !important;">
     
     <jsp:include page="adminheader.jsp"></jsp:include>
     
