@@ -5,9 +5,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import member.domain.MemberVO;
+import yihun.prodect.model.ProductDAO;
+import yihun.prodect.model.ProductDAO_imple;
 
-public class AdminMain extends AbstractController {
+public class AdminProductList extends AbstractController {
 
+	ProductDAO pdao = new ProductDAO_imple();
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
@@ -16,11 +20,10 @@ public class AdminMain extends AbstractController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
 		if( loginuser != null && "admin".equals(loginuser.getM_id()) ) {
-			// 관리자로 로그인 한 경우
 			
-			super.setRedirect(false);
-			super.setViewPage("/WEB-INF/admin/adminMain.jsp");
-
+			
+			
+			
 		}
 		else {
 			// 로그인을 안한 경우 또는 일반사용자로 로그인 한 경우
@@ -33,8 +36,7 @@ public class AdminMain extends AbstractController {
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/msg.jsp");
 		}
-		
-		
+
 	}
 
 }

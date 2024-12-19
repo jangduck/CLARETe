@@ -6,18 +6,7 @@
 <%
     String ctxPath = request.getContextPath();
 %>
-    
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>관리자 상품관리</title>
-    <link rel="stylesheet" href="<%= ctxPath%>/css/admin/admin_header.css">
-    <link rel="stylesheet" href="<%= ctxPath%>/css/admin/admin_section.css">
-</head>
-<body>
-    
+
     <jsp:include page="adminheader.jsp"></jsp:include>
     
     <section>
@@ -67,7 +56,4 @@
         </div>
     </section>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="./js/admin_header.js"></script>
-</body>
-</html>
+<jsp:include page="adminfooter.jsp"></jsp:include>

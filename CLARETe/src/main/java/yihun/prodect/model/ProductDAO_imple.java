@@ -30,7 +30,7 @@ public class ProductDAO_imple implements ProductDAO {
        try {
           Context initContext = new InitialContext();
            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-           ds = (DataSource)envContext.lookup("jdbc/myoracle");
+           ds = (DataSource)envContext.lookup("jdbc/semioracle");
            
            aes = new AES256(SecretMyKey.KEY);
            // SecretMyKey.KEY 은 우리가 만든 암호화/복호화 키이다.
@@ -60,15 +60,16 @@ public class ProductDAO_imple implements ProductDAO {
 	@Override
 	public int insertProduct(ProductVO pvo) throws SQLException {
 		int result = 0;
+		// System.out.println("임플" + pvo.getP_detail_image());
 
 		try {
 			conn = ds.getConnection();
-			
+
 			String sql = " insert into tbl_product(p_num, p_season, p_name, p_ex, p_price, p_inven, p_sale, p_gender, p_release, p_image, p_detail_image, p_register) "
-					   + " values(seq_product.nextval, ?, ?, ?, ?, ?, ?, ?, to_date('?', 'yyyymmdd'), ?, ?, sysdate) ";
-			
+			           + " values(seq_product.nextval, ?, ?, ?, ?, ?, ?, ?, to_date(?, 'yyyymmdd'), ?, ?, sysdate) ";
+
 			pstmt = conn.prepareStatement(sql);
-			
+
 			pstmt.setString(1, pvo.getP_season()); 
 			pstmt.setString(2, pvo.getP_name());
 			pstmt.setString(3, pvo.getP_ex());
@@ -76,11 +77,13 @@ public class ProductDAO_imple implements ProductDAO {
 			pstmt.setInt(5, pvo.getP_inven());
 			pstmt.setString(6, pvo.getP_sale());
 			pstmt.setInt(7, pvo.getP_gender());
-			pstmt.setString(8, pvo.getP_release());
+			pstmt.setString(8, pvo.getP_release());  
 			pstmt.setString(9, pvo.getP_image());
 			pstmt.setString(10, pvo.getP_detail_image());
-			
+
+			// SQL 실행
 			result = pstmt.executeUpdate();
+
 			
 		} finally {
 			close();
@@ -88,6 +91,6 @@ public class ProductDAO_imple implements ProductDAO {
 		
 		
 		return result;
-	}
+	} // end of public int insertProduct(ProductVO pvo) throws SQLException-------------------
 
 }
