@@ -51,15 +51,29 @@
 	            --%>
 	            
 		            <form name="myFrm" method="post" action="<%= ctxPath%>/admin/adminProductInsertGo.cl">
-			            <table border="1">
+			            <table class="table">
 			            	<tr>
 			            		<th><label>상품명</label></th>
 			            		<td><input type="text" name="p_name" placeholder="상품명" /></td>
 			            	</tr>
 			            	<tr>
 			            		<th><label>카테고리</label></th>
-			            		<td><input type="text" name="p_season" placeholder="카테고리" /></td>
+			            		<td>
+									<select name="p_season">
+									   <option value="" selected disabled hidden style="color: #7B7B7B; !important">- 카테고리를 선택해 주세요 -</option>
+									   <option value="1">봄</option>
+									   <option value="2">여름</option>
+									   <option value="3">가을</option>
+									   <option value="4">겨울</option>
+									</select>
+								</td>
 			            	</tr>
+			            	
+			            	<tr >
+			            		<td><label class="optionadd">옵션추가하기</label></td>		
+			            		<td class="add"></td>		
+			            	</tr>
+			            	
 			            	<tr>
 			            		<th><label>제품설명</label></th>
 			            		<td><input type="text" name="p_ex" placeholder="제품설명" /></td>
@@ -87,7 +101,15 @@
 			            	
 			            	<tr>
 			            		<th><label>성별</label></th>
-			            		<td><input type="text" name="p_gender" placeholder="성별" /></td>
+			            		<td>
+									<select name="p_gender">
+									   <option value="" selected disabled hidden style="color: #7B7B7B; !important">- 성별을 선택해 주세요 -</option>
+									   <option value="1">남자</option>
+									   <option value="2">여자</option>
+									</select>
+								</td>
+			            		
+			            		
 			            	</tr>
 			            	
 			            	<tr>
@@ -110,5 +132,59 @@
         
     </section>
 
+<script>
+	let op_cnt = 0;
+
+	$('.optionadd').click(function(e) {
+		if(op_cnt > 2){
+			alert('옵션은 최대 3개까지 선택 가능합니다.');
+		}
+		else{
+			op_cnt++;
+			$('.add').append(
+					"<div class='opt'>"+
+						"<label>옵션</label>" +
+		        		"<span>" +
+		        		"<select class='op_ml' name='op_ml'>" +
+						   "<option value='0' selected disabled hidden style='color: #7B7B7B; !important'>- 옵션을 선택해 주세요 -</option>" +
+						   "<option value='1'>50ml</option>" +
+						   "<option value='2'>75ml</option>" +
+						   "<option value='3'>100ml</option>" +
+						"</select>" +
+						"<input type='text' name='op_price' placeholder='옵션 별 가격' />" +
+						"<span class='op_close'>닫기</span>" +
+						"</span>" +
+					"</div>"
+			);
+		}
+		
+	}); // end of $('.optionadd').click(function(e)--------
+	
+	$(document).on('click', '.op_close', function(e){
+		op_cnt--;
+		const idx = $('.op_close').index(this);
+		$('.opt').eq(idx).remove();
+		// alert(op_cnt)
+	}); // end of $(document).on('click', '.op_close', function(e)-------
+	
+	$(document).on('change', 'select.op_ml', function(e){
+		const index = $(e.target).index();
+		const ch_val = $(e.target).val();
+		// 선택한 셀랙트태그의 value 값
+		
+		$('select.op_ml').each(function (idx, item) {
+			
+			const allindex = $('select.op_ml').eq(idx).val();
+			// 전체 셀랙트태그 돌면서 얻는 value 값
+			
+			if(allindex == ch_val){
+				alert('같은 용량은 선택하실 수 없습니다. 다시 선택해주세요');
+				$('select.op_ml').eq(index).val("0").prop("selected", true);
+			}
+		})
+	});
+	
+
+</script>
 </body>
 </html>

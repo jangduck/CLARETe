@@ -22,7 +22,7 @@ public class AdminProductInsertGo extends AbstractController {
 			String p_name = request.getParameter("p_name");
 			String p_season = request.getParameter("p_season");
 			String p_ex = request.getParameter("p_ex");
-			String p_price = request.getParameter("p_price");
+			int p_price = Integer.parseInt(request.getParameter("p_price"));
 			int p_inven = Integer.parseInt(request.getParameter("p_inven"));
 			String p_release = request.getParameter("p_release");
 			String p_sale = request.getParameter("p_sale");
