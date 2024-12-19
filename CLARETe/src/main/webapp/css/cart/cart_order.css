@@ -34,7 +34,6 @@
 }
 
 #all_container {
-	/*border: solid 1px red;*/
 	height: auto;
 }
 
@@ -58,17 +57,60 @@
 }
 
 
+#secondDiv {
+	margin-left: var(--size160);
+	margin-right: var(--size160);
+	display: flex;
+}
+
 #infoDiv{
-	border: solid 1px blue;
+	background-color: pink;
+	width: 1136px;
+	height: auto;
+}
+
+
+#memberInfoDiv {
+	
+	width: 1136px;
+}
+
+#menu1 {
+		
+}
+
+#memberInfo {
+	background-color: skyblue;
+	height: 82px;
+}
+
+#orderInfoDiv {
+	width: 1136px;
+}
+
+#menu2, #menu3 {
+	margin-top: 20px;
+}
+
+#orderInfo {
+	background-color: blue;
+	height: 102px;
+}
+
+#productList {
+	background-color: red;
+	height: auto;
 }
 
 
 
 /*-------------------------------------*/
 
-.payment_go_box{
-    width: var(--size400);
-    height: var(--size300);
+
+.payment_go_box {
+	width: var(--size400);
+	height: var(--size300);
+	margin-left: 120px;
 }
 
 .payment_info {

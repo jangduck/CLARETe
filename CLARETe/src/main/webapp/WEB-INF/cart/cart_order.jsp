@@ -34,47 +34,101 @@
 			<a class="step">1.장바구니&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;&nbsp;<strong>2.주문서 작성</strong>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;&nbsp;3.주문완료</a>
 		</div>	
 		
-		<div id="infoDiv">
-			<div class="cart_container" style="border-top: none; border-bottom: 1px solid black; border-left: none; border-right: none;">
+		<div id="secondDiv">
 		
-			<div class="menuDiv" style="border-top: 1px solid black; border-bottom: none; border-left: none; border-right: none;">
-				<a class="a_cart">주문고객</a>
-			</div>
-		</div>
-		
-		
-		<div class="payment_go_box">
+			<div id="infoDiv">
 			
-   			<div class="payment_info">
-       			<a class="order_product">주문상품</a>
-       			<hr>
+				<div id="memberInfoDiv">
+					
+					<div id="menu1">
+						<strong>주문고객</strong>
+						<span>&#9660;</span>
+					</div>
+					
+					<div id="memberInfo">
+						<p>이름: 강이훈</p>
+	                	<p>전화번호: 010-2121-3131</p>
+					</div>
+	   
+	            </div> <!-- memberInfoDiv -->
+	
+	            <div id="orderInfoDiv">
+	            
+	            	<div id="menu2">
+						<strong>배송정보</strong>
+						<span>&#9660;</span>
+					</div>
+					
+					<div id="orderInfo">
+						<p>이름: 장민규</p>
+	                	<p>전화번호: 010-1234-1234</p>
+	                	<p>상세주소: (12345) 주소입니다.</p>
+					</div>
+	           		
+	            </div> <!-- orderInfoDiv -->
+				
+				<div id="productInfoDiv">
+	            
+	            	<div id="menu3">
+						<strong>주문 상품 정보 (2건)</strong>
+						<span>&#9660;</span>
+					</div>
+					
+					<div id="productList">
+					
+						<div id="productInfo">
+							<p>이름: 장민규</p>
+		                	<p>전화번호: 010-1234-1234</p>
+		                	<p>상세주소: (12345) 주소입니다.</p>
+						</div>
 
-       			<!-- 총 상품 금액 -->
-       			<div style="display: flex; justify-content: space-between; margin: 10px 0;">
-           			<span class="product_amount">총 상품 금액</span>
-           			<span class="product_price">76,000</span>
-       			</div>
+					</div> <!-- productList -->
+					
+	           		
+	            </div> <!-- productInfoDiv -->
+	            
+			</div> <!-- infoDiv -->
+			
+			<div class="payment_go_box">
+				<div class="payment_info">
+        			<a class="order_product">주문상품</a>
+        			<hr>
 
-       			<!-- 총 할인 금액 -->
-       			<div style="display: flex; justify-content: space-between; margin: 10px 0;">
-           			<span class="shipping">배송비</span>
-           			<span class="shipping_price">0</span>
-       			</div>
-       			<hr>
+        			<!-- 총 상품 금액 -->
+        			<div style="display: flex; justify-content: space-between; margin: 10px 0;">
+            			<span class="product_amount">총 상품 금액</span>
+            			<span class="product_price">76,000</span>
+        			</div>
 
-       			<!-- 결제 예정 금액 -->
-       			<div style="display: flex; justify-content: space-between; font-weight: bold; margin: 20px 0;">
-           			<span class="total">결제 예정 금액</span>
-           			<span class="total_price">76,000</span>
-       			</div>
-   			</div>
+        			<!-- 총 할인 금액 -->
+        			<div style="display: flex; justify-content: space-between; margin: 10px 0;">
+            			<span class="shipping">배송비</span>
+            			<span class="shipping_price">0</span>
+        			</div>
+        			<hr>
 
-    		<!-- 주문하기 버튼 -->
-    		<button id="btn-order">주문하기</button>
+        			<!-- 결제 예정 금액 -->
+        			<div style="display: flex; justify-content: space-between; font-weight: bold; margin: 20px 0;">
+            			<span class="total">결제 예정 금액</span>
+            			<span class="total_price">76,000</span>
+        			</div>
+    			</div>
+				
+				<!-- 주문하기 버튼 -->
+	    		<button id="btn-order">결제하기</button>
+	    		
+			</div> <!-- payment_go_box -->
+			
+			
 		</div>
+		
+		
+		
+		
 		
 	</div>
 
+</div>
 
 
 </section>
