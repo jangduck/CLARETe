@@ -42,12 +42,17 @@
 					
 					<div id="menu1">
 						<strong>주문고객</strong>
-						<span>&#9660;</span>
+						<span class="triangle" data-target="memberInfo">&#9660;</span>
 					</div>
 					
 					<div id="memberInfo">
-						<p>이름: 강이훈</p>
-	                	<p>전화번호: 010-2121-3131</p>
+						<div class="space">
+							<span class="infoSpan">이름</span>		<span>강이훈</span> <br>
+						</div>
+						<div class="space">
+							<span class="infoSpan">전화번호</span>	<span>010-1234-1234</span> <br>
+						</div>
+						
 					</div>
 	   
 	            </div> <!-- memberInfoDiv -->
@@ -56,14 +61,24 @@
 	            
 	            	<div id="menu2">
 						<strong>배송정보</strong>
-						<span>&#9660;</span>
+						<span class="triangle" data-target="orderInfo">&#9660;</span>
 					</div>
 					
 					<div id="orderInfo">
-						<p>이름: 장민규</p>
-	                	<p>전화번호: 010-1234-1234</p>
-	                	<p>상세주소: (12345) 주소입니다.</p>
+					
+						<div class="space">
+							<span class="infoSpan">이름</span>	<span>장민규</span> <br>
+						</div>
+						<div class="space">
+							<span class="infoSpan">전화번호</span>	<span>010-1234-1234</span> <br>
+						</div>
+						<div class="space">
+							<span class="infoSpan">상세주소</span>	<span>(12345) 주소입니다.</span>
+						</div>
+						
 					</div>
+					
+					<button type="button" id="selectDelivery">배송지 선택</button>
 	           		
 	            </div> <!-- orderInfoDiv -->
 				
@@ -71,17 +86,31 @@
 	            
 	            	<div id="menu3">
 						<strong>주문 상품 정보 (2건)</strong>
-						<span>&#9660;</span>
+						<span class="triangle" data-target="productList">&#9660;</span>
 					</div>
 					
 					<div id="productList">
 					
 						<div id="productInfo">
-							<p>이름: 장민규</p>
-		                	<p>전화번호: 010-1234-1234</p>
-		                	<p>상세주소: (12345) 주소입니다.</p>
+							<div style="width: 64px; height: 64px; background-color: black; "></div>
+		                	<div class="perfume">
+								향수이름
+								<br>
+								32,500
+							</div>
+		                	<div class="option"><span class="optionSpan">- 옵션 50ml</span>/1개</div>
 						</div>
 
+						<div id="productInfo">
+							<div style="width: 64px; height: 64px; background-color: black; "></div>
+		                	<div class="perfume">
+								향수이름
+								<br>
+								32,500
+							</div>
+		                	<div class="option"><span class="optionSpan">- 옵션 50ml</span>/1개</div>
+						</div>
+						
 					</div> <!-- productList -->
 					
 	           		
@@ -104,6 +133,12 @@
         			<div style="display: flex; justify-content: space-between; margin: 10px 0;">
             			<span class="shipping">배송비</span>
             			<span class="shipping_price">0</span>
+        			</div>
+        			
+        			<!-- 적립금 -->
+        			<div style="display: flex; justify-content: space-between; margin: 10px 0;">
+            			<span class="point">적립금</span>
+            			<input class="point_price" />
         			</div>
         			<hr>
 

@@ -33,6 +33,7 @@
     --size930 : clamp(900px, 48.4375vw, 10000px);
 }
 
+
 #all_container {
 	height: auto;
 }
@@ -61,29 +62,58 @@
 	margin-left: var(--size160);
 	margin-right: var(--size160);
 	display: flex;
+	height: auto;
 }
 
 #infoDiv{
-	background-color: pink;
 	width: 1136px;
 	height: auto;
 }
 
 
 #memberInfoDiv {
-	
+	margin-top: var(--size72);
 	width: 1136px;
 }
 
 #menu1 {
-		
+	border-top: none;
+	border-bottom: 1px solid black;
+	border-left: none;
+	border-right: none;
+	padding-bottom: 12px;
+}
+
+#menu2 {
+	border-top: none;
+	border-bottom: 1px solid black;
+	border-left: none;
+	border-right: none;
+	padding-bottom: 12px;
+}
+
+#menu3 {
+	border-top: none;
+	border-bottom: 1px solid black;
+	border-left: none;
+	border-right: none;
+	padding-bottom: 12px;
+}
+
+#menu1, #menu2, #menu3 {
+	display: flex;
+	justify-content: space-between;
 }
 
 #memberInfo {
-	background-color: skyblue;
 	height: 82px;
+	display: block;
+	padding-top: 16px;
 }
 
+.triangle {
+	color: #6D6D6D;
+}
 #orderInfoDiv {
 	width: 1136px;
 }
@@ -93,30 +123,73 @@
 }
 
 #orderInfo {
-	background-color: blue;
 	height: 102px;
+	padding-top: 16px;
 }
 
 #productList {
-	background-color: red;
 	height: auto;
 }
 
+.infoSpan {
+	display: inline-block;
+	width: 80px; 
+    text-align: left;
+}
 
+#selectDelivery {
+	width: 90px;
+	height: 26px;
+	margin-left: 523px;
+	background-color: white;
+	border: solid 1px #A9A9A9;
+	color: black;
+	font-size: 14px;
+}
+
+#productInfo {
+	border-top: none;
+	border-bottom: 1px solid black;
+	border-left: none;
+	border-right: none;
+	padding-bottom: 16px;
+	padding-top: 20px;
+	padding-left: 20px;
+	
+	display: flex;
+}
+
+.space {
+	margin-bottom: 6px;	
+}
+
+.perfume {
+	margin-left: 20px;
+}
+
+.option {
+	margin-left: 820px;
+	margin-top: 40px;
+}
+
+.optionSpan {
+	color: #6D6D6D
+}
 
 /*-------------------------------------*/
 
 
 .payment_go_box {
 	width: var(--size400);
-	height: var(--size300);
+	height: 900px;
 	margin-left: 120px;
+	margin-top: var(--size72);
 }
 
 .payment_info {
 	border: 1px solid #000; 
 	width: var(--size400);
-	height: 216px;
+	height: 260px;
 }
 
 .order_product {
@@ -144,13 +217,26 @@ span.product_price {
 }
 
 span.shipping {
+	margin-top: 5px;
 	margin-left: var(--size20);
 	margin-bottom: 10px;
 }
 
 span.shipping_price {
+	margin-top: 5px;
 	margin-right: var(--size20);
 	margin-bottom: 10px;
+}
+
+span.point {
+	margin-left: var(--size20);
+	margin-bottom: 10px;
+}
+
+.point_price {
+	width: 80px;
+	height: 25px;
+	margin-right: var(--size20);
 }
 
 span.total {
