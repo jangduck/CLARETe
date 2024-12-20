@@ -70,11 +70,12 @@
 			            	</tr>
 			            	
 			            	<tr >
-			            		<td>
-			            		    <label id="optionadd">옵션추가하기</label>
-			            		    <input type="text" name="option_select_name" />
+			            		<td><label class="optionadd">옵션추가하기</label></td>		
+			            		<td class="add">
+			            			<c:forEach items="">
+			            			
+			            			</c:forEach>
 			            		</td>		
-			            		<td id="add"></td>
 			            	</tr>
 			            	
 			            	<tr>
@@ -139,18 +140,15 @@
     </section>
 
 <script>
-
-  $(document).ready(function(){
-	
 	let op_cnt = 0;
-	let div_opt_length = 0;
-	
-	$('label#optionadd').click(function(e) {
-		
-		op_cnt++;  // 1  2  3  4
-		
-		if(div_opt_length < 3) {
-			$('td#add').append(
+
+	$('.optionadd').click(function(e) {
+		if(op_cnt > 2){
+			alert('옵션은 최대 3개까지 선택 가능합니다.');
+		}
+		else{
+			op_cnt++;
+			$('.add').append(
 					"<div class='opt'>"+
 						"<label>옵션</label>" +
 		        		"<span>" +
@@ -165,57 +163,37 @@
 						"</span>" +
 					"</div>"
 			);
-			
-			div_opt_length = $("td#add").find("div.opt").length; // 1  2  3
-			
-            ////////////////////////////////////////////////////////////////////////
-			const select_list = $("td#add").find("div.opt").find("select.op_ml");
-			
-			let arr_select_name = [];
-			
-			select_list.each(function(idx, elmt){
-				arr_select_name.push($(elmt).attr("name"));
-			});
-			
-		//	alert(arr_select_name.join(","));
-            ////////////////////////////////////////////////////////////////////////
-		    
-			$("input:text[name='option_select_name']").val(arr_select_name.join(","));
-            
-		} // end of if(div_opt_length < 3)--------------------------------	
-	
-		
+		}
 		
 	}); // end of $('.optionadd').click(function(e)--------
 	
-	$(document).on('click', 'span.op_close', function(e){
-	 //	op_cnt--;
-	 //	const idx = $('.op_close').index(this);
+	$(document).on('click', '.op_close', function(e){
+		op_cnt--;
+		const idx = $('.op_close').index(this);
 		//alert(idx)
-		// $('div.opt').eq(idx).remove();
+		$('.opt').eq(idx).remove();
 		// alert(op_cnt)
-		
-		$(e.target).parent().parent().remove();
-		div_opt_length = $("td#add").find("div.opt").length; // 1  2  3
-		
-		////////////////////////////////////////////////////////////////////////
-		const select_list = $("td#add").find("div.opt").find("select.op_ml");
-		
-		let arr_select_name = [];
-		
-		select_list.each(function(idx, elmt){
-			arr_select_name.push($(elmt).attr("name"));
-		});
-		
-	//	alert(arr_select_name.join(","));
-        ////////////////////////////////////////////////////////////////////////
-		
-		$("input:text[name='option_select_name']").val(arr_select_name.join(","));
-		
 	}); // end of $(document).on('click', '.op_close', function(e)-------
 	
-   });// end of $(document).ready(function(){})------------------------------------
-	
+	<%--
+	$(document).on('change', 'select.op_ml', function(e){
+		const index = $(e.target).index();
+		const ch_val = $(e.target).val();
+		// 선택한 셀랙트태그의 value 값
+		
+		$('select.op_ml').each(function (idx, item) {
+			
+			const allindex = $('select.op_ml').eq(idx).val();
+			// 전체 셀랙트태그 돌면서 얻는 value 값
+			
+			if(allindex == ch_val){
+				alert('같은 용량은 선택하실 수 없습니다. 다시 선택해주세요');
+				$('select.op_ml').eq(index).val("0").prop("selected", true);
+			}
+		})
+	});
+	--%>
+
 </script>
 </body>
 </html>

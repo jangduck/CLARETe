@@ -73,7 +73,7 @@ public class ProductDAO_imple implements ProductDAO {
 			pstmt.setString(1, pvo.getP_season()); 
 			pstmt.setString(2, pvo.getP_name());
 			pstmt.setString(3, pvo.getP_ex());
-			pstmt.setString(4, pvo.getP_price());
+			pstmt.setInt(4, pvo.getP_price());
 			pstmt.setInt(5, pvo.getP_inven());
 			pstmt.setString(6, pvo.getP_sale());
 			pstmt.setInt(7, pvo.getP_gender());
@@ -92,5 +92,39 @@ public class ProductDAO_imple implements ProductDAO {
 		
 		return result;
 	} // end of public int insertProduct(ProductVO pvo) throws SQLException-------------------
+
+
+	// 상품 아이디를 알아오는 메소드
+	@Override
+	public ProductVO selectSeq() throws SQLException {
+		
+		ProductVO pvo = null;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select seq_product.nextval as p_id "
+					   + " from dual ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if( rs.next() ) {
+				pvo = new ProductVO();
+				
+				pvo.setP_num(rs.getInt("p_id"));
+				
+				System.out.println(pvo.getP_num());
+				
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return pvo;
+	}
 
 }

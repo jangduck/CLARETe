@@ -1,10 +1,13 @@
 package admin.controller;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import common.controller.AbstractController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import option.domain.OptionVO;
 import product.domain.ProductVO;
 import yihun.prodect.model.*;
 
@@ -12,12 +15,37 @@ public class AdminProductInsertGo extends AbstractController {
 
 	ProductDAO pdao = new ProductDAO_imple();
 	
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String method = request.getMethod();
 
 		if("post".equalsIgnoreCase(method)) {	
+			
+			
+			/////////////////////////////////////////////////////////////////////////////////
+			OptionVO opVO = new OptionVO();
+			Map<String, String> paraMap = new HashMap<>();
+			
+			String option_select_name = request.getParameter("option_select_name");
+			
+			if(option_select_name != null && !option_select_name.isBlank() ) {
+				
+				String[] arr_option_select_name = option_select_name.split(",");
+				
+				for(int i=0; i<arr_option_select_name.length; i++) {
+				//	System.out.println(arr_option_select_name[i]);
+					
+					String yongyang = request.getParameter(arr_option_select_name[i]);
+					System.out.println(yongyang);
+					
+					paraMap.put("yongyang", yongyang);
+					
+				}// end of for-------------------------
+				
+			}
+			//////////////////////////////////////////////////////////////////////////////////
 			
 			String p_name = request.getParameter("p_name");
 			String p_season = request.getParameter("p_season");
@@ -70,6 +98,14 @@ public class AdminProductInsertGo extends AbstractController {
 		}
 		else {
 			// get으로 들어올 경우 insert페이지로 이동
+			ProductVO pvo = new ProductVO();
+			
+			pvo = pdao.selectSeq();
+			
+			int p_num = pvo.getP_num();
+			
+			request.setAttribute("p_num", p_num);
+			
 			super.setViewPage("/WEB-INF/admin/adminProductInsert.jsp"); 
 		}
 		
