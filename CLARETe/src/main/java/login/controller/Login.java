@@ -38,6 +38,10 @@ public class Login extends AbstractController {
 			
 			String id = request.getParameter("id");
 			String pwd = request.getParameter("pwd");
+			
+			System.out.println("id : " + id);
+			System.out.println("pwd : " + pwd);
+			
 			String clientip = request.getRemoteAddr();
 			
 			Map<String, String> paraMap = new HashMap<>();
