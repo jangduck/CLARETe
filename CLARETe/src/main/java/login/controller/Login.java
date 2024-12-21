@@ -38,6 +38,10 @@ public class Login extends AbstractController {
 			
 			String id = request.getParameter("id");
 			String pwd = request.getParameter("pwd");
+			
+			System.out.println("id : " + id);
+			System.out.println("pwd : " + pwd);
+			
 			String clientip = request.getRemoteAddr();
 			
 			Map<String, String> paraMap = new HashMap<>();
@@ -49,7 +53,7 @@ public class Login extends AbstractController {
 			
 			if(loginuser != null) {
 				System.out.println(id + "로그인 성공");
-				
+				System.out.println("Logged-in User: " + loginuser.getM_id());
 				/*
 				 	여기에 휴면 코드 추가
 				 */
