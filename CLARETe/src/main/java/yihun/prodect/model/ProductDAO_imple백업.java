@@ -5,19 +5,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import option.domain.OptionVO;
 import product.domain.ProductVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 
-public class ProductDAO_imple implements ProductDAO {
+public class ProductDAO_imple백업 implements ProductDAO {
 
 	private DataSource ds;  // DataSource ds 는 아파치톰캣이 제공하는 DBCP(DB Connection Pool)이다. 
     private Connection conn;
@@ -27,7 +25,7 @@ public class ProductDAO_imple implements ProductDAO {
     private AES256 aes;
 	
     // 생성자
-    public ProductDAO_imple() {
+    public ProductDAO_imple백업() {
        
        try {
           Context initContext = new InitialContext();
@@ -66,92 +64,26 @@ public class ProductDAO_imple implements ProductDAO {
 
 		try {
 			conn = ds.getConnection();
-			
 
 			String sql = " insert into tbl_product(p_num, p_season, p_name, p_ex, p_price, p_inven, p_sale, p_gender, p_release, p_image, p_detail_image, p_register) "
-			           + " values(?, ?, ?, ?, ?, ?, ?, ?, to_date(?, 'yyyy-mm-dd'), ?, ?, sysdate) ";
+			           + " values(seq_product.nextval, ?, ?, ?, ?, ?, ?, ?, to_date(?, 'yyyymmdd'), ?, ?, sysdate) ";
 
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setInt(1, pvo.getP_num());
-			pstmt.setString(2, pvo.getP_season()); 
-			pstmt.setString(3, pvo.getP_name());
-			pstmt.setString(4, pvo.getP_ex());
-			pstmt.setInt(5, pvo.getP_price());
-			pstmt.setInt(6, pvo.getP_inven());
-			pstmt.setString(7, pvo.getP_sale());
-			pstmt.setInt(8, pvo.getP_gender());
-			pstmt.setString(9, pvo.getP_release());  
-			pstmt.setString(10, pvo.getP_image());
-			pstmt.setString(11, pvo.getP_detail_image());
+			pstmt.setString(1, pvo.getP_season()); 
+			pstmt.setString(2, pvo.getP_name());
+			pstmt.setString(3, pvo.getP_ex());
+			pstmt.setInt(4, pvo.getP_price());
+			pstmt.setInt(5, pvo.getP_inven());
+			pstmt.setString(6, pvo.getP_sale());
+			pstmt.setInt(7, pvo.getP_gender());
+			pstmt.setString(8, pvo.getP_release());  
+			pstmt.setString(9, pvo.getP_image());
+			pstmt.setString(10, pvo.getP_detail_image());
 
 			// SQL 실행
 			result = pstmt.executeUpdate();
-			
-			
-			if(result == 1) { // 상품등록에 성공했다면 옵션등록
-				conn = ds.getConnection();
-				conn.setAutoCommit(false); // 고생길 시작 수동커밋...
-				
-				Map <String, String> paraMap = pvo.getOpMap();
-				
-				sql = " insert into tbl_option(op_num, fk_p_num, op_ml, op_price) values(seq_option.nextval, ?, ?, ?) ";
-				
-				pstmt = conn.prepareStatement(sql);
-					
-				if(!(paraMap.size() == 0)) {
-					int yongyang=0;
-					int price=0;
-					for(int i=0; i<paraMap.size()/2; i++) {
-						
-						pstmt.setInt(1, pvo.getP_num());
-						
-						switch (i) {
-						case 0:
-							yongyang = Integer.parseInt(paraMap.get("yongyang0"));
-							price = Integer.parseInt(paraMap.get("price0"));
-							break;
-							
-						case 1:
-							yongyang = Integer.parseInt(paraMap.get("yongyang1"));
-							price = Integer.parseInt(paraMap.get("price1"));
-							break;
-							
-						case 2:
-							yongyang = Integer.parseInt(paraMap.get("yongyang2"));
-							price = Integer.parseInt(paraMap.get("price2"));
-							break;
-						}
-						
-						pstmt.setInt(2, yongyang);
-						pstmt.setInt(3, price);
-						
 
-						// SQL 실행
-						result = pstmt.executeUpdate();
-					}
-					
-				}
-				else {
-					// 옵션선택을 하지 않은 경우 기본값인 50ml, 0원이 들어감
-					pstmt.setInt(1, pvo.getP_num());
-					pstmt.setInt(2, 1);
-					pstmt.setInt(3, 0);
-					
-					// SQL 실행
-					result = pstmt.executeUpdate();
-				}
-				
-				if(result == 1) {
-					conn.commit();
-				}
-				else {
-					conn.rollback();
-					result = -1;
-				}
-				
-			}
-			
 			
 		} finally {
 			close();
@@ -184,7 +116,7 @@ public class ProductDAO_imple implements ProductDAO {
 				
 				pvo.setP_num(rs.getInt("p_id"));
 				
-				// System.out.println(pvo.getP_num());
+				System.out.println(pvo.getP_num());
 				
 			}
 			
