@@ -1,5 +1,10 @@
 package product.domain;
 
+import java.util.List;
+import java.util.Map;
+
+import option.domain.OptionVO;
+
 public class ProductVO {
 	
 	int p_num;				//제품고유번호
@@ -14,6 +19,26 @@ public class ProductVO {
 	int p_gender;			//성별 향수
 	String p_image;			//상품이미지
 	String p_detail_image;	//상품상세이미지
+	
+	
+	Map<String, String> opMap;
+	
+	private List<OptionVO> opVoList;
+	
+	public List<OptionVO> getOpVoList() {
+		return opVoList;
+	}
+	
+	public void setOpVoList(List<OptionVO> opVoList) {
+		this.opVoList = opVoList;
+	}
+	
+	public Map<String, String> getOpMap() {
+		return opMap;
+	}
+	public void setOpMap(Map<String, String> opMap) {
+		this.opMap = opMap;
+	}
 	public int getP_num() {
 		return p_num;
 	}

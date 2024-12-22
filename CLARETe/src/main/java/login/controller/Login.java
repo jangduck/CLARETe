@@ -44,6 +44,8 @@ public class Login extends AbstractController {
 			
 			String clientip = request.getRemoteAddr();
 			
+			request.setAttribute("id", id); // 로그인 한 아이디 값 알아오기 위해 추가
+			
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("id", id);
 			paraMap.put("pwd", pwd);
@@ -65,9 +67,14 @@ public class Login extends AbstractController {
 			 		여기에비밀번호 변경 3개월 코드 추가
 				 */
 				
-				super.setRedirect(true);
-				super.setViewPage(request.getContextPath()+"/index.cl");
-		        
+				if(!("admin".equals(loginuser.getM_id())) ) {
+					super.setRedirect(true);
+					super.setViewPage(request.getContextPath()+"/index.cl");
+				}
+				else {
+					super.setRedirect(true);
+					super.setViewPage(request.getContextPath()+"/admin/adminMain.cl");
+				}
 			} // end of if(loginuser != null) {}
 			
 			else {
