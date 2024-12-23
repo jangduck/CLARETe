@@ -39,6 +39,7 @@ public class MemberDAO_imple implements MemberDAO {
 
 			aes = new AES256(SecretMyKey.KEY);
 			// SecretMyKey.KEY 은 우리가 만든 암호화/복호화 키이다.
+			//
 
 		} catch (NamingException e) {
 			e.printStackTrace();
