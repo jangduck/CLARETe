@@ -222,9 +222,9 @@ public class MemberDAO_imple implements MemberDAO {
 	        conn = ds.getConnection();
 
 	        String sql = " select m_id, m_pwd, m_name, m_email, m_mobile, m_postcode, "
-	                   + " m_address, m_detail_address, m_extra, m_gender, m_birth "
+	                   + " m_address, m_detail_address, m_extra, m_gender, m_birth, m_status"
 	                   + " from tbl_member "
-	                   + " where m_id = ? and m_pwd = ? ";
+	                   + " where m_id = ? and m_pwd = ? and m_status = 1";
 
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, paraMap.get("id")); // m_id 키 확인 
@@ -245,6 +245,7 @@ public class MemberDAO_imple implements MemberDAO {
 	            member.setM_extra(rs.getString("m_extra"));
 	            member.setM_gender(rs.getString("m_gender"));
 	            member.setM_birth(rs.getString("m_birth"));
+	            member.setM_status(rs.getInt("m_status"));
 	        }
 	    } finally {
 	        close();

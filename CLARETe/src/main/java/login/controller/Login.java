@@ -78,7 +78,7 @@ public class Login extends AbstractController {
 			} // end of if(loginuser != null) {}
 			
 			else {
-				String message = "로그인 실패";
+				String message = "탈퇴하신 회원입니다.";
 		        String loc = "javascript:history.back()";
 		         
 		        request.setAttribute("message", message);
