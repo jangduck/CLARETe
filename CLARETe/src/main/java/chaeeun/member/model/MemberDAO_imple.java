@@ -300,13 +300,123 @@ public class MemberDAO_imple implements MemberDAO {
 
 		return member;
 	}
+	
+	// 아이디찾기
+	   @Override
+	   public String findUserid(Map<String, String> paraMap) throws SQLException {
+	      String m_id = null;
+	         
+	         try {
+	             conn = ds.getConnection();
+	             
+	             String sql = " select m_id "
+	                       + " from tbl_member "
+	                       + " where m_status = 1 and m_name = ? and m_email = ? ";
+	             
+	             pstmt = conn.prepareStatement(sql);
+	             pstmt.setString(1, paraMap.get("m_name"));
+	             pstmt.setString(2, aes.encrypt(paraMap.get("m_email")) );
+	             
+	             rs = pstmt.executeQuery();
+	             
+	             if(rs.next()) {
+	                m_id = rs.getString("m_id");
+	             }
+	             
+	         } catch(GeneralSecurityException | UnsupportedEncodingException e) {
+	            e.printStackTrace();
+	         } finally {
+	            close();
+	         }
+	         
+	         return m_id;
+	   }
 
-	// *** admin > 페이징 처리를 한 모든 회원 또는 검색한 회원 목록 보여주기 //
-	// @Override
-	// public List<MemberVO> select_Member_paging(Map<String, String> paraMap)
-	// throws SQLException {
-	// // TODO Auto-generated method stub
-	// return null;
-	// }
+
+	   // 비밀번호찾기1
+	   @Override
+	   public boolean isUserExist(Map<String, String> paraMap) throws SQLException {
+	      
+	      boolean isUserExist = false;
+	         
+	         try {
+	             conn = ds.getConnection();
+	             
+	             String sql = " select m_id "
+	                       + " from tbl_member "
+	                       + " where m_status = 1 and m_id = ? and m_email = ? ";
+	             
+	             pstmt = conn.prepareStatement(sql);
+	             pstmt.setString(1, paraMap.get("m_id"));
+	             pstmt.setString(2, aes.encrypt(paraMap.get("m_email")) );
+	             
+	             rs = pstmt.executeQuery();
+	             
+	             isUserExist = rs.next();
+	             
+	         } catch(GeneralSecurityException | UnsupportedEncodingException e) {
+	            e.printStackTrace();
+	         } finally {
+	            close();
+	         }
+	         
+	         return isUserExist;
+	   }
+
+
+	   // 비밀번호 찾기
+	   @Override
+	   public int pwdUpdate(Map<String, String> paraMap) throws SQLException {
+
+	       int result = 0;
+
+	       try {
+	           conn = ds.getConnection();
+
+	           String sql = " update tbl_member set m_pwd = ? "
+	                    + " WHERE m_id = ? ";
+	           
+	           System.out.println(paraMap.get("new_m_pwd"));
+	           System.out.println(paraMap.get("m_id"));
+	           
+	           pstmt = conn.prepareStatement(sql);
+
+	           pstmt.setString(1, paraMap.get("new_m_pwd"));
+	           pstmt.setString(2, paraMap.get("m_id"));
+
+	           result = pstmt.executeUpdate();
+
+	       } finally {
+	           close();
+	       }
+
+	       return result;
+	   }
+
+
+	   // 회원탈퇴 메소드
+	   @Override
+	   public int memberDelete(Map<String, String> paraMap) throws SQLException {
+	      int result = 0;
+	      
+	       try {
+	           conn = ds.getConnection();
+
+	           String sql = " update tbl_member set m_status = 0 "
+	                    + " where m_id = ? and m_pwd = ? ";
+
+	           pstmt = conn.prepareStatement(sql);
+
+	           pstmt.setString(1, paraMap.get("m_id"));
+	           pstmt.setString(2, paraMap.get("m_pwd"));
+	           
+	           result = pstmt.executeUpdate();
+
+	       } finally {
+	           close();
+	       }
+
+	       return result;
+	   }
 
 }

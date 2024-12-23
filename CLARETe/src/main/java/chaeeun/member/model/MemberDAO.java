@@ -23,5 +23,15 @@ public interface MemberDAO {
    // 로그인
    MemberVO login(Map<String, String> paraMap) throws SQLException;
    
-   
+   // 아이디찾기
+   String findUserid(Map<String, String> paraMap) throws SQLException;
+
+   // 비밀번호찾기1
+   boolean isUserExist(Map<String, String> paraMap) throws SQLException;
+
+   // 비밀번호 찾기
+   int pwdUpdate(Map<String, String> paraMap) throws SQLException;
+
+   // 회원탈퇴하는 메소드
+   int memberDelete(Map<String, String> paraMap) throws SQLException;
 }
