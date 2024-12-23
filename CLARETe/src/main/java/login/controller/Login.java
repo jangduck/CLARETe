@@ -56,16 +56,49 @@ public class Login extends AbstractController {
 			if(loginuser != null) {
 				System.out.println(id + "로그인 성공");
 				System.out.println("Logged-in User: " + loginuser.getM_id());
-				/*
-				 	여기에 휴면 코드 추가
-				 */
+				
+				if (loginuser.getM_idle() == 0) {
+					// 휴면계정이면
+					
+					String message = "로그인을 한지 1년이 지나서 휴면상태로 되었습니다.\\n휴면을 풀어주는 페이지로 이동합니다!!";
+					String loc = request.getContextPath()+"/index.cl";		// 휴면풀어주는 페이지 만들어야 해요
+				
+					request.setAttribute("message", message);
+					request.setAttribute("loc", loc);
+					
+					super.setRedirect(false); 
+					super.setViewPage("/WEB-INF/msg.jsp");
+					
+					return;
+				}
 				
 				HttpSession session = request.getSession();
 				session.setAttribute("loginuser", loginuser);
 				
-				/*
-			 		여기에비밀번호 변경 3개월 코드 추가
-				 */
+				System.out.println(loginuser.getM_id());
+				
+				if(loginuser.isRequirePwdChange() ) {
+					 // 비밀번호를 변경한지 3개월 이상된 경우
+					
+					String message = "비밀번호를 변경하신지 3개월이 지났습니다.\\n암호를 변경하는 페이지로 이동합니다!!"; 
+					String loc = request.getContextPath()+"/index.up";
+					// 원래는 위와같이 index.up 이 아니라 암호를 변경하는 페이지로 URL을 잡아주어야 한다.!!
+					
+					request.setAttribute("message", message);
+					request.setAttribute("loc", loc);
+					
+					super.setRedirect(false); 
+					super.setViewPage("/WEB-INF/msg.jsp");
+					
+					return; // 메소드 종료 
+				} else { // 비밀번호를 변경한지 3개월 미만인 경우
+				
+					super.setRedirect(true);
+					super.setViewPage(request.getContextPath()+"/index.up");
+				}
+				
+				
+				
 				
 				if(!("admin".equals(loginuser.getM_id())) ) {
 					super.setRedirect(true);
