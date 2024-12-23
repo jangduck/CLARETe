@@ -56,6 +56,7 @@ public class Login extends AbstractController {
 			if(loginuser != null) {
 				System.out.println(id + "로그인 성공");
 				System.out.println("Logged-in User: " + loginuser.getM_id());
+				System.out.println("Logged-in User: " + loginuser.getM_idle());
 				
 				if (loginuser.getM_idle() == 0) {
 					// 휴면계정이면

@@ -257,7 +257,7 @@ public class MemberDAO_imple implements MemberDAO {
 					member.setM_idle(0);
 
 					if (rs.getInt("m_idle") == 1) {
-						sql = " update tbl_member set m_idle = 1 " + " where m_id = ? ";
+						sql = " update tbl_member set m_idle = 0 " + " where m_id = ? ";
 
 						pstmt = conn.prepareStatement(sql);
 						pstmt.setString(1, paraMap.get("m_id"));
@@ -285,6 +285,7 @@ public class MemberDAO_imple implements MemberDAO {
 					}
 				}
 				
+				
 				member.setM_email(aes.decrypt(rs.getString("m_email")));
 				member.setM_mobile(aes.decrypt(rs.getString("m_mobile")));
 				member.setM_postcode(rs.getString("m_postcode"));
@@ -292,6 +293,8 @@ public class MemberDAO_imple implements MemberDAO {
 				member.setM_detail_address(rs.getString("m_detail_address"));
 				member.setM_extra(rs.getString("m_extra"));
 
+				
+				member.setM_idle(rs.getInt(""));
 			}
 		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
 			e.printStackTrace();
