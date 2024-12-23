@@ -253,7 +253,7 @@ public class MemberDAO_imple implements MemberDAO {
 				
 						
 				// 마지막 로그인 1년 이상이면 휴면
-				if (rs.getInt("pwdchangegap") >= 12) {
+				if (rs.getInt("lastlogingap") >= 12) {
 					member.setM_idle(0);
 
 					if (rs.getInt("m_idle") == 1) {
@@ -294,7 +294,7 @@ public class MemberDAO_imple implements MemberDAO {
 				member.setM_extra(rs.getString("m_extra"));
 
 				
-				member.setM_idle(rs.getInt(""));
+				member.setM_idle(rs.getInt("m_idle"));
 			}
 		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
 			e.printStackTrace();
