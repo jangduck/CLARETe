@@ -228,7 +228,7 @@ public class MemberDAO_imple implements MemberDAO {
 
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, paraMap.get("id")); // m_id 키 확인 
-	        pstmt.setString(2, Sha256.encrypt(paraMap.get("pwd"))); // 암호화된 비밀번호
+	        pstmt.setString(2, paraMap.get("pwd")); // 암호화된 비밀번호
 	        
 	        rs = pstmt.executeQuery();
 
