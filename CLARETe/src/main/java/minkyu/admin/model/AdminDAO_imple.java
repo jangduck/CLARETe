@@ -3,6 +3,7 @@ package minkyu.admin.model;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,6 +21,7 @@ import javax.sql.DataSource;
 import cart.domain.CartVO;
 import delivery.domain.DeliveryVO;
 import member.domain.MemberVO;
+import my.util.MyUtil;
 import option.domain.OptionVO;
 import order.domain.OrderVO;
 import orderdetail.domain.orderdetailVO;
@@ -260,14 +262,260 @@ public class AdminDAO_imple implements AdminDAO {
 			return productList;
 		}
 
+
+
+	
+	
+	// 모든회원조회 서치 기능
+    public List<MemberVO> searchMembers(Map<String, String> paraMap) throws SQLException {
+        
+    	List<MemberVO> memberList = new ArrayList<>();
+
+    	try {
+    		
+    		 conn = ds.getConnection();
+    		
+    		    String sql = " SELECT RNO, m_id, m_name, m_email, m_gender, m_mobile, m_address, m_birth, m_point, m_register "
+    	                   + " FROM ( "
+    	                   + "  SELECT rownum AS RNO, m_id, m_name, m_email, m_gender, m_mobile, m_address, m_birth, m_point, m_register "
+    	                   + "  FROM ( "
+    	                   + "    SELECT m_id, m_name, m_email, m_gender, m_mobile, m_address, m_birth, m_point, m_register "
+    	                   + "    FROM tbl_member "
+    	                   + "  ) "
+    	                   + " ) ";
+    		
+    		 String searchType = paraMap.get("searchType");
+    	     String searchWord = paraMap.get("searchWord");
+
+    	     
+//    	     System.out.println(searchWord);
+//    	     System.out.println(searchType);
+    	     
+    	     // 검색어가 있을 때만 WHERE 절 추가
+    	        if (!searchType.isBlank() && !searchWord.isBlank()) {
+    	            sql += " WHERE " + searchType + " like '%'|| ? ||'%' ";
+    	        }
+    	        pstmt = conn.prepareStatement(sql);
+    		
+
+    	     // 검색어가 있을 경우 파라미터 설정
+    	        if (!searchType.isBlank() && !searchWord.isBlank()) {
+    	            pstmt.setString(1, searchWord); 
+    	        }
+
+    	     rs = pstmt.executeQuery();
+    	     
+    	     
+                while (rs.next()) {
+                	
+                    MemberVO member = new MemberVO();
+                    
+                    member.setM_id(rs.getString("m_id"));
+                    member.setM_name(rs.getString("m_name"));
+                    member.setM_email(rs.getString("m_email"));
+                    member.setM_gender(rs.getString("m_gender"));
+                    member.setM_mobile(rs.getString("m_mobile"));
+                    member.setM_address(rs.getString("m_address"));
+                    member.setM_birth(rs.getString("m_birth"));
+                    member.setM_point(rs.getInt("m_point"));
+                    member.setM_register(rs.getString("m_register"));
+
+                    memberList.add(member);
+                }
+    } 
+    	catch (SQLException e) {
+            e.printStackTrace();
+    	}
+    	finally {
+        close();
+     }
+     
+     return memberList;  
+    }
+
+
+    
+    
+ // 상품조회 검색기능
+	@Override
+	public List<ProductVO> searchProduct(Map<String, String> paraMap) throws SQLException {
+		
+    	List<ProductVO> productList = new ArrayList<>();
+
+    	try {
+    		
+    		 conn = ds.getConnection();
+    		
+    		    String sql = " SELECT RNO, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
+	    		    	   + "     FROM ( "
+	    		    	   + "     SELECT rownum AS RNO, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
+	    		    	   + "    	   FROM ( "
+	    		    	   + "    	   SELECT p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
+	    		    	   + "    	   FROM tbl_product "
+	    		    	   + "    	   )  "
+	    		    	   + "  ) ";
+    		
+    		 String searchType = paraMap.get("searchType");
+    	     String searchWord = paraMap.get("searchWord");
+
+    	     
+//    	     System.out.println(searchWord);
+//    	     System.out.println(searchType);
+    	     
+    	     // 검색어가 있을 때만 WHERE 절 추가
+    	        if (!searchType.isBlank() && !searchWord.isBlank()) {
+    	            sql += " WHERE " + searchType + " like '%'|| ? ||'%' ";
+    	        }
+
+    	        pstmt = conn.prepareStatement(sql);
+
+    	        // 검색어가 있을 경우 파라미터 설정
+    	        if (!searchType.isBlank() && !searchWord.isBlank()) {
+    	            pstmt.setString(1, searchWord);
+    	        }
+
+    	        rs = pstmt.executeQuery();
+    	     
+    	        while (rs.next()) {
+
+    	            ProductVO product = new ProductVO();
+
+    	            product.setP_num(rs.getInt("p_num"));
+    	            product.setP_season(rs.getString("p_season"));
+    	            product.setP_name(rs.getString("p_name"));
+    	            product.setP_ex(rs.getString("p_ex"));
+    	            product.setP_price(rs.getInt("p_price"));
+    	            product.setP_inven(rs.getInt("p_inven"));
+    	            product.setP_register(rs.getString("p_register"));
+    	            product.setP_release(rs.getString("p_release"));
+    	            product.setP_sale(rs.getString("p_sale"));
+    	            product.setP_gender(rs.getInt("p_gender"));
+
+    	            productList.add(product);
+    	        }
+    	    } 
+    	    catch (SQLException e) {
+    	        e.printStackTrace();
+    	    } 
+    	    finally {
+    	        close();
+    	    }
+
+    	    return productList;  
+    	}
+
+
+	
+	
+	// 주문회원조회 검색기능
+	@Override
+	public List<OrderVO> searchOrder(Map<String, String> paraMap) throws SQLException {
+		
+		List<OrderVO> orderList = new ArrayList<>();
+
+    	try {
+    		
+    		 conn = ds.getConnection();
+    		
+    		    String sql = " SELECT RNO, o_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
+    		    		   + " FROM ( "
+    		    		   + "    SELECT rownum AS RNO, o_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
+    		    		   + "    FROM ( "
+    		    		   + "        SELECT "
+    		    		   + "            o.o_num AS o_num, "
+    		    		   + "            p.p_season AS p_season, "
+    		    		   + "            p.p_name AS p_name, "
+    		    		   + "            p.p_ex AS p_ex, "
+    		    		   + "            p.p_price AS p_price, "
+    		    		   + "            p.p_inven AS p_inven, "
+    		    		   + "            p.p_register AS p_register, "
+    		    		   + "            p.p_release AS p_release, "
+    		    		   + "            p.p_sale AS p_sale, "
+    		    		   + "            p.p_gender AS p_gender "
+    		    		   + "        FROM tbl_member m "
+    		    		   + "        JOIN tbl_order o ON m.m_id = o.fk_m_id "
+    		    		   + "        JOIN tbl_orderdetail od ON od.fk_o_num = o.o_num "
+    		    		   + "        JOIN tbl_product p ON od.fk_p_num = p.p_num "
+    		    		   + "    ) "
+    		    		   + ") ";
+
+    		
+    		 String searchType = paraMap.get("searchType");
+    	     String searchWord = paraMap.get("searchWord");
+
+    	     
+    	     System.out.println(searchWord);
+    	     System.out.println(searchType);
+    	     
+    	     // 검색어가 있을 때만 WHERE 절 추가
+    	        if (!searchType.isBlank() && !searchWord.isBlank()) {
+    	            sql += " WHERE " + searchType + " like '%'|| ? ||'%' ";
+    	        }
+
+    	        pstmt = conn.prepareStatement(sql);
+
+    	        // 검색어가 있을 경우 파라미터 설정
+    	        if (!searchType.isBlank() && !searchWord.isBlank()) {
+    	            pstmt.setString(1, searchWord);
+    	        }
+
+    	        rs = pstmt.executeQuery();
+    	     
+    	        while (rs.next()) {
+    	               OrderVO order = new OrderVO();
+    	               ProductVO product = new ProductVO();
+
+    	               
+    	               // 주문 정보 설정
+    	               order.setO_num(rs.getInt("o_num"));  
+
+    	               product.setP_season(rs.getString("p_season"));
+    	               product.setP_name(rs.getString("p_name"));
+    	               product.setP_ex(rs.getString("p_ex"));
+    	               product.setP_price(rs.getInt("p_price"));
+    	               product.setP_inven(rs.getInt("p_inven"));
+    	               product.setP_register(rs.getString("p_register"));
+    	               product.setP_release(rs.getString("p_release"));
+    	               product.setP_sale(rs.getString("p_sale"));
+    	               product.setP_gender(rs.getInt("p_gender"));
+    	               
+    	               orderList.add(order);
+    	        }
+    	    } 
+    	    catch (SQLException e) {
+    	        e.printStackTrace();
+    	    } 
+    	    finally {
+    	        close();
+    	    }
+
+    	    return orderList;  
+    	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 모든회원조회 페이지네이션
+	@Override
+	public int getTotalPage(Map<String, String> paraMap) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
 }
-
-
-
-
-
-
-
-
-
-

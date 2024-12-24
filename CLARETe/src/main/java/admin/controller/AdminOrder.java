@@ -2,11 +2,14 @@ package admin.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import common.controller.AbstractController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import member.domain.MemberVO;
 import minkyu.admin.model.AdminDAO;
 import minkyu.admin.model.AdminDAO_imple;
 import order.domain.OrderVO;
@@ -22,33 +25,45 @@ public class AdminOrder extends AbstractController {
         
         if ("GET".equalsIgnoreCase(method)) {
 
-            String message="";
-            String loc="";
+        	String searchType = request.getParameter("searchType");
+	        String searchWord = request.getParameter("searchWord");
+        	
+	        if (searchType == null ||
+	                (!"m_id".equals(searchType) &&
+	                !"m_name".equals(searchType))) {
+	            searchType = "";
+	        }
 
-            try {
-            	List<OrderVO> orderList =  adao.SelectOrderMember();
-  //              System.out.println("컨트롤러에서 받은 주문 데이터 수: " + orderList.size());
-                if (orderList.size() != 0) {
-                    message = "주문 회원 조회 성공.";
-                    
-                    request.setAttribute("orderList", orderList);
-                    
-                } else {
-                    message = "주문 회원 정보가 없습니다.";
-                }
-                loc = request.getContextPath() + "/admin/adminOrder.cl";
-            } catch (SQLException e) {
-                e.printStackTrace();
-                message = "주문 회원 조회 중 오류가 발생했습니다.";
-                loc = "javascript:history.back();";
-            }
-            
-//            request.setAttribute("message", message);
-//            request.setAttribute("loc", loc);
-//
-//            super.setViewPage("/WEB-INF/msg.jsp");
+	        if (searchWord == null) {
+	            searchWord = "";
+	        }
 
-            super.setViewPage("/WEB-INF/admin/adminOrder.jsp");
-        }
-    }
+	        Map<String, String> paraMap = new HashMap<>();
+	        paraMap.put("searchType", searchType);
+	        paraMap.put("searchWord", searchWord);
+	        
+	        try {
+	            // 회원 목록 가져오기
+	            List<OrderVO> orderList = adao.searchOrder(paraMap);
+
+	            // 뷰에 데이터 전달
+	            request.setAttribute("orderList", orderList);
+	            request.setAttribute("searchType", searchType);
+	            request.setAttribute("searchWord", searchWord);
+
+	            super.setRedirect(false);
+	            super.setViewPage("/WEB-INF/admin/adminOrder.jsp");
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            super.setRedirect(true);
+//	            super.setViewPage(request.getContextPath() + "/error.up");
+	        }
+	        
+	        
+	    } 
+
+	    
+	}
+
 }
