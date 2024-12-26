@@ -21,12 +21,14 @@ public class MallDisplayJSON extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse respone) throws Exception {
 		
+		String selectVal = request.getParameter("selectVal"); // 정렬값
 		String cname = request.getParameter("cname"); // 카테고리
 	    String start = request.getParameter("start");
 	    String len = request.getParameter("len");
 	    // ajax로 넘긴 값들을 받음
 		
 	    Map<String, String> paraMap = new HashMap<>();
+	    paraMap.put("selectVal", selectVal);
 	    paraMap.put("cname", cname);  //        "1"  "2"  "3"  "4"
 	    paraMap.put("start", start);  // start  "1"    "7"    "14"
 	    // ajax를 통해 받은 값들을 imple로 조회하기 위해 map에 담음

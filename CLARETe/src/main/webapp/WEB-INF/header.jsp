@@ -75,13 +75,13 @@
                             </div>
                         </li>
                         <li class="menu">
-                            <a href="<%= ctxPath%>/shop/allProduct.cl">PRODUCT</a>
+                            <a href="<%= ctxPath%>/shop/allProduct.cl?cname=0">PRODUCT</a>
                             <div class="depth">
                                 <ul>
-                                    <li><a href="#">SPRING</a></li>
-                                    <li><a href="#">SUMMER</a></li>
-                                    <li><a href="#">AUTUMN</a></li>
-                                    <li><a href="#">WINTER</a></li>
+                                    <li><a href="<%= ctxPath%>/shop/allProduct.cl?cname=1">SPRING</a></li>
+                                    <li><a href="<%= ctxPath%>/shop/allProduct.cl?cname=2">SUMMER</a></li>
+                                    <li><a href="<%= ctxPath%>/shop/allProduct.cl?cname=3">AUTUMN</a></li>
+                                    <li><a href="<%= ctxPath%>/shop/allProduct.cl?cname=4">WINTER</a></li>
                                 </ul>
                             </div>
                         </li>

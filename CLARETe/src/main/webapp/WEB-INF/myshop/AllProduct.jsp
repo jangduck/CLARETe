@@ -49,17 +49,22 @@
                 <!-- 카테고리 목록 -->
 
                 <div style="width: calc(100% - 80px);">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px; align-items: center;">
                         <div>
                             <div>총 <span>${requestScope.totalHITCount}</span>개</div>
                         </div>
-                        <div>
-                            <div>신상품순</div>
+                        <div class="select-container">
+                            <select class="select" name="select_order">
+                                <option value="신상품순">신상품순</option>
+                                <option value="판매순">판매순</option>
+                                <option value="높은금액순">높은금액순</option>
+                                <option value="낮은금액순">낮은금액순</option>
+                            </select>
                         </div>
                     </div>
 
                         <ul class="cardcontainer" style="height: auto;">
-                            <!-- 해당 위치에 상품들이 나열됩니다!!!!!! -->
+                            <%-- 해당 위치에 상품들이 나열됩니다!!!!!! --%>
                         </ul>
 
 

@@ -7,19 +7,25 @@ let isLoading = false;
 $(document).ready(function(){
 	
 	let cname = $('span.cname').text();
-	console.log($('span.cname').text());
-		
+	// console.log($('span.cname').text());
+    let selectVal =  $('.select').val(); 
+    // 페이지 들어갔을 때의 select태그의 값
+	
     $('span#totalHITCount').hide();
     $('span#countHIT').hide();
 
     let start = 1;
     let lenHIT = 6;
     
-		
-    displayHIT(start, cname);
+	
+    displayHIT(start, cname, selectVal);
 
-	
-	
+    $('.select').change(function(e){
+        let changeVal = $(e.target).val();
+
+        displayHIT(start, cname, changeVal);
+    });
+
 	
     // === 스크롤 이벤트 발생시키기 시작 === //
     $(window).scroll(function(){
@@ -33,15 +39,14 @@ $(document).ready(function(){
 		// console.log("푸터 위치 : ", $('footer').offset().top);
         // console.log("전체 문서 높이 ", $(document).height()); // 전체 문서 높이
 
-        if( $(window).scrollTop() >= $('footer').offset().top - 500) {
+        if( $(window).scrollTop() >= $('footer').offset().top - 600) {
         
             // alert("기존 문서내용을 끝까지 봤습니다. 이제 새로운 내용을 읽어다가 보여드리겠습니다.");
 
             if( ( $("span#totalHITCount").text() != $("span#countHIT").text() ) && !isLoading) {
                 start += lenHIT;
-                displayHIT(start, cname);
+                displayHIT(start, cname, selectVal);
 
-                
             }
         
         }
@@ -53,7 +58,7 @@ $(document).ready(function(){
             $("span#countHIT").text("0");
 
             start = 1;
-            displayHIT(start, cname);
+            displayHIT(start, cname, selectVal);
         }
 
     });
@@ -69,15 +74,16 @@ let lenHIT = 6;
 
 // HIT 상품 "더보기..." 버튼을 클릭할때 보여줄 상품의 개수(단위)크기
 
-function displayHIT(start, cname) { 
-	console.log(start);
+function displayHIT(start, cname, selectVal) { 
+	// console.log(start);
 
     isLoading = true;
 
     $.ajax({// 상품을 6개씩 ajax로 서버에 요청해 값을 받아올거임	
         url:"mallDisplayJSON.cl",
     //  type:"get", 상품정보 조회라 보안상 별로 안 중요함 그래서 겟
-        data:{"cname":cname,
+        data:{"selectVal":selectVal,
+              "cname":cname,
               "start":start, // "1"  "9"  "17"  "25"  "33"      // 몇번째 상품부터
               "len":lenHIT   //  8    8    8     8     8        // 몇개의 정보를 불러올 것이다.
         },

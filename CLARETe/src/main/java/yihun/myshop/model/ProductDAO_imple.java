@@ -64,6 +64,10 @@ public class ProductDAO_imple implements ProductDAO {
 		
 		List<ProductVO> productList = new ArrayList<>();
 		
+		String selectStatus = paraMap.get("selectVal");
+		
+		System.out.println(paraMap.get("selectVal"));
+		
 		try {
 			 conn = ds.getConnection();
 			 
@@ -87,6 +91,21 @@ public class ProductDAO_imple implements ProductDAO {
 				sql += " ) V "
 					 + " WHERE rno between ? and ? "; 
 				
+				switch (selectStatus) {
+				case "신상품순":
+					sql += " order by p_register desc ";
+					break;
+					
+				case "높은금액순":
+					sql += " order by p_price desc ";
+					break;
+
+				case "낮은금액순":
+					sql += " order by p_price asc ";
+					break;
+				} // end of switch (selectStatus)------------ 
+				
+				
 				pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setInt(1, Integer.parseInt(paraMap.get("start")));
@@ -97,9 +116,23 @@ public class ProductDAO_imple implements ProductDAO {
 				sql += " WHERE p_season = ? "
 			         + " ) V "
 			   	     + " WHERE rno between ? and ? ";
-				 
-				pstmt = conn.prepareStatement(sql);
 				
+				switch (selectStatus) {
+				case "신상품순":
+					sql += " order by p_register desc ";
+					break;
+					
+				case "높은금액순":
+					sql += " order by p_price desc ";
+					break;
+
+				case "낮은금액순":
+					sql += " order by p_price asc ";
+					break;
+				} // end of switch (selectStatus)------------
+				
+				pstmt = conn.prepareStatement(sql);
+
 				pstmt.setString(1, paraMap.get("cname"));
 				pstmt.setInt(2, Integer.parseInt(paraMap.get("start")));
 				pstmt.setInt(3, Integer.parseInt(paraMap.get("end")));
