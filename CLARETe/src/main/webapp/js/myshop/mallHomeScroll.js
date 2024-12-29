@@ -35,6 +35,11 @@ $(document).ready(function(){
 	
     // === 스크롤 이벤트 발생시키기 시작 === //
     $(window).scroll(function(){
+		
+		$('.btn-info').css({
+			'opacity': '1'
+		});
+		
         // alert('스크롤함요~')
 		// console.log("$(window).height() => ", $(window).height()); // 창의 높이
 		// console.log("$(window).scrollTop() => ", $(window).scrollTop()); // 현재 스크롤 위치
@@ -62,7 +67,12 @@ $(document).ready(function(){
             $("ul.cardcontainer").empty();
             $("span#end").empty();
             $("span#countHIT").text("0");
-
+			$('.select').val("신상품순");
+			
+			$('.btn-info').css({
+				'opacity': ''
+			});
+			
             start = 1;
             displayHIT(start, cname, selectVal);
         }

@@ -78,7 +78,7 @@
                         
                         <div style="display: flex;">
 					         <div style="margin: 20px 0 20px auto;">
-					            <button class="btn btn-info" onclick="goTop()">맨위로가기(scrollTop 1로 설정함)</button>
+					            <button class="btn btn-info" onclick="goTop()">TOP</button>
 					         </div>
 					    </div>
 					    

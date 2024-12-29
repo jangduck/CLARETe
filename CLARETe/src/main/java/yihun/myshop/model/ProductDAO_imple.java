@@ -83,16 +83,65 @@ public class ProductDAO_imple implements ProductDAO {
 				 			+ "         nvl(sum(o.o_cnt), 0) as total_sales  "
 				 			+ "     from tbl_product p "
 				 			+ "     left outer join tbl_option opt on p.p_num = opt.fk_p_num "
-				 			+ "     left outer join tbl_order o on opt.op_num = o.fk_op_num "
-				 			+ "     group by p.p_num, p.p_name, p.p_season, p.p_image, p.p_sale, p.p_price, p.p_register "
-				 			+ " ) v "
-				 			+ " where rno between ? and ? "
-				 			+ " order by rno desc ";
+				 			+ "     left outer join tbl_order o on opt.op_num = o.fk_op_num ";
+
+				 if("0".equals(paraMap.get("cname"))) {
+					 // 전체 all 에서의 판매순 정렬
+					 sql += " group by p.p_num, p.p_name, p.p_season, p.p_image, p.p_sale, p.p_price, p.p_register "
+					 	  + " ) v "
+					 	  + " where rno between ? and ? "
+					 	  + " order by rno desc ";
+					 
+					 pstmt = conn.prepareStatement(sql);
+					 
+					 pstmt.setInt(1, Integer.parseInt(paraMap.get("start")));
+					 pstmt.setInt(2, Integer.parseInt(paraMap.get("end")));
+					 
+				 }
+				 else if("5".equals(paraMap.get("cname")) || "6".equals(paraMap.get("cname"))  || "7".equals(paraMap.get("cname"))) {
+					 // 남성, 여성, 공용에서의 판매순 정렬
+					 int cname;
+					 
+					 if("5".equals(paraMap.get("cname"))) {
+							 cname = 1;
+					 }
+					 else if("6".equals(paraMap.get("cname"))) {
+							 cname = 2;
+					 }
+					 else {
+							 cname = 0;
+					 }
+					 
+					 sql += " where p_gender = ? "
+					 	  + " group by p.p_num, p.p_name, p.p_season, p.p_image, p.p_sale, p.p_price, p.p_register "
+					 	  + " ) v "
+					 	  + " where rno between ? and ? "
+					 	  + " order by rno desc ";
+					 
+					 pstmt = conn.prepareStatement(sql);
+					 
+					 pstmt.setInt(1, cname);
+					 pstmt.setInt(2, Integer.parseInt(paraMap.get("start")));
+					 pstmt.setInt(3, Integer.parseInt(paraMap.get("end")));
+					 
+				 }
+				 else {
+					 // 봄, 여름, 가을, 겨울에서의 판매순 정렬
+					 sql += " where p_season = ? "
+					 	  + " group by p.p_num, p.p_name, p.p_season, p.p_image, p.p_sale, p.p_price, p.p_register "
+					 	  + " ) v "
+					 	  + " where rno between ? and ? "
+					 	  + " order by rno desc ";
+					 
+					 pstmt = conn.prepareStatement(sql);
+					 
+					 pstmt.setInt(1, Integer.parseInt(paraMap.get("cname")));
+					 pstmt.setInt(2, Integer.parseInt(paraMap.get("start")));
+					 pstmt.setInt(3, Integer.parseInt(paraMap.get("end")));
+					 
+				 }
 				 
-				 pstmt = conn.prepareStatement(sql);
 				 
-				 pstmt.setInt(1, Integer.parseInt(paraMap.get("start")));
-				 pstmt.setInt(2, Integer.parseInt(paraMap.get("end")));
 				 
 				 rs = pstmt.executeQuery();
 					

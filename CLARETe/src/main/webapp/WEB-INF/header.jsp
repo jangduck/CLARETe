@@ -89,8 +89,8 @@
                             <a href="<%= ctxPath%>/category/productCategory.cl">CATEGORY</a>
                             <div class="depth">
                                 <ul>
-                                    <li><a href="#">For Him</a></li>
-                                    <li><a href="#">For Her</a></li>
+                                    <li><a href="<%= ctxPath%>/shop/allProduct.cl?cname=5">For Him</a></li>
+                                    <li><a href="<%= ctxPath%>/shop/allProduct.cl?cname=6">For Her</a></li>
                                 </ul>
                             </div>
                         </li>
