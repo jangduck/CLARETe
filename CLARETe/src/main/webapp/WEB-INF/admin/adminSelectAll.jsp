@@ -24,21 +24,46 @@
 <script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script> 
 
 
+<style type="text/css">
+div#pageBar {
+      border: solid 0px red;
+      width: 80%;
+      margin: 3% auto 0 auto;
+      display: flex;
+   }
+   
+   div#pageBar > nav {
+      margin: auto;
+   }
+</style>
 
 <script type="text/javascript">
-function goSearch() {
 
-	const frm = document.member_search_frm;
-			    frm.action ="admin.cl";
-			    frm.submit();
-}
+$(document).ready(function() {
+    
+    $("select[name='searchType']").val("${requestScope.searchSelect}");
+    $("input:text[name='searchWord']").val("${requestScope.searchWord}");
+    
+    $("select[name='sizePerPage']").val("${requestScope.sizePerPage}");
+    
+    $("input:text[name='searchWord']").bind("keydown", function(e){
+       
+       if(e.keyCode == 13) {
+          goSearch();
+       }
+    });
+    
+    // **** select 태그에 대한 이벤트는 click 이 아니라 change 이다. **** // 
+    $("select[name='sizePerPage']").bind("change", function(){
+       const frm = document.member_search_frm;
+       // frm.action = "memberList.up"; // form 태그에 action 이 명기되지 않았으면 현재보이는 URL 경로로 submit 되어진다.
+       // frm.method="get"; // form 태그에 method 를 명기하지 않으면 "get" 방식이다.
+          frm.submit();
+    });
 </script>
 
     <title>관리자 회원관리</title>
         <!-- 부트스트랩 CSS 파일 경로 -->
-
-
-
 
     <header class="side-header">
         <nav class="header-nav">
@@ -47,8 +72,6 @@ function goSearch() {
                     <div>회원관리</div>
                     <ul>
                       <li><a href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
-					<li><a
-						href="<%=request.getContextPath()%>/admin/adminOrder.cl">주문회원조회</a></li>
                         <li>탈퇴회원조회</li>
                     </ul>
                 </li>
@@ -65,8 +88,10 @@ function goSearch() {
                 <li>
                     <div>주문관리</div>
                     <ul>
-                        <li>주문상세조회</li>
-                        <li>배송상태변경</li>
+                        <li><a
+						href="<%=request.getContextPath()%>/admin/adminOrder.cl">주문회원조회</a></li>
+                        <li><a
+						href="<%=request.getContextPath()%>/admin/adminDelivery.cl">주문배송관리</a></li>
                     </ul>
                 </li>
             </ul>
@@ -83,133 +108,138 @@ function goSearch() {
     </nav>
 
 <section>
-    <div style="display: flex; flex-wrap: wrap;">
-        <div class="first-div">
-            <div style="margin: 30px 0px 0px 30px;">
-                <form name="member_search_frm">
-                    <select name="searchType" >  <!-- required 속성이 있으면, 사용자가 값을 선택하지 않을 경우 브라우저가 기본적으로 유효성 검사를 수행 -->
-                        <option value="">검색대상</option>
-                        <option value="m_name">회원이름</option>
-                        <option value="m_id">회원아이디</option>
-                        <option value="m_email">이메일</option>
-                    </select>
-                    <input type="text" name="searchWord" placeholder="검색어 입력" required />
-                    <button type="submit" class="btn btn-secondary" onclick="search()">검색</button>
-                </form>
-                
-                
-            </div>
-        </div>
+	<div style="display: flex; flex-wrap: wrap;">
+		<div class="first-div">
+			<div style="margin: 30px 0px 0px 30px;">
+				<form name="member_search_frm">
+					<select name="searchType">
+						<option value="">검색대상</option>
+						<option value="m_name">회원이름</option>
+						<option value="m_id">회원아이디</option>
+						<option value="m_email">이메일</option>
+						<option value="m_status">회원탈퇴</option>
+					</select> <input type="text" name="searchWord" placeholder="검색어 입력" required />
+					<button type="button" class="btn btn-secondary"
+						onclick="goSearch()">검색</button>
+					<!-- 					<span style="font-size: 12pt; font-weight: bold;">페이지당
+						회원명수&nbsp;-&nbsp;</span> <select name="sizePerPage">
+						<option value="10">10명</option>
+						<option value="5">5명</option>
+						<option value="1">1명</option>
+					</select> -->
+				</form>
 
-	<div class="second-div">
-		<h4
-			style="font-weight: bold; text-align: center; margin-top: 50px; padding: 2% 0;">모든회원조회</h4>
-
-		<div class="table-container" style="overflow-x: auto">
-			<table style="width: 100% !important;"
-				class="table table-bordered text-center table-responsive">
-				<thead class="thead-light">
-
-					<tr>
-					</tr>
-					<tr>
-						<th>회원이름</th>
-						<th>회원아이디</th>
-						<th>이메일</th>
-						<th>전화번호</th>
-						<th>주소</th>
-						<th>성별</th>
-						<th>생년월일</th>
-						<th>포인트</th>
-						<th>가입일자</th>
-						<th>상세보기</th>
-					</tr>
-				</thead>
+				<script>
+				    function goSearch() {
+				        const searchType = document.querySelector("select[name='searchType']").value;
 				
-				<tbody id="selectAll">
-					<c:if test="${not empty requestScope.memberList}">
-					
-						<c:forEach var="member" items="${requestScope.memberList}"
-							varStatus="m_status">
-							
-							<c:set var="mobile" value="${member.m_mobile}" />  <%-- member.m_mobile 만 선언해서 하이픈 넣을 수 있게함 --%>
-							
-							<tr>
-								<th>${member.m_name}</th>
-								<th>${member.m_id}</th>
-								<td>${member.m_email}</td>
-								<td>${fn:substring(mobile, 0, 3)}-${fn:substring(mobile, 3, 7)}-${fn:substring(mobile, 7, 11)}</td>
-								<td>${member.m_address}</td>
-								<td><c:choose>
-										<c:when test="${member.m_gender == '1'}">남</c:when>
-										<c:otherwise>여</c:otherwise>
-									</c:choose></td>
-								<td>${member.m_birth}</td>
-								<td>${member.m_point}</td>
-								<td>${member.m_register}</td>
-								<td><button style="width:90px;
-				                    type="button" 
-				                    class="btn btn-primary" 
-				                    data-toggle="modal" 
-				                    data-target="#exampleModal_centered"
-				                    data-name="${member.m_name}"
-				                    data-id="${member.m_id}"
-				                    data-email="${member.m_email}"
-				                    data-mobile="${fn:substring(mobile, 0, 3)}-${fn:substring(mobile, 3, 7)}-${fn:substring(mobile, 7, 11)}"
-				                    data-postcode="${member.m_postcode}"
-				                    data-address="${member.m_address}"
-				                    data-detail_address="${m.detail_address}"
-				                    data-gender="<c:choose>
+				        if (searchType === "") {
+				            alert("검색대상을 선택하세요 !!");
+				            return; // goSearch() 함수를 종료
+				        }
+				
+				        const frm = document.member_search_frm;
+				        frm.action = "admin.cl";
+				        frm.submit();
+				    }
+				</script>
+			</div>
+		</div>
+
+		<div class="second-div">
+			<h4
+				style="font-weight: bold; text-align: center; margin-top: 50px; padding: 2% 0;">모든회원조회</h4>
+
+			<div class="table-container" style="overflow-x: auto">
+				<table style="width: 100% !important;"
+					class="table table-bordered text-center table-responsive">
+					<thead class="thead-light">
+
+						<tr>
+							<th>번호</th>
+							<th>회원이름</th>
+							<th>회원아이디</th>
+							<th>이메일</th>
+							<th>전화번호</th>
+							<th>주소</th>
+							<th>성별</th>
+							<th>생년월일</th>
+							<th>포인트</th>
+							<th>가입일자</th>
+							<th>상세보기</th>
+						</tr>
+					</thead>
+
+					<tbody id="selectAll">
+						<c:if test="${not empty requestScope.memberList}">
+
+							<c:forEach var="member" items="${requestScope.memberList}"
+								varStatus="m_status">
+								<c:set var="mobile" value="${member.m_mobile}" />
+								<%-- member.m_mobile 만 선언해서 하이픈 넣을 수 있게함 --%>
+
+								<tr class="memberInfo">
+									<fmt:parseNumber var="currentShowPageNo"
+										value="${requestScope.currentShowPageNo}" />
+									<fmt:parseNumber var="sizePerPage"
+										value="${requestScope.sizePerPage}" />
+									<%-- fmt:parseNumber 은 문자열을 숫자형식으로 형변환 시키는 것이다. --%>
+
+									<td>${(currentShowPageNo - 1) * sizePerPage + (status.index + 1)}</td>
+									<%-- >>> 페이징 처리시 보여주는 순번 공식 <<<
+                           데이터개수 - (페이지번호 - 1) * 1페이지당보여줄개수 - 인덱스번호 => 순번 --%>
+									<th>${member.m_name}</th>
+									<th>${member.m_id}</th>
+									<td>${member.m_email}</td>
+									<td>${fn:substring(mobile, 0, 3)}-${fn:substring(mobile, 3, 7)}-${fn:substring(mobile, 7, 11)}</td>
+									<td>${member.m_address}</td>
+									<td><c:choose>
+											<c:when test="${member.m_gender == '1'}">남</c:when>
+											<c:otherwise>여</c:otherwise>
+										</c:choose></td>
+									<td>${member.m_birth}</td>
+									<td>${member.m_point}</td>
+									<td>${member.m_register}</td>
+									<td><button style="width: 90px;"
+											button" 
+				                    class="btn btn-primary"
+											data-toggle="modal" data-target="#exampleModal_centered"
+											data-name="${member.m_name}" data-id="${member.m_id}"
+											data-email="${member.m_email}"
+											data-mobile="${fn:substring(mobile, 0, 3)}-${fn:substring(mobile, 3, 7)}-${fn:substring(mobile, 7, 11)}"
+											data-postcode="${member.m_postcode}"
+											data-address="${member.m_address}"
+											data-detail_address="${member.m_detail_address}"
+											data-extra="${member.m_extra}"
+											data-gender="<c:choose>
 						                            <c:when test='${member.m_gender == "1"}'>남자</c:when>
 						                            <c:otherwise>여자</c:otherwise>
 					                         	</c:choose>"
-									data-birth="${member.m_birth}"
-				                    data-point="${member.m_point}"
-				                    data-register="${member.m_register}"
-				                    data-lastpwd="${member.m_lastpwd}"
-				                    data-status="${member.m_status}"
-				                    data-idle="${member.m_idle}">
-				                    상세보기
-				                </button>
-								</td>
+											data-birth="${member.m_birth}" data-point="${member.m_point}"
+											data-register="${member.m_register}"
+											data-lastpwd="${member.m_lastpwd}"
+											data-status="${member.m_status}" data-idle="${member.m_idle}">
+											상세보기</button></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+
+						<c:if test="${empty requestScope.memberList}">
+							<tr>
+								<td colspan="5">데이터가 존재하지 않습니다.</td>
 							</tr>
-						</c:forEach>
-					</c:if>
-				</tbody>
-			</table>
+						</c:if>
+					</tbody>
+				</table>
 
-			<%-- 페이징 네비게이션 --%>
-    <nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-        <c:if test="${currentPage > 1}">
-            <li class="page-item">
-                <a class="page-link" href="?page=${currentPage - 1}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-        </c:if>
-        <c:forEach begin="1" end="${totalPages}" var="page">
-            <li class="page-item ${page == currentPage ? 'active' : ''}">
-                <a class="page-link" href="?page=${page}">${page}</a>
-            </li>
-        </c:forEach>
-        <c:if test="${currentPage < totalPages}">
-            <li class="page-item">
-                <a class="page-link" href="?page=${currentPage + 1}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </c:if>
-    </ul>
-</nav>
-
-		</div>
-
- 
-
-	</div>
-	<%-- 세컨 --%>
-
+				<%-- 페이징 네비게이션 --%>
+				<div id="pageBar">
+					<nav>
+						<ul class="pagination">${requestScope.pageBar}</ul>
+					</nav>
+				</div>
+			</div>
+		</div>  <%-- 세컨 --%>
 </section>
 
 

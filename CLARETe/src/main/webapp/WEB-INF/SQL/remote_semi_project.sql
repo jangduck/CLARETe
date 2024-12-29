@@ -649,3 +649,110 @@ FROM (
         JOIN tbl_product p ON od.fk_p_num = p.p_num
     )
 )
+
+
+
+    
+SELECT 
+    o.o_num, 
+    o.o_date,  
+    m.m_name,         -- 회원 이름
+    m.m_email,        -- 회원 이메일
+    m.m_mobile,       -- 회원 연락처
+    p.p_name, 
+    od.od_count, 
+    o.o_price, 
+    o.status, 
+    o.fk_op_num, 
+    o.fk_d_num
+FROM  
+    tbl_member m
+JOIN 
+    tbl_order o ON m.m_id = o.fk_m_id 
+JOIN 
+    tbl_orderdetail od ON od.fk_o_num = o.o_num 
+JOIN 
+    tbl_product p ON od.fk_p_num = p.p_num;
+    
+    
+    
+    
+    
+select *
+from tbl_product;
+    
+----------------------------------------------------tbl_member insert문 ---------------------------------    
+insert into tbl_member(m_id, m_pwd, m_name, m_email, m_mobile, m_postcode, m_address, m_detail_address, m_extra, m_gender, m_birth)
+values('mango', 'qwer1234$', '장망고', 'mango@naver.com', '010-5834-1244', '04001', '서울특별시 마포구', '월드컵북로 21', '풍성빌딩 3층', '2', '2023-07-29');
+
+insert into tbl_member(m_id, m_pwd, m_name, m_email, m_mobile, m_postcode, m_address, m_detail_address, m_extra, m_gender, m_birth)
+values('kimmj', 'qwer1234$', '김민지', 'kimmj@naver.com', '010-2222-3333', '23303', '서울특별시 마포구', '월드컵북로 21', '풍성빌딩 3층', '1', '2022-04-20');
+
+delete from tbl_member where m_id = 'kimmj';
+
+commit;
+--------------------------------------------------------------------------------------------------------
+-- 주문배송 select 
+
+SELECT 
+    d_num,
+    fk_m_id,
+    d_address,
+    d_detail_address,
+    d_postcode,
+    d_extra,
+    d_mobile,
+    d_name
+FROM 
+    tbl_delivery 
+
+
+SELECT RNO, d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, d_name 
+            FROM ( 
+                SELECT rownum AS RNO, d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, d_name 
+              FROM ( 
+                  SELECT d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, d_name 
+                 FROM tbl_delivery
+                 
+SELECT * FROM tbl_delivery;
+
+
+
+--------------------------------탈퇴회원조회-----------------------------------------
+SELECT m_id, m_name, m_email, m_mobile, m_postcode, m_address, 
+       m_detail_address, m_extra, m_gender, m_birth, m_point,
+       m_register, m_lastpwd, m_status, m_idle 
+FROM tbl_member
+WHERE m_status = 0;
+---------------------------------------------------------------------------------
+
+
+select *
+from tbl_order
+
+
+INSERT INTO tbl_order (
+    o_num, 
+    fk_m_id, 
+    fk_d_num, 
+    fk_op_num, 
+    o_date, 
+    status, 
+    o_price
+) 
+VALUES (
+    1,               -- 주문번호
+    'kimmj',       -- 회원 ID (tbl_member의 m_id 참조)
+    101,             -- 배송지번호 (tbl_delivery의 d_num 참조)
+    201,             -- 옵션번호 (tbl_option의 op_num 참조)
+    SYSDATE,         -- 주문날짜 (기본값으로 현재 날짜)
+    0,               -- 배송현황 (0: 주문접수)
+    '10000'          -- 주문금액
+);
+
+SELECT * 
+FROM tbl_option 
+SELECT * 
+FROM tbl_member 
+WHERE m_id = 'kimmj';
+

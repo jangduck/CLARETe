@@ -1,5 +1,8 @@
 package product.domain;
 
+import member.domain.MemberVO;
+import orderdetail.domain.orderdetailVO;
+
 public class ProductVO {
 	
 	int p_num;				//제품고유번호
@@ -14,6 +17,21 @@ public class ProductVO {
 	int p_gender;			//성별 향수
 	String p_image;			//상품이미지
 	String p_detail_image;	//상품상세이미지
+	
+	
+	// MemberVO 조인	
+		private orderdetailVO orderdetailvo;
+		
+	public orderdetailVO getOrderdetailvo() {
+			return orderdetailvo;
+		}
+		public void setOrderdetailvo(orderdetailVO orderdetailvo) {
+			this.orderdetailvo = orderdetailvo;
+		}
+
+		
+	
+
 	public int getP_num() {
 		return p_num;
 	}
@@ -86,6 +104,9 @@ public class ProductVO {
 	public void setP_detail_image(String p_detail_image) {
 		this.p_detail_image = p_detail_image;
 	}
+	
+
+
 	
 	
 	

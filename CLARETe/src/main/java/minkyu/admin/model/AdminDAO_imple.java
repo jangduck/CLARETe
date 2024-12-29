@@ -266,7 +266,61 @@ public class AdminDAO_imple implements AdminDAO {
 
 	
 	
-	// 모든회원조회 서치 기능
+	// 주문 배송 관리 
+	@Override
+	public List<DeliveryVO> Delivery_list() throws SQLException {
+		
+		List<DeliveryVO> deliveryList = new ArrayList<>();
+
+	       try {
+	           conn = ds.getConnection();
+
+	           String sql = " SELECT "
+		           		+ "    d_num, "
+		           		+ "    fk_m_id, "
+		           		+ "    d_address, "
+		           		+ "    d_detail_address, "
+		           		+ "    d_postcode, "
+		           		+ "    d_extra, "
+		           		+ "    d_mobile, "
+		           		+ "    d_name "
+		           		+ " FROM "
+		           		+ "    tbl_delivery ";
+	        		   
+	           pstmt = conn.prepareStatement(sql);
+	           rs = pstmt.executeQuery();
+
+	           while (rs.next()) {
+	        	   DeliveryVO delivery = new DeliveryVO();
+	               MemberVO member = new MemberVO();
+	        	   
+	        	   delivery.setD_num(rs.getInt("d_num"));  						
+	        	   delivery.setFk_m_id(rs.getString("fk_m_id"));   				
+	        	   delivery.setD_address(rs.getString("d_address"));  					
+	        	   delivery.setD_detail_address(rs.getString("d_detail_address")); 	
+	        	   delivery.setD_postcode(rs.getString("d_postcode")); 	
+	        	   delivery.setD_extra(rs.getString("d_extra")); 	
+	        	   delivery.setD_mobile(rs.getString("d_mobile")); 	
+	        	   delivery.setD_name(rs.getString("d_name")); 	
+
+	        	   deliveryList.add(delivery);
+				}
+	           
+			} finally {
+				close();
+			}
+
+			return deliveryList;
+		}
+	
+	
+	
+
+	
+	
+	////////////////////////////////////////////////////////////////////////////////// 검색기능 시작
+	
+	// 모든회원조회 검색 기능
     public List<MemberVO> searchMembers(Map<String, String> paraMap) throws SQLException {
         
     	List<MemberVO> memberList = new ArrayList<>();
@@ -280,14 +334,13 @@ public class AdminDAO_imple implements AdminDAO {
     	                   + "  SELECT rownum AS RNO, m_id, m_name, m_email, m_gender, m_mobile, m_address, m_birth, m_point, m_register "
     	                   + "  FROM ( "
     	                   + "    SELECT m_id, m_name, m_email, m_gender, m_mobile, m_address, m_birth, m_point, m_register "
-    	                   + "    FROM tbl_member "
-    	                   + "  ) "
-    	                   + " ) ";
+    	                   + "    FROM tbl_member ";
     		
     		 String searchType = paraMap.get("searchType");
     	     String searchWord = paraMap.get("searchWord");
-
+//    	     String memberstatus = paraMap.get("memberstatus");
     	     
+
 //    	     System.out.println(searchWord);
 //    	     System.out.println(searchType);
     	     
@@ -295,13 +348,37 @@ public class AdminDAO_imple implements AdminDAO {
     	        if (!searchType.isBlank() && !searchWord.isBlank()) {
     	            sql += " WHERE " + searchType + " like '%'|| ? ||'%' ";
     	        }
+    	        
+    	        sql += " order by m_register desc "
+    	                +  "  ) V "
+    	                +  " ) T "
+    	                +  " WHERE T.RNO BETWEEN ? AND ? ";
+    	        
+//    	        sql = "SELECT * FROM tbl_member WHERE 1=1";
+    	        
     	        pstmt = conn.prepareStatement(sql);
     		
+    	        /*
+                === 페이징처리의 공식 ===
+                where RNO between (조회하고자하는페이지번호 * 한페이지당보여줄행의개수) - (한페이지당보여줄행의개수 - 1) and (조회하고자하는페이지번호 * 한페이지당보여줄행의개수); 
+             */   
+             int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+             int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 
+//             System.out.println(currentShowPageNo);
+//             System.out.println(sizePerPage);
+             
     	     // 검색어가 있을 경우 파라미터 설정
     	        if (!searchType.isBlank() && !searchWord.isBlank()) {
     	            pstmt.setString(1, searchWord); 
+    	            pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) ); // 공식 
+    	            pstmt.setInt(3, (currentShowPageNo * sizePerPage));
     	        }
+    	        else {
+    	             // 검색이 없는 경우 
+    	             pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) ); // 공식 
+    	             pstmt.setInt(2, (currentShowPageNo * sizePerPage));
+    	          }
 
     	     rs = pstmt.executeQuery();
     	     
@@ -312,9 +389,9 @@ public class AdminDAO_imple implements AdminDAO {
                     
                     member.setM_id(rs.getString("m_id"));
                     member.setM_name(rs.getString("m_name"));
-                    member.setM_email(rs.getString("m_email"));
+                    member.setM_email(aes.decrypt(rs.getString("m_email")));
                     member.setM_gender(rs.getString("m_gender"));
-                    member.setM_mobile(rs.getString("m_mobile"));
+                    member.setM_mobile(aes.decrypt(rs.getString("m_mobile")));
                     member.setM_address(rs.getString("m_address"));
                     member.setM_birth(rs.getString("m_birth"));
                     member.setM_point(rs.getInt("m_point"));
@@ -323,7 +400,7 @@ public class AdminDAO_imple implements AdminDAO {
                     memberList.add(member);
                 }
     } 
-    	catch (SQLException e) {
+    	catch(GeneralSecurityException | UnsupportedEncodingException e) {
             e.printStackTrace();
     	}
     	finally {
@@ -343,7 +420,6 @@ public class AdminDAO_imple implements AdminDAO {
     	List<ProductVO> productList = new ArrayList<>();
 
     	try {
-    		
     		 conn = ds.getConnection();
     		
     		    String sql = " SELECT RNO, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
@@ -351,13 +427,10 @@ public class AdminDAO_imple implements AdminDAO {
 	    		    	   + "     SELECT rownum AS RNO, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
 	    		    	   + "    	   FROM ( "
 	    		    	   + "    	   SELECT p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
-	    		    	   + "    	   FROM tbl_product "
-	    		    	   + "    	   )  "
-	    		    	   + "  ) ";
+	    		    	   + "    	   FROM tbl_product ";
     		
     		 String searchType = paraMap.get("searchType");
     	     String searchWord = paraMap.get("searchWord");
-
     	     
 //    	     System.out.println(searchWord);
 //    	     System.out.println(searchType);
@@ -366,12 +439,32 @@ public class AdminDAO_imple implements AdminDAO {
     	        if (!searchType.isBlank() && !searchWord.isBlank()) {
     	            sql += " WHERE " + searchType + " like '%'|| ? ||'%' ";
     	        }
-
+//    	        sql += " WHERE RNO BETWEEN ? AND ?"; 
+    	        
+    	        sql += " order by p_gender desc "
+	                +  "  ) V "
+	                +  " ) T "
+	                +  " WHERE T.RNO BETWEEN ? AND ? ";
+    	            
     	        pstmt = conn.prepareStatement(sql);
+
+				/*
+				   === 페이징처리의 공식 === where RNO between (조회하고자하는페이지번호 * 한페이지당보여줄행의개수) -
+				   (한페이지당보여줄행의개수 - 1) and (조회하고자하는페이지번호 * 한페이지당보여줄행의개수);
+				*/
+				int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+				int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 
     	        // 검색어가 있을 경우 파라미터 설정
     	        if (!searchType.isBlank() && !searchWord.isBlank()) {
     	            pstmt.setString(1, searchWord);
+    	            pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) ); // 공식 
+    	            pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+    	        }
+    	        else {
+    	             // 검색이 없는 경우 
+    	             pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) ); // 공식 
+    	             pstmt.setInt(2, (currentShowPageNo * sizePerPage));
     	        }
 
     	        rs = pstmt.executeQuery();
@@ -416,36 +509,68 @@ public class AdminDAO_imple implements AdminDAO {
     	try {
     		
     		 conn = ds.getConnection();
-    		
-    		    String sql = " SELECT RNO, o_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
-    		    		   + " FROM ( "
-    		    		   + "    SELECT rownum AS RNO, o_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
-    		    		   + "    FROM ( "
-    		    		   + "        SELECT "
-    		    		   + "            o.o_num AS o_num, "
-    		    		   + "            p.p_season AS p_season, "
-    		    		   + "            p.p_name AS p_name, "
-    		    		   + "            p.p_ex AS p_ex, "
-    		    		   + "            p.p_price AS p_price, "
-    		    		   + "            p.p_inven AS p_inven, "
-    		    		   + "            p.p_register AS p_register, "
-    		    		   + "            p.p_release AS p_release, "
-    		    		   + "            p.p_sale AS p_sale, "
-    		    		   + "            p.p_gender AS p_gender "
-    		    		   + "        FROM tbl_member m "
-    		    		   + "        JOIN tbl_order o ON m.m_id = o.fk_m_id "
-    		    		   + "        JOIN tbl_orderdetail od ON od.fk_o_num = o.o_num "
-    		    		   + "        JOIN tbl_product p ON od.fk_p_num = p.p_num "
-    		    		   + "    ) "
-    		    		   + ") ";
+    		// RNO SELECT 문으로 바꾸기 
+    		 String sql = " SELECT  "
+    		 		+ "    o.o_num,  "
+    		 		+ "    o.o_date,   "
+    		 		+ "    m.m_name,  "
+    		 		+ "    m.m_email,  "
+    		 		+ "    m.m_mobile, "
+    		 		+ "    p.p_name, "
+    		 		+ "    od.od_count, "
+    		 		+ "    o.o_price, "
+    		 		+ "    o.status, "
+    		 		+ "    o.fk_op_num, "
+    		 		+ "    o.fk_d_num "
+    		 		+ " FROM  "
+    		 		+ "    tbl_member m "
+    		 		+ " JOIN "
+    		 		+ "    tbl_order o ON m.m_id = o.fk_m_id "
+    		 		+ " JOIN "
+    		 		+ "    tbl_orderdetail od ON od.fk_o_num = o.o_num  "
+    		 		+ " JOIN  "
+    		 		+ "    tbl_product p ON od.fk_p_num = p.p_num ";
 
     		
     		 String searchType = paraMap.get("searchType");
     	     String searchWord = paraMap.get("searchWord");
 
+    	     if( !searchType.isBlank() && !searchWord.isBlank() ) {
+                 sql += " and "+searchType+" like '%'|| ? ||'%' ";
+              }
     	     
-    	     System.out.println(searchWord);
-    	     System.out.println(searchType);
+    	     
+    	     // registerday 이 부분 바꾸기 (select문에서 맨 마지막 컬럼으로)
+    	     sql += " order by registerday desc "
+    	              +  "  ) V "
+    	              +  " ) T "
+    	              +  " WHERE T.RNO BETWEEN ? AND ? ";
+    	          
+    	     pstmt = conn.prepareStatement(sql);
+    	     
+    	     /*
+	             === 페이징처리의 공식 ===
+	             where RNO between (조회하고자하는페이지번호 * 한페이지당보여줄행의개수) - (한페이지당보여줄행의개수 - 1) and (조회하고자하는페이지번호 * 한페이지당보여줄행의개수); 
+    	      */   
+				int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+				int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+
+				// if( ( searchType != null && !colname.trim().isEmpty() ) &&
+				// ( searchWord != null && !searchWord.trim().isEmpty() ) ) {
+				if (!searchType.isBlank() && !searchWord.isBlank()) {
+					// 검색이 있는 경우
+					pstmt.setString(1, searchWord);
+					pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 공식
+					pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+				} else {
+					// 검색이 없는 경우
+					pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 공식
+					pstmt.setInt(2, (currentShowPageNo * sizePerPage));
+				}
+    	     
+				rs = pstmt.executeQuery();
+//    	     System.out.println(searchWord);
+//    	     System.out.println(searchType);
     	     
     	     // 검색어가 있을 때만 WHERE 절 추가
     	        if (!searchType.isBlank() && !searchWord.isBlank()) {
@@ -462,25 +587,36 @@ public class AdminDAO_imple implements AdminDAO {
     	        rs = pstmt.executeQuery();
     	     
     	        while (rs.next()) {
-    	               OrderVO order = new OrderVO();
+    	        	   OrderVO order = new OrderVO();
+    	               MemberVO member = new MemberVO();
     	               ProductVO product = new ProductVO();
+    	               orderdetailVO orderdetail = new orderdetailVO();
+    	               OptionVO option = new OptionVO();
 
-    	               
     	               // 주문 정보 설정
-    	               order.setO_num(rs.getInt("o_num"));  
-
-    	               product.setP_season(rs.getString("p_season"));
-    	               product.setP_name(rs.getString("p_name"));
-    	               product.setP_ex(rs.getString("p_ex"));
-    	               product.setP_price(rs.getInt("p_price"));
-    	               product.setP_inven(rs.getInt("p_inven"));
-    	               product.setP_register(rs.getString("p_register"));
-    	               product.setP_release(rs.getString("p_release"));
-    	               product.setP_sale(rs.getString("p_sale"));
-    	               product.setP_gender(rs.getInt("p_gender"));
+    	               order.setO_num(rs.getInt("o_num"));           // 주문번호
+    	               order.setO_date(rs.getString("o_date"));      // 주문날짜
+    	               product.setP_name(rs.getString("p_name"));    // 상품명
+    	               orderdetail.setOd_count(rs.getInt("od_count"));// 제품수량
+    	               order.setO_price(rs.getString("o_price"));    // 주문금액
+    	               order.setStatus(rs.getInt("status"));         // 배송현황
+    	               order.setFk_op_num(rs.getInt("fk_op_num"));   // 옵션번호
+    	               order.setFk_d_num(rs.getInt("fk_d_num"));     // 배송지번호	
+    	               member.setM_name(rs.getString("m_name"));
+    	               member.setM_email(rs.getString("m_email"));
+    	               member.setM_mobile(rs.getString("m_mobile"));
+    	               member.setM_id(rs.getString("m_id"));
+    	               
+    	               
+    	               order.setProductvo(product);
+    	               order.setOrderdetailvo(orderdetail);
+    	               order.setMembervo(member);
+    	               order.setOptionvo(option);
     	               
     	               orderList.add(order);
+
     	        }
+
     	    } 
     	    catch (SQLException e) {
     	        e.printStackTrace();
@@ -496,26 +632,449 @@ public class AdminDAO_imple implements AdminDAO {
 	
 	
 	
+	// 배송주문조회 검색기능
+	@Override
+	public List<DeliveryVO> searchDelivery(Map<String, String> paraMap) throws SQLException {
+		 
+		List<DeliveryVO> deliveryList = new ArrayList<>();
+
+	       try {
+	           conn = ds.getConnection();
+
+	           String sql = " SELECT RNO, d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, d_name "
+		           		 + "    FROM ( "
+		           		 + "    SELECT rownum AS RNO, d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, d_name "
+		           		 + "    	FROM ( "
+		           		 + "       		SELECT d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, d_name "
+		           		 + "        	FROM tbl_delivery ";
+	           
+	           String searchType = paraMap.get("searchType");
+	  	       String searchWord = paraMap.get("searchWord");
+	        
+	  	  // 검색어가 있을 때만 WHERE 절 추가
+	  	     if (!searchType.isBlank() && !searchWord.isBlank()) {
+	             if ("m_id".equals(searchType)) {
+	                 searchType = "fk_m_id"; // 열 이름을 올바르게 변경
+	             }
+	             sql += "WHERE " + searchType + " LIKE '%' || ? || '%' ";
+	         }
+		        sql += " order by d_name desc "
+	               +  "  ) V "
+	               +  " ) T "
+	               +  " WHERE T.RNO BETWEEN ? AND ? ";
+		            
+		        pstmt = conn.prepareStatement(sql);
+
+		        /*
+				   === 페이징처리의 공식 === where RNO between (조회하고자하는페이지번호 * 한페이지당보여줄행의개수) -
+				   (한페이지당보여줄행의개수 - 1) and (조회하고자하는페이지번호 * 한페이지당보여줄행의개수);
+				*/
+				int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+				int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+
+		        // 검색어가 있을 경우 파라미터 설정
+		        if (!searchType.isBlank() && !searchWord.isBlank()) {
+		            pstmt.setString(1, searchWord);
+		            pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) ); // 공식 
+		            pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+		        }
+		        else {
+		             // 검색이 없는 경우 
+		             pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) ); // 공식 
+		             pstmt.setInt(2, (currentShowPageNo * sizePerPage));
+		        }
+
+		        rs = pstmt.executeQuery();
+	           
+	           
+
+	           while (rs.next()) {
+	        	   
+	        	   DeliveryVO delivery = new DeliveryVO();
+	        	   MemberVO member = new MemberVO();
+	               
+	               delivery.setD_num(rs.getInt("d_num"));  	
+	               delivery.setFk_m_id(rs.getString("fk_m_id"));      
+	               delivery.setD_address(rs.getString("d_address"));  				
+	               delivery.setD_detail_address(rs.getString("d_detail_address"));  					
+	               delivery.setD_postcode(rs.getString("d_postcode")); 		
+	               delivery.setD_extra(rs.getString("d_extra")); 
+	               delivery.setD_mobile(rs.getString("d_mobile")); 
+	               delivery.setD_name(rs.getString("d_name")); 
+
+	               deliveryList.add(delivery);
+	           }
+		    } 
+		    catch (SQLException e) {
+		        e.printStackTrace();
+		    } 
+		    finally {
+		        close();
+		    }
+
+		    return deliveryList;  
+		}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// 모든회원조회 페이지네이션
+//////////////////////////////////////////////////////////////////////// 페이징처리 시작	
+
+	// 모든회원조회 페이징 처리를 위한 검색이 있는 또는 검색이 없는 회원에 대한 총페이지수 알아오기
 	@Override
 	public int getTotalPage(Map<String, String> paraMap) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		   int totalPage = 0;
+		      
+		      try {
+		          conn = ds.getConnection();
+		          
+		          String sql = " select ceil(count(*) / ?) " +
+		                  " from tbl_member ";
+
+		     String searchType = paraMap.get("searchType");
+		     String searchWord = paraMap.get("searchWord");
+
+		     // 검색 조건이 있는 경우 WHERE 절 추가
+		     if (!searchType.isBlank() && !searchWord.isBlank()) { 
+		         sql += " WHERE " + searchType + " like '%' || ? || '%' ";
+		     }
+
+		     pstmt = conn.prepareStatement(sql);
+		     pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")));
+
+		     if (!searchType.isBlank() && !searchWord.isBlank()) { 
+		         pstmt.setString(2, searchWord);
+		     }
+
+		          
+		          rs = pstmt.executeQuery();
+		          
+		          rs.next();
+		          
+		          totalPage = rs.getInt(1);
+		          
+		      } catch(SQLException e) {
+		         e.printStackTrace();
+		      } finally {
+		         close();
+		      }
+		      
+		      return totalPage;
+	} // end of public int getTotalPage(Map<String, String> paraMap) throws SQLException {} ----------------------------
+
+
+	//  모든회원조회 검색이 있는 또는 검색이 없는 회원의 총개수 알아오기 시작
+	@Override
+	public int getTotalMemberCount(Map<String, String> paraMap) throws SQLException {
+		
+	    int totalMemberCount = 0;
+
+	    try {
+	        conn = ds.getConnection();
+
+	        String sql = "SELECT COUNT(*) " +
+	                "FROM tbl_member ";
+
+	   String searchType = paraMap.get("searchType");
+	   String searchWord = paraMap.get("searchWord");
+
+	   // 검색 조건이 있는 경우 WHERE 절 추가
+	   if (!searchType.isBlank() && !searchWord.isBlank()) { 
+	       sql += " WHERE " + searchType + " LIKE '%' || ? || '%' ";
+	   }
+
+	   pstmt = conn.prepareStatement(sql);
+
+	   if (!searchType.isBlank() && !searchWord.isBlank()) { 
+	       pstmt.setString(1, searchWord);
+	   }
+
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        close();
+	    }
+
+	    return totalMemberCount;
+	
+	} // end of public int getTotalMemberCount(Map<String, String> paraMap) throws SQLException {} ----------------------------
+
+
+	
+	
+	
+	// "상품조회" 페이징 처리를 위한 검색이 있는 또는 검색이 없는 상품에 대한 총페이지수 알아오기
+	@Override
+	public int getProductTotalPage(Map<String, String> paraMap) throws SQLException {
+		
+		int totalProductPage = 0;
+	      
+	      try {
+	          conn = ds.getConnection();
+	          
+	          String sql = " select ceil(count(*) / ?) " +
+	                  	" from tbl_product ";
+
+	     String searchType = paraMap.get("searchType");
+	     String searchWord = paraMap.get("searchWord");
+
+	     // 검색 조건이 있는 경우 WHERE 절 추가
+	     if (!searchType.isBlank() && !searchWord.isBlank()) { 
+	         sql += " WHERE " + searchType + " like '%' || ? || '%' ";
+	     }
+
+	     pstmt = conn.prepareStatement(sql);
+	     pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")));
+
+	     if (!searchType.isBlank() && !searchWord.isBlank()) { 
+	         pstmt.setString(2, searchWord);
+	     }
+
+	          
+	          rs = pstmt.executeQuery();
+	          
+	          rs.next();
+	          
+	          totalProductPage = rs.getInt(1);
+	          
+	      } catch(SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close();
+	      }
+	      
+	      return totalProductPage;
+	}
+
+	
+	
+	
+	
+	// "상품조회" 검색이 있는 또는 검색이 없는 상품의 총개수 알아오기 시작
+	@Override
+	public int getTotalProductCount(Map<String, String> paraMap) {
+		
+		int totalProductCount = 0;
+
+	    try {
+	        conn = ds.getConnection();
+
+	        String sql = "SELECT COUNT(*) " +
+	                "FROM tbl_product ";
+
+	   String searchType = paraMap.get("searchType");
+	   String searchWord = paraMap.get("searchWord");
+
+	   // 검색 조건이 있는 경우 WHERE 절 추가
+	   if (!searchType.isBlank() && !searchWord.isBlank()) { 
+	       sql += " WHERE " + searchType + " LIKE '%' || ? || '%' ";
+	   }
+
+	   pstmt = conn.prepareStatement(sql);
+
+	   if (!searchType.isBlank() && !searchWord.isBlank()) { 
+	       pstmt.setString(1, searchWord);
+	   }
+
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        close();
+	    }
+
+	    return totalProductCount;
+	}
+
+	
+
+	
+	// "주문회원조회" 페이징 처리를 위한 검색이 있는 또는 검색이 없는 주문에 대한 총페이지수 알아오기 
+	@Override
+	public int getOrderPage(Map<String, String> paraMap) throws SQLException {
+
+		int totalOrderPage = 0;
+	      
+	      try {
+	          conn = ds.getConnection();
+	          
+	          String sql = " select ceil(count(*) / ?) " +
+	                  		" from tbl_order ";
+
+	     String searchType = paraMap.get("searchType");
+	     String searchWord = paraMap.get("searchWord");
+
+	     // 검색 조건이 있는 경우 WHERE 절 추가
+	     if (!searchType.isBlank() && !searchWord.isBlank()) { 
+	         sql += " WHERE " + searchType + " like '%' || ? || '%' ";
+	     }
+
+	     pstmt = conn.prepareStatement(sql);
+	     pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")));
+
+	     if (!searchType.isBlank() && !searchWord.isBlank()) { 
+	         pstmt.setString(2, searchWord);
+	     }
+
+	          
+	          rs = pstmt.executeQuery();
+	          
+	          rs.next();
+	          
+	          totalOrderPage = rs.getInt(1);
+	          
+	      } catch(SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close();
+	      }
+	      
+	      return totalOrderPage;
+	}
+
+
+	
+	// "주문회원조회" 검색이 있는 또는 검색이 없는 주문의 총개수 알아오기 시작
+	@Override
+	public int getOrderCount(Map<String, String> paraMap) throws SQLException {
+
+		int totalOrderCount = 0;
+
+	    try {
+	        conn = ds.getConnection();
+
+	        String sql = "SELECT COUNT(*) " +
+	                	"FROM tbl_order ";
+
+	   String searchType = paraMap.get("searchType");
+	   String searchWord = paraMap.get("searchWord");
+
+	   // 검색 조건이 있는 경우 WHERE 절 추가
+	   if (!searchType.isBlank() && !searchWord.isBlank()) { 
+	       sql += " WHERE " + searchType + " LIKE '%' || ? || '%' ";
+	   }
+
+	   pstmt = conn.prepareStatement(sql);
+
+	   if (!searchType.isBlank() && !searchWord.isBlank()) { 
+	       pstmt.setString(1, searchWord);
+	   }
+
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        close();
+	    }
+
+	    return totalOrderCount;
 	}
 
 
 
-}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+	
+	
+	// "주문배송조회" 페이징 처리를 위한 검색이 있는 또는 검색이 없는 주문에 대한 총페이지수 알아오기 
+	@Override
+	public int getDeliveryPage(Map<String, String> paraMap) throws SQLException {
+
+	    int totalDeliveryPage = 0;
+
+	    try {
+	        conn = ds.getConnection();
+
+	        String sql = "SELECT ceil(count(*) / ?) " +
+	                     "FROM tbl_delivery ";
+
+	        String searchType = paraMap.get("searchType");
+	        String searchWord = paraMap.get("searchWord");
+
+	        // 검색 조건이 있는 경우 WHERE 절 추가
+	        if (!searchType.isBlank() && !searchWord.isBlank()) {
+	            if ("m_id".equals(searchType)) {
+	                searchType = "fk_m_id"; // 열 이름을 올바르게 변경
+	            }
+	            sql += "WHERE " + searchType + " LIKE '%' || ? || '%'";
+	        }
+
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")));
+
+	        if (!searchType.isBlank() && !searchWord.isBlank()) {
+	            pstmt.setString(2, searchWord);
+	        }
+
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	            totalDeliveryPage = rs.getInt(1);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        close();
+	    }
+
+	    return totalDeliveryPage;
+	}
+
+
+	
+	// "주문배송조회" 검색이 있는 또는 검색이 없는 주문의 총개수 알아오기 시작
+	@Override
+	public int getDeliveryCount(Map<String, String> paraMap) throws SQLException {
+		
+		int totalOrderCount = 0;
+
+	    try {
+	        conn = ds.getConnection();
+
+	        String sql = "SELECT COUNT(*) " +
+	                	"FROM tbl_delivery ";
+
+	   String searchType = paraMap.get("searchType");
+	   String searchWord = paraMap.get("searchWord");
+
+	   // 검색 조건이 있는 경우 WHERE 절 추가
+	   if (!searchType.isBlank() && !searchWord.isBlank()) { 
+	       sql += " WHERE " + searchType + " LIKE '%' || ? || '%' ";
+	   }
+
+	   pstmt = conn.prepareStatement(sql);
+
+	   if (!searchType.isBlank() && !searchWord.isBlank()) { 
+	       pstmt.setString(1, searchWord);
+	   }
+
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        close();
+	    }
+
+	    return totalOrderCount;
+	}
+
+
+
+	}
+
+	
+
+
+
