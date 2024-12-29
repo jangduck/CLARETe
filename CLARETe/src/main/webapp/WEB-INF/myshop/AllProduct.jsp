@@ -40,9 +40,9 @@
                         <span><a href="<%= ctxPath%>/shop/allProduct.cl?cname=3">autumn</a></span>
                         <span><a href="<%= ctxPath%>/shop/allProduct.cl?cname=4">winter</a></span>
                         <span>
-                            <span>For Him</span>
+                            <span><a href="<%= ctxPath%>/shop/allProduct.cl?cname=5">For Him</a></span>
                             <span>/</span>
-                            <span>For Her</span>
+                            <span><a href="<%= ctxPath%>/shop/allProduct.cl?cname=6">For Her</a></span>
                         </span>
                     </div>
                 </div>
@@ -69,7 +69,9 @@
 
 
                         <div style="display: flex; justify-content: space-between; margin-top: 60px;">
-                        	<span id="end" style="display:block; margin:20px; font-size: 14pt; font-weight: bold; color: red;"></span>
+                        	<span></span>
+                        	<span id="end" style="text-align:center; display:block; margin:20px; font-size: 12pt; font-weight: 400; color: #797979;"></span>
+                        	<span></span>
 	                        <span id="totalHITCount">${requestScope.totalHITCount}</span>   
 		           			<span id="countHIT">0</span>    
                         </div>
@@ -78,7 +80,11 @@
 					         <div style="margin: 20px 0 20px auto;">
 					            <button class="btn btn-info" onclick="goTop()">맨위로가기(scrollTop 1로 설정함)</button>
 					         </div>
-					      </div>
+					    </div>
+					    
+					    <div id="loading" style="display: none;">
+						    로딩중...
+						</div>
 
                 </div>
             </div>

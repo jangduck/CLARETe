@@ -38,7 +38,7 @@
                 </div>
                 <div class="header-logo">
                     <a href="<%= ctxPath%>/">
-                        <h2>LOGO</h2>
+                        
                     </a>
                 </div>
                 <div>
@@ -66,11 +66,11 @@
                 <div class="nav_inner">
                     <ul class="nav_list">
                         <li class="menu">
-                            <a>ABOUT</a>
+                            <a href="<%= ctxPath%>/brand/brandStory.cl">ABOUT</a>
                             <div class="depth">
                                 <ul>
-                                    <li><a href="#">BRAND STORY</a></li>
-                                    <li><a href="#">BRAND CAMPAIGN</a></li>
+                                    <li><a href="<%= ctxPath%>/brand/brandStory.cl">BRAND STORY</a></li>
+                                    <li><a href="<%= ctxPath%>/brand/brandTimeLine.cl">BRAND TIMELINE</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -86,7 +86,7 @@
                             </div>
                         </li>
                         <li class="menu">
-                            <a>CATEGORY</a>
+                            <a href="<%= ctxPath%>/category/productCategory.cl">CATEGORY</a>
                             <div class="depth">
                                 <ul>
                                     <li><a href="#">For Him</a></li>

@@ -40,6 +40,7 @@ public class MallDisplayJSON extends AbstractController {
 	    // ajax로 받아온 값을 조회하는 메소드
 	    List<ProductVO> productList = pdao.selectProduct(paraMap);
 	    
+	    
 	    JSONArray jsonArr = new JSONArray(); // []
 	    
 	    if(productList.size() > 0) {

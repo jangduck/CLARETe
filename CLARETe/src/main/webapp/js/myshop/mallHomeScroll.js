@@ -22,6 +22,12 @@ $(document).ready(function(){
 
     $('.select').change(function(e){
         let changeVal = $(e.target).val();
+		
+		$("ul.cardcontainer").empty();
+        $("span#end").empty();
+        $("span#countHIT").text("0");
+
+        start = 1;
 
         displayHIT(start, cname, changeVal);
     });
@@ -77,6 +83,8 @@ let lenHIT = 6;
 function displayHIT(start, cname, selectVal) { 
 	// console.log(start);
 
+	$('#loading').show();
+	
     isLoading = true;
 
     $.ajax({// 상품을 6개씩 ajax로 서버에 요청해 값을 받아올거임	
@@ -98,7 +106,7 @@ function displayHIT(start, cname, selectVal) {
                     if(start == "1" && json == null) 이 아님!!!
                     if(start == "1" && json.length) 로 해야 함!!!
                 */
-                v_html = `현재 상품 준비중 입니다...`;
+                v_html = `<span></span> <span style="display:block; margin:20px; font-size: 12pt; font-weight: 400; color: #797979; text-align:center;">현재 상품 준비중 입니다.</span> <span></span>`;
                 $('ul.cardcontainer').html(v_html);
             }
             else if(json.length > 0){
@@ -106,8 +114,8 @@ function displayHIT(start, cname, selectVal) {
                 $.each(json, function(index, item){
                     v_html += `<li class="cardbox">
 	                               <a href="/CLARETe/shop/prodView.cl?p_num=${item.p_num}">
-	                                   <div class="cardimg">
-									   <img src='/CLARETe/images/${item.p_image}' style='width: 100%' />
+	                                   <div class="cardimg background-image: url(${item.p_image});">
+									   <img src='${item.p_image}' style='width: 100%' />
 	                                   </div>
 	                                   <div class="cardname">
 	                                       ${item.p_name}
@@ -134,6 +142,10 @@ function displayHIT(start, cname, selectVal) {
             isLoading = false;
             
         },
+		complete: function() {
+            // 로딩 애니메이션 종료
+            $('#loading').hide();
+		},
         error: function(request, status, error){
             alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
         }

@@ -45,6 +45,7 @@ a{
 .category_title{
     width: calc(100% - 80px);
     height: auto;
+    min-width: 450px;
     padding-top: 4.5rem;
     box-sizing: border-box;
     display: flex;
@@ -52,6 +53,10 @@ a{
     align-items: center;
     gap: var(--size16);
     margin-bottom: var(--size40)
+}
+
+body > section > div > div > div.product_container > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1){
+	font-size: var(--size16);
 }
 
 .category_title > div:first-child{
@@ -64,7 +69,8 @@ a{
 .category_title > div:nth-child(2){
     width: calc(100% - 80px);
     height: var(--size60);
-    background-color: #E8E8E8;
+    background-color: #000;
+    color: #fff;
     margin-top: var(--size60);
     display: flex;
     align-items: center;
@@ -72,7 +78,9 @@ a{
     font-size: var(--size15);
 }
 
-
+.category_title > div:nth-child(2) a{
+	color: #fff;
+}
 
 
 .cardcontainer{
@@ -119,6 +127,14 @@ a{
 
 
 @media (max-width: 768px) {
+	body > section > div > div > div.product_container > div:nth-child(2) > div:nth-child(1){
+		margin-top: var(--size60);
+	}
+	
+	body > section > div > div > div.product_container > div:nth-child(2){
+		margin: auto;	
+	}
+	
     .cardcontainer{
         grid-template-columns: 1fr 1fr;
     }
@@ -142,12 +158,18 @@ a{
     }
 }
 
+@media (max-width: 575px) {
+    .cardcontainer{
+        grid-template-columns: 1fr;
+    }
+}
+
 
 /* select 기본 스타일 */
 select {
-    width: clamp(90px, 5.2083vw, 200px);
-    padding: clamp(8px, 0.5208vw, 200px);
-    font-size: clamp(12px, 0.7292vw, 200px);
+    width: clamp(90px, 5.2083vw, 800px);
+    padding: clamp(8px, 0.5208vw, 800px);
+    font-size: clamp(12px, 0.7292vw, 800px);
     border: 1px solid #B1B1B1;
     border-radius: 0.2604vw;
     background-color: white;
@@ -165,7 +187,7 @@ select {
 .select-container {
     position: relative;
     display: inline-block;
-    width: clamp(90px, 5.2083vw, 200px);
+    width: clamp(90px, 5.2083vw, 800px);
     margin-left: 0.2083vw;
 }
 
@@ -177,7 +199,7 @@ select {
     right: 0.5208vw;
     transform: translateY(-50%);
     pointer-events: none;
-    font-size: clamp(12px, 0.7292vw, 200px);
+    font-size: clamp(12px, 0.7292vw, 800px);
     color: #4B4B4B;
 }
 
@@ -193,8 +215,13 @@ option {
 
 
 
-@media (max-width: 575px) {
-    .cardcontainer{
-        grid-template-columns: 1fr;
-    }
+
+
+
+#loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
 }
