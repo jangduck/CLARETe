@@ -112,6 +112,9 @@
                         </li>
                         <li>
                             <div style="pointer-events: none;">문의하기</div>
+                            <ul>
+                                <li><a href="<%= ctxPath%>/member/MemberAsk.cl">문의 내역</a></li>                               
+                            </ul>
                         </li>
                     </ul>
                     <!-- === 반응형 nav바 === -->
