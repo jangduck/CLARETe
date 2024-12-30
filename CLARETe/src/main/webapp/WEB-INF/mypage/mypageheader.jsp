@@ -24,7 +24,7 @@
                             <div>내 정보</div>
                             <ul>
                                 <li><a href="#">내 정보 수정</a></li>
-                                <li><a href="#">배송지 입력</a></li>
+                                <li><a href="<%= ctxPath%>/mypage/insertDelivery.cl">배송지 입력</a></li>
                                 <li><a href="<%= ctxPath%>/mypage/memberDelete.cl">회원탈퇴</a></li>
                             </ul>
                         </li>

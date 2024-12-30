@@ -6,6 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -13,6 +16,13 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import delivery.domain.DeliveryVO;
+import option.domain.OptionVO;
+import order.domain.OrderVO;
+import product.domain.ProductVO;
+
+
+
+
 
 public class DeliveryDAO_imple implements DeliveryDAO {
 	private DataSource ds;  // DataSource ds 는 아파치톰캣이 제공하는 DBCP(DB Connection Pool)이다. 
@@ -58,10 +68,10 @@ public class DeliveryDAO_imple implements DeliveryDAO {
 		
 			 
 			String sql= " insert into tbl_delivery(d_num,   d_name, d_address, d_detail_address, d_postcode, d_extra, d_mobile, fk_m_id) "
-					  + "       values(seq_delivery.NEXTVAL,?,      ?,         ?,                ?,?,?,'leess') ";
+					  + "       values(seq_delivery.NEXTVAL,?,?,?, ?, ?,?,?) ";
 			
 			pstmt=conn.prepareStatement(sql);
-			System.out.println(delivery.getD_postcode());
+			//System.out.println(delivery.getD_postcode());
 
 			pstmt.setString(1, delivery.getD_name());
 			pstmt.setString(2, delivery.getD_address());
@@ -69,8 +79,7 @@ public class DeliveryDAO_imple implements DeliveryDAO {
 			pstmt.setString(4, delivery.getD_postcode());
 			pstmt.setString(5, delivery.getD_extra());
 			pstmt.setString(6, delivery.getD_mobile());
-			
-			// pstmt.setString(7, delivery.getFk_m_id());
+			pstmt.setString(7, delivery.getFk_m_id());
 			
 			
 			result = pstmt.executeUpdate();
@@ -86,4 +95,160 @@ public class DeliveryDAO_imple implements DeliveryDAO {
 		return result;
 	}
 	
+	
+	//배송지 조회를 위한 메소드 
+	@Override
+	public List<DeliveryVO> selectDeliveryList(String m_id) throws SQLException {
+		
+		List<DeliveryVO> selectDeliveryList = new ArrayList<>();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "  select  d_address, d_detail_address, d_postcode, d_extra, d_mobile, d_name "
+					   + "  from tbl_delivery "
+					   + "  where fk_m_id = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, m_id);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				DeliveryVO dvo = new DeliveryVO();
+				
+				dvo.setD_address(rs.getString(1));
+				dvo.setD_detail_address(rs.getString(2));
+				dvo.setD_postcode(rs.getString(3));
+				dvo.setD_extra(rs.getString(4));
+				dvo.setD_mobile(rs.getString(5));
+				dvo.setD_name(rs.getString(6));
+				
+				selectDeliveryList.add(dvo);
+				
+			}// end of while(rs.next());----------------------------------------
+			
+		} catch(SQLException e) {
+			 e.printStackTrace();	
+		}finally {close();}
+		
+		return selectDeliveryList;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	// 최근 주문 조회 배송지를 위한 메소드
+	@Override
+	public List<OrderVO> recentOrderDelivery(String m_id) throws SQLException {
+		List<OrderVO> recentOrderDelivery = new ArrayList<>();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " Select P.p_name, "
+					+ "       O.o_price, "
+					+ "       count(O.o_num), "
+					+ "       OP.op_ml, "
+					+ "       D.d_name, "
+					+ "       D.d_address, "
+					+ "       D.d_detail_address, "
+					+ "       D.d_mobile "
+					+ " FROM tbl_order O left join tbl_product P ON O.o_num = P.p_num "
+					+ "   left join tbl_delivery D on O.o_num = D.d_num  "
+					+ "   left join tbl_option OP on O.o_num = OP.op_num "
+					+ "   where O.fk_m_id = ? "
+					+ "   GROUP BY  "
+					+ "    P.p_name, O.o_price, OP.op_ml, D.d_name, D.d_address, D.d_detail_address, D.d_mobile "; 
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, m_id); // 조건
+
+			rs=pstmt.executeQuery(); // sql select 문을 실행.
+			
+			while(rs.next()) {// 한 행씩 처리하기
+				
+				OrderVO ovo = new OrderVO();
+				
+				ovo.setO_price(rs.getString("o_price"));
+				ovo.setO_num(rs.getInt("o_num"));
+				
+			   OptionVO opvo = new OptionVO();
+			   opvo.setOp_ml(rs.getString("op_ml"));
+			   ovo.setOptionvo(opvo);
+			   
+			   ProductVO pvo = new ProductVO();
+			   pvo.setP_name(rs.getString("p_name"));
+			   ovo.setProductvo(pvo);
+			   
+			   DeliveryVO dvo = new DeliveryVO();
+			   dvo.setD_name(rs.getString("d_name"));
+			   dvo.setD_address(rs.getString("d_address"));
+			   dvo.setD_detail_address(rs.getString("d_detail_address"));
+			   ovo.setDeliveryvo(dvo);
+			   
+			   recentOrderDelivery.add(ovo);
+			
+			  
+			} // end of while(rs.next())--------------------------------------------
+			
+		} catch(SQLException e) {
+			 e.printStackTrace();		
+		}finally {close();}
+		return recentOrderDelivery;
+	}
+
+	//배송지 삭제
+	@Override
+	public int DeleteDelivery(String m_id, String d_num) throws SQLException {
+		int n = 0 ;
+	    
+	    try {
+	        conn = ds.getConnection();
+	        
+	        // DELETE 쿼리
+	        String sql = " delete from tbl_delivery where fk_m_id = ? and d_num = ? ";
+	        
+	        pstmt = conn.prepareStatement(sql);
+	        
+	        
+	        pstmt.setString(1, m_id);
+	        pstmt.setString(2, d_num);
+	        
+	       
+	        n = pstmt.executeUpdate();
+	        
+	      
+	        if (n > 0) {
+	            System.out.println("삭제 성공: " + n + "개의 행이 삭제되었습니다.");
+	            
+	            
+	            
+	        } else {
+	            System.out.println("삭제 실패: 해당하는 배송지가 존재하지 않습니다.");
+	        }   
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        close();  
+	        }
+	    
+	    return n;
+	    
+	    
+	}
+
 }
+	
+	
+	
+

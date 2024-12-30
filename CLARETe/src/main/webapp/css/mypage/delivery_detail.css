@@ -1,0 +1,151 @@
+@charset "UTF-8";
+
+.content-flex{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	/* justify-content: space-between; */
+}
+
+.delivery-content-box{
+	border : solid 1px black;
+	width: 642px;
+	height: 300px;
+	margin-right: 3%;
+	margin-bottom: 3%;
+}
+
+
+.delivery-info {
+	padding:3%;
+}
+
+.delivery-info>li{
+	margin-bottom: 10px;
+	font-size: 14pt;
+	
+}
+
+.delivery-info>li>span {
+	color:#949494;
+	/* border : solid 1px aqua */;
+	display: inline-block;
+	width: 160px;
+	}
+	
+.deletebutton{
+	text-align: center;
+}
+	
+.delivery_info_delete{
+	display:inline-block;
+	border : #ffff;
+	background-color: #ffff;
+	color: black;
+	font-size: 14pt;
+	margin-bottom: 10px;
+}
+
+
+
+#clickOk{
+	position: fixed;
+	z-index: 99;
+	top: 0;
+	left: 0;
+	width:100%;
+	height:100vh;
+	background-color: black;
+	opacity: 0.2;
+}
+
+#frm{
+	width: 733px;
+	height: auto;
+	background-color: white; 
+	padding : 17.4%;
+}
+
+#infotitle{
+	
+	border:solid 1px gray; 
+	
+	display: inline-block;
+	width: 140px;
+	height: 48px;
+	line-height: 48px;
+	font-size : 10pt;
+}
+
+
+#userinfo,
+#postcode,#detailaddress,#address,#extra{
+	width: 333px;
+	height: 48px;
+}
+
+#insertBtn.btn_success {
+	display:inline-block;
+	width:120px;
+	height: 50px;
+	border: none;
+	border-radius: 10px;
+	margin-right: 10px; 
+}
+
+#insertBtn.btn_success:hover{
+	cursor: pointer; 
+}
+
+
+#insertBtn.btn_reset {
+	display:inline-block;
+	width:120px;
+	height: 50px;
+	border: none;
+	border-radius: 10px;
+}
+
+input.btn_ok_delete,
+input.btn_no_delete{
+	display:inline-block;
+	width: 200px;
+	height: 50px;
+	margin-top: 30px;
+	background-color: white;
+	border: 1px solid #d3d3d3;	
+	border-radius: 5%;
+}
+
+input.btn_no_delete{
+	margin-left: 20px;
+}
+
+/*--------------------------------------------------------------*/
+
+input.btn_ok_delete:hover{
+	background-color:#86E57F;
+	cursor: pointer;
+}
+
+input.btn_no_delete:hover{
+	background-color: #F15F5F;
+	cursor: pointer;
+}
+
+#insertBtn.btn_reset:hover{
+	cursor: pointer;
+}
+
+
+#postCodeButton:hover{
+	cursor: pointer;
+}
+
+.delete_delivery_info:hover{
+	cursor: pointer;
+	}
+	
+button.toggleColse:hover{
+	cursor: pointer;
+}	
