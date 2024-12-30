@@ -1,19 +1,69 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%
-	String ctx_path = request.getContextPath();
+    String ctxPath = request.getContextPath();
+    //    /MyMVC
 %>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>비밀번호 찾기</title>
-    <link rel="stylesheet" href="<%= ctx_path%>/css/member/find.css" >
-</head>
-<body>
+<%-- Required meta tags --%>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<%-- css--%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/find.css" > 
+
+<%-- Optional JavaScript --%>
+<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.7.1.min.js"></script>
+<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js" ></script> 
+
+<script type="text/javascript">
+$(document).ready(function(){
+   
+   
+   
+   const method = "${requestScope.method}";
+   
+//   console.log("~~~확인용 method : "+method);
+   
+   
+   $(document).on('click', 'div.find_go', function(){
+      goFind();
+   });
+
+   
+    
+}); // end of $(document).ready(function(){}) 
+
+// Function Declaration
+//'input:text[name="m_email"]'
+function goFind() {
+   
+   const check = $('#m_email').val();
+//   alert(check);
+   
+   $('input:text[name="m_id"]').val("${requestScope.m_id}");
+//   console.log($('#m_email').val());
+//   console.log(check);
+   
+   
+   if("${requestScope.certification_code}" == check) {
+       alert("비밀번호 변경으로 이동합니다.");
+       const frm = document.pwdFindFrm;
+        frm.action = "<%= ctxPath%>/member/pwd_find_3.cl";
+        frm.method = "post";
+        frm.submit();
+   }
+   else {
+      alert("인증번호가 일치하지 않습니다.");
+   }
+   
+   
+    
+}// end of function goFind(){}-----------------------
+   
+</script>
+
+<form name="pwdFindFrm">
     <div class="find_check_container">
         <div class="find_logo">
             LOGO
@@ -34,18 +84,14 @@
             </div>
 
             <div class="input_container">
-                <input type="text" name="name" placeholder="인증번호를 입력해주세요" />
+                <input type="text" id = "m_email" name="m_email" placeholder="인증번호를 입력해주세요" />
             </div>
             
-            <div class="find_btn">
-                <a href="#">아이디 찾기</a>
-            </div>
+            <input type="hidden" name="m_id" value="${requestScope.m_id}" />
+            
             <div class="find_go">
-                확인
+                <a style="color: white;" class="close">인증번호 입력하기</a>
             </div>
         </div>
     </div>
-
-
-</body>
-</html>
+</form>
