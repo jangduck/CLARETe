@@ -113,5 +113,15 @@ public class ProductVO {
 	}
 	
 	
+	/////////////////////////////////////////////////////
+	// *** 제품의 할인률 ***
+	public int getDiscountPrice() {
+	// 할인율 / 100 >> 백분율
+	// 백분율 * 가격 >> 가격에 해당되는 할인 가격
+	// 가격 금액 - 가격
+
+	return (int) (p_price - ((Double.parseDouble(p_sale) / 100) * p_price));
+	}
+
 	
 }
