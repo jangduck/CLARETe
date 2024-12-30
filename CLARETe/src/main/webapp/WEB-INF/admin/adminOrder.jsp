@@ -145,6 +145,7 @@ $(document).ready(function() {
 			<table style="width: 100% !important;" class="table">
 				<thead class="thead-light">
 					<tr>
+						<th>번호</th>
 						<th>주문번호</th>
 						<th>주문날짜</th>
 						<th>회원아이디</th>
@@ -222,7 +223,7 @@ $(document).ready(function() {
 
 					<c:if test="${empty requestScope.orderList}">
 						<tr>
-							<td colspan="10" style="text-align: center; font-weight: bold;">
+							<td colspan="12" style="text-align: center; font-weight: bold;">
 								주문 회원 정보가 없습니다.</td>
 						</tr>
 					</c:if>

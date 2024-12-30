@@ -510,26 +510,31 @@ public class AdminDAO_imple implements AdminDAO {
     		
     		 conn = ds.getConnection();
     		// RNO SELECT 문으로 바꾸기 
-    		 String sql = " SELECT  "
-    		 		+ "    o.o_num,  "
-    		 		+ "    o.o_date,   "
-    		 		+ "    m.m_name,  "
-    		 		+ "    m.m_email,  "
-    		 		+ "    m.m_mobile, "
-    		 		+ "    p.p_name, "
-    		 		+ "    od.od_count, "
-    		 		+ "    o.o_price, "
-    		 		+ "    o.status, "
-    		 		+ "    o.fk_op_num, "
-    		 		+ "    o.fk_d_num "
-    		 		+ " FROM  "
-    		 		+ "    tbl_member m "
-    		 		+ " JOIN "
-    		 		+ "    tbl_order o ON m.m_id = o.fk_m_id "
-    		 		+ " JOIN "
-    		 		+ "    tbl_orderdetail od ON od.fk_o_num = o.o_num  "
-    		 		+ " JOIN  "
-    		 		+ "    tbl_product p ON od.fk_p_num = p.p_num ";
+    		 String sql = " SELECT RNO, o_num, o_date, m_id, m_name, m_email, m_mobile, p_name, od_count, o_price, status, fk_op_num, fk_d_num "
+    		 		+ " FROM ( "
+    		 		+ "    SELECT rownum AS RNO, o_num, o_date, m_id, m_name, m_email, m_mobile, p_name, od_count, o_price, status, fk_op_num, fk_d_num "
+    		 		+ "    FROM ( "
+    		 		+ "        SELECT "
+    		 		+ "            o.o_num, "
+    		 		+ "            o.o_date, "
+    		 		+ "            m.m_name, "
+    		 		+ "            m.m_email, "
+    		 		+ "            m.m_mobile, "
+    		 		+ "			   m.m_id, "	
+    		 		+ "            p.p_name, "
+    		 		+ "            od.od_count, "
+    		 		+ "            o.o_price, "
+    		 		+ "            o.status, "
+    		 		+ "            o.fk_op_num, "
+    		 		+ "            o.fk_d_num "
+    		 		+ "        FROM "
+    		 		+ "            tbl_member m "
+    		 		+ "        JOIN "
+    		 		+ "            tbl_order o ON m.m_id = o.fk_m_id "
+    		 		+ "        JOIN  "
+    		 		+ "            tbl_orderdetail od ON od.fk_o_num = o.o_num "
+    		 		+ "        JOIN  "
+    		 		+ "            tbl_product p ON od.fk_p_num = p.p_num ";
 
     		
     		 String searchType = paraMap.get("searchType");
@@ -541,13 +546,13 @@ public class AdminDAO_imple implements AdminDAO {
     	     
     	     
     	     // registerday 이 부분 바꾸기 (select문에서 맨 마지막 컬럼으로)
-    	     sql += " order by registerday desc "
+    	     sql += " order by fk_d_num desc "
     	              +  "  ) V "
     	              +  " ) T "
     	              +  " WHERE T.RNO BETWEEN ? AND ? ";
-    	          
+ 
     	     pstmt = conn.prepareStatement(sql);
-    	     
+
     	     /*
 	             === 페이징처리의 공식 ===
 	             where RNO between (조회하고자하는페이지번호 * 한페이지당보여줄행의개수) - (한페이지당보여줄행의개수 - 1) and (조회하고자하는페이지번호 * 한페이지당보여줄행의개수); 
@@ -571,20 +576,7 @@ public class AdminDAO_imple implements AdminDAO {
 				rs = pstmt.executeQuery();
 //    	     System.out.println(searchWord);
 //    	     System.out.println(searchType);
-    	     
-    	     // 검색어가 있을 때만 WHERE 절 추가
-    	        if (!searchType.isBlank() && !searchWord.isBlank()) {
-    	            sql += " WHERE " + searchType + " like '%'|| ? ||'%' ";
-    	        }
 
-    	        pstmt = conn.prepareStatement(sql);
-
-    	        // 검색어가 있을 경우 파라미터 설정
-    	        if (!searchType.isBlank() && !searchWord.isBlank()) {
-    	            pstmt.setString(1, searchWord);
-    	        }
-
-    	        rs = pstmt.executeQuery();
     	     
     	        while (rs.next()) {
     	        	   OrderVO order = new OrderVO();
@@ -603,9 +595,9 @@ public class AdminDAO_imple implements AdminDAO {
     	               order.setFk_op_num(rs.getInt("fk_op_num"));   // 옵션번호
     	               order.setFk_d_num(rs.getInt("fk_d_num"));     // 배송지번호	
     	               member.setM_name(rs.getString("m_name"));
-    	               member.setM_email(rs.getString("m_email"));
-    	               member.setM_mobile(rs.getString("m_mobile"));
-    	               member.setM_id(rs.getString("m_id"));
+    	               member.setM_email(aes.decrypt(rs.getString("m_email")));
+    	               member.setM_mobile(aes.decrypt(rs.getString("m_mobile")));
+    	               member.setM_id(rs.getString("m_id"));         // 회원아이디 
     	               
     	               
     	               order.setProductvo(product);
@@ -617,15 +609,13 @@ public class AdminDAO_imple implements AdminDAO {
 
     	        }
 
-    	    } 
-    	    catch (SQLException e) {
-    	        e.printStackTrace();
-    	    } 
-    	    finally {
-    	        close();
-    	    }
+			} catch (GeneralSecurityException | UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} finally {
+				close();
+			}
 
-    	    return orderList;  
+			return orderList;
     	}
 	
 	
