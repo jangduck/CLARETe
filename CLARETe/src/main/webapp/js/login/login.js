@@ -31,6 +31,14 @@ function goLogin() {
         return;     // goLogin() 함수 종료
     }
 
+	// 아이디 기억
+	if ($('input:checkbox[id="saveid"]').prop('checked')) {
+		localStorage.setItem('saveid', $('input#id').val());
+	}
+	else {
+		localStorage.removeItem('saveid');
+	}
+	
     const frm = document.loginFrm;
     frm.submit();
 
