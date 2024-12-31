@@ -104,8 +104,8 @@
 						                    	</div>
 						                        <div>
 						                        	<span id="info">전화번호</span>
-							                        <span class="deliveryMobile">${fn:substring(delivery.d_mobile, 0, 3)}-
-							                              ${fn:substring(delivery.d_mobile, 3, 7)}-
+							                        <span class="deliveryMobile">${fn:substring(delivery.d_mobile, 0, 3)} -
+							                              ${fn:substring(delivery.d_mobile, 3, 7)} -
 							                              ${fn:substring(delivery.d_mobile, 7, 11)}</span> <br>
 						                        </div>
 						                        <div>
@@ -210,9 +210,9 @@
 	    		<button type="button" id="btn-order" >결제하기</button>
 	    		
 	    		<!-- 값 넘기기 용도 -->
-	    		<input type="hidden" name="totalInput" value="${requestScope.totalTotal}" />
-	    		<input type="hidden" name="selectedDNum" value="selectedDNum" />
-	    		<input type="hidden" id="contextPath" value="<%= ctxPath%>" />
+	    		<input type="text" name="totalInput" value="${requestScope.totalTotal}" />
+	    		<input type="text" name="selectedDNum" value="selectedDNum" />
+	    		<input type="text" id="contextPath" value="<%= ctxPath%>" />
 	    		
 			</div> <!-- payment_go_box -->
 			

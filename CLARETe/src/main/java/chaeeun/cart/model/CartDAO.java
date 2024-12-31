@@ -19,4 +19,10 @@ public interface CartDAO {
 	// 장바구니 수량 감소
 	int decreaseQuantity(Map<String, String> paraMap) throws SQLException;
 
+	// 장바구니 수량 증가
+	int increaseQuantity(Map<String, String> paraMap) throws SQLException;
+
+	// 장바구니에서 삭제
+	int deleteCart(Map<String, String> paraMap) throws SQLException;
+
 }
