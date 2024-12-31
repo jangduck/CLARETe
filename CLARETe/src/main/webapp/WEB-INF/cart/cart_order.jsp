@@ -210,9 +210,11 @@
 	    		<button type="button" id="btn-order" >결제하기</button>
 	    		
 	    		<!-- 값 넘기기 용도 -->
-	    		<input type="text" name="totalInput" value="${requestScope.totalTotal}" />
-	    		<input type="text" name="selectedDNum" value="selectedDNum" />
+	    		<input type="text" name="totalInput" value="${requestScope.totalTotal}" />		<!-- 구매 할 금액 -->
+	    		<input type="text" name="selectedDNum" value="selectedDNum" />					<!-- 배송지번호 -->
 	    		<input type="text" id="contextPath" value="<%= ctxPath%>" />
+	    		<input type="text" name="fk_m_id" value="${sessionScope.loginuser.m_id}" />
+	    		<input type="text" name="o_cnt" value="${fn:length(requestScope.index)}" />
 	    		
 			</div> <!-- payment_go_box -->
 			

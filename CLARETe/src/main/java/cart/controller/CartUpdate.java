@@ -20,7 +20,7 @@ public class CartUpdate extends AbstractController {
 		String method = request.getMethod(); // "GET" 또는 "POST" 
 		
 		if("POST".equalsIgnoreCase(method)) {
-			
+
 			String cartNum = request.getParameter("cartNum");
 			String action = request.getParameter("action");
 			
