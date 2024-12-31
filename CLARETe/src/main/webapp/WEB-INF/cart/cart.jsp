@@ -81,7 +81,7 @@
 							
 							<div>		
 								<div class="counter-container">
-							        <div class="counter-button decrease">-</div>
+							        <div class="counter-button decrease" id="decrease${cvo.c_num}">-</div>
 							        <div class="counter-value" data-count="${cvo.c_count}">${cvo.c_count}</div>		<!-- 구매 수량 -->	
 							        <div class="counter-button increase">+</div>
 							    </div>
