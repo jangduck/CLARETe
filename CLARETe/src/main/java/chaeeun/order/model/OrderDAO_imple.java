@@ -139,4 +139,31 @@ public class OrderDAO_imple implements OrderDAO {
 		
 	}
 
+	
+	// 구매금액의 1% 포인트로 추가 update
+	@Override
+	public void addPurchasePoints(Map<String, String> paraMap) throws SQLException {
+
+
+		try {
+
+			conn = ds.getConnection();
+
+			int pointsToAdd = (int) Math.floor(Integer.parseInt(paraMap.get("o_price")) * 0.01);
+			
+			String sql = " update tbl_member set m_point = m_point + ? " 
+			           + " where m_id = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pointsToAdd);
+			pstmt.setString(2, paraMap.get("fk_m_id"));
+
+			pstmt.executeUpdate();
+
+		} finally {
+			close();
+		}
+		
+	}
+
 }

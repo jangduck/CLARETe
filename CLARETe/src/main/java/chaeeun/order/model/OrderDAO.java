@@ -15,6 +15,9 @@ public interface OrderDAO {
 	// 포인트 사용액 update
 	void updatePoint(Map<String, String> paraMap) throws SQLException;
 
+	// 구매금액의 1% 포인트로 추가 update
+	void addPurchasePoints(Map<String, String> paraMap) throws SQLException;
+
 
 
 }

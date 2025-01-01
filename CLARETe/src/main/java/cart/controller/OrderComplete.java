@@ -77,8 +77,6 @@ public class OrderComplete extends AbstractController {
 				
 				
 				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ포인트 사용액 차감하기 (테이블 업데이트)ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-				System.out.println("포인트 읽어오기~~" + m_point);
-				
 				paraMap = new HashMap<>();
 				paraMap.put("fk_m_id", fk_m_id);
 				paraMap.put("m_point", String.valueOf(m_point));
@@ -86,6 +84,14 @@ public class OrderComplete extends AbstractController {
 				odao.updatePoint(paraMap);
 				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 				
+				
+				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ구매금액의 1% 포인트로 추가 (테이블 업데이트)ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+				paraMap = new HashMap<>();
+				paraMap.put("fk_m_id", fk_m_id);
+				paraMap.put("o_price", String.valueOf(o_price));
+				
+				odao.addPurchasePoints(paraMap);
+				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 				
 				JSONObject jsonOBJ = new JSONObject();
 				jsonOBJ.put("n", n); 	
