@@ -152,13 +152,16 @@
 						        <div class="option">
 						            <span class="optionSpan">- 옵션 
 							            <c:choose>
-									        <c:when test="${requestScope.option[i] == '1'}">25ml</c:when>
+									        <c:when test="	${requestScope.option[i] == '1'}">25ml</c:when>
 									        <c:when test="${requestScope.option[i] == '2'}">50ml</c:when>
 									        <c:when test="${requestScope.option[i] == '3'}">75ml</c:when>
 									    </c:choose>
 						            </span>/ ${requestScope.quantity[i]}개
 						        </div>
 						    </div>
+
+						    <input type="text" name="selectedCNum" value="${requestScope.selectedCNum[i]}" />
+						    
 						</c:forEach>
 
 						
@@ -193,7 +196,7 @@
         			<!-- 적립금 -->
         			<div style="margin: 10px 0;">
             			<span class="point">적립금</span>
-            			<input class="point_price" /> / <span class="myPoint"><fmt:formatNumber value="${requestScope.m_point}" pattern="#,###,###"/></span>
+            			<input class="point_price" name="point_price" /> / <span class="myPoint"><fmt:formatNumber value="${requestScope.m_point}" pattern="#,###,###"/></span>
         			</div>
         			<hr>
 
@@ -215,7 +218,7 @@
 	    		<input type="text" id="contextPath" value="<%= ctxPath%>" />
 	    		<input type="text" name="fk_m_id" value="${sessionScope.loginuser.m_id}" />
 	    		<input type="text" name="o_cnt" value="${fn:length(requestScope.index)}" />
-	    		
+
 			</div> <!-- payment_go_box -->
 			
 			

@@ -124,6 +124,11 @@ document.addEventListener("DOMContentLoaded", function() {
 		const fk_d_num = document.querySelector('input[name="selectedDNum"]').value;
 		const o_cnt = document.querySelector('input[name="o_cnt"]').value;
 
+		
+		const selectedCNumInputs = document.querySelectorAll('input[name="selectedCNum"]');
+		const selectedCNumValues = Array.from(selectedCNumInputs).map(input => input.value); // 장바구니 번호 배열
+
+			
 		IMP.request_pay(
 			{
 				pg: "html5_inicis", // PG사 선택
@@ -141,12 +146,14 @@ document.addEventListener("DOMContentLoaded", function() {
 				if (rsp.success) {	// 결제 성공하면
 					$.ajax({
 						url: "orderComplete.cl",
-						data: {
-							fk_m_id: fk_m_id,			// 사용자 ID
-							fk_d_num: fk_d_num,			// 배송지 번호
-							o_price: totalAmount,		// 구매가격
-							o_cnt: o_cnt				// 한 주문에 해당하는 주문건수
-						},
+						contentType: "application/json; charset=UTF-8",
+						data: JSON.stringify({
+							fk_m_id: fk_m_id, // 사용자 ID
+							fk_d_num: fk_d_num, // 배송지 번호
+							o_price: totalAmount, // 구매가격
+							o_cnt: o_cnt, // 한 주문에 해당하는 주문건수
+							selectedCNumValues: selectedCNumValues // 장바구니 번호 배열
+						}),
 						type: "POST",
 						async: false,
 						dataType: "json",
@@ -173,5 +180,4 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 
 });
-
 

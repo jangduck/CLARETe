@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import javax.naming.Context;
@@ -85,6 +86,32 @@ public class OrderDAO_imple implements OrderDAO {
 			pstmt.setInt(4, Integer.parseInt(paraMap.get("o_cnt")));
 			
 			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	}
+
+	// 결제 완료되면 장바구니꺼 delete
+	@Override
+	public int deleteCart(List<String> cNumList) throws SQLException {
+
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_cart where c_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			for (String cNum : cNumList) {
+	            pstmt.setString(1, cNum); 
+	            n += pstmt.executeUpdate(); 
+	        }
 			
 		} finally {
 			close();

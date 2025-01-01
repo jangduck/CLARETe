@@ -52,7 +52,7 @@
 					<div class="product" data-index="${status.index}"> <!-- product 하나 시작 -->
 						<div class="upDiv">
 							
-							<input type="checkbox" class="product-checkbox">
+							<input type="checkbox" class="product-checkbox" name="selectedCNum" value="${cvo.c_num}" >
 								<%-- <img src="<%= ctxPath%>/images/kakao.png" />--%>
 								<div style="width: 64px; height: 64px; background-color: black; "></div>
 								<div class="infoDiv">
