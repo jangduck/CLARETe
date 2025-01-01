@@ -123,11 +123,9 @@ document.addEventListener("DOMContentLoaded", function() {
 		const fk_m_id = document.querySelector('input[name="fk_m_id"]').value;
 		const fk_d_num = document.querySelector('input[name="selectedDNum"]').value;
 		const o_cnt = document.querySelector('input[name="o_cnt"]').value;
-
-		
 		const selectedCNumInputs = document.querySelectorAll('input[name="selectedCNum"]');
 		const selectedCNumValues = Array.from(selectedCNumInputs).map(input => input.value); // 장바구니 번호 배열
-
+		const m_point = document.querySelector('input[name="point_price"]').value;
 			
 		IMP.request_pay(
 			{
@@ -152,7 +150,8 @@ document.addEventListener("DOMContentLoaded", function() {
 							fk_d_num: fk_d_num, // 배송지 번호
 							o_price: totalAmount, // 구매가격
 							o_cnt: o_cnt, // 한 주문에 해당하는 주문건수
-							selectedCNumValues: selectedCNumValues // 장바구니 번호 배열
+							selectedCNumValues: selectedCNumValues, // 장바구니 번호 배열
+							m_point: m_point
 						}),
 						type: "POST",
 						async: false,

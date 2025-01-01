@@ -54,6 +54,7 @@ public class OrderComplete extends AbstractController {
 		    int o_price = jsonObject.getInt("o_price");
 		    int o_cnt = jsonObject.getInt("o_cnt");
 		    JSONArray selectedCNumArray = jsonObject.getJSONArray("selectedCNumValues");
+		    int m_point = jsonObject.getInt("m_point");
 		    
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("fk_m_id", fk_m_id);
@@ -73,6 +74,17 @@ public class OrderComplete extends AbstractController {
 				
 				odao.deleteCart(CNumList);		
 				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+				
+				
+				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ포인트 사용액 차감하기 (테이블 업데이트)ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+				System.out.println("포인트 읽어오기~~" + m_point);
+				
+				paraMap = new HashMap<>();
+				paraMap.put("fk_m_id", fk_m_id);
+				paraMap.put("m_point", String.valueOf(m_point));
+				
+				odao.updatePoint(paraMap);
+				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 				
 				
 				JSONObject jsonOBJ = new JSONObject();

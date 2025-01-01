@@ -96,10 +96,8 @@ public class OrderDAO_imple implements OrderDAO {
 
 	// 결제 완료되면 장바구니꺼 delete
 	@Override
-	public int deleteCart(List<String> cNumList) throws SQLException {
+	public void deleteCart(List<String> cNumList) throws SQLException {
 
-		int n = 0;
-		
 		try {
 			
 			conn = ds.getConnection();
@@ -110,14 +108,35 @@ public class OrderDAO_imple implements OrderDAO {
 			
 			for (String cNum : cNumList) {
 	            pstmt.setString(1, cNum); 
-	            n += pstmt.executeUpdate(); 
+	            pstmt.executeUpdate(); 
 	        }
 			
 		} finally {
 			close();
 		}
+	}
+
+	// 포인트 사용액 update
+	@Override
+	public void updatePoint(Map<String, String> paraMap) throws SQLException {
+
+		try {
+
+			conn = ds.getConnection();
+
+			String sql = " update tbl_member set m_point = m_point - ? "
+					   + " where m_id = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(paraMap.get("m_point")));
+			pstmt.setString(2, paraMap.get("fk_m_id"));
+
+			pstmt.executeUpdate(); 
+
+		} finally {
+			close();
+		}
 		
-		return n;
 	}
 
 }
