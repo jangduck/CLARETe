@@ -6,7 +6,10 @@ import java.util.Map;
 
 public interface OrderDAO {
 
-	// tbl_order에 주문 insert
+	// 채번하기
+	int getPnum() throws SQLException;
+		
+	// tbl_order 테이블에 insert
 	int insertOrder(Map<String, String> paraMap) throws SQLException;
 
 	// 결제 완료되면 장바구니꺼 delete
@@ -17,7 +20,5 @@ public interface OrderDAO {
 
 	// 구매금액의 1% 포인트로 추가 update
 	void addPurchasePoints(Map<String, String> paraMap) throws SQLException;
-
-
 
 }

@@ -53,8 +53,8 @@
 						<div class="upDiv">
 							
 							<input type="checkbox" class="product-checkbox" name="selectedCNum" value="${cvo.c_num}" >
-								<%-- <img src="<%= ctxPath%>/images/kakao.png" />--%>
-								<div style="width: 64px; height: 64px; background-color: black; "></div>
+								<img src="${cvo.pvo.p_image}" />
+								<!-- <div style="width: 64px; height: 64px; background-color: black; "></div> -->
 								<div class="infoDiv">
 									${cvo.pvo.p_name}	<!-- 향수 이름 -->								
 									<br>
@@ -67,7 +67,6 @@
 								  <line x1="18" y1="6" x2="6" y2="18"></line>
 								  <line x1="6" y1="6" x2="18" y2="18"></line>
 								</svg>
-	
 						</div>
 						<div class="downDiv">
 							<span class="optionSpan"> <!-- 향수 용량 -->	
@@ -97,6 +96,7 @@
 						<input type="hidden" id="priceQuantity${status.index}" name="priceQuantity" value="${cvo.opvo.op_price * cvo.c_count}">
 						<input type="hidden" name="option" value="${cvo.opvo.op_ml}">
 						<input type="hidden" name="cartNum" value="${cvo.c_num}">
+						<input type="text" name="p_num" value="${cvo.pvo.p_num}">
 						
 					</div> <!-- product 하나 끝 -->
 				
@@ -161,4 +161,3 @@
 </section>
 
 <jsp:include page="../footer.jsp"></jsp:include>
-

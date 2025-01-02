@@ -31,6 +31,7 @@ public class CartOrder extends AbstractController {
 			return; // execute(HttpServletRequest request, HttpServletResponse respone) 메소드 종료함.
 
 		} else {
+			
 			HttpSession session = request.getSession();
 			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 
@@ -62,6 +63,7 @@ public class CartOrder extends AbstractController {
 			String[] priceQuantity = request.getParameterValues("priceQuantity");
 			String[] option = request.getParameterValues("option");
 			String[] selectedCNum = request.getParameterValues("selectedCNum");		// 체크박스 선택된 장바구니 번호
+			String[] p_num = request.getParameterValues("p_num");
 			
 			// input 태그 값 받아오기 (가격)
 			String totalProduct = request.getParameter("totalProduct");
@@ -97,6 +99,7 @@ public class CartOrder extends AbstractController {
                 request.setAttribute("priceQuantity", priceQuantity);
                 request.setAttribute("option", option);
                 request.setAttribute("selectedCNum", selectedCNum);
+                request.setAttribute("p_num", p_num);
                 
                 request.setAttribute("totalProduct", totalProduct);
                 request.setAttribute("totalShipping", totalShipping);

@@ -78,8 +78,7 @@
 					<div id="orderInfo">
 						
 						<!-- JS에서 동적으로 처리 -->
-						
-						
+										
 					</div>
 					
 					<button type="button" id="selectDelivery">배송지 선택</button>
@@ -122,13 +121,9 @@
 					    		배송지 선택
 					    	</div>
 					        
-					    </div>	<!-- <div class="modal-content"> -->
-					    
-					    
+					    </div>	<!-- <div class="modal-content"> -->   				    
 					    
 					</div>	<!-- <div id="deliveryModal"> -->
-	
-	
 	           		
 	            </div> <!-- orderInfoDiv -->
 				
@@ -160,13 +155,14 @@
 						        </div>
 						    </div>
 
-						    <input type="text" name="selectedCNum" value="${requestScope.selectedCNum[i]}" />
+						    <input type="text" name="selectedCNum" value="${requestScope.selectedCNum[i]}" />	<!-- 장바구니 번호 -->
+						    <input type="text" name="fk_p_num" value="${requestScope.p_num[i]}" />				<!-- 상품 번호 fk_p_num -->
+						    <input type="text" name="od_count" value="${requestScope.quantity[i]}" />			<!-- 각 제품 구매개수 od_count -->
+						    <input type="text" name="fk_op_num" value="${requestScope.option[i]}" />				<!-- 옵션번호 fk_op_num -->
 						    
 						</c:forEach>
-
 						
-					</div> <!-- productList -->
-					
+					</div> <!-- productList -->	
 	           		
 	            </div> <!-- productInfoDiv -->
 	            
@@ -216,8 +212,8 @@
 	    		<input type="text" name="totalInput" value="${requestScope.totalTotal}" />		<!-- 구매 할 금액 -->
 	    		<input type="text" name="selectedDNum" value="selectedDNum" />					<!-- 배송지번호 -->
 	    		<input type="text" id="contextPath" value="<%= ctxPath%>" />
-	    		<input type="text" name="fk_m_id" value="${sessionScope.loginuser.m_id}" />
-	    		<input type="text" name="o_cnt" value="${fn:length(requestScope.index)}" />
+	    		<input type="text" name="fk_m_id" value="${sessionScope.loginuser.m_id}" />		<!-- 로그인된 세션 아이디 -->
+	    		<input type="text" name="o_cnt" value="${fn:length(requestScope.index)}" />		<!-- 주문수 (div 개수) -->
 
 			</div> <!-- payment_go_box -->
 			

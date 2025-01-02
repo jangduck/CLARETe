@@ -126,7 +126,20 @@ document.addEventListener("DOMContentLoaded", function() {
 		const selectedCNumInputs = document.querySelectorAll('input[name="selectedCNum"]');
 		const selectedCNumValues = Array.from(selectedCNumInputs).map(input => input.value); // 장바구니 번호 배열
 		const m_point = document.querySelector('input[name="point_price"]').value;
-			
+		const pointValue = m_point === "" ? 0 : parseInt(m_point, 10);
+				
+		const fk_p_numInputs = document.querySelectorAll('input[name="fk_p_num"]');
+		const fk_p_numValues = Array.from(fk_p_numInputs).map(input => input.value);	// 상품 번호 fk_p_num 
+		console.log(fk_p_numValues);
+		
+		const od_countInputs = document.querySelectorAll('input[name="od_count"]');
+		const od_countValues = Array.from(od_countInputs).map(input => input.value);	// 각 제품 구매개수 od_count
+		console.log(od_countValues);
+		
+		const fk_op_numInputs = document.querySelectorAll('input[name="fk_op_num"]');
+		const fk_op_numValues = Array.from(fk_op_numInputs).map(input => input.value);	// 옵션번호 fk_op_nu
+		console.log(od_countValues);
+		
 		IMP.request_pay(
 			{
 				pg: "html5_inicis", // PG사 선택
@@ -151,7 +164,10 @@ document.addEventListener("DOMContentLoaded", function() {
 							o_price: totalAmount, // 구매가격
 							o_cnt: o_cnt, // 한 주문에 해당하는 주문건수
 							selectedCNumValues: selectedCNumValues, // 장바구니 번호 배열
-							m_point: m_point
+							m_point: pointValue ,	// 사용된 포인트
+							fk_p_numValues: fk_p_numValues,
+							od_countValues: od_countValues,
+							fk_op_numValues: fk_op_numValues
 						}),
 						type: "POST",
 						async: false,
@@ -179,4 +195,3 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 
 });
-

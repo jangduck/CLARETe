@@ -56,14 +56,42 @@ public class OrderComplete extends AbstractController {
 		    JSONArray selectedCNumArray = jsonObject.getJSONArray("selectedCNumValues");
 		    int m_point = jsonObject.getInt("m_point");
 		    
+		    JSONArray fk_p_numArray = jsonObject.getJSONArray("fk_p_numValues");
+		    JSONArray od_countArray = jsonObject.getJSONArray("od_countValues");
+		    JSONArray fk_op_numArray = jsonObject.getJSONArray("fk_op_numValues");
+		    
+		    System.out.println("fk_p_numArray 길이 : " + fk_p_numArray.length());		//ok
+		    System.out.println("od_countArray 길이 : " + od_countArray.length());		//ok
+		    System.out.println("fk_op_numArray 길이 : " + fk_op_numArray.length());	//ok
+		    
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("fk_m_id", fk_m_id);
 			paraMap.put("fk_d_num", fk_d_num);
 			paraMap.put("o_price", String.valueOf(o_price));
 			paraMap.put("o_cnt", String.valueOf(o_cnt));
 			
-			int n = odao.insertOrder(paraMap);
+			// 채번하기
+			int pnum = odao.getPnum();
+			System.out.println("채번채번" + pnum);
 			
+			// tbl_order 테이블에 insert
+			int n = odao.insertOrder(paraMap);
+			System.out.println("tbl_order 테이블에 insert ; " + n);
+			
+			//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡtbl_order, tbl_orderdetail 테이블에 insertㅡㅡㅡㅡㅡㅡㅡ
+			List<Map<String, String>> orderList = new ArrayList<>();
+			for (int i = 0; i < fk_p_numArray.length(); i++) {
+				Map<String, String> paraMap2 = new HashMap<>();
+				
+				paraMap2.put("fk_p_num", fk_p_numArray.getString(i));
+				paraMap2.put("od_count", od_countArray.getString(i));
+				paraMap2.put("fk_op_num", fk_op_numArray.getString(i));
+				
+				orderList.add(paraMap2);
+			}
+			
+			
+			//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ---
 			if (n == 1) {
 				
 				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ결제한 거 장바구니 테이블에서 삭제ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -79,7 +107,7 @@ public class OrderComplete extends AbstractController {
 				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ포인트 사용액 차감하기 (테이블 업데이트)ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 				paraMap = new HashMap<>();
 				paraMap.put("fk_m_id", fk_m_id);
-				paraMap.put("m_point", String.valueOf(m_point));
+				paraMap.put("m_point", toString().valueOf(m_point));
 				
 				odao.updatePoint(paraMap);
 				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -92,6 +120,7 @@ public class OrderComplete extends AbstractController {
 				
 				odao.addPurchasePoints(paraMap);
 				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+				
 				
 				JSONObject jsonOBJ = new JSONObject();
 				jsonOBJ.put("n", n); 	

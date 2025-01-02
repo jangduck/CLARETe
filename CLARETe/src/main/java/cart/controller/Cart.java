@@ -31,6 +31,7 @@ public class Cart extends AbstractController {
 	    	CartDAO cdao = new CartDAO_imple();
 	    	List<CartVO> cartList = cdao.selectCart(login_id.getM_id());
 	    	
+	    	
 	    	request.setAttribute("cartList", cartList);
 	    	
 	    	super.setRedirect(false);

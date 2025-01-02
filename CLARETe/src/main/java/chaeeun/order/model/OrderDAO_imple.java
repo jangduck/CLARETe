@@ -64,26 +64,44 @@ public class OrderDAO_imple implements OrderDAO {
 		}
 	}// end of private void close()---------------
 
+	// 채번하기
+	@Override
+	public int getPnum() throws SQLException {
+
+		int pnum = 0;
+
+		try {
+
+			conn = ds.getConnection();
+
+			String sql = " select seq_order.nextval as pnum " + " from dual ";
+
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			rs.next();
+			pnum = rs.getInt("pnum");
+
+		} finally {
+			close();
+		}
+
+		return pnum;
+
+	}
 	
-	// tbl_order에 주문 insert
+	// tbl_order 테이블에 insert
 	@Override
 	public int insertOrder(Map<String, String> paraMap) throws SQLException {
 
-		int n = 0;
+		int n = 0;		
 		
 		try {
 			
 			conn = ds.getConnection();
 			
-			// status 배송현황 (0: 배송전, 1: 배송중, 2: 배송완료)
 			String sql = " insert into tbl_order (o_num, fk_m_id, fk_d_num, o_date, status, o_price, o_cnt) "
-					   + " values(seq_order.nextVal, ?, ?, sysdate, 0, ?, ?) ";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, paraMap.get("fk_m_id"));
-			pstmt.setInt(2, Integer.parseInt(paraMap.get("fk_d_num")));
-			pstmt.setString(3, paraMap.get("o_price"));
-			pstmt.setInt(4, Integer.parseInt(paraMap.get("o_cnt")));
+					   + " values(o_num, 'gold12', 54, sysdate, 0, '5', 2) ";
 			
 			n = pstmt.executeUpdate();
 			
@@ -144,7 +162,6 @@ public class OrderDAO_imple implements OrderDAO {
 	@Override
 	public void addPurchasePoints(Map<String, String> paraMap) throws SQLException {
 
-
 		try {
 
 			conn = ds.getConnection();
@@ -165,5 +182,7 @@ public class OrderDAO_imple implements OrderDAO {
 		}
 		
 	}
+
+	
 
 }

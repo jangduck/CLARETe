@@ -206,6 +206,11 @@ span#mandatoryNote {
     color: #666; 
 }
 
+#termsContent1, #termsContent2 {
+	max-height: 200px;
+	overflow-y: auto;
+}
+
 span.star {
    color: red;
    font-size: 13pt;
