@@ -20,21 +20,29 @@ public class CartUpdate extends AbstractController {
 		String method = request.getMethod(); // "GET" 또는 "POST" 
 		
 		if("POST".equalsIgnoreCase(method)) {
-			
+
 			String cartNum = request.getParameter("cartNum");
-			//String quantity = request.getParameter("quantity");
+			String action = request.getParameter("action");
 			
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("cartNum", cartNum);
-			//paraMap.put("quantity", quantity);
+			
+			int n = 0;
+			
+			if ("increase".equalsIgnoreCase(action)) {
+				// 수량 증가
+				n = cdao.increaseQuantity(paraMap);
+			} else if ("decrease".equalsIgnoreCase(action)) {
+				// 수량 감소
+				n = cdao.decreaseQuantity(paraMap);
+			} else if ("delete".equalsIgnoreCase(action)) {
+				// 장바구니에서 삭제
+				n = cdao.deleteCart(paraMap);
+			}
 
-			// 장바구니 수량 감소
-			int decrease = cdao.decreaseQuantity(paraMap);
-			
-			System.out.println("decrease" + decrease);
-			
+
 			JSONObject jsonOBJ = new JSONObject();
-			jsonOBJ.put("decrease", decrease); 	// 임플결과 put 
+			jsonOBJ.put("n", n); 	
 			
 			String json = jsonOBJ.toString();
 			request.setAttribute("json", json);

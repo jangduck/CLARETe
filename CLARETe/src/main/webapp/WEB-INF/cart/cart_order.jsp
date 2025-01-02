@@ -104,8 +104,8 @@
 						                    	</div>
 						                        <div>
 						                        	<span id="info">전화번호</span>
-							                        <span class="deliveryMobile">${fn:substring(delivery.d_mobile, 0, 3)}-
-							                              ${fn:substring(delivery.d_mobile, 3, 7)}-
+							                        <span class="deliveryMobile">${fn:substring(delivery.d_mobile, 0, 3)} -
+							                              ${fn:substring(delivery.d_mobile, 3, 7)} -
 							                              ${fn:substring(delivery.d_mobile, 7, 11)}</span> <br>
 						                        </div>
 						                        <div>
@@ -152,13 +152,16 @@
 						        <div class="option">
 						            <span class="optionSpan">- 옵션 
 							            <c:choose>
-									        <c:when test="${requestScope.option[i] == '1'}">25ml</c:when>
+									        <c:when test="	${requestScope.option[i] == '1'}">25ml</c:when>
 									        <c:when test="${requestScope.option[i] == '2'}">50ml</c:when>
 									        <c:when test="${requestScope.option[i] == '3'}">75ml</c:when>
 									    </c:choose>
 						            </span>/ ${requestScope.quantity[i]}개
 						        </div>
 						    </div>
+
+						    <input type="text" name="selectedCNum" value="${requestScope.selectedCNum[i]}" />
+						    
 						</c:forEach>
 
 						
@@ -193,7 +196,7 @@
         			<!-- 적립금 -->
         			<div style="margin: 10px 0;">
             			<span class="point">적립금</span>
-            			<input class="point_price" /> / <span class="myPoint"><fmt:formatNumber value="${requestScope.m_point}" pattern="#,###,###"/></span>
+            			<input class="point_price" name="point_price" /> / <span class="myPoint"><fmt:formatNumber value="${requestScope.m_point}" pattern="#,###,###"/></span>
         			</div>
         			<hr>
 
@@ -210,10 +213,12 @@
 	    		<button type="button" id="btn-order" >결제하기</button>
 	    		
 	    		<!-- 값 넘기기 용도 -->
-	    		<input type="hidden" name="totalInput" value="${requestScope.totalTotal}" />
-	    		<input type="hidden" name="selectedDNum" value="selectedDNum" />
-	    		<input type="hidden" id="contextPath" value="<%= ctxPath%>" />
-	    		
+	    		<input type="text" name="totalInput" value="${requestScope.totalTotal}" />		<!-- 구매 할 금액 -->
+	    		<input type="text" name="selectedDNum" value="selectedDNum" />					<!-- 배송지번호 -->
+	    		<input type="text" id="contextPath" value="<%= ctxPath%>" />
+	    		<input type="text" name="fk_m_id" value="${sessionScope.loginuser.m_id}" />
+	    		<input type="text" name="o_cnt" value="${fn:length(requestScope.index)}" />
+
 			</div> <!-- payment_go_box -->
 			
 			

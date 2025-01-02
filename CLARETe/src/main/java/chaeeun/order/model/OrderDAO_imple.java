@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import javax.naming.Context;
@@ -63,6 +64,7 @@ public class OrderDAO_imple implements OrderDAO {
 		}
 	}// end of private void close()---------------
 
+	
 	// tbl_order에 주문 insert
 	@Override
 	public int insertOrder(Map<String, String> paraMap) throws SQLException {
@@ -73,17 +75,95 @@ public class OrderDAO_imple implements OrderDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " insert into tbl_order (o_num, fk_m_id, fk_d_num, fk_op_num, o_date, status, o_price, o_cnt) "
-					   + " values(seq_order.nextVal, ?, ?, ?, ?, ?, ?, 1) ";
+			// status 배송현황 (0: 배송전, 1: 배송중, 2: 배송완료)
+			String sql = " insert into tbl_order (o_num, fk_m_id, fk_d_num, o_date, status, o_price, o_cnt) "
+					   + " values(seq_order.nextVal, ?, ?, sysdate, 0, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
-			//pstmt.setString(1, );
+			pstmt.setString(1, paraMap.get("fk_m_id"));
+			pstmt.setInt(2, Integer.parseInt(paraMap.get("fk_d_num")));
+			pstmt.setString(3, paraMap.get("o_price"));
+			pstmt.setInt(4, Integer.parseInt(paraMap.get("o_cnt")));
+			
+			n = pstmt.executeUpdate();
 			
 		} finally {
 			close();
 		}
 		
 		return n;
+	}
+
+	// 결제 완료되면 장바구니꺼 delete
+	@Override
+	public void deleteCart(List<String> cNumList) throws SQLException {
+
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_cart where c_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			for (String cNum : cNumList) {
+	            pstmt.setString(1, cNum); 
+	            pstmt.executeUpdate(); 
+	        }
+			
+		} finally {
+			close();
+		}
+	}
+
+	// 포인트 사용액 update
+	@Override
+	public void updatePoint(Map<String, String> paraMap) throws SQLException {
+
+		try {
+
+			conn = ds.getConnection();
+
+			String sql = " update tbl_member set m_point = m_point - ? "
+					   + " where m_id = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(paraMap.get("m_point")));
+			pstmt.setString(2, paraMap.get("fk_m_id"));
+
+			pstmt.executeUpdate(); 
+
+		} finally {
+			close();
+		}
+		
+	}
+
+	
+	// 구매금액의 1% 포인트로 추가 update
+	@Override
+	public void addPurchasePoints(Map<String, String> paraMap) throws SQLException {
+
+
+		try {
+
+			conn = ds.getConnection();
+
+			int pointsToAdd = (int) Math.floor(Integer.parseInt(paraMap.get("o_price")) * 0.01);
+			
+			String sql = " update tbl_member set m_point = m_point + ? " 
+			           + " where m_id = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pointsToAdd);
+			pstmt.setString(2, paraMap.get("fk_m_id"));
+
+			pstmt.executeUpdate();
+
+		} finally {
+			close();
+		}
+		
 	}
 
 }

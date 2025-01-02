@@ -199,4 +199,55 @@ public class CartDAO_imple implements CartDAO {
 		return n;
 	}
 
+	// 장바구니 수량 증가
+	@Override
+	public int increaseQuantity(Map<String, String> paraMap) throws SQLException {
+
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_cart set c_count = c_count + 1 "
+					   + " where c_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("cartNum"));
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	}
+
+	
+	// 장바구니에서 삭제
+	@Override
+	public int deleteCart(Map<String, String> paraMap) throws SQLException {
+
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_cart "
+					   + " where c_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("cartNum"));
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	}
+
 }

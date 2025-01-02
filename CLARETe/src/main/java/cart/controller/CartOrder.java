@@ -55,13 +55,14 @@ public class CartOrder extends AbstractController {
 
 			// ---------------------------------------------------------------------------------
 			// input 태그 값 받아오기 (향수 정보들)
-			String[] index = request.getParameterValues("index");
+			String[] index = request.getParameterValues("index");					// 장바구니 개수
 			String[] perfumeName = request.getParameterValues("perfumeName");
 			String[] quantity = request.getParameterValues("quantity");
 			String[] price = request.getParameterValues("price");
 			String[] priceQuantity = request.getParameterValues("priceQuantity");
 			String[] option = request.getParameterValues("option");
-
+			String[] selectedCNum = request.getParameterValues("selectedCNum");		// 체크박스 선택된 장바구니 번호
+			
 			// input 태그 값 받아오기 (가격)
 			String totalProduct = request.getParameter("totalProduct");
 			String totalShipping = request.getParameter("totalShipping");
@@ -95,6 +96,7 @@ public class CartOrder extends AbstractController {
                 request.setAttribute("price", price);
                 request.setAttribute("priceQuantity", priceQuantity);
                 request.setAttribute("option", option);
+                request.setAttribute("selectedCNum", selectedCNum);
                 
                 request.setAttribute("totalProduct", totalProduct);
                 request.setAttribute("totalShipping", totalShipping);

@@ -111,12 +111,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	const btnOrder = document.getElementById("btn-order");
 	btnOrder.addEventListener("click", function() {
-	
-		
-		const ctxPath = document.getElementById('contextPath').value.trim();
-		console.log(ctxPath);
-		console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ");
-		
+
 		const IMP = window.IMP;
 		IMP.init("imp28303334");	// 채은꺼 가맹점 식별코드
 
@@ -125,7 +120,13 @@ document.addEventListener("DOMContentLoaded", function() {
 		const buyerName = document.querySelector('span#buyName').textContent.trim();
 		const buyerTel = document.querySelector('span#buyMobile').textContent.trim().replace(/[\s-]/g, '');
 		const buyerEmail = document.querySelector('input[name="buyEmail"]').value;
-
+		const fk_m_id = document.querySelector('input[name="fk_m_id"]').value;
+		const fk_d_num = document.querySelector('input[name="selectedDNum"]').value;
+		const o_cnt = document.querySelector('input[name="o_cnt"]').value;
+		const selectedCNumInputs = document.querySelectorAll('input[name="selectedCNum"]');
+		const selectedCNumValues = Array.from(selectedCNumInputs).map(input => input.value); // 장바구니 번호 배열
+		const m_point = document.querySelector('input[name="point_price"]').value;
+			
 		IMP.request_pay(
 			{
 				pg: "html5_inicis", // PG사 선택
@@ -140,9 +141,34 @@ document.addEventListener("DOMContentLoaded", function() {
 				buyer_postcode: "", // 구매자 우편번호 (옵션)
 			},
 			function(rsp) {
-				if (rsp.success) {
-					// 결제 성공 시 서버로 데이터 전송
-					alert("결제가 완료되었습니다. ");
+				if (rsp.success) {	// 결제 성공하면
+					$.ajax({
+						url: "orderComplete.cl",
+						contentType: "application/json; charset=UTF-8",
+						data: JSON.stringify({
+							fk_m_id: fk_m_id, // 사용자 ID
+							fk_d_num: fk_d_num, // 배송지 번호
+							o_price: totalAmount, // 구매가격
+							o_cnt: o_cnt, // 한 주문에 해당하는 주문건수
+							selectedCNumValues: selectedCNumValues, // 장바구니 번호 배열
+							m_point: m_point
+						}),
+						type: "POST",
+						async: false,
+						dataType: "json",
+
+						success: function(json) {
+							if (json.n == 1) {
+								alert("결제가 완료되었습니다.");
+								window.location.href = "/CLARETe/cart/Complete.cl";
+							}
+
+						},
+						error: function(request, status, error) {
+							alert("결제는 완료되었으나 주문 처리에 실패했습니다. 고객센터로 문의해주세요.");
+						}
+					});
+
 				} else {
 					// 결제 실패 시
 					location.href = "/CLARETe";
@@ -153,5 +179,4 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 
 });
-
 
