@@ -10,7 +10,10 @@ public interface OrderDAO {
 	int getPnum() throws SQLException;
 		
 	// tbl_order 테이블에 insert
-	int insertOrder(Map<String, String> paraMap) throws SQLException;
+	int insertOrder(Map<String, String> paraMap, int pnum) throws SQLException;
+
+	// tbl_orderdetail 테이블에 insert
+	int insertOrderDetail(List<Map<String, String>> orderList, int pnum) throws SQLException;
 
 	// 결제 완료되면 장바구니꺼 delete
 	void deleteCart(List<String> cNumList) throws SQLException;
@@ -20,5 +23,6 @@ public interface OrderDAO {
 
 	// 구매금액의 1% 포인트로 추가 update
 	void addPurchasePoints(Map<String, String> paraMap) throws SQLException;
+
 
 }

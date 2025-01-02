@@ -92,7 +92,7 @@ public class OrderDAO_imple implements OrderDAO {
 	
 	// tbl_order 테이블에 insert
 	@Override
-	public int insertOrder(Map<String, String> paraMap) throws SQLException {
+	public int insertOrder(Map<String, String> paraMap, int pnum) throws SQLException {
 
 		int n = 0;		
 		
@@ -101,9 +101,16 @@ public class OrderDAO_imple implements OrderDAO {
 			conn = ds.getConnection();
 			
 			String sql = " insert into tbl_order (o_num, fk_m_id, fk_d_num, o_date, status, o_price, o_cnt) "
-					   + " values(o_num, 'gold12', 54, sysdate, 0, '5', 2) ";
+					   + " values(?, ?, ?, sysdate, 0, ?, ?) ";
 			
-			n = pstmt.executeUpdate();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pnum);
+			pstmt.setString(2, paraMap.get("fk_m_id"));
+			pstmt.setInt(3, Integer.parseInt(paraMap.get("fk_d_num")));
+			pstmt.setString(4, paraMap.get("o_price"));		// o_price 컬럼 NVARCHAR2임
+			pstmt.setInt(5, Integer.parseInt(paraMap.get("o_cnt")));
+			
+			n = pstmt.executeUpdate(); 
 			
 		} finally {
 			close();
@@ -112,6 +119,42 @@ public class OrderDAO_imple implements OrderDAO {
 		return n;
 	}
 
+	
+	// tbl_orderdetail 테이블에 insert
+	@Override
+	public int insertOrderDetail(List<Map<String, String>> orderList, int pnum) throws SQLException {
+
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			for (int i = 0; i < orderList.size(); i++) {
+				
+				String sql = " insert into tbl_orderdetail (od_num, fk_p_num, fk_o_num, od_count, od_price, fk_op_num) "
+						   + " values (seq_orderdetail.nextVal, ?, ?, ?, ?, ?) ";
+				
+				Map<String, String> orderDetail = orderList.get(i);
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, Integer.parseInt(orderDetail.get("fk_p_num")));
+				pstmt.setInt(2, pnum);
+				pstmt.setInt(3, Integer.parseInt(orderDetail.get("od_count")));
+				pstmt.setString(4, orderDetail.get("od_price"));
+				pstmt.setInt(5, Integer.parseInt(orderDetail.get("fk_op_num")));
+				
+				n += pstmt.executeUpdate();
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+		
+	}
+		
+		
 	// 결제 완료되면 장바구니꺼 delete
 	@Override
 	public void deleteCart(List<String> cNumList) throws SQLException {
@@ -182,6 +225,8 @@ public class OrderDAO_imple implements OrderDAO {
 		}
 		
 	}
+
+	
 
 	
 

@@ -59,26 +59,23 @@ public class OrderComplete extends AbstractController {
 		    JSONArray fk_p_numArray = jsonObject.getJSONArray("fk_p_numValues");
 		    JSONArray od_countArray = jsonObject.getJSONArray("od_countValues");
 		    JSONArray fk_op_numArray = jsonObject.getJSONArray("fk_op_numValues");
+		    JSONArray od_priceArray = jsonObject.getJSONArray("od_priceValues");
 		    
-		    System.out.println("fk_p_numArray 길이 : " + fk_p_numArray.length());		//ok
-		    System.out.println("od_countArray 길이 : " + od_countArray.length());		//ok
-		    System.out.println("fk_op_numArray 길이 : " + fk_op_numArray.length());	//ok
-		    
+			
+			// 채번하기
+			int pnum = odao.getPnum();
+			
+			
+			// tbl_order 테이블에 insert
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("fk_m_id", fk_m_id);
 			paraMap.put("fk_d_num", fk_d_num);
 			paraMap.put("o_price", String.valueOf(o_price));
 			paraMap.put("o_cnt", String.valueOf(o_cnt));
+			int n = odao.insertOrder(paraMap, pnum);
 			
-			// 채번하기
-			int pnum = odao.getPnum();
-			System.out.println("채번채번" + pnum);
 			
-			// tbl_order 테이블에 insert
-			int n = odao.insertOrder(paraMap);
-			System.out.println("tbl_order 테이블에 insert ; " + n);
-			
-			//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡtbl_order, tbl_orderdetail 테이블에 insertㅡㅡㅡㅡㅡㅡㅡ
+			// tbl_orderdetail 테이블에 insert
 			List<Map<String, String>> orderList = new ArrayList<>();
 			for (int i = 0; i < fk_p_numArray.length(); i++) {
 				Map<String, String> paraMap2 = new HashMap<>();
@@ -86,10 +83,12 @@ public class OrderComplete extends AbstractController {
 				paraMap2.put("fk_p_num", fk_p_numArray.getString(i));
 				paraMap2.put("od_count", od_countArray.getString(i));
 				paraMap2.put("fk_op_num", fk_op_numArray.getString(i));
+				paraMap2.put("od_price", od_priceArray.getString(i));
 				
 				orderList.add(paraMap2);
 			}
 			
+			int n1 = odao.insertOrderDetail(orderList, pnum);
 			
 			//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ---
 			if (n == 1) {

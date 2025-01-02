@@ -130,16 +130,16 @@ document.addEventListener("DOMContentLoaded", function() {
 				
 		const fk_p_numInputs = document.querySelectorAll('input[name="fk_p_num"]');
 		const fk_p_numValues = Array.from(fk_p_numInputs).map(input => input.value);	// 상품 번호 fk_p_num 
-		console.log(fk_p_numValues);
 		
 		const od_countInputs = document.querySelectorAll('input[name="od_count"]');
 		const od_countValues = Array.from(od_countInputs).map(input => input.value);	// 각 제품 구매개수 od_count
-		console.log(od_countValues);
 		
 		const fk_op_numInputs = document.querySelectorAll('input[name="fk_op_num"]');
-		const fk_op_numValues = Array.from(fk_op_numInputs).map(input => input.value);	// 옵션번호 fk_op_nu
-		console.log(od_countValues);
+		const fk_op_numValues = Array.from(fk_op_numInputs).map(input => input.value);	// 옵션번호 fk_op_num
 		
+		const od_priceInputs = document.querySelectorAll('input[name="od_price"]');
+		const od_priceValues = Array.from(od_priceInputs).map(input => input.value);	// 제품 1개의 가격 od_price
+				
 		IMP.request_pay(
 			{
 				pg: "html5_inicis", // PG사 선택
@@ -167,7 +167,8 @@ document.addEventListener("DOMContentLoaded", function() {
 							m_point: pointValue ,	// 사용된 포인트
 							fk_p_numValues: fk_p_numValues,
 							od_countValues: od_countValues,
-							fk_op_numValues: fk_op_numValues
+							fk_op_numValues: fk_op_numValues,
+							od_priceValues: od_priceValues
 						}),
 						type: "POST",
 						async: false,
