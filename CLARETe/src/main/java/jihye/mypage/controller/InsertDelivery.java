@@ -58,7 +58,7 @@ public class InsertDelivery extends AbstractController {
 			String d_postcode = request.getParameter("d_postcode");
 			String d_extra = request.getParameter("d_extra");
 			String d_mobile = request.getParameter("d_mobile");
-			//String d_num = request.getParameter("d_num");
+			String d_num = request.getParameter("d_num");
 			
 			DeliveryVO delivery = new DeliveryVO();
 			

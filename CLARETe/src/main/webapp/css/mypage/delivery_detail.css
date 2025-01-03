@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-.content-flex{
+#deliveryDeletFrm{
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -11,8 +11,15 @@
 	border : solid 1px black;
 	width: 642px;
 	height: 300px;
-	margin-right: 3%;
-	margin-bottom: 3%;
+	margin-right: 2%;
+	margin-bottom: 2%;
+	box-sizing: border-box;
+}
+
+hr.divider {
+    margin: 20px 0;
+    border: none;
+    border-top: 2px solid black;
 }
 
 
@@ -23,10 +30,9 @@
 .delivery-info>li{
 	margin-bottom: 10px;
 	font-size: 14pt;
-	
 }
 
-.delivery-info>li>span {
+.delivery-info>li span {
 	color:#949494;
 	/* border : solid 1px aqua */;
 	display: inline-block;
@@ -46,7 +52,9 @@
 	margin-bottom: 10px;
 }
 
-
+.delivery_info_delete:hover{
+	cursor: pointer;
+}
 
 #clickOk{
 	position: fixed;
@@ -63,12 +71,40 @@
 	width: 733px;
 	height: auto;
 	background-color: white; 
-	padding : 17.4%;
+	margin: 0 auto;
+    padding: 20px;;
 }
 
-#infotitle{
-	
-	border:solid 1px gray; 
+#deliveryFrm{
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	z-index: 199;	
+
+}
+
+#userinfo{
+	width: 333px;
+	height: 48px;
+}
+
+
+span#mandatoryNote {
+    float: right;
+    font-size: 0.9rem;
+    margin-top: -30px; 
+    color: #666; 
+}
+
+
+
+
+.toggleColse:hover{
+	cursor: pointer;
+}
+
+#infotitle{ 
 	
 	display: inline-block;
 	width: 140px;
@@ -78,74 +114,54 @@
 }
 
 
-#userinfo,
-#postcode,#detailaddress,#address,#extra{
-	width: 333px;
+.formDiv {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+
+.asterisk{
+	color:red;
+}
+
+.d_deliveryInfo{
+	 height: 48px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-left: 0; 
+}
+
+#postcode{
+	width: 160px;
+}
+
+#postCodeButton, #insertBtn.btn_reset, #insertBtn.btn_success {
 	height: 48px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
-#insertBtn.btn_success {
-	display:inline-block;
-	width:120px;
-	height: 50px;
-	border: none;
-	border-radius: 10px;
-	margin-right: 10px; 
+#btn_reset{
+	margin-left: 10px;
 }
 
-#insertBtn.btn_success:hover{
+
+#postCodeButton:hover, #insertBtn.btn_success:hover, #insertBtn.btn_reset:hover{
 	cursor: pointer; 
+ 	background-color: #333
 }
 
 
-#insertBtn.btn_reset {
-	display:inline-block;
-	width:120px;
-	height: 50px;
-	border: none;
-	border-radius: 10px;
-}
-
-input.btn_ok_delete,
-input.btn_no_delete{
-	display:inline-block;
-	width: 200px;
-	height: 50px;
-	margin-top: 30px;
-	background-color: white;
-	border: 1px solid #d3d3d3;	
-	border-radius: 5%;
-}
-
-input.btn_no_delete{
-	margin-left: 20px;
-}
-
-/*--------------------------------------------------------------*/
-
-input.btn_ok_delete:hover{
-	background-color:#86E57F;
-	cursor: pointer;
-}
-
-input.btn_no_delete:hover{
-	background-color: #F15F5F;
-	cursor: pointer;
-}
-
-#insertBtn.btn_reset:hover{
-	cursor: pointer;
-}
 
 
-#postCodeButton:hover{
-	cursor: pointer;
-}
 
-.delete_delivery_info:hover{
-	cursor: pointer;
-	}
-	
-button.toggleColse:hover{
-	cursor: pointer;
-}	

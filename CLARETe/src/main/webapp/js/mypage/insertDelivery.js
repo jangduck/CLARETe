@@ -137,7 +137,7 @@ function goInsertDelivery(){
   	frm.action = "insertDelivery.cl";
   	frm.method = "post";
   	frm.submit();
-  
+	location.reload();
 	};
 	
 	

@@ -44,51 +44,34 @@
 		
         <div class="mypage_contants_bottom">
         
-	        <div class="content-flex" style="display:flex; flex-direction: row;">
-	
-	        	<c:forEach var="dvo" items="${requestScope.deliveryList}" >
-	        	<div class="delivery-content-box">
+	    <div class="content-flex" >
+	    	<form id="deliveryDeletFrm" name="deliveryDeletFrm" action="deleteDelivery.cl" method="post" style="display:flex;">
+      			<c:forEach var="dvo" items="${requestScope.deliveryList}" >
+	        		<div class="delivery-content-box">
 	        		<ul class="delivery-info">
-			           		<li><span id="info_title">받는 사람 주소</span>${dvo.d_address}</li>
-			           		<li><span id="info_title">받는 사람 상세 주소</span>${dvo.d_detail_address}</li>
-			           		<li><span id="info_title">받는 우편 번호</span>${dvo.d_postcode}</li>
-			           		<li><span id="info_title">받는 사람 참고 항목</span>${dvo.d_extra}</li>
-			           		<li><span id="info_title">받는 사람 전화번호</span>${dvo.d_mobile}</li>
-			           		<li><span id="info_title">받는 사람 이름</span>${dvo.d_name}</li>
+		           		<li><span id="info_title">받는 사람 주소</span>${dvo.d_address}</li>
+	                    <li><span id="info_title">받는 사람 상세 주소</span>${dvo.d_detail_address}</li>
+	                    <li><span id="info_title">받는 우편 번호</span>${dvo.d_postcode}</li>
+	                    <li><span id="info_title">받는 사람 참고 항목</span>${dvo.d_extra}</li>
+	                    <li><span id="info_title">받는 사람 전화번호</span>${dvo.d_mobile}</li>
+	                    <li><span id="info_title">받는 사람 이름</span>${dvo.d_name}</li>
 		           	</ul>
-		           	<div class="deletebutton">
-		           	<button type="button" class="delivery_info_delete">삭제</button>
+		           <div class="deletebutton">
+		           		<input type="hidden" name="d_num" class="deliveryD_num" value="${dvo.d_num}">
+	                    <input type="button" class="delivery_info_delete" value="삭제" onclick="goDeliveryDel()" >
+                    </div>
 		           	</div>
-		           	</div>
-	        	</c:forEach>
+	        	</c:forEach>	        	
+	          </form>
 			</div>
-			
-				
-            </div>
-            
-          
-            
+ 
 	         <div class="delivery_info_insert" style="text-align: center; margin-top:10%;">
 	          <button type="button" id="toggleButton" style="display:inline-block; background-color:#ffff; border:#ffff; font-size:30px;">
 	          배송지 추가하기
 	          </button>
 	        </div>
 	        
-        </div>
-
-              <div class="delivery_delete">
-             	<div id="clickOk"></div>
-             	<div id="deliveryFrm">
-             		<form id="frm" action="deleteDelivery.cl" method="post" style="text-align: center;">
-             			<h4>배송지를 삭제하시겠습니까?</h4>
-             			<input type="button" class="btn_ok_delete" value="삭제" onclick="goDeleteDelivery()">
-             			<input type="button" class="btn_no_delete" value="취소">
-             		</form>
-             	</div>
-             </div>    
-					
-           
-				
+        </div>		
 				
              <div class="delivery_Insert">
              	<div id="clickOk"></div>
@@ -101,48 +84,50 @@
 	             				</button>
 	             			</h4>
              			</div>
-             			<div class="delivery_info_title" style="text-align: center;">
-             				<h3>배송지를 입력해주세요</h3>
+             			<div class="delivery_info_title" style="margin-top: 20px;" >
+             				<h4 style="text-align: center; font-size: 1.5rem;">배송지를 입력해주세요</h4>
+             				<span id="mandatoryNote"><span class="asterisk">*</span> 필수입력사항</span>
+             				<hr class="divider">
              			</div>
              			
              			<ul style="margin-top: 5%;">
-	             			<li style="margin-top:10px;">
-		             			<label id="infotitle">받는 사람</label>
-		             			<input type="text" name="d_name" id="userinfo" class="d_deliveryInfo"></input>
+	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
+		             			<label id="infotitle">받는 사람<span class="asterisk">*</span></label><br>
+		             			<input type="text" name="d_name" id="userinfo" class="d_deliveryInfo" ></input>
 	             			</li>
 	             			
-	             			<li style="margin-top:10px;">
-	             			<label id="infotitle">받는 사람 전화번호</label>
-	             			<input type="text" name="d_mobile" id="userinfo" class="d_deliveryInfo" maxlength="12"></input>
+	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
+	             			<label id="infotitle">받는 사람 전화번호<span class="asterisk">*</span></label><br>
+	             			<input type="text" name="d_mobile" id="userinfo" class="d_deliveryInfo" maxlength="11"></input>
 	             			</li>
 	             			
-	             			<li style="margin-top:10px;">
-		             			<label id="infotitle">받는 사람 우편번호</label>
-		             			<input type="text" name="d_postcode" id="postcode" class="d_deliveryInlfo" style=" width:230px;" value=""></input>
-		             			<input type="button" name="postCodeButton" id="postCodeButton"  class="PostCodeFind" value="우편번호검색"
-		             			style="display:inline-block; width:100px; height: 48px;"/>
+	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
+		             			<label id="infotitle">받는 사람 우편번호<span class="asterisk">*</span></label><br>
+		             			<input type="text" name="d_postcode" id="postcode" class="d_deliveryInfo" value=""></input>
+		             			<input type="button" name="postCodeButton" id="postCodeButton"  class="PostCodeFind" value="우편번호검색"/>
 	             			</li>
 	             			
-	             			<li style="margin-top:10px;">
-		             			<label id="infotitle">받는 사람 주소</label>
+	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
+		             			<label id="infotitle">받는 사람 주소<span class="asterisk">*</span></label><br>
 		             			<input type="text" name="d_address" id="address" class="d_deliveryInfo" value=""></input>
 	             			</li>
 	             			
-	             			<li style="margin-top:10px;">
-		             			<label id="infotitle">받는 사람 상세주소</label>
+	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
+		             			<label id="infotitle">받는 사람 상세주소<span class="asterisk">*</span></label><br>
 		             			<input type="text" name="d_detail_address" id="detailaddress" class="d_deliveryInfo" value=""></input>
 	             			</li>
 	             			
-	             			<li style="margin-top:10px;">
-		             			<label id="infotitle">받는 사람 참고항목</label>
+	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
+		             			<label id="infotitle">받는 사람 참고항목<span class="asterisk">*</span></label><br>
 		             			<input type="text" name="d_extra" id="extra" class="d_deliveryInfo"></input>
 	             			</li>
 	             			
-	             			<li style="margin-top: 20px; text-align: center;">
-	             				<input type="button" class="btn_success" value="배송지 입력" id="insertBtn" onclick="goInsertDelivery()" />
-	             				<input type="reset"  class="btn_reset" value="취소하기" id="insertBtn" />
-	             				
-	             				<input type="hidden" name="fk_m_id" id="userinfo" class="d_deliveryInfo" value="<%= session.getAttribute("id")%>"></input>
+	             			 <li style="margin-top: 30px; text-align: center;" >
+	             			 	
+		             				<input type="button" class="btn_success" value="배송지 입력" id="insertBtn" onclick="goInsertDelivery()" />
+		             				<input type="reset"  class="btn_reset" value="취소하기" id="insertBtn" />
+		             				<input type="hidden" name="fk_m_id" id="userinfo" class="d_deliveryInfo" value="<%= session.getAttribute("id")%>"></input>
+	             			
 	             			</li>
              			</ul>
              		</form>
