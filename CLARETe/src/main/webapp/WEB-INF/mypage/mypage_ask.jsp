@@ -47,6 +47,9 @@
 
 	<%-- =============================================== --%>
 	
+	
+	    
+	
 <div id="">
 
 <span id="title">문의목록</span> <span id="askModal"><a style="cursor: pointer;" data-toggle="modal" data-target="#askUpload" data-dismiss="modal">문의작성하기▶</a></span>
@@ -116,6 +119,9 @@
 
 <%-- ****** 문의 수정/삭제하기 Modal 끝 ****** --%>
 
+
+
+
 	<div id="table">
 	<table>
 	    <tr>
@@ -134,7 +140,7 @@
 			      <td class="title" id="askModal"><a style="cursor: pointer;" data-toggle="modal" data-target="#correctDeleteAsk" data-dismiss="modal">${qvo.q_title}</a></td>
 			      <td class="ask">${qvo.q_ask}</td>
 			      <td class="registerday">${qvo.q_register}</td>
-			      <td class="category">${qvo.q_categpry}</td>
+			      <td class="category">${qvo.q_category}</td>
 			</tr>
 			 </c:forEach>            
 			</c:if>

@@ -30,7 +30,9 @@ public class Qna_board extends AbstractController {
 			super.setViewPage("/WEB-INF/qna/qna_board.jsp");
 		
 		} 
-			
+		
+		String fk_m_id = request.getParameter("fk_m_id");
+		System.out.println("아이디값 받옴"+fk_m_id);
 
 		try {
 			List<QnaVO> qnaList = qdao.qnaList();

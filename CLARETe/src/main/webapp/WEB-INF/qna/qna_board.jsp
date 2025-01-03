@@ -49,6 +49,11 @@
         <span id="qnaSpan2">문의날짜</span>
         <span id="qnaSpan3">문의유형</span> <%-- 답변상태 X --%>
          <hr id="second">
+         
+         
+       <input type="text" name="fk_m_id" value="<%=session.getAttribute("id")%>"/>
+       <input type="text" name="fk_m_id" value="${qvo.fk_m_id}"/>
+       
        
             
        <%-- 시작 --%>    

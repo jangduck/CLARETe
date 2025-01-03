@@ -1,12 +1,19 @@
 package orderdetail.domain;
 
 public class orderdetailVO {
-	int od_num; // ÁÖ¹®»ó¼¼ÀÏ·Ã¹øÈ£
-	int fk_o_num; // ÁÖ¹®¹øÈ£
-	int fk_p_num; // Á¦Ç°°íÀ¯¹øÈ£
-	int od_count; // ÁÖ¹®¼ö
-	String od_price; // °¡°Ý
+	int od_num; // ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½Ï·Ã¹ï¿½È£
+	int fk_o_num; // ï¿½Ö¹ï¿½ï¿½ï¿½È£
+	int fk_p_num; // ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	int od_count; // ï¿½Ö¹ï¿½ï¿½ï¿½
+	String od_price; // ï¿½ï¿½ï¿½ï¿½
+	int fk_op_num;
 	
+	public int getFk_op_num() {
+		return fk_op_num;
+	}
+	public void setFk_op_num(int fk_op_num) {
+		this.fk_op_num = fk_op_num;
+	}
 	public int getOd_num() {
 		return od_num;
 	}
