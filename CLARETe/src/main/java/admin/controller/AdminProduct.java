@@ -28,7 +28,7 @@ public class AdminProduct extends AbstractController {
 	        String searchWord = request.getParameter("searchWord");
 	        String currentShowPageNo = request.getParameter("currentShowPageNo");
 	        
-	        String sizePerPage = "1";  // 페이지에서 보여줄 상품 수 
+	        String sizePerPage = "10";  // 페이지에서 보여줄 상품 수 
 	        
 	        if (searchType == null ||
 	                (!"p_name".equals(searchType) &&
@@ -161,6 +161,10 @@ public class AdminProduct extends AbstractController {
 	        try {
 	            // 상품 목록 가져오기
 	            List<ProductVO> productList = adao.searchProduct(paraMap);
+	            
+	            int listSize = productList.size();
+	            
+	            request.setAttribute("listSize", listSize);
 	            
 	            request.setAttribute("productList", productList);
 	            

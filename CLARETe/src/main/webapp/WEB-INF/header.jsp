@@ -36,11 +36,9 @@
                         <li class="hamburger"></li>
                     </ul>
                 </div>
-                <div class="header-logo">
-                    <a href="<%= ctxPath%>/">
-                        
-                    </a>
-                </div>
+                <a href="<%= ctxPath%>/">
+                	<div class="header-logo"></div>
+                </a>
                 <div>
                     <div class="header-icon-wrapper">
                         <ul>

@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import javax.naming.Context;
@@ -194,5 +195,137 @@ public class ProductDAO_imple implements ProductDAO {
 		
 		return pvo;
 	}
+
+
+	// 수정하기 위한 해당 상품을 불러오는 메소드
+	@Override
+	public boolean selectUpdateOne(String p_num) throws SQLException {
+		
+		boolean isE = false;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select p_num, p_season, p_name, p_ex, p_price, p_inven, p_sale, p_gender, p_release, p_image, p_detail_image, p_register "
+					   + " from tbl_product "
+					   + " where p_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				isE = true;
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return isE;
+	}
+
+
+	// 상품을 수정해주는 메소드
+	@Override
+	public int productUpdate(ProductVO pvo, String or_p_image, String or_p_detail_image) throws SQLException {
+		// System.out.println("여기까지 잘 흘러왔습니다~ "+ pvo.getP_detail_image());
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+
+			String sql = " update tbl_product set p_season = ?, p_ex = ?, p_price = ?, p_inven = ?, p_sale = ?, p_gender = ?, p_name = ?, p_image = ?, p_detail_image = ? "
+					   + " where p_num = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+
+			
+			pstmt.setString(1, pvo.getP_season()); 
+			pstmt.setString(2, pvo.getP_ex());
+			pstmt.setInt(3, pvo.getP_price());
+			pstmt.setInt(4, pvo.getP_inven());
+			pstmt.setString(5, pvo.getP_sale());
+			pstmt.setInt(6, pvo.getP_gender());
+			pstmt.setString(7, pvo.getP_name());
+			
+			// ============ 이미지를 입력받지 못 했다면 기존 이미지를 재활용 ============ //
+			if(pvo.getP_image() != null) {
+				pstmt.setString(8, pvo.getP_image());
+			}
+			else {
+				pstmt.setString(8, or_p_image);
+			}
+			
+			if(pvo.getP_detail_image() != null) {
+				pstmt.setString(9, pvo.getP_detail_image());
+			}
+			else {
+				pstmt.setString(9, or_p_detail_image);
+			}
+			// ============ 이미지를 입력받지 못 했다면 기존 이미지를 재활용 ============ //
+			
+			pstmt.setInt(10, pvo.getP_num());
+
+			// SQL 실행
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return result;
+	} // end of public int productUpdate(ProductVO pvo) throws SQLException------------
+
+
+	// 상품을 삭제해주는 메소드
+	@Override
+	public int productDelete(String p_num) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_product set is_delete = 1 where p_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, p_num);
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		
+		return result;
+	} // end of public int productDelete(String p_num) throws SQLException--------------
+
+
+	// 선택한 상품들을 일괄삭제해주는 메소드
+	@Override
+	public int deleteAll(List<Object> list) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_product set is_delete = 1 where p_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			for(int i=0; i<list.size(); i++) {
+				pstmt.setInt(1, Integer.parseInt((String) list.get(i)));
+				
+				result += pstmt.executeUpdate();
+			}
+			
+		} finally {
+			close();
+		}
+		
+		
+		return result;
+	} // end of public int deleteAll(List<Object> list) throws SQLException--------------
 
 }

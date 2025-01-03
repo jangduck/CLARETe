@@ -76,21 +76,22 @@ public class ProductDAO_imple implements ProductDAO {
 			 // System.out.println(paraMap.get("end"));
 			
 			 if("판매순".equals(paraMap.get("selectVal"))) { // 판매순은 쿼리문 달라서 이렇게 처리
-				 String sql = " select rno, p_num, p_name, p_season, p_image, p_sale, p_price, p_register "
-				 			+ " from ( "
-				 			+ "     select row_number() over (order by nvl(sum(o.o_cnt), 0) desc) as rno,  "
-				 			+ "         p.p_num, p.p_name, p.p_season, p.p_image, p.p_sale, p.p_price, p.p_register, "
-				 			+ "         nvl(sum(o.o_cnt), 0) as total_sales  "
-				 			+ "     from tbl_product p "
-				 			+ "     left outer join tbl_option opt on p.p_num = opt.fk_p_num "
-				 			+ "     left outer join tbl_order o on opt.op_num = o.fk_op_num ";
+				 String sql = " select rno, p_num, p_name, p_season, p_image, p_sale, p_price, p_register  "
+				 			+ " from (  "
+				 			+ "    select row_number() over (order by nvl(sum(OD_COUNT), 0) desc) as rno,   "
+				 			+ "           p.p_num, p.p_name, p.p_season, p.p_image, p.p_sale, p.p_price, p.p_register,  "
+				 			+ "           nvl(sum(OD_COUNT), 0) as total_sales   "
+				 			+ "    from tbl_product p  "
+				 			+ "    left outer join tbl_orderdetail od  "
+				 			+ "    on p_num = fk_p_num ";
 
 				 if("0".equals(paraMap.get("cname"))) {
 					 // 전체 all 에서의 판매순 정렬
-					 sql += " group by p.p_num, p.p_name, p.p_season, p.p_image, p.p_sale, p.p_price, p.p_register "
-					 	  + " ) v "
+					 sql += " where is_delete = 0 "
+					 	  + " group by p.p_num, p.p_name, p.p_season, p.p_image, p.p_sale, p.p_price, p.p_register  "
+					 	  + " ) v  "
 					 	  + " where rno between ? and ? "
-					 	  + " order by rno desc ";
+					 	  + " order by rno asc ";
 					 
 					 pstmt = conn.prepareStatement(sql);
 					 
@@ -112,11 +113,11 @@ public class ProductDAO_imple implements ProductDAO {
 							 cname = 0;
 					 }
 					 
-					 sql += " where p_gender = ? "
-					 	  + " group by p.p_num, p.p_name, p.p_season, p.p_image, p.p_sale, p.p_price, p.p_register "
+					 sql += " where p_gender = ? and is_delete = 0 "
+					 	  + "    group by p.p_num, p.p_name, p.p_season, p.p_image, p.p_sale, p.p_price, p.p_register "
 					 	  + " ) v "
 					 	  + " where rno between ? and ? "
-					 	  + " order by rno desc ";
+					 	  + " order by rno asc ";
 					 
 					 pstmt = conn.prepareStatement(sql);
 					 
@@ -127,11 +128,11 @@ public class ProductDAO_imple implements ProductDAO {
 				 }
 				 else {
 					 // 봄, 여름, 가을, 겨울에서의 판매순 정렬
-					 sql += " where p_season = ? "
-					 	  + " group by p.p_num, p.p_name, p.p_season, p.p_image, p.p_sale, p.p_price, p.p_register "
+					 sql += " where p_season = ? and is_delete = 0 "
+					 	  + "    group by p.p_num, p.p_name, p.p_season, p.p_image, p.p_sale, p.p_price, p.p_register "
 					 	  + " ) v "
 					 	  + " where rno between ? and ? "
-					 	  + " order by rno desc ";
+					 	  + " order by rno asc ";
 					 
 					 pstmt = conn.prepareStatement(sql);
 					 
@@ -163,18 +164,18 @@ public class ProductDAO_imple implements ProductDAO {
 			 }
 			 else {
 			 
-				 String sql = " SELECT p_num, p_name, p_season, p_image, p_sale, p_price, p_register, p_gender "
+				 String sql = " SELECT p_num, p_name, p_season, p_image, p_sale, p_price, p_register, p_gender, is_delete "
 				 		    + " FROM  "
 				 		    + " ( "
 						    + "     SELECT row_number() over(order by p_num desc) AS RNO "
-						    + "          , p_num, p_name, p_season, p_image, p_sale, p_price, p_gender "
+						    + "          , p_num, p_name, p_season, p_image, p_sale, p_price, p_gender, is_delete "
 						    + "          , to_char(p_register, 'yyyy-mm-dd') AS p_register "
 						    + "     FROM tbl_product ";
 						   
 				 if("0".equals(paraMap.get("cname"))) {
 					 // 전체 all 을 클릭한 경우
 					sql += " ) V "
-						 + " WHERE rno between ? and ? "; 
+						 + " WHERE (rno between ? and ?) and is_delete = 0 "; 
 					
 					switch (selectStatus) {
 					case "신상품순":
@@ -213,7 +214,7 @@ public class ProductDAO_imple implements ProductDAO {
 					 // 남자 또는 여자를 선택한 경우
 					 sql += " WHERE p_gender = ? "
 					         + " ) V "
-					   	     + " WHERE rno between ? and ? ";
+					   	     + " WHERE (rno between ? and ?) and is_delete = 0 ";
 						
 					 switch (selectStatus) {
 					 case "신상품순":
@@ -239,7 +240,7 @@ public class ProductDAO_imple implements ProductDAO {
 					// 카테고리 봄, 여름, 가을, 겨울 줄 하나를 클릭한 경우
 					sql += " WHERE p_season = ? "
 				         + " ) V "
-				   	     + " WHERE rno between ? and ? ";
+				   	     + " WHERE (rno between ? and ?) and is_delete = 0 ";
 					
 					switch (selectStatus) {
 					case "신상품순":
@@ -301,7 +302,7 @@ public class ProductDAO_imple implements ProductDAO {
          
            if("0".equals(fk_snum)) {
         	// 전체 all 을 클릭한 경우의 전체 개수
-        	   sql += "";
+        	   sql += " where is_delete = 0 ";
         	   pstmt = conn.prepareStatement(sql);
            }
            else if("5".equals(fk_snum) || "6".equals(fk_snum) || "7".equals(fk_snum) ) {
@@ -317,7 +318,7 @@ public class ProductDAO_imple implements ProductDAO {
 					 cname = 0;
 			   }
 			   
-			   sql += " where p_gender = ? ";
+			   sql += " where p_gender = ? and is_delete = 0 ";
 			   pstmt = conn.prepareStatement(sql);
 			   
 			   pstmt.setInt(1, cname);
@@ -325,7 +326,7 @@ public class ProductDAO_imple implements ProductDAO {
            }
            else {
         	// 카테고리 봄, 여름, 가을, 겨울 줄 하나를 클릭한 경우의 개수
-        	   sql += " where p_season = ? ";
+        	   sql += " where p_season = ? and is_delete = 0 ";
         	   pstmt = conn.prepareStatement(sql);
         	   
         	   pstmt.setString(1, fk_snum);

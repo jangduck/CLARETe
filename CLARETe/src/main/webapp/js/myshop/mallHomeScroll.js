@@ -125,7 +125,7 @@ function displayHIT(start, cname, selectVal) {
                     v_html += `<li class="cardbox">
 	                               <a href="/CLARETe/shop/prodView.cl?p_num=${item.p_num}">
 	                                   <div class="cardimg background-image: url(${item.p_image});">
-									   <img src='${item.p_image}' style='width: 100%' />
+									   <img src='/CLARETe/images/${item.p_image}' style='width: 100%' />
 	                                   </div>
 	                                   <div class="cardname">
 	                                       ${item.p_name}
