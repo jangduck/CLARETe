@@ -107,6 +107,12 @@ public class MemberDAO_imple implements MemberDAO {
             member.setM_idle(rs.getInt("m_idle"));
 
             memberList.add(member);
+            
+            System.out.println("Postcode: " + member.getM_postcode());
+            System.out.println("Address: " + member.getM_address());
+            System.out.println("Detail Address: " + member.getM_detail_address());
+            System.out.println("Extra: " + member.getM_extra());
+
          }
 
       } catch (SQLException e) {

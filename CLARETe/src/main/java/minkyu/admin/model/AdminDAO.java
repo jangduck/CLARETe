@@ -24,7 +24,8 @@ public interface AdminDAO {
 	// 주문 배송 관리
 	List<DeliveryVO> Delivery_list() throws SQLException;
 	
-	
+	// 탈퇴회원조회 
+	List<MemberVO> StatusAll_member() throws SQLException;
 	
 	// ======================= 검색 ======================= //
 
@@ -39,6 +40,9 @@ public interface AdminDAO {
 	
 	// 주문 배송 관리 검색기능
 	List<DeliveryVO> searchDelivery(Map<String, String> paraMap) throws SQLException;
+
+	// 탈퇴 회원 검색기능
+	List<MemberVO> searchMemberstatus(Map<String, String> paraMap) throws SQLException;
 	
 	
 	// ======================= 페이징 ======================= // 
@@ -66,6 +70,12 @@ public interface AdminDAO {
 
 	// "주문배송조회" 검색이 있는 또는 검색이 없는 주문의 총개수 알아오기 시작
 	int getDeliveryCount(Map<String, String> paraMap) throws SQLException;
+
+	// "탈퇴회원" 검색이 있는 또는 검색이 없는 주문의 총개수 알아오기 시작
+	int getmemberstatusPage(Map<String, String> paraMap) throws SQLException;
+
+	// "탈퇴회원" 검색이 있는 또는 검색이 없는 주문의 총개수 알아오기 시작
+	int getTotalMemberstatusCount(Map<String, String> paraMap) throws SQLException;
 
 
 

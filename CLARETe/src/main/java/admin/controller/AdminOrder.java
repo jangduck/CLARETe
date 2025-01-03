@@ -9,6 +9,7 @@ import java.util.Map;
 import common.controller.AbstractController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import member.domain.MemberVO;
 import minkyu.admin.model.AdminDAO;
 import minkyu.admin.model.AdminDAO_imple;
@@ -22,12 +23,18 @@ public class AdminOrder extends AbstractController {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
     	
-    		String method = request.getMethod(); // 요청 메서드 확인
+    	// == 관리자(admin)로 로그인 했을 때만 회원조회가 가능하도록 해야 한다. == // 
+        HttpSession session = request.getSession();
+        
+        MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+    	
+        if( loginuser != null && "admin".equals(loginuser.getM_id()) ) {
+        // 관리자(admin) 로 로그인 했을 경우
 
         	String searchType = request.getParameter("searchType");
 	        String searchWord = request.getParameter("searchWord");
 	        String currentShowPageNo = request.getParameter("currentShowPageNo");
-	        String sizePerPage = "1";  // 페이지에서 보여줄 회원 수 
+	        String sizePerPage = "3";  // 페이지에서 보여줄 상품 수 
 	        
 	        if (searchType == null ||
 	                (!"m_id".equals(searchType) &&
@@ -67,7 +74,7 @@ public class AdminOrder extends AbstractController {
 	        
 			String pageBar = "";
 
-			int blockSize = 10; ///////////// 데이터 많아지면 여기서 바꾸기!!!
+			int blockSize = 1; ///////////// 데이터 많아지면 여기서 바꾸기!!!
 			// blockSize 는 블럭(토막)당 보여지는 페이지 번호의 개수이다.
 
 			int loop = 1;
@@ -156,6 +163,7 @@ public class AdminOrder extends AbstractController {
 
 	        } catch (SQLException e) {
 	            e.printStackTrace();
+	            
 	            super.setRedirect(true);
 //	            super.setViewPage(request.getContextPath() + "/error.up");
 	        }
@@ -163,11 +171,22 @@ public class AdminOrder extends AbstractController {
 	        
 	    } 
 
+        else {
+        	// 로그인을 안한 경우 또는 일반사용자로 로그인 한 경우
+    		String message = "관리자만 접근이 가능합니다.";
+    		String loc = "javascript:history.back()";
+
+    		request.setAttribute("message", message);
+    		request.setAttribute("loc", loc);
+
+    		super.setRedirect(false);
+    		super.setViewPage("/WEB-INF/msg.jsp");
+        }
 	    
 	}
 
 
-
+}
 
 
 
