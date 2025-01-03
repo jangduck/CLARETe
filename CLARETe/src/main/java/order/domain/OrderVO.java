@@ -11,7 +11,6 @@ public class OrderVO {
 	int o_num; // �ֹ���ȣ
 	String fk_m_id; // fk_userid
 	int fk_d_num; // �������ȣ
-	int fk_op_num; //  �ɼǹ�ȣ
 	String o_date; // �ֹ���¥
 	int status; // �����Ȳ �����0, �����1, �����2
 	String o_price; // �ֹ��ݾ�
@@ -148,12 +147,7 @@ public void setM_mobile(String m_mobile) {
 	public void setFk_d_num(int fk_d_num) {
 		this.fk_d_num = fk_d_num;
 	}
-	public int getFk_op_num() {
-		return fk_op_num;
-	}
-	public void setFk_op_num(int fk_op_num) {
-		this.fk_op_num = fk_op_num;
-	}
+
 	public String getO_date() {
 		return o_date;
 	}

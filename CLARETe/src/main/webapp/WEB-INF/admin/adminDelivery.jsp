@@ -65,7 +65,7 @@ $(document).ready(function() {
 				<div>회원관리</div>
 				<ul>
 					<li><a href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
-					<li>탈퇴회원조회</li>
+					<li><a href="<%= request.getContextPath() %>/admin/adminMemberStatus.cl">탈퇴회원조회</a></li>
 				</ul>
 			</li>
 			<li>

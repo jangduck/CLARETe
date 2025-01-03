@@ -23,7 +23,6 @@
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
 <script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script> 
 
-<jsp:include page="adminheader.jsp" />
 
 <style type="text/css">
 div#pageBar {
@@ -56,14 +55,14 @@ $(document).ready(function() {
     
     // **** select 태그에 대한 이벤트는 click 이 아니라 change 이다. **** // 
     $("select[name='sizePerPage']").bind("change", function(){
-       const frm = document.member_search_frm;
+       const frm = document.memberstatus_search_frm;
        // frm.action = "memberList.up"; // form 태그에 action 이 명기되지 않았으면 현재보이는 URL 경로로 submit 되어진다.
        // frm.method="get"; // form 태그에 method 를 명기하지 않으면 "get" 방식이다.
           frm.submit();
     });
 </script>
 
-    <title>관리자 회원관리</title>
+    <title>탈퇴 회원 조회</title>
         <!-- 부트스트랩 CSS 파일 경로 -->
 
     <header class="side-header">
@@ -112,7 +111,7 @@ $(document).ready(function() {
 	<div style="display: flex; flex-wrap: wrap;">
 		<div class="first-div">
 			<div style="margin: 30px 0px 0px 30px;">
-				<form name="member_search_frm">
+				<form name="memberstatus_search_frm">
 					<select name="searchType">
 						<option value="">검색대상</option>
 						<option value="m_name">회원이름</option>
@@ -121,6 +120,7 @@ $(document).ready(function() {
 					</select> <input type="text" name="searchWord" placeholder="검색어 입력" required"/>
 					<button type="button" class="btn btn-secondary"
 						onclick="goSearch()">검색</button>
+
 				</form>
 
 				<script>
@@ -132,17 +132,27 @@ $(document).ready(function() {
 				            return; // goSearch() 함수를 종료
 				        }
 				
-				        const frm = document.member_search_frm;
-				        frm.action = "admin.cl";
+				        const frm = document.memberstatus_search_frm;
+				        frm.action = "adminMemberStatus.cl";
 				        frm.submit();
 				    }
 				</script>
+				
+<!-- 				<script type="text/javascript">
+				    function checkHangul(input) {
+				        if (/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(input.value)) {
+				            alert("이메일 검색에는 한글을 입력할 수 없습니다.");
+				            input.value = input.value.replace(/[ㄱ-ㅎㅏ-ㅣ가-힣]/g, ''); // 한글 제거
+				        }
+				    }
+				</script> -->
+				
 			</div>
 		</div>
 
 		<div class="second-div">
 			<h4
-				style="font-weight: bold; text-align: center; margin-top: 50px; padding: 2% 0;">모든회원조회</h4>
+				style="font-weight: bold; text-align: center; margin-top: 50px; padding: 2% 0;">탈퇴 회원 조회</h4>
 
 			<div class="table-container" style="overflow-x: auto">
 				<table style="width: 100% !important;"
@@ -153,22 +163,22 @@ $(document).ready(function() {
 							<th>번호</th>
 							<th>회원이름</th>
 							<th>회원아이디</th>
-							<th>이메일</th>
+<!-- 							<th>이메일</th> -->
 							<th>전화번호</th>
 							<th>주소</th>
 							<th>성별</th>
 							<th>생년월일</th>
 							<th>포인트</th>
 							<th>가입일자</th>
-							<th>상세보기</th>
+							<th>회원탈퇴</th>
+<!-- 							<th>상세보기</th> -->
 						</tr>
 					</thead>
 
 					<tbody id="selectAll">
-					
-						<c:if test="${not empty requestScope.memberList}">
+						<c:if test="${not empty requestScope.memberstatusList}">
 
-							<c:forEach var="member" items="${requestScope.memberList}"
+							<c:forEach var="member" items="${requestScope.memberstatusList}"
 								varStatus="m_status">
 								<c:set var="mobile" value="${member.m_mobile}" />
 								<%-- member.m_mobile 만 선언해서 하이픈 넣을 수 있게함 --%>
@@ -180,12 +190,12 @@ $(document).ready(function() {
 										value="${requestScope.sizePerPage}" />
 									<%-- fmt:parseNumber 은 문자열을 숫자형식으로 형변환 시키는 것이다. --%>
 
-									 <td>${(currentShowPageNo - 1) * sizePerPage + (m_status.index + 1)}</td>
+									<td>${(currentShowPageNo - 1) * sizePerPage + (status.index + 1)}</td>
 									<%-- >>> 페이징 처리시 보여주는 순번 공식 <<<
                            데이터개수 - (페이지번호 - 1) * 1페이지당보여줄개수 - 인덱스번호 => 순번 --%>
 									<th>${member.m_name}</th>
 									<th>${member.m_id}</th>
-									<td>${member.m_email}</td>
+<%-- 									<td>${member.m_email}</td> --%>
 									<td>${fn:substring(mobile, 0, 3)}-${fn:substring(mobile, 3, 7)}-${fn:substring(mobile, 7, 11)}</td>
 									<td>${member.m_address}</td>
 									<td><c:choose>
@@ -195,7 +205,8 @@ $(document).ready(function() {
 									<td>${member.m_birth}</td>
 									<td>${member.m_point}</td>
 									<td>${member.m_register}</td>
-									<td><button style="width: 90px;"
+									<td>${member.m_status}</td>
+<%-- 									<td><button style="width: 90px;"
 											button" 
 				                    class="btn btn-primary"
 											data-toggle="modal" data-target="#exampleModal_centered"
@@ -214,18 +225,16 @@ $(document).ready(function() {
 											data-register="${member.m_register}"
 											data-lastpwd="${member.m_lastpwd}"
 											data-status="${member.m_status}" data-idle="${member.m_idle}">
-											상세보기</button></td>
+											상세보기</button></td> --%>
 								</tr>
 							</c:forEach>
-							
 						</c:if>
 
-						<c:if test="${empty requestScope.memberList}">
+						<c:if test="${empty requestScope.memberstatusList}">
 						  <tr>
 						    <td colspan="11" class="no-data">데이터가 존재하지 않습니다.</td>
 						  </tr>
 						</c:if>
-
 					</tbody>
 				</table>
 
@@ -242,12 +251,12 @@ $(document).ready(function() {
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal_centered" aria-hidden="true" data-backdrop="static">
+
+<!-- <div class="modal fade" id="exampleModal_centered" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
         
-       		<!-- Modal header -->
+       		Modal header
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">회원 상세보기</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -255,7 +264,7 @@ $(document).ready(function() {
                 </button>
             </div>
             
-            <!-- Modal body -->
+            Modal body
             <div class="modal-body">
                 <p><strong>이름:</strong> <span id="modal-name"></span></p>
                 <p><strong>아이디:</strong> <span id="modal-id"></span></p>
@@ -274,16 +283,16 @@ $(document).ready(function() {
             	<p><strong>휴면유무:</strong> <span id="modal-idle"></span></p>
             </div>
             
-            <!-- Modal footer -->
+            Modal footer
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
-
+<!-- 
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function () {
     const detailButtons = document.querySelectorAll('.btn[data-toggle="modal"]');
@@ -327,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
-</script>
+</script> -->
 
 
 

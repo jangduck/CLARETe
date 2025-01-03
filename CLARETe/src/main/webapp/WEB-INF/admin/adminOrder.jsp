@@ -13,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
 <script type="text/javascript" src="<%= request.getContextPath() %>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script>
 
+<jsp:include page="adminheader.jsp" />
 
 <style type="text/css">
 div#pageBar {
@@ -65,7 +66,7 @@ $(document).ready(function() {
 				<div>회원관리</div>
 				<ul>
 					<li><a href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
-					<li>탈퇴회원조회</li>
+					<li><a href="<%= request.getContextPath() %>/admin/adminMemberStatus.cl">탈퇴회원조회</a></li>
 				</ul>
 			</li>
 			<li>
@@ -96,8 +97,8 @@ $(document).ready(function() {
         <div>LOGO</div>
     </div>
     <div class="nav-btn">
-        <a href="#"><div class="home-btn">홈으로</div></a>
-        <a href="#"><div class="end-btn">종료</div></a>
+        <a href="<%=request.getContextPath()%>/index.cl"><div class="home-btn">홈으로</div></a>
+        <a href="<%=request.getContextPath()%>/login/logout.cl"><div class="end-btn">종료</div></a>
     </div>
 </nav>
 
@@ -148,13 +149,15 @@ $(document).ready(function() {
 						<th>번호</th>
 						<th>주문번호</th>
 						<th>주문날짜</th>
-						<th>회원아이디</th>
+						<th>구매자아이디</th>
+						<th>구매자이름</th>
 						<th>상품명</th>
 						<th>제품수량</th>
 						<th>주문금액</th>
 						<th>배송현황</th>
-						<th>옵션번호</th>
-						<th>배송지번호</th>
+<!-- 						<th>옵션번호</th>
+						<th>배송지번호</th> -->
+						<th>용량</th>
 						<th>상세보기</th>
 					</tr>
 				</thead>
@@ -174,44 +177,44 @@ $(document).ready(function() {
 									value="${requestScope.sizePerPage}" />
 								<%-- fmt:parseNumber 은 문자열을 숫자형식으로 형변환 시키는 것이다. --%>
 
-								<td>${(currentShowPageNo - 1) * sizePerPage + (status.index + 1)}</td>
+								 <td>${(currentShowPageNo - 1) * sizePerPage + (m_status.index + 1)}</td>
 								<%-- >>> 페이징 처리시 보여주는 순번 공식 <<<
 	                           			 데이터개수 - (페이지번호 - 1) * 1페이지당보여줄개수 - 인덱스번호 => 순번 --%>
 								<td>${order.o_num}</td>
 								<td>${order.o_date}</td>
 								<td>${order.fk_m_id}</td>
+								<td>${order.membervo.m_name}</td>
 								<td>${order.productvo.p_name}</td>
 								<td>${order.orderdetailvo.od_count}</td>
-								<td>${order.o_price}</td>
+<%-- 								<td>${order.o_price}</td> --%>
+								<td>
+									<fmt:formatNumber value="${order.o_price}" pattern="#,###" />
+								</td>
 								<td><c:choose>
 										<c:when test="${order.status == 0}">결제 대기</c:when>
 										<c:when test="${order.status == 1}">결제 완료</c:when>
 										<c:when test="${order.status == 2}">배송 중</c:when>
 										<c:otherwise>배송 완료</c:otherwise>
 									</c:choose></td>
-								<td><c:choose>
-										<c:when test="${order.status == 0}">50ml</c:when>
-										<c:when test="${order.status == 1}">75ml</c:when>
-										<c:when test="${order.status == 2}">100ml</c:when>
-									</c:choose></td>
-								<td>${order.fk_d_num}</td>
-								<%-- 									<c:choose>
-									    <c:when test="${not empty order.deliveryvo}">
-									        <td>${order.deliveryvo.d_num}</td>
-									    </c:when>
-									    <c:otherwise>
-									        <td>배송 정보 없음</td>
-									    </c:otherwise>
-									</c:choose> --%>
-								<%-- 										<td>${order.optionvo.op_num}</td>  --%>
+<%-- 								<td>${order.orderdetailvo.fk_op_num}</td>	
+								<td>${order.fk_d_num}</td> --%>
+ 								<td><c:choose>
+										<c:when test="${order.optionvo.op_ml == 0}">50ml</c:when>
+										<c:when test="${order.optionvo.op_ml == 1}">75ml</c:when>
+										<c:when test="${order.optionvo.op_ml == 2}">100ml</c:when>
 
-								<td><button style="width: 90px;" type="button"
+								</c:choose></td>
+
+								<td><button style="width: 50px; padding: 0;" type="button"
 										class="btn btn-primary" data-toggle="modal"
 										data-target="#exampleModal_centered" data-num="${order.o_num}"
 										data-name="${order.membervo.m_name}"
 										data-email="${order.membervo.m_email}"
 										data-mobile="${fn:substring(mobile, 0, 3)}-${fn:substring(mobile, 3, 7)}-${fn:substring(mobile, 7, 11)}"
-										data-date="${order.o_date}" data-price="${order.o_price}">
+										data-date="${order.o_date}" 
+										data-op_num="${order.orderdetailvo.fk_op_num}"
+										data-d_num="${order.fk_d_num}"
+										data-price=<fmt:formatNumber value="${order.o_price}" pattern="#,###" />>
 										상세보기</button></td>
 
 								<%-- 									<td>${order.membervo.m_name}</td>
@@ -262,7 +265,9 @@ $(document).ready(function() {
                 <p><strong>이메일:</strong> <span id="modal-email"></span></p>
                 <p><strong>전화번호:</strong> <span id="modal-mobile"></span></p>
                 <p><strong>주문일자:</strong> <span id="modal-date"></span></p>
-                <p><strong>주문금액:</strong> <span id="modal-price"></span></p>
+                <p><strong>옵션번호:</strong> <span id="modal-date"></span></p>
+                <p><strong>배송지번호:</strong> <span id="modal-date"></span></p>
+                <p><strong>주문금액:</strong> <span id="modal-price"></span></p> 
             </div>
             
             <!-- Modal footer -->
@@ -286,8 +291,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const email = this.getAttribute("data-email");
             const mobile = this.getAttribute("data-mobile");
             const date = this.getAttribute("data-date");
+            const op_num = this.getAttribute("data-op_num");
+            const d_num = this.getAttribute("data-d_num");
             const price = this.getAttribute("data-price");
-            
             
             // 모달에 데이터 삽입
             document.getElementById("modal-num").textContent = num;
@@ -295,6 +301,8 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("modal-email").textContent = email;
             document.getElementById("modal-mobile").textContent = mobile;
             document.getElementById("modal-date").textContent = date;
+            document.getElementById("modal-op_num").textContent = op_num;
+            document.getElementById("modal-d_num").textContent = d_num;
             document.getElementById("modal-price").textContent = price;
             
         });

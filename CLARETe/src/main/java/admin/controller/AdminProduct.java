@@ -22,13 +22,19 @@ public class AdminProduct extends AbstractController {
 	   @Override
 	    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		   String method = request.getMethod();
+	    	// == 관리자(admin)로 로그인 했을 때만 회원조회가 가능하도록 해야 한다. == // 
+	        HttpSession session = request.getSession();
+	        
+	        MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	    	
+	        if( loginuser != null && "admin".equals(loginuser.getM_id()) ) {
+	        // 관리자(admin) 로 로그인 했을 경우
 
 	        String searchType = request.getParameter("searchType");
 	        String searchWord = request.getParameter("searchWord");
 	        String currentShowPageNo = request.getParameter("currentShowPageNo");
 	        
-	        String sizePerPage = "1";  // 페이지에서 보여줄 상품 수 
+	        String sizePerPage = "3";  // 페이지에서 보여줄 상품 수 
 	        
 	        if (searchType == null ||
 	                (!"p_name".equals(searchType) &&
@@ -101,7 +107,7 @@ public class AdminProduct extends AbstractController {
 	        
 	        String pageBar = "";
 	        
-	        int blockSize = 10;   /////////////데이터 많아지면 여기서 바꾸기!!!
+	        int blockSize = 2;   /////////////데이터 많아지면 여기서 바꾸기!!!
 	         // blockSize 는 블럭(토막)당 보여지는 페이지 번호의 개수이다.
 	        
 	        int loop = 1;
@@ -187,9 +193,22 @@ public class AdminProduct extends AbstractController {
 
 	        } catch (SQLException e) {
 	            e.printStackTrace();
+	            
 	            super.setRedirect(true);
 //	            super.setViewPage(request.getContextPath() + "/error.jsp");
 	        }
 		   
 	    }
+	        else {
+	        	// 로그인을 안한 경우 또는 일반사용자로 로그인 한 경우
+	    		String message = "관리자만 접근이 가능합니다.";
+	    		String loc = "javascript:history.back()";
+
+	    		request.setAttribute("message", message);
+	    		request.setAttribute("loc", loc);
+
+	    		super.setRedirect(false);
+	    		super.setViewPage("/WEB-INF/msg.jsp");
+	        }
 	}
+}

@@ -21,15 +21,20 @@ public class AdminSelectAll extends AbstractController {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-    	HttpSession session = request.getSession();
+    	// == 관리자(admin)로 로그인 했을 때만 회원조회가 가능하도록 해야 한다. == // 
+        HttpSession session = request.getSession();
+        
+        MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
     	
+        if( loginuser != null && "admin".equals(loginuser.getM_id()) ) {
+        // 관리자(admin) 로 로그인 했을 경우
         // 파라미터 값 처리
         String searchType = request.getParameter("searchType");
         String searchWord = request.getParameter("searchWord");
 //        String sizePerPage = request.getParameter("sizePerPage"); 
         String currentShowPageNo = request.getParameter("currentShowPageNo");
         
-        String sizePerPage = "1";  // 페이지에서 보여줄 회원 수 
+        String sizePerPage = "3";  // 페이지에서 보여줄 회원 수 
 /////////////데이터 많아지면 여기서 바꾸기!!!
 
         // 기본값 설정
@@ -54,12 +59,6 @@ public class AdminSelectAll extends AbstractController {
         paraMap.put("currentShowPageNo", currentShowPageNo);
         paraMap.put("sizePerPage", sizePerPage); // 한페이지당 보여줄 행의 개수
         
-        // 회원탈퇴 파라미터 처리 
-        String memberstatus = request.getParameter("memberstatus");
-        if (memberstatus == null) {
-        	memberstatus = "false"; // 기본값: 탈퇴 회원 제외
-        }
-        paraMap.put("memberstatus", memberstatus);
 
 //        System.out.println("나 서블릿 ~ " + paraMap.get("searchType"));
 //        System.out.println("ㅎㅇㅎㅇ " + paraMap.get("searchWord"));       
@@ -87,7 +86,7 @@ public class AdminSelectAll extends AbstractController {
         
         String pageBar = "";
         
-        int blockSize = 10;   /////////////데이터 많아지면 여기서 바꾸기!!!
+        int blockSize = 1;   /////////////데이터 많아지면 여기서 바꾸기!!!
          // blockSize 는 블럭(토막)당 보여지는 페이지 번호의 개수이다.
         
         int loop = 1;
@@ -147,6 +146,13 @@ public class AdminSelectAll extends AbstractController {
         	
             // 회원 목록 가져오기
             List<MemberVO> memberList = adao.searchMembers(paraMap);
+            
+			/*
+			 * for (MemberVO member : memberList) { System.out.println("Postcode: " +
+			 * member.getM_postcode()); System.out.println("Detail Address: " +
+			 * member.getM_detail_address()); System.out.println("Extra: " +
+			 * member.getM_extra()); }
+			 */
 
             // 뷰에 데이터 전달
             request.setAttribute("memberList", memberList);
@@ -160,8 +166,6 @@ public class AdminSelectAll extends AbstractController {
             
             request.setAttribute("currentURL", currentURL);
             
-//            request.setAttribute("memberstatus", memberstatus); // 회원탈퇴
-            
             
             /* >>> 뷰단(memberList.jsp)에서 "페이징 처리시 보여주는 순번 공식" 에서 사용하기 위해 
             검색이 있는 또는 검색이 없는 회원의 총개수 알아오기 시작 <<< */
@@ -171,20 +175,31 @@ public class AdminSelectAll extends AbstractController {
 		    request.setAttribute("totalMemberCount", totalMemberCount);
 		    request.setAttribute("currentShowPageNo", currentShowPageNo);
 		    /* >>> 검색이 있는 또는 검색이 없는 회원의 총개수 알아오기 끝 <<< */
-
+		
             super.setRedirect(false);
             super.setViewPage("/WEB-INF/admin/adminSelectAll.jsp");
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            super.setRedirect(true);
-//            super.setViewPage(request.getContextPath() + "/error.up");
-        }
-        
-        
-    } 
+			e.printStackTrace();
 
-    
+			super.setRedirect(true);
+//            super.setViewPage(request.getContextPath() + "/error.up");
+		}
+
+	} 
+        else {
+		// 로그인을 안한 경우 또는 일반사용자로 로그인 한 경우
+		String message = "관리자만 접근이 가능합니다.";
+		String loc = "javascript:history.back()";
+
+		request.setAttribute("message", message);
+		request.setAttribute("loc", loc);
+
+		super.setRedirect(false);
+		super.setViewPage("/WEB-INF/msg.jsp");
+	}
+
 }
 
+}
 
