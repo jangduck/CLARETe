@@ -17,10 +17,12 @@ public class Complete extends AbstractController {
 		
 		HttpSession session = request.getSession();
 		String d_num = (String) session.getAttribute("fk_d_num");
+		String shipping = (String) session.getAttribute("shipping");
 		//String p_num = (String) session.getAttribute("p_num");
 		//String o_cnt = (String) session.getAttribute("o_cnt");
 		
 		System.out.println("배송지번호 과연~~~~~" + d_num);
+		System.out.println("배송비 과연~~~~~" + shipping);
 		//System.out.println("주문번호 과연~~~" + p_num);
 		//System.out.println("주문개수 과연~~~" + p_num);
 		

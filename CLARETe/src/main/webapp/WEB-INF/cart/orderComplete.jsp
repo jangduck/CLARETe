@@ -140,12 +140,12 @@ String ctxPath = request.getContextPath();
 						<td>76,000</td>
 					</tr>
 					<tr>
-						<td class="priceTd">할인금액</td>
+						<td class="priceTd">포인트 사용금액</td>
 						<td>0</td>
 					</tr>
 					<tr>
 						<td class="priceTd">배송비</td>
-						<td>0</td>
+						<td><fmt:formatNumber value="${sessionScope.shipping}" pattern="#,###,###"/></td>
 					</tr>
 					<tr>
 						<td class="priceTd total">최종 결제 금액</td>

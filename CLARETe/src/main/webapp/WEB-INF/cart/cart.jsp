@@ -150,7 +150,7 @@
 			</div>	
 			
 			<input type="text" id="input_total_product" name="totalProduct" value=""> 
-			<input type="text" id="input_total_shipping" name="totalShipping" value="">
+			<input type="text" name="input_total_shipping" id="input_total_shipping" name="totalShipping" value="">
 			<input type="text" id="input_total_total" name="totalTotal" value="">
 			
 		</div>
