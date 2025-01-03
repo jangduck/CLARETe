@@ -4,7 +4,42 @@
 
 $(document).ready(function(){
 
-    
+    $('div#reviewWi').click(function(){
+		// alert('확인~');
+
+		$('.toggleBack').css({
+			'display': 'block'
+		});
+		
+		$('.toggleCon').css({
+			'display': 'block'
+		});
+	});
+	
+	$('#x').click(function(){
+		$('.toggleBack').css({
+			'display': ''
+		});
+		
+		$('.toggleCon').css({
+			'display': ''
+		});
+	});
+	
+	
+	$('#btnReset').click(function(){
+		$('.toggleBack').css({
+			'display': ''
+		});
+		
+		$('.toggleCon').css({
+			'display': ''
+		});
+	});
+
+	
+	
+	
 
 }) // end of $(document).ready(function()----------------------
 
@@ -73,3 +108,41 @@ function goAjax(p_num, op_num, m_id){
     })
 
 }
+
+
+
+
+
+
+/* 전송 함수 추가 */
+
+
+
+function ReviewUpload(){
+	
+	
+	const frm = document.reviewFrm;
+
+	
+	
+	
+	/*
+	var r_star = document.getElementById("r_star").value;
+		
+	const r_star = $(e.target).parent().find("span#r_star").val();  
+		frm.r_star.value = r_star;
+		alert(r_star);*/
+		
+		frm.action = "/CLARETe/shop/prodView.cl";
+		frm.method = "post";
+		frm.submit();
+		
+}
+
+
+
+
+
+
+
+

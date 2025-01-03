@@ -9,6 +9,7 @@
     --size16 : clamp(16px, 0.8333vw, 200px);
     --size18 : clamp(17px, 0.9375vw, 200px);
     --size20 : clamp(18px, 1.0417vw, 200px);
+    --size24 : clamp(20px, 1.2500vw, 200px);
     --size30 : clamp(28px, 1.5625vw, 200px);
     --size32 : clamp(30px, 1.6667vw, 200px);
     --size40 : clamp(36px, 2.0833vw, 200px);
@@ -16,6 +17,7 @@
     --size60 : clamp(50px, 3.1250vw, 200px);
     --size65 : clamp(60px, 3.3854vw, 200px);
 
+    --size70  : clamp(66px, 3.6458vw, 2000px);
     --size98  : clamp(80px, 5.1042vw, 2000px);
     --size100 : clamp(80px, 5.2083vw, 2000px);
     --size120 : clamp(100px, 6.2500vw, 2000px);
@@ -25,7 +27,6 @@
     --size700 : clamp(680px, 36.4583vw, 3000px);
     --size930 : clamp(900px, 48.4375vw, 10000px);
 }
-
 
 .section1{
     width: 100%;
@@ -52,6 +53,11 @@
     background-color: #E9E9E9;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+aside{
+    width: var(--size700);
+    height: auto;
 }
 
 .product_sub_imgs{
@@ -98,6 +104,7 @@
 .product_price{
     margin-bottom: var(--size20);
 }
+
 
 .consumerPrice{
 	font-size: var(--size14);
@@ -190,6 +197,58 @@ body > section > div > div.productInfo_contaienr > form > div.product_price > sp
 
 
 
+.payment_info_box{
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--size24) 0px;
+    margin-top: var(--size70);
+    border-bottom: 1px solid #000;
+    border-top: 1px solid #000;
+}
+
+.payment_info_box:nth-child(3){
+    margin-top: 0px;
+    border-top: 0px;
+}
+
+
+.review_container{
+    margin-top: var(--size70);
+    width: 100%;
+    height: auto;
+    border: solid red 0px;
+}
+
+.review_container > div:first-child{
+    display: flex; 
+    justify-content: space-between;
+    margin-bottom: var(--size12);
+}
+
+
+.review_box{
+    border-top: 1px solid #000; 
+    border-bottom:  1px solid #000; 
+    box-sizing: border-box;
+    padding: var(--size14) 0;
+}
+
+
+.review_box > ul{
+    list-style: none;
+}
+
+.review_box > ul > li{
+    box-sizing: border-box;
+    padding: var(--size30) 0;
+    border-top: 1px solid #ACABAB;
+}
+
+.review_box > ul > li:last-child{
+    border-bottom: 1px solid #ACABAB;
+}
+
+
 /* select 기본 스타일 */
 select {
     width: 100%;
@@ -236,4 +295,130 @@ select:focus {
 option {
     padding: 0.5208vw;
     color: #4B4B4B;
+}
+
+.toggleBack{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background-color: #000;
+	opacity: 0.2;
+	z-index:5;
+	display: none;
+}
+
+.toggleCon{
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 40%;
+	height: auto;
+	background-color: #fff;
+	border-radius: 10px;
+	z-index:6;
+	display: none;
+}
+
+.toggleinner{
+	position: relative;
+	box-sizing: border-box;
+	padding: 24px;
+}
+
+.toggleinner > form div > span:first-child {
+	color: #797979;
+	margin-right: 2%;
+	font-size: 14px;
+	white-space : nowrap
+}
+
+textarea#r_msg{
+	display: block;
+	width: 100%;
+	height: 100px;
+	border: 1px solid #797979;
+	border-radius: 8px;
+	box-sizing: border-box;
+	padding: 6px;
+}
+
+textarea#r_msg:focus{
+	outline: none;
+}
+
+textarea#r_msg::placeholder{
+	color: #797979;
+}
+
+.toRow{
+	margin-top:2%;
+	display: flex;
+	clear: both;
+	align-items: center;
+}
+
+.star_rating {
+  width: 100%; 
+  box-sizing: border-box; 
+  display: inline-flex; 
+  float: left;
+  flex-direction: row; 
+  justify-content: flex-start;
+  cursor: pointer;
+}
+.star_rating .star {
+  width: 25px; 
+  height: 25px; 
+  margin-right: 10px;
+  display: inline-block; 
+  background: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FE2bww%2FbtsviSSBz4Q%2F5UYnwSWgTlFt6CEFZ1L3Q0%2Fimg.png') no-repeat; 
+  background-size: 100%; 
+  box-sizing: border-box; 
+}
+.star_rating .star.on {
+  width: 25px; 
+  height: 25px;
+  margin-right: 10px;
+  display: inline-block; 
+  background: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fb2d6gV%2FbtsvbDoal87%2FXH5b17uLeEJcBP3RV3FyDk%2Fimg.png') no-repeat;
+  background-size: 100%; 
+  box-sizing: border-box; 
+}
+
+div#btn{
+	margin-top: 2%;
+	display: flex;
+	justify-content: center;
+}
+
+.btn{
+	width: 100px;
+	height: 40px;
+	border: 1px solid #000;
+}
+
+#btnReset{
+	background-color: #fff;
+	color: #000;
+	cursor: pointer;
+}
+
+#btnSubmit{
+	background-color: #000;
+	color: #fff;
+	cursor: pointer;
+}
+
+#x{
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	cursor: pointer;
+}
+
+#reviewWi{
+	cursor: pointer;
 }

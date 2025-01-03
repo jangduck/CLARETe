@@ -1,13 +1,58 @@
 package review.domain;
 
+import delivery.domain.DeliveryVO;
+import member.domain.MemberVO;
+import order.domain.OrderVO;
+import orderdetail.domain.orderdetailVO;
+import product.domain.ProductVO;
+
 public class ReviewVO {
-	int r_num; // ¸®ºä¹øÈ£
+	int r_num; // ï¿½ï¿½ï¿½ï¿½ï¿½È£
 	String fk_m_id; // userid
-	int fk_p_num; // Á¦Ç°°íÀ¯¹øÈ£
-	int r_update; // ¸®ºä¼öÁ¤ÀÏÀÚ
-	String r_register; // ¸®ºäÀÛ¼ºÀÏÀÚ
-	int r_star; // º°Á¡
-	String r_msg; // ¸®ºä³»¿ë
+	int fk_p_num; // ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	int r_update; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	String r_register; // ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½ï¿½ï¿½ï¿½ï¿½
+	int r_star; // ï¿½ï¿½ï¿½ï¿½
+	String r_msg; // ï¿½ï¿½ï¿½ä³»ï¿½ï¿½
+	
+	private MemberVO mvo;
+	private OrderVO ovo;
+	private orderdetailVO odvo;
+	private ProductVO pvo;
+	private DeliveryVO dvo;
+	
+	
+	public DeliveryVO getDvo() {
+		return dvo;
+	}
+	public void setDvo(DeliveryVO dvo) {
+		this.dvo = dvo;
+	}
+	public MemberVO getMvo() {
+		return mvo;
+	}
+	public void setMvo(MemberVO mvo) {
+		this.mvo = mvo;
+	}
+	public OrderVO getOvo() {
+		return ovo;
+	}
+	public void setOvo(OrderVO ovo) {
+		this.ovo = ovo;
+	}
+	public orderdetailVO getOdvo() {
+		return odvo;
+	}
+	public void setOdvo(orderdetailVO odvo) {
+		this.odvo = odvo;
+	}
+	public ProductVO getPvo() {
+		return pvo;
+	}
+	public void setPvo(ProductVO pvo) {
+		this.pvo = pvo;
+	}
+	
 	
 	public int getR_num() {
 		return r_num;

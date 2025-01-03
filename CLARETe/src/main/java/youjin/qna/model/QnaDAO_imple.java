@@ -59,15 +59,14 @@ public class QnaDAO_imple implements QnaDAO {
 	//1:1문의 등록
 	@Override
 	public int qnaUpload(QnaVO qna) {
-		int result = 0;
+		int n = 0;
 		try {
 			  conn = ds.getConnection();
 			  
 			  String sql = " insert into tbl_qna(q_num, fk_m_id, q_title, q_ask, q_category) "
 			  			+ " values(seq_faq.nextval, ?, ?, ?, ?) "; 
 			  
-			  pstmt = conn.prepareStatement(sql);
-			  
+			  pstmt = conn.prepareStatement(sql);			  
 			  pstmt.setString(1, qna.getFk_m_id());
 				/* pstmt.setInt(2, qna.getFk_p_num()); */
 			  pstmt.setString(2, qna.getQ_title());
@@ -75,7 +74,7 @@ public class QnaDAO_imple implements QnaDAO {
 			  pstmt.setInt(4, qna.getQ_category());
 			
 		  
-			  result = pstmt.executeUpdate();
+			  n = pstmt.executeUpdate();
 		
 			
 		} catch (SQLException e) {
@@ -85,7 +84,7 @@ public class QnaDAO_imple implements QnaDAO {
 		} finally {
 			close();
 		}
-			return result;
+			return n;
 	
 	}
 
@@ -182,7 +181,7 @@ public class QnaDAO_imple implements QnaDAO {
 	@Override
 	public int qnaAnswerUpload(QnaVO qvo) throws SQLException {
 		
-		int result = 0;
+		int n = 0;
 		try {
 			  conn = ds.getConnection();
 			  System.out.println("문의등록 sql 작성중...");
@@ -193,7 +192,7 @@ public class QnaDAO_imple implements QnaDAO {
 			  pstmt.setString(1, qvo.getQ_answer());
 			  pstmt.setInt(2, qvo.getQ_num());
 			 
-			  result = pstmt.executeUpdate();
+			  n = pstmt.executeUpdate();
 			  System.out.println("작성끝!");
 			  System.out.println(qvo.getQ_answer());
 			  System.out.println(qvo.getQ_num());
@@ -205,7 +204,7 @@ public class QnaDAO_imple implements QnaDAO {
 		} finally {
 			close();
 		}
-			return result;		
+			return n;		
 	}
 	
 	

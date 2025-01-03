@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>         
     
 <%
  String ctxPath = request.getContextPath();
@@ -30,6 +31,10 @@
     <jsp:include page="mypageheader.jsp"></jsp:include>    
 	<%-- 마이페이지해더 include 받아옴 --%>
 	
+<form name="mypageFrm" action="/CLARETe/mypage/mypage_myreview.cl" method="get">
+	<input type="text" name="fk_m_id" value="<%=session.getAttribute("id")%>"/>
+	<button>보내기</button>
+</form>
 
 		<%-- =============================================== --%>
         <div class="mypage_contants_bottom">
@@ -48,37 +53,45 @@
             <div class="review_container">
 
 
+
+
                 <!-- === for문 대상 시작 === -->
+            <c:if test="${not empty requestScope.myreviewList}">
+			<c:forEach var="rvo" items="${requestScope.myreviewList}">
                 <a href="#">
                     <div class="review_box">
                         <div>
                             <div class="review_img"></div>
                             <div class="review_info_box">
                                 <div class="reviw_info">
-                                    <div>상품명이 들어설 자리입니다.</div> <!-- 상품명 넣는 자리입니다 -->
+                                    <div>${rvo.pvo.p_name}</div> <!-- 상품명 넣는 자리입니다 -->
                                 </div>
                                 <div>
-                                    <span>1</span><span>개</span> <!-- 상품 개수 넣는 자리입니다 -->
+                                    <span>${rvo.odvo.od_count}</span><span>개</span> <!-- 상품 개수 넣는 자리입니다 -->
                                     <span>/</span>
                                     <span>50</span><span>ml</span> <!-- 상품 옵션 넣는 자리입니다 -->
                                 </div>
                             </div>
                         </div>
                         <div class="review_contants"> <!-- 리뷰내용을 넣는 자리입니다. -->
-                            향수 너무 향이 좋아서 이번에 또 구매했네요 클라르테 봄, 여름, 가을, 겨울 별로 할인 판매 해주셔서 항상 감사합니다.
+                            ${rvo.r_msg}
                         </div>
                     </div>
                 </a>
+                </c:forEach>            
+			</c:if>
                 <!-- === for문 대상 끝 === -->
-
-
+			
+			
+			 <%--
                 <a href="#">
+                
                     <div class="review_box">
                         <div>
                             <div class="review_img"></div>
                             <div class="review_info_box">
                                 <div class="reviw_info">
-                                    <div>상품명이 들어설 자리입니다.</div> <!-- 상품명 넣는 자리입니다 -->
+                                    <div> 상품명이 들어설 자리입니다.</div> <!-- 상품명 넣는 자리입니다 -->
                                 </div>
                                 <div>
                                     <span>1</span><span>개</span> <!-- 상품 개수 넣는 자리입니다 -->
@@ -91,8 +104,10 @@
                             향수 너무 향이 좋아서 이번에 또 구매했네요 클라르테 봄, 여름, 가을, 겨울 별로 할인 판매 해주셔서 항상 감사합니다.
                         </div>
                     </div>
+             
+	         
                 </a>
-
+  					--%>
             </div>
 
 

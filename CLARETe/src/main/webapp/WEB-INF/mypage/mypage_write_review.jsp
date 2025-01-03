@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+ 
 <%
  String ctxPath = request.getContextPath();
 %>
@@ -21,6 +23,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
 </head>
+
+<script type="text/javascript"> 
+this.document.getElementById("mypageFrm").submit(); 
+</script>
+
+
+
 <body> 
 	<%-- 해더 include 받아옴 --%>
     <jsp:include page="../header.jsp"></jsp:include>
@@ -44,98 +53,68 @@
                 </span>
             </div>
 
-            <!-- === for문 대상 시작 === -->
 
-            <div class="recent-orders">
+<form name="mypageFrm" action="/CLARETe/mypage/mypage_write_review.cl" method="get">
+	<input type="text" name="fk_m_id" value="<%=session.getAttribute("id")%>"/>
+	<button>보내기</button>
+</form>
+
+            <!-- === for문 대상 시작 === -->           
+			<c:if test="${not empty requestScope.myreviewUpList}">
+			<c:forEach var="rvo" items="${requestScope.myreviewUpList}">
+            <div class="recent-orders"> 
                 <div>
                     <ul>
                         <li>
-                            <div class="recent-img">img</div> <!-- 상품 이미지 넣는 자리입니다 -->
+                            <div class="recent-img">img </div> <!-- 상품 이미지 넣는 자리입니다  ${rvo.pvo.p_image}-->
                         </li>
                         <li>
                             <div>
-                                <div>상품명이 들어설 자리입니다.</div> <!-- 상품명 넣는 자리입니다 -->
+                                <div>${rvo.pvo.p_name}</div> <!-- 상품명 넣는 자리입니다 -->
                             </div>
                             <div>
-                                <span>1</span><span>개</span> <!-- 상품 개수 넣는 자리입니다 -->
+                                <span>${rvo.odvo.od_count}</span><span>개</span> <!-- 상품 개수 넣는 자리입니다 -->
                                 <span>/</span>
-                                <span>50</span><span>ml</span> <!-- 상품 옵션 넣는 자리입니다 -->
+                                <span>${rvo.odvo.fk_op_num}</span><span>ml</span> <!-- 상품 옵션 넣는 자리입니다 -->
                             </div>
                         </li>
                         <li>
                             <div>
-                                <div>이곳은 주소가 들어설 자리입니다. (행정동) 202호</div> <!-- 배달받는 사람 주소 넣는 자리입니다 -->
+                                <div>${rvo.dvo.d_address}${rvo.dvo.d_detail_address}${rvo.dvo.d_extra}</div> <!-- 배달받는 사람 주소 넣는 자리입니다 -->
                             </div>
                             <div>
-                                <span>이순신</span> <!-- 배달받는 사람 이름 넣는 자리입니다 -->
+                                <span>${rvo.dvo.d_name}</span> <!-- 배달받는 사람 이름 넣는 자리입니다 -->
                                 <span>/</span>
-                                <span>010-2020-3030</span> <!-- 배달받는 사람 전화번호 넣는 자리입니다 -->
+                                <span>${rvo.dvo.d_mobile}</span> <!-- 배달받는 사람 전화번호 넣는 자리입니다 -->
                             </div>
                         </li>
                         <li>
                             <div>
-                                <span>50,000</span><span>원</span> <!-- 상품 가격 넣는 자리입니다 -->
+                                <span><fmt:formatNumber value="${rvo.odvo.od_price}" pattern="###,###" /></span><span>원</span> <!-- 상품 가격 넣는 자리입니다 -->
                             </div>
                         </li>
                         <li>
                             <div style="display: flex; justify-content: space-around;">
-                                <span class="confirmed-btn">리뷰 작성하기</span> <!-- 구매확정이 되어야 리뷰를 달 수 있게 처리해주세요 -->
+                                <span><a class="confirmed-btn" href="<%= ctxPath %>/shop/prodView.cl?p_num=${rvo.pvo.p_num}">리뷰 작성하기</a></span> <!-- 구매확정이 되어야 리뷰를 달 수 있게 처리해주세요 -->
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
-
+ 			</c:forEach>            
+			</c:if>
             <!-- === for문 대상 끝 === -->
 
+           
+            
+            
             
 
-            <div class="recent-orders">
-                <div>
-                    <ul>
-                        <li>
-                            <div class="recent-img">img</div> <!-- 상품 이미지 넣는 자리입니다 -->
-                        </li>
-                        <li>
-                            <div>
-                                <div>상품명이 들어설 자리입니다.</div> <!-- 상품명 넣는 자리입니다 -->
-                            </div>
-                            <div>
-                                <span>1</span><span>개</span> <!-- 상품 개수 넣는 자리입니다 -->
-                                <span>/</span>
-                                <span>50</span><span>ml</span> <!-- 상품 옵션 넣는 자리입니다 -->
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <div>이곳은 주소가 들어설 자리입니다. (행정동) 202호</div> <!-- 배달받는 사람 주소 넣는 자리입니다 -->
-                            </div>
-                            <div>
-                                <span>이순신</span> <!-- 배달받는 사람 이름 넣는 자리입니다 -->
-                                <span>/</span>
-                                <span>010-2020-3030</span> <!-- 배달받는 사람 전화번호 넣는 자리입니다 -->
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <span>50,000</span><span>원</span> <!-- 상품 가격 넣는 자리입니다 -->
-                            </div>
-                        </li>
-                        <li>
-                            <div style="display: flex; justify-content: space-around;">
-                                <span class="confirmed-btn">리뷰 작성하기</span> <!-- 구매확정이 되어야 리뷰를 달 수 있게 처리해주세요 -->
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-        </div>
 		<%-- =============================================== --%>
 		
 		
-
+ 
+ 
 <%-- 마이페이지푸터 include 받아옴 --%>
 <jsp:include page="mypagefooter.jsp"></jsp:include>
 <%-- 마이페이지푸터 include 받아옴 --%> 

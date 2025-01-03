@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import common.controller.AbstractController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import qna.domain.QnaVO;
 import youjin.qna.model.*;
 
@@ -29,10 +30,8 @@ public class QnaUpload extends AbstractController {
 		} else {		
 		
 			System.out.println("포스트로 들어옴");
-			
-			
-			
-			String fk_m_id = request.getParameter("fk_m_id");
+				
+			String fk_m_id = request.getParameter("fk_m_id");		
 			/* int p_num = Integer.parseInt(request.getParameter("p_num")); */
 			String q_title = request.getParameter("q_title");
 			String q_ask = request.getParameter("q_ask");			
