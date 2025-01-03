@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
+	
+	$('#menu2 > span').click(function(){
+		$('#orderInfo').slideToggle();
+		$('#selectDelivery').slideToggle();
+		
+	})
 
 	const modal = document.getElementById("deliveryModal");
 	const radioButtons = modal.querySelectorAll('input[type="radio"]');

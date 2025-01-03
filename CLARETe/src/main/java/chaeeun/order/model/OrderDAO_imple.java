@@ -13,6 +13,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import order.domain.OrderVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 
@@ -223,6 +224,44 @@ public class OrderDAO_imple implements OrderDAO {
 		} finally {
 			close();
 		}
+		
+	}
+
+	
+	// 주문 select
+	@Override
+	public OrderVO selectOrder(String pnum) throws SQLException {
+		
+		OrderVO ovo = new OrderVO();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select o_num, fk_m_id, fk_d_num, o_date, status, o_price, o_cnt "
+					   + " from tbl_order "
+					   + " where o_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, pnum);
+	        
+	        rs = pstmt.executeQuery();
+	        
+	        if (rs.next()) {
+	        	ovo.setO_num(rs.getInt("o_num"));
+	        	ovo.setFk_m_id(rs.getString("fk_m_id"));
+	        	ovo.setFk_d_num(rs.getInt("fk_d_num"));
+	        	ovo.setO_date(rs.getString("o_date"));
+	        	ovo.setStatus(rs.getInt("status"));
+	        	ovo.setO_price(rs.getString("o_price"));
+	        	ovo.setO_cnt(rs.getInt("o_cnt"));
+	        }
+			
+		} finally {
+			close();
+		}
+		
+		return ovo;
 		
 	}
 

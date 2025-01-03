@@ -56,7 +56,7 @@ String ctxPath = request.getContextPath();
 			</div>
 
 			<div id="ordernum">
-				<span>2024-12-21 주문하신 향수의</span><br> <span>주문번호는 <span
+				<span>${fn:substring(requestScope.ovo.o_date, 0, 10)} 주문하신 향수의</span><br> <span>주문번호는 <span
 					id="num">1234</span> 입니다
 				</span>
 			</div> <!-- div#ordernum -->
@@ -72,7 +72,7 @@ String ctxPath = request.getContextPath();
 			<div id="productInfoDiv">
 
 				<div id="menu1">
-					<strong>주문 상품 정보 (2건)</strong>
+					<strong>주문 상품 정보 (${requestScope.ovo.o_cnt}건)</strong>
 				</div>
 				
 				<div id="productList">
@@ -141,7 +141,7 @@ String ctxPath = request.getContextPath();
 					</tr>
 					<tr>
 						<td class="priceTd">포인트 사용금액</td>
-						<td>0</td>
+						<td><fmt:formatNumber value="${sessionScope.m_point}" pattern="#,###,###"/></td>
 					</tr>
 					<tr>
 						<td class="priceTd">배송비</td>
@@ -149,7 +149,7 @@ String ctxPath = request.getContextPath();
 					</tr>
 					<tr>
 						<td class="priceTd total">최종 결제 금액</td>
-						<td class="total">76,000</td>
+						<td class="total"><fmt:formatNumber value="${requestScope.ovo.o_price}" pattern="#,###,###"/></td>
 					</tr>
 				</table>
 				

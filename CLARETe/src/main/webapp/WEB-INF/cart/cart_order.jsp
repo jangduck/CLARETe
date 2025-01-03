@@ -186,14 +186,14 @@
         			<div style="display: flex; justify-content: space-between; margin: 10px 0;">
             			<span class="shipping">배송비</span>
             			<span class="shipping_price">
-            				<fmt:formatNumber value="${requestScope.totalShipping}" pattern="#,###,###"/>
+            				<fmt:formatNumber value="${sessionScope.shipping}" pattern="#,###,###"/>
             			</span>
         			</div>
         			
         			<!-- 적립금 -->
         			<div style="margin: 10px 0;">
             			<span class="point">적립금</span>
-            			<input class="point_price" name="point_price" /> / <span class="myPoint"><fmt:formatNumber value="${requestScope.m_point}" pattern="#,###,###"/></span>
+            			<input type="text" class="point_price" name="point_price" /> / <span class="myPoint"><fmt:formatNumber value="${requestScope.m_point}" pattern="#,###,###"/></span>
         			</div>
         			<hr>
 

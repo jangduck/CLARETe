@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import order.domain.OrderVO;
+
 public interface OrderDAO {
 
 	// 채번하기
@@ -23,6 +25,10 @@ public interface OrderDAO {
 
 	// 구매금액의 1% 포인트로 추가 update
 	void addPurchasePoints(Map<String, String> paraMap) throws SQLException;
+
+	// 주문 select
+	OrderVO selectOrder(String pnum) throws SQLException;
+
 
 
 }

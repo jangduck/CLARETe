@@ -69,6 +69,9 @@ public class OrderComplete extends AbstractController {
 		    session.setAttribute("fk_d_num", fk_d_num);		// 배송지 번호
 		    session.setAttribute("pnum", pnum);				// 주문번호
 		    session.setAttribute("o_cnt", o_cnt);			// 한 주문에 제품 몇개인지?
+		    session.setAttribute("m_point", m_point);		// 사용된 포인트
+		    
+		    
 		    
 		    
 			// tbl_order 테이블에 insert

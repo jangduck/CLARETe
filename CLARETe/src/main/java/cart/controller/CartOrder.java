@@ -46,7 +46,8 @@ public class CartOrder extends AbstractController {
 
         String shipping = request.getParameter("input_total_shipping");
         session.setAttribute("shipping", shipping);
-
+        
+	    
         // 로그인 사용자 정보를 JSP에 전달
         request.setAttribute("m_name", loginuser.getM_name());
         request.setAttribute("m_mobile", loginuser.getM_mobile());

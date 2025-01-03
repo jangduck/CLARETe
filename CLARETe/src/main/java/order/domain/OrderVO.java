@@ -15,10 +15,16 @@ public class OrderVO {
 	String o_date; // �ֹ���¥
 	int status; // �����Ȳ �����0, �����1, �����2
 	String o_price; // �ֹ��ݾ�
-	
+	int o_cnt;
 	
 	// select용
 	
+	public int getO_cnt() {
+		return o_cnt;
+	}
+	public void setO_cnt(int o_cnt) {
+		this.o_cnt = o_cnt;
+	}
 	String m_name;
 	public String getM_name() {
 		return m_name;
