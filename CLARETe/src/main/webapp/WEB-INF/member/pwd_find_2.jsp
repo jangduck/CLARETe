@@ -25,6 +25,13 @@ $(document).ready(function(){
    
 //   console.log("~~~확인용 method : "+method);
    
+   // 아이디 입력 keydown 이벤트 처리
+     $('input:text[name="m_email"]').bind("keydown", (e) => {
+
+         if (e.keyCode == 13) {  // 암호입력란에 엔터를 했을 경우
+        	 goFind();  
+         }
+     });
    
    $(document).on('click', 'div.find_go', function(){
       goFind();
@@ -50,7 +57,7 @@ function goFind() {
        alert("비밀번호 변경으로 이동합니다.");
        const frm = document.pwdFindFrm;
         frm.action = "<%= ctxPath%>/member/pwd_find_3.cl";
-        frm.method = "post";
+        frm.method = "get";
         frm.submit();
    }
    else {

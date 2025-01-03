@@ -10,6 +10,7 @@
 
 <%-- 직접 만든 JS --%>
 <script type="text/javascript" src="<%= ctxPath%>/js/template/template.js"></script>
+<script type="text/javascript" src="<%= ctxPath%>/js/template/template.js"></script>
 
 <script type="text/javascript">
 
@@ -18,13 +19,13 @@
 <section class="section1">
             <div class="mypage_container">
                 <div class="mypage_sadebar">
-                    <div class="mapage_hello">WELCOME!</div>
+                    <div class="mapage_hello">WELLCOME!</div>
                     <ul>
                         <li>
                             <div>내 정보</div>
                             <ul>
-                                <li><a href="#">내 정보 수정</a></li>
-                                <li><a href="<%= ctxPath%>/mypage/insertDelivery.cl">배송지 입력</a></li>
+                                <li><a onclick="goSubmit()" href="<%= ctxPath%>/mypage/mypage_memberUpdate.cl">내 정보 수정</a></li>
+                                <li><a href="#">배송지 입력</a></li>
                                 <li><a href="<%= ctxPath%>/mypage/memberDelete.cl">회원탈퇴</a></li>
                             </ul>
                         </li>
@@ -112,9 +113,6 @@
                         </li>
                         <li>
                             <div style="pointer-events: none;">문의하기</div>
-                            <ul>
-                                <li><a href="<%= ctxPath%>/member/MemberAsk.cl">문의 내역</a></li>                               
-                            </ul>
                         </li>
                     </ul>
                     <!-- === 반응형 nav바 === -->

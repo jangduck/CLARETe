@@ -47,6 +47,14 @@
         
      }); // end of $('button.btn-success').click(function(){})----------- 
      
+     // 성명입력 엔터로
+     $('input:text[name="m_name"]').on('keyup', function(e){
+         if(e.keyCode == 13){
+            goFind();  
+         }
+      }); // end of $('input:text[name="m_email"]').on('keyup', function(e){})----------
+     
+      // 이메일입력 엔터로
      $('input:text[name="m_email"]').on('keyup', function(e){
         if(e.keyCode == 13){
            goFind();  

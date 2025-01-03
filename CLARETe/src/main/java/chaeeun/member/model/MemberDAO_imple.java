@@ -377,16 +377,13 @@ public class MemberDAO_imple implements MemberDAO {
           try {
               conn = ds.getConnection();
 
-              String sql = " update tbl_member set m_pwd = ? "
-                       + " WHERE m_id = ? ";
-              
-              System.out.println(paraMap.get("new_m_pwd"));
-              System.out.println(paraMap.get("m_id"));
+              String sql = " update tbl_member set m_pwd = ?, m_lastpwd = sysdate "
+	                     + " where m_id = ? ";
               
               pstmt = conn.prepareStatement(sql);
 
-              pstmt.setString(1, paraMap.get("new_m_pwd"));
-              pstmt.setString(2, paraMap.get("m_id"));
+	           pstmt.setString(1, Sha256.encrypt(paraMap.get("new_m_pwd")));
+	           pstmt.setString(2, paraMap.get("m_id"));
 
               result = pstmt.executeUpdate();
 
@@ -401,26 +398,126 @@ public class MemberDAO_imple implements MemberDAO {
       // 회원탈퇴 메소드
       @Override
       public int memberDelete(Map<String, String> paraMap) throws SQLException {
-         int result = 0;
-         
-          try {
-              conn = ds.getConnection();
+    	  int result = 0;
+	      
+	       try {
+	           conn = ds.getConnection();
 
-              String sql = " update tbl_member set m_status = 0 "
-                       + " where m_id = ? and m_pwd = ? ";
+	           String sql = " update tbl_member set m_status = 0 "
+	                    + " where m_id = ? and m_pwd = ? ";
 
-              pstmt = conn.prepareStatement(sql);
+	           pstmt = conn.prepareStatement(sql);
 
-              pstmt.setString(1, paraMap.get("m_id"));
-              pstmt.setString(2, paraMap.get("m_pwd"));
-              
-              result = pstmt.executeUpdate();
+	           pstmt.setString(1, paraMap.get("m_id"));
+	           pstmt.setString(2, Sha256.encrypt(paraMap.get("m_pwd")));
+	           
+	           result = pstmt.executeUpdate();
 
-          } finally {
-              close();
-          }
+	       } finally {
+	           close();
+	       }
 
-          return result;
+	       return result;
       }
+
+    // 휴면해제
+    @Override
+  	public int idleUpdate(Map<String, String> paraMap) throws SQLException {
+  		
+  		int result = 0;
+  		
+  		try {
+  			conn = ds.getConnection();
+              	
+              	String sql = " update tbl_member set m_idle = 1 "
+              			+ " where m_name = ? and m_mobile = ? ";
+              	
+              	pstmt = conn.prepareStatement(sql);
+              	pstmt.setString(1, paraMap.get("m_name"));
+              	pstmt.setString(2, aes.encrypt(paraMap.get("m_mobile")));
+              	
+              	result = pstmt.executeUpdate();
+              
+  		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+              e.printStackTrace();
+  		} finally {
+  			close();
+  		}
+  		
+  		return result;
+  	} // end of public int idleUpdate(Map<String, String> paraMap) throws SQLException
+    
+    // 휴면회원인지 조회
+    @Override
+	public boolean idlecheck(Map<String, String> paraMapS) throws SQLException {
+		
+		boolean isUserExist = false;
+		try {
+			conn = ds.getConnection();
+			
+			
+			String sql = " select m_id, m_name, m_mobile"
+					   + " from tbl_member "
+					   + " where m_name = ? and m_mobile = ? and m_idle = 0 ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMapS.get("m_name"));
+        	pstmt.setString(2, aes.encrypt(paraMapS.get("m_mobile")));
+            
+            rs = pstmt.executeQuery();
+		
+            if(rs.next()) {
+            	isUserExist = true;
+            }
+		}  catch(GeneralSecurityException | UnsupportedEncodingException e) {
+	        e.printStackTrace();
+		} finally {
+			close();
+		}
+		return isUserExist;
+	} // end of public boolean idlecheck(Map<String, String> paraMapS) throws SQLException
+    
+    
+    
+    // 회원의 정보를 수정하는 메소드
+ 	@Override
+ 	public int updateMember(MemberVO member) throws SQLException {
+ 		
+ 		int result = 0;
+
+ 		try {
+ 			 conn = ds.getConnection();
+ 			 
+ 			 String sql = " update tbl_member set m_name = ? "
+ 					    + "                     , m_mobile = ? "
+ 					    + "                     , m_postcode = ? " 
+ 					    + "                     , m_address = ? "
+ 					    + "                     , m_detail_address = ? "
+ 					    + "                     , m_extra = ? "
+ 					    + "                     , m_lastpwd = sysdate "
+ 					    + " where m_id = ? ";
+ 			 
+ 			 pstmt = conn.prepareStatement(sql);
+ 				
+ 			 pstmt.setString(1, member.getM_name());
+ 			 pstmt.setString(2, aes.encrypt(member.getM_mobile()) );
+ 			 pstmt.setString(3, member.getM_postcode());
+ 			 pstmt.setString(4, member.getM_address());
+ 			 pstmt.setString(5, member.getM_detail_address());
+ 			 pstmt.setString(6, member.getM_extra());
+ 			 pstmt.setString(7, member.getM_id());
+ 			 
+ 			 result = pstmt.executeUpdate();
+ 			 
+ 		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+ 			e.printStackTrace();
+ 		} finally {
+ 			close();
+ 		}
+ 		
+ 		return result;
+ 	}
+
+    
 
 }

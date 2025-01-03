@@ -1,5 +1,9 @@
 package common.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import member.domain.MemberVO;
+
 public abstract class AbstractController implements InterCommand {
 
 	/*
@@ -44,4 +48,18 @@ public abstract class AbstractController implements InterCommand {
 		this.viewPage = viewPage;
 	}
 	
+	public boolean checkLogin(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		if(loginuser != null) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	} // end of public boolean checkLogin(HttpServletRequest request)----------
+
 }

@@ -35,4 +35,13 @@ public interface MemberDAO {
 
    // 회원탈퇴하는   메소드
    int memberDelete(Map<String, String> paraMap) throws SQLException;
+   
+   // 휴면회원 조회하는 메소드
+   boolean idlecheck(Map<String, String> paraMap) throws SQLException;
+
+   // 회원의 정보를 수정하는 메소드
+   int updateMember(MemberVO member) throws SQLException;
+   
+   // 휴면해제
+   int idleUpdate(Map<String, String> paraMap) throws SQLException;
 }

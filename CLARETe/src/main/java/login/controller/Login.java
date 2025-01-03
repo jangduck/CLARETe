@@ -44,7 +44,7 @@ public class Login extends AbstractController {
 			
 			String clientip = request.getRemoteAddr();
 			
-			
+			request.setAttribute("id", id);
 			
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("id", id);
@@ -62,7 +62,7 @@ public class Login extends AbstractController {
 					// 휴면계정이면
 					
 					String message = "로그인을 한지 1년이 지나서 휴면상태로 되었습니다.\\n휴면을 풀어주는 페이지로 이동합니다!!";
-					String loc = request.getContextPath()+"/index.cl";		// 휴면풀어주는 페이지 만들어야 해요
+					String loc = request.getContextPath()+"/member/idle.cl";
 				
 					request.setAttribute("message", message);
 					request.setAttribute("loc", loc);
@@ -76,6 +76,11 @@ public class Login extends AbstractController {
 				HttpSession session = request.getSession();
 				session.setAttribute("loginuser", loginuser);
 				session.setAttribute("id", id); // 로그인 한 아이디 값 알아오기 위해 추가
+				session.setAttribute("m_mobile", loginuser.getM_mobile());
+				session.setAttribute("m_postcode", loginuser.getM_postcode());
+				session.setAttribute("m_address", loginuser.getM_address());
+				session.setAttribute("m_detail_address", loginuser.getM_detail_address());
+				session.setAttribute("m_extra", loginuser.getM_extra());
 				
 				System.out.println(loginuser.getM_id());
 				
@@ -113,7 +118,7 @@ public class Login extends AbstractController {
 			} // end of if(loginuser != null) {}
 			
 			else {
-				String message = "탈퇴하신 회원입니다.";
+				String message = "아이디 또는 비밀번호가 일치하지 않습니다!!";
 		        String loc = "javascript:history.back()";
 		         
 		        request.setAttribute("message", message);

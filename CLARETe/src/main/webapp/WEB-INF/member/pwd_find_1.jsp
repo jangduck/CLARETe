@@ -24,6 +24,22 @@
      
      console.log("~~~확인용 method : "+ method);   
      
+  	// 아이디 입력 keydown 이벤트 처리
+     $('input:text[name="m_id"]').bind("keydown", (e) => {
+
+         if (e.keyCode == 13) {  // 암호입력란에 엔터를 했을 경우
+        	 goFind();  
+         }
+     });
+  	
+  	// 이메일 입력 keydown 이벤트 처리
+     $('input:text[name="m_email"]').bind("keydown", (e) => {
+
+         if (e.keyCode == 13) {  // 암호입력란에 엔터를 했을 경우
+        	 goFind();  
+         }
+     });
+     
      if(method == "GET"){
         $("div.find_go2").hide();
      }
