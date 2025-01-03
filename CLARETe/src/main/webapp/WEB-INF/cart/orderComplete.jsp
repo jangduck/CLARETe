@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%
 String ctxPath = request.getContextPath();
 //    /CLARETe
@@ -52,11 +56,15 @@ String ctxPath = request.getContextPath();
 			</div>
 
 			<div id="ordernum">
-				<span>2024-12-21 주문하신 향수의</span><br> <span>주문번호는 <span
+				<span>${fn:substring(requestScope.ovo.o_date, 0, 10)} 주문하신 향수의</span><br> <span>주문번호는 <span
 					id="num">1234</span> 입니다
 				</span>
 			</div> <!-- div#ordernum -->
-
+	
+			<input type="text" name="o_num" value="" />	<!-- 주문번호 -->
+			<input type="text" name="o_num" value="" />	<!-- 주문번호 -->
+			
+			
 		</div> <!-- div#secondDiv -->
 
 		<div id="thirdDiv">
@@ -64,7 +72,7 @@ String ctxPath = request.getContextPath();
 			<div id="productInfoDiv">
 
 				<div id="menu1">
-					<strong>주문 상품 정보 (2건)</strong>
+					<strong>주문 상품 정보 (${requestScope.ovo.o_cnt}건)</strong>
 				</div>
 				
 				<div id="productList">
@@ -106,15 +114,15 @@ String ctxPath = request.getContextPath();
 				<table >
 					<tr>
 						<td class="infoTd">이름</td>
-						<td>장민규</td>
+						<td>${dvo.d_name}</td>
 					</tr>
 					<tr>
 						<td class="infoTd">전화번호</td>
-						<td>010-1212-3434</td>
+						<td>${fn:substring(dvo.d_mobile, 0, 3)} - ${fn:substring(dvo.d_mobile, 3, 7)} - ${fn:substring(dvo.d_mobile, 7, 11)}</td>
 					</tr>
 					<tr>
 						<td class="infoTd">상세주소</td>
-						<td>(12345) 주소입니다.</td>
+						<td>(${dvo.d_postcode}) ${dvo.d_address}</td>
 					</tr>
 				</table>
 				
@@ -132,16 +140,16 @@ String ctxPath = request.getContextPath();
 						<td>76,000</td>
 					</tr>
 					<tr>
-						<td class="priceTd">할인금액</td>
-						<td>0</td>
+						<td class="priceTd">포인트 사용금액</td>
+						<td><fmt:formatNumber value="${sessionScope.m_point}" pattern="#,###,###"/></td>
 					</tr>
 					<tr>
 						<td class="priceTd">배송비</td>
-						<td>0</td>
+						<td><fmt:formatNumber value="${sessionScope.shipping}" pattern="#,###,###"/></td>
 					</tr>
 					<tr>
 						<td class="priceTd total">최종 결제 금액</td>
-						<td class="total">76,000</td>
+						<td class="total"><fmt:formatNumber value="${requestScope.ovo.o_price}" pattern="#,###,###"/></td>
 					</tr>
 				</table>
 				

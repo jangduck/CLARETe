@@ -52,9 +52,9 @@
 					<div class="product" data-index="${status.index}"> <!-- product 하나 시작 -->
 						<div class="upDiv">
 							
-							<input type="checkbox" class="product-checkbox">
-								<%-- <img src="<%= ctxPath%>/images/kakao.png" />--%>
-								<div style="width: 64px; height: 64px; background-color: black; "></div>
+							<input type="checkbox" class="product-checkbox" name="selectedCNum" value="${cvo.c_num}" >
+								<img src="${cvo.pvo.p_image}" />
+								<!-- <div style="width: 64px; height: 64px; background-color: black; "></div> -->
 								<div class="infoDiv">
 									${cvo.pvo.p_name}	<!-- 향수 이름 -->								
 									<br>
@@ -67,7 +67,6 @@
 								  <line x1="18" y1="6" x2="6" y2="18"></line>
 								  <line x1="6" y1="6" x2="18" y2="18"></line>
 								</svg>
-	
 						</div>
 						<div class="downDiv">
 							<span class="optionSpan"> <!-- 향수 용량 -->	
@@ -81,7 +80,7 @@
 							
 							<div>		
 								<div class="counter-container">
-							        <div class="counter-button decrease">-</div>
+							        <div class="counter-button decrease" id="decrease${cvo.c_num}">-</div>
 							        <div class="counter-value" data-count="${cvo.c_count}">${cvo.c_count}</div>		<!-- 구매 수량 -->	
 							        <div class="counter-button increase">+</div>
 							    </div>
@@ -97,6 +96,7 @@
 						<input type="text" id="priceQuantity${status.index}" name="priceQuantity" value="${cvo.opvo.op_price * cvo.c_count}">
 						<input type="text" name="option" value="${cvo.opvo.op_ml}">
 						<input type="text" name="cartNum" value="${cvo.c_num}">
+						<input type="text" name="p_num" value="${cvo.pvo.p_num}">
 						
 					</div> <!-- product 하나 끝 -->
 				
@@ -149,9 +149,9 @@
 				<a id="total_total"></a>	<!-- 총 구매 금액 -->
 			</div>	
 			
-			<input type="hidden" id="input_total_product" name="totalProduct" value=""> 
-			<input type="hidden" id="input_total_shipping" name="totalShipping" value="">
-			<input type="hidden" id="input_total_total" name="totalTotal" value="">
+			<input type="text" id="input_total_product" name="totalProduct" value=""> 
+			<input type="text" name="input_total_shipping" id="input_total_shipping" name="totalShipping" value="">
+			<input type="text" id="input_total_total" name="totalTotal" value="">
 			
 		</div>
 			
@@ -161,4 +161,3 @@
 </section>
 
 <jsp:include page="../footer.jsp"></jsp:include>
-

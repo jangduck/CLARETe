@@ -282,6 +282,12 @@ button#btn-order {
            	    0 -10px 30px rgba(0, 0, 0, 0.1),
                 10px 0 30px rgba(0, 0, 0, 0.1),
                 -10px 0 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;	/* 스크롤 */
+}
+
+#deliveryModal .modal-content {
+	overflow-y: auto;
+	max-height: 600px;
 }
 
 .close {

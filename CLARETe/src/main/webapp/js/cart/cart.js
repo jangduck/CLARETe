@@ -32,21 +32,21 @@ $(document).ready(function() {
 			count--;
 			updateProductPrice(count);
 
-			console.log($("input:text[name='cartNum']").val());
+			const cartNum = productDiv.find("input[name='cartNum']").val();
 			
 			// AJAX 요청
 			$.ajax({
 				url: "cartUpdate.cl",
 				data: {
-					cartNum: $("input:text[name='cartNum']").val(),
-					count: count // 서버로 변경된 수량 전달
+					cartNum: cartNum,
+					action: "decrease"
 				},
 				type: "post",
 				async: false,
 				dataType: "json",
 
 				success: function(json) {
-					if (json.decrease === "1") {
+					if (json.n === 1) {
 						console.log("장바구니 수량 감소");
 					} else {
 						console.log("AJAX 응답 처리 실패");
@@ -63,8 +63,35 @@ $(document).ready(function() {
 		// 증가 버튼 클릭 이벤트
 		increaseBtn.click(function() {
 			let count = parseInt(counterValue.attr("data-count"), 10);
+			
 			count++;
 			updateProductPrice(count);
+			
+			const cartNum = productDiv.find("input[name='cartNum']").val();
+			
+			// AJAX 요청
+			$.ajax({
+				url: "cartUpdate.cl",
+				data: {
+					cartNum: cartNum,
+					action: "increase"
+				},
+				type: "post",
+				async: false,
+				dataType: "json",
+
+				success: function(json) {
+					if (json.n === 1) {
+						console.log("장바구니 수량 증가");
+					} else {
+						console.log("AJAX 응답 처리 실패");
+					}
+				},
+
+				error: function(request, status, error) {
+					alert("code: " + request.status + "\nmessage: " + request.responseText + "\nerror: " + error);
+				}
+			});
 		});
 
 
@@ -147,8 +174,32 @@ $(document).ready(function() {
 
 		if (confirm("정말로 삭제하시겠습니까?")) {
 			const productDiv = $(this).closest(".product"); // 클릭한 SVG가 속한 .product div
-			productDiv.remove(); // 해당 div 삭제
-			updateTotalPrice(); // 총 금액 다시 계산
+			const cartNum = productDiv.find("input[name='cartNum']").val();
+			
+			// AJAX 요청
+			$.ajax({
+				url: "cartUpdate.cl",
+				data: {
+					cartNum: cartNum,
+					action: "delete"
+				},
+				type: "post",	
+				dataType: "json",
+				
+				success: function(json) {
+					if (json.n === 1) {
+						console.log("장바구니 항목 삭제 완료");
+						productDiv.remove(); 		// 삭제 성공 시 해당 div 제거
+						updateTotalPrice(); 		// 총 금액 다시 계산
+					} else {
+						console.log("AJAX 응답 처리 실패");
+					}
+				},
+				error: function(request, status, error) {
+					alert("code: " + request.status + "\nmessage: " + request.responseText + "\nerror: " + error);
+				},
+			});
+			
 		}
 
 	});

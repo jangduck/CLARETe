@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
+	
+	$('#menu2 > span').click(function(){
+		$('#orderInfo').slideToggle();
+		$('#selectDelivery').slideToggle();
+		
+	})
 
 	const modal = document.getElementById("deliveryModal");
 	const radioButtons = modal.querySelectorAll('input[type="radio"]');
@@ -111,12 +117,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	const btnOrder = document.getElementById("btn-order");
 	btnOrder.addEventListener("click", function() {
-	
-		
-		const ctxPath = document.getElementById('contextPath').value.trim();
-		console.log(ctxPath);
-		console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ");
-		
+
 		const IMP = window.IMP;
 		IMP.init("imp28303334");	// 채은꺼 가맹점 식별코드
 
@@ -124,8 +125,26 @@ document.addEventListener("DOMContentLoaded", function() {
 		const totalAmount = parseInt(document.querySelector('input[name="totalInput"]').value, 10);
 		const buyerName = document.querySelector('span#buyName').textContent.trim();
 		const buyerTel = document.querySelector('span#buyMobile').textContent.trim().replace(/[\s-]/g, '');
-		const buyerEmail = document.querySelector('input[name="buyEmail"]').value;
-
+		const fk_m_id = document.querySelector('input[name="fk_m_id"]').value;
+		const fk_d_num = document.querySelector('input[name="selectedDNum"]').value;
+		const o_cnt = document.querySelector('input[name="o_cnt"]').value;
+		const selectedCNumInputs = document.querySelectorAll('input[name="selectedCNum"]');
+		const selectedCNumValues = Array.from(selectedCNumInputs).map(input => input.value); // 장바구니 번호 배열
+		const m_point = document.querySelector('input[name="point_price"]').value;
+		const pointValue = m_point === "" ? 0 : parseInt(m_point, 10);
+				
+		const fk_p_numInputs = document.querySelectorAll('input[name="fk_p_num"]');
+		const fk_p_numValues = Array.from(fk_p_numInputs).map(input => input.value);	// 상품 번호 fk_p_num 
+		
+		const od_countInputs = document.querySelectorAll('input[name="od_count"]');
+		const od_countValues = Array.from(od_countInputs).map(input => input.value);	// 각 제품 구매개수 od_count
+		
+		const fk_op_numInputs = document.querySelectorAll('input[name="fk_op_num"]');
+		const fk_op_numValues = Array.from(fk_op_numInputs).map(input => input.value);	// 옵션번호 fk_op_num
+		
+		const od_priceInputs = document.querySelectorAll('input[name="od_price"]');
+		const od_priceValues = Array.from(od_priceInputs).map(input => input.value);	// 제품 1개의 가격 od_price
+				
 		IMP.request_pay(
 			{
 				pg: "html5_inicis", // PG사 선택
@@ -133,16 +152,44 @@ document.addEventListener("DOMContentLoaded", function() {
 				merchant_uid: 'merchant_' + new Date().getTime(), // 주문번호
 				name: productName, // 주문명
 				amount: 100, // 결제 금액
-				buyer_email: buyerEmail, // 구매자 이메일
 				buyer_name: buyerName, // 구매자 이름
 				buyer_tel: buyerTel, // 구매자 전화번호
 				buyer_addr: "", // 구매자 주소 (옵션)
 				buyer_postcode: "", // 구매자 우편번호 (옵션)
 			},
 			function(rsp) {
-				if (rsp.success) {
-					// 결제 성공 시 서버로 데이터 전송
-					alert("결제가 완료되었습니다. ");
+				if (rsp.success) {	// 결제 성공하면
+					$.ajax({
+						url: "orderComplete.cl",
+						contentType: "application/json; charset=UTF-8",
+						data: JSON.stringify({
+							fk_m_id: fk_m_id, // 사용자 ID
+							fk_d_num: fk_d_num, // 배송지 번호
+							o_price: totalAmount, // 구매가격
+							o_cnt: o_cnt, // 한 주문에 해당하는 주문건수
+							selectedCNumValues: selectedCNumValues, // 장바구니 번호 배열
+							m_point: pointValue ,	// 사용된 포인트
+							fk_p_numValues: fk_p_numValues,
+							od_countValues: od_countValues,
+							fk_op_numValues: fk_op_numValues,
+							od_priceValues: od_priceValues
+						}),
+						type: "POST",
+						async: false,
+						dataType: "json",
+
+						success: function(json) {
+							if (json.n == 1) {
+								alert("결제가 완료되었습니다.");
+								window.location.href = "/CLARETe/cart/Complete.cl";
+							}
+
+						},
+						error: function(request, status, error) {
+							alert("결제는 완료되었으나 주문 처리에 실패했습니다. 고객센터로 문의해주세요.");
+						}
+					});
+
 				} else {
 					// 결제 실패 시
 					location.href = "/CLARETe";
@@ -153,5 +200,3 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 
 });
-
-

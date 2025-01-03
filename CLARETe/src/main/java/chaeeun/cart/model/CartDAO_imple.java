@@ -82,9 +82,9 @@ public class CartDAO_imple implements CartDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " SELECT c_num, fk_p_num, fk_op_num, p_name, op_ml, op_price, fk_m_id, c_count "
+			String sql = " SELECT c_num, fk_p_num, fk_op_num, p_name, op_ml, op_price, fk_m_id, c_count, p_image, p_num "
 					   + " FROM ( "
-					   + "    SELECT C.c_num, C.fk_p_num, C.fk_op_num, P.p_name, OP.op_ml, OP.op_price, C.fk_m_id, C.c_count "
+					   + "    SELECT C.c_num, C.fk_p_num, C.fk_op_num, P.p_name, OP.op_ml, OP.op_price, C.fk_m_id, C.c_count, P.p_image, P.p_num "
 					   + "    FROM tbl_cart C "
 					   + "    JOIN tbl_product P "
 					   + "    ON C.fk_p_num = P.p_num "
@@ -108,7 +108,6 @@ public class CartDAO_imple implements CartDAO {
 							
 				ProductVO pvo = new ProductVO();
 				pvo.setP_name(rs.getString("p_name"));			// 제품명
-				cvo.setPvo(pvo);
 
 				OptionVO opvo = new OptionVO();
 				opvo.setOp_ml(rs.getString("op_ml"));			// 용량
@@ -118,8 +117,12 @@ public class CartDAO_imple implements CartDAO {
 				cvo.setFk_m_id(rs.getString("fk_m_id"));		// 회원아이디
 				cvo.setC_count(rs.getInt("c_count"));			// 수량
 
+				pvo.setP_image(rs.getString("p_image"));
+				pvo.setP_num(rs.getInt("p_num"));
+				cvo.setPvo(pvo);
 				
 				cartList.add(cvo);
+				
 			}
 			
 		} finally {
@@ -185,6 +188,57 @@ public class CartDAO_imple implements CartDAO {
 			conn = ds.getConnection();
 			
 			String sql = " update tbl_cart set c_count = c_count - 1 "
+					   + " where c_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("cartNum"));
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	}
+
+	// 장바구니 수량 증가
+	@Override
+	public int increaseQuantity(Map<String, String> paraMap) throws SQLException {
+
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_cart set c_count = c_count + 1 "
+					   + " where c_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("cartNum"));
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	}
+
+	
+	// 장바구니에서 삭제
+	@Override
+	public int deleteCart(Map<String, String> paraMap) throws SQLException {
+
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_cart "
 					   + " where c_num = ? ";
 			
 			pstmt = conn.prepareStatement(sql);

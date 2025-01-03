@@ -61,7 +61,6 @@
 								</c:if>					
 							</span> <br>
 							
-							<input type="hidden" name="buyEmail" val="${requestScope.m_email}" />
 						</div>
 						
 					</div>
@@ -78,8 +77,7 @@
 					<div id="orderInfo">
 						
 						<!-- JS에서 동적으로 처리 -->
-						
-						
+										
 					</div>
 					
 					<button type="button" id="selectDelivery">배송지 선택</button>
@@ -104,8 +102,8 @@
 						                    	</div>
 						                        <div>
 						                        	<span id="info">전화번호</span>
-							                        <span class="deliveryMobile">${fn:substring(delivery.d_mobile, 0, 3)}-
-							                              ${fn:substring(delivery.d_mobile, 3, 7)}-
+							                        <span class="deliveryMobile">${fn:substring(delivery.d_mobile, 0, 3)} -
+							                              ${fn:substring(delivery.d_mobile, 3, 7)} -
 							                              ${fn:substring(delivery.d_mobile, 7, 11)}</span> <br>
 						                        </div>
 						                        <div>
@@ -122,13 +120,9 @@
 					    		배송지 선택
 					    	</div>
 					        
-					    </div>	<!-- <div class="modal-content"> -->
-					    
-					    
+					    </div>	<!-- <div class="modal-content"> -->   				    
 					    
 					</div>	<!-- <div id="deliveryModal"> -->
-	
-	
 	           		
 	            </div> <!-- orderInfoDiv -->
 				
@@ -152,18 +146,24 @@
 						        <div class="option">
 						            <span class="optionSpan">- 옵션 
 							            <c:choose>
-									        <c:when test="${requestScope.option[i] == '1'}">25ml</c:when>
+									        <c:when test="	${requestScope.option[i] == '1'}">25ml</c:when>
 									        <c:when test="${requestScope.option[i] == '2'}">50ml</c:when>
 									        <c:when test="${requestScope.option[i] == '3'}">75ml</c:when>
 									    </c:choose>
 						            </span>/ ${requestScope.quantity[i]}개
 						        </div>
 						    </div>
-						</c:forEach>
 
+						    <input type="text" name="selectedCNum" value="${requestScope.selectedCNum[i]}" />	<!-- 장바구니 번호 -->
+						    <input type="text" name="fk_p_num" value="${requestScope.p_num[i]}" />				<!-- 상품 번호 fk_p_num -->
+						    <input type="text" name="od_count" value="${requestScope.quantity[i]}" />			<!-- 각 제품 구매개수 od_count -->
+						    <input type="text" name="fk_op_num" value="${requestScope.option[i]}" />			<!-- 옵션번호 fk_op_num -->
+						    <input type="text" name="od_price" value="${(requestScope.priceQuantity[i] / requestScope.quantity[i]).intValue()}" />		<!-- 제품 가격  od_price -->
+						    
+						    
+						</c:forEach>
 						
-					</div> <!-- productList -->
-					
+					</div> <!-- productList -->	
 	           		
 	            </div> <!-- productInfoDiv -->
 	            
@@ -186,14 +186,14 @@
         			<div style="display: flex; justify-content: space-between; margin: 10px 0;">
             			<span class="shipping">배송비</span>
             			<span class="shipping_price">
-            				<fmt:formatNumber value="${requestScope.totalShipping}" pattern="#,###,###"/>
+            				<fmt:formatNumber value="${sessionScope.shipping}" pattern="#,###,###"/>
             			</span>
         			</div>
         			
         			<!-- 적립금 -->
         			<div style="margin: 10px 0;">
             			<span class="point">적립금</span>
-            			<input class="point_price" /> / <span class="myPoint"><fmt:formatNumber value="${requestScope.m_point}" pattern="#,###,###"/></span>
+            			<input type="text" class="point_price" name="point_price" /> / <span class="myPoint"><fmt:formatNumber value="${requestScope.m_point}" pattern="#,###,###"/></span>
         			</div>
         			<hr>
 
@@ -210,10 +210,12 @@
 	    		<button type="button" id="btn-order" >결제하기</button>
 	    		
 	    		<!-- 값 넘기기 용도 -->
-	    		<input type="hidden" name="totalInput" value="${requestScope.totalTotal}" />
-	    		<input type="hidden" name="selectedDNum" value="selectedDNum" />
-	    		<input type="hidden" id="contextPath" value="<%= ctxPath%>" />
-	    		
+	    		<input type="text" name="totalInput" value="${requestScope.totalTotal}" />		<!-- 구매 할 금액 -->
+	    		<input type="text" name="selectedDNum" value="selectedDNum" />					<!-- 배송지번호 -->
+	    		<input type="text" id="contextPath" value="<%= ctxPath%>" />
+	    		<input type="text" name="fk_m_id" value="${sessionScope.loginuser.m_id}" />		<!-- 로그인된 세션 아이디 -->
+	    		<input type="text" name="o_cnt" value="${fn:length(requestScope.index)}" />		<!-- 주문수 (div 개수) -->
+
 			</div> <!-- payment_go_box -->
 			
 			
