@@ -247,6 +247,112 @@ public class DeliveryDAO_imple implements DeliveryDAO {
 	    
 	}
 
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//---------------------------------------------------- 좀 빌려쓸게요 (채은)
+	// 배송지 조회 하나만
+	@Override
+	public DeliveryVO selectOneDelivery(String d_num) throws SQLException {
+
+		DeliveryVO dvo = new DeliveryVO();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, d_name, d_status "
+					   + " from tbl_delivery "
+					   + " where d_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, d_num);
+	        
+	        rs = pstmt.executeQuery();
+	        
+	        if (rs.next()) {
+	        	dvo.setD_num(rs.getInt("d_num"));
+	        	dvo.setFk_m_id(rs.getString("fk_m_id"));
+	        	dvo.setD_address(rs.getString("d_address"));
+	        	dvo.setD_detail_address(rs.getString("d_detail_address"));
+	        	dvo.setD_postcode(rs.getString("d_postcode"));
+	        	dvo.setD_extra(rs.getString("d_extra"));
+	        	dvo.setD_mobile(rs.getString("d_mobile"));
+	        	dvo.setD_name(rs.getString("d_name"));
+	        }
+			
+			
+		} finally {
+			close();
+		}
+		
+		return dvo;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
 	
 	

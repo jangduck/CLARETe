@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%
 String ctxPath = request.getContextPath();
 //    /CLARETe
@@ -56,7 +60,11 @@ String ctxPath = request.getContextPath();
 					id="num">1234</span> 입니다
 				</span>
 			</div> <!-- div#ordernum -->
-
+	
+			<input type="text" name="o_num" value="" />	<!-- 주문번호 -->
+			<input type="text" name="o_num" value="" />	<!-- 주문번호 -->
+			
+			
 		</div> <!-- div#secondDiv -->
 
 		<div id="thirdDiv">
@@ -106,15 +114,15 @@ String ctxPath = request.getContextPath();
 				<table >
 					<tr>
 						<td class="infoTd">이름</td>
-						<td>장민규</td>
+						<td>${dvo.d_name}</td>
 					</tr>
 					<tr>
 						<td class="infoTd">전화번호</td>
-						<td>010-1212-3434</td>
+						<td>${fn:substring(dvo.d_mobile, 0, 3)} - ${fn:substring(dvo.d_mobile, 3, 7)} - ${fn:substring(dvo.d_mobile, 7, 11)}</td>
 					</tr>
 					<tr>
 						<td class="infoTd">상세주소</td>
-						<td>(12345) 주소입니다.</td>
+						<td>(${dvo.d_postcode}) ${dvo.d_address}</td>
 					</tr>
 				</table>
 				

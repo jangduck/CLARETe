@@ -24,4 +24,14 @@ public interface DeliveryDAO {
 	//배송지 삭제
 	int DeleteDelivery(String m_id, String d_num) throws SQLException;
 
+
+	
+	
+	
+	
+	
+	
+	// 배송지 조회 (하나만)
+	DeliveryVO selectOneDelivery(String d_num) throws SQLException;
+
 }

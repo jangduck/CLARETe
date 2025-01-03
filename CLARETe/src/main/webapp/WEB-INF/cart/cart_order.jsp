@@ -61,7 +61,6 @@
 								</c:if>					
 							</span> <br>
 							
-							<input type="hidden" name="buyEmail" val="${requestScope.m_email}" />
 						</div>
 						
 					</div>

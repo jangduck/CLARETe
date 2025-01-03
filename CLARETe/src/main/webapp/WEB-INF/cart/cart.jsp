@@ -89,13 +89,13 @@
 						</div>
 						
 						<!-- 값 넘기는 용도 -->
-						<input type="hidden" name="index" value="${status.index}">
-						<input type="hidden" name="perfumeName" value="${cvo.pvo.p_name}">
-						<input type="hidden" id="quantity${status.index}" name="quantity" value="${cvo.c_count}">
-						<input type="hidden" name="price" value="${cvo.opvo.op_price}">
-						<input type="hidden" id="priceQuantity${status.index}" name="priceQuantity" value="${cvo.opvo.op_price * cvo.c_count}">
-						<input type="hidden" name="option" value="${cvo.opvo.op_ml}">
-						<input type="hidden" name="cartNum" value="${cvo.c_num}">
+						<input type="text" name="index" value="${status.index}">
+						<input type="text" name="perfumeName" value="${cvo.pvo.p_name}">
+						<input type="text" id="quantity${status.index}" name="quantity" value="${cvo.c_count}">
+						<input type="text" name="price" value="${cvo.opvo.op_price}">
+						<input type="text" id="priceQuantity${status.index}" name="priceQuantity" value="${cvo.opvo.op_price * cvo.c_count}">
+						<input type="text" name="option" value="${cvo.opvo.op_ml}">
+						<input type="text" name="cartNum" value="${cvo.c_num}">
 						<input type="text" name="p_num" value="${cvo.pvo.p_num}">
 						
 					</div> <!-- product 하나 끝 -->
@@ -149,9 +149,9 @@
 				<a id="total_total"></a>	<!-- 총 구매 금액 -->
 			</div>	
 			
-			<input type="hidden" id="input_total_product" name="totalProduct" value=""> 
-			<input type="hidden" id="input_total_shipping" name="totalShipping" value="">
-			<input type="hidden" id="input_total_total" name="totalTotal" value="">
+			<input type="text" id="input_total_product" name="totalProduct" value=""> 
+			<input type="text" id="input_total_shipping" name="totalShipping" value="">
+			<input type="text" id="input_total_total" name="totalTotal" value="">
 			
 		</div>
 			

@@ -119,7 +119,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		const totalAmount = parseInt(document.querySelector('input[name="totalInput"]').value, 10);
 		const buyerName = document.querySelector('span#buyName').textContent.trim();
 		const buyerTel = document.querySelector('span#buyMobile').textContent.trim().replace(/[\s-]/g, '');
-		const buyerEmail = document.querySelector('input[name="buyEmail"]').value;
 		const fk_m_id = document.querySelector('input[name="fk_m_id"]').value;
 		const fk_d_num = document.querySelector('input[name="selectedDNum"]').value;
 		const o_cnt = document.querySelector('input[name="o_cnt"]').value;
@@ -147,7 +146,6 @@ document.addEventListener("DOMContentLoaded", function() {
 				merchant_uid: 'merchant_' + new Date().getTime(), // 주문번호
 				name: productName, // 주문명
 				amount: 100, // 결제 금액
-				buyer_email: buyerEmail, // 구매자 이메일
 				buyer_name: buyerName, // 구매자 이름
 				buyer_tel: buyerTel, // 구매자 전화번호
 				buyer_addr: "", // 구매자 주소 (옵션)

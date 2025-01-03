@@ -60,12 +60,17 @@ public class OrderComplete extends AbstractController {
 		    JSONArray od_countArray = jsonObject.getJSONArray("od_countValues");
 		    JSONArray fk_op_numArray = jsonObject.getJSONArray("fk_op_numValues");
 		    JSONArray od_priceArray = jsonObject.getJSONArray("od_priceValues");
-		    
-			
+    
 			// 채번하기
 			int pnum = odao.getPnum();
 			
-			
+			// 세션에 정보 저장
+		    HttpSession session = request.getSession();
+		    session.setAttribute("fk_d_num", fk_d_num);		// 배송지 번호
+		    session.setAttribute("pnum", pnum);				// 주문번호
+		    session.setAttribute("o_cnt", o_cnt);			// 한 주문에 제품 몇개인지?
+		    
+		    
 			// tbl_order 테이블에 insert
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("fk_m_id", fk_m_id);
@@ -90,7 +95,7 @@ public class OrderComplete extends AbstractController {
 			
 			int n1 = odao.insertOrderDetail(orderList, pnum);
 			
-			//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ---
+
 			if (n == 1) {
 				
 				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ결제한 거 장바구니 테이블에서 삭제ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
