@@ -518,7 +518,7 @@ public class AdminDAO_imple implements AdminDAO {
     	try {
     		
     		 conn = ds.getConnection();
-    		// RNO SELECT 문으로 바꾸기 
+    		// RNO SELECT 문으로 바꾸기  
     		 String sql = " SELECT RNO, o_num, o_date, fk_m_id, m_name, m_email, m_mobile, p_name, od_count, o_price, status, fk_d_num, op_ml, fk_op_num, fk_d_num "
     		 		+ "    FROM (  "
     		 		+ "        SELECT rownum AS RNO, o_num, o_date, fk_m_id, m_name, m_email, m_mobile, p_name, od_count, o_price, status, fk_d_num, op_ml, fk_op_num, fk_d_num "
