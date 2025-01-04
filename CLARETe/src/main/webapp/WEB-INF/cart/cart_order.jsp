@@ -141,7 +141,7 @@
 						        <div class="perfume">
 						            ${requestScope.perfumeName[i]} 
 						            <br>
-						            <fmt:formatNumber value="${requestScope.priceQuantity[i]}" pattern="#,###,###"/>	            
+						            <fmt:formatNumber value="${sessionScope.productprice[i]}" pattern="#,###,###"/>	            
 						        </div>
 						        <div class="option">
 						            <span class="optionSpan">- 옵션 
@@ -154,11 +154,11 @@
 						        </div>
 						    </div>
 
-						    <input type="text" name="selectedCNum" value="${requestScope.selectedCNum[i]}" />	<!-- 장바구니 번호 -->
-						    <input type="text" name="fk_p_num" value="${requestScope.p_num[i]}" />				<!-- 상품 번호 fk_p_num -->
-						    <input type="text" name="od_count" value="${requestScope.quantity[i]}" />			<!-- 각 제품 구매개수 od_count -->
-						    <input type="text" name="fk_op_num" value="${requestScope.option[i]}" />			<!-- 옵션번호 fk_op_num -->
-						    <input type="text" name="od_price" value="${(requestScope.priceQuantity[i] / requestScope.quantity[i]).intValue()}" />		<!-- 제품 가격  od_price -->
+						    <input type="hidden" name="selectedCNum" value="${requestScope.selectedCNum[i]}" />	<!-- 장바구니 번호 -->
+						    <input type="hidden" name="fk_p_num" value="${requestScope.p_num[i]}" />				<!-- 상품 번호 fk_p_num -->
+						    <input type="hidden" name="od_count" value="${requestScope.quantity[i]}" />			<!-- 각 제품 구매개수 od_count -->
+						    <input type="hidden" name="fk_op_num" value="${requestScope.option[i]}" />			<!-- 옵션번호 fk_op_num -->
+						    <input type="hidden" name="od_price" value="${(requestScope.priceQuantity[i] / requestScope.quantity[i]).intValue()}" />		<!-- 제품 가격  od_price -->
 						    
 						    
 						</c:forEach>
@@ -178,7 +178,7 @@
         			<div style="display: flex; justify-content: space-between; margin: 10px 0;">
             			<span class="product_amount">총 상품 금액</span>
             			<span class="product_price">
-            				<fmt:formatNumber value="${requestScope.totalProduct}" pattern="#,###,###"/>
+            				<fmt:formatNumber value="${sessionScope.totalProduct}" pattern="#,###,###"/>
             			</span>
         			</div>
 
@@ -210,11 +210,11 @@
 	    		<button type="button" id="btn-order" >결제하기</button>
 	    		
 	    		<!-- 값 넘기기 용도 -->
-	    		<input type="text" name="totalInput" value="${requestScope.totalTotal}" />		<!-- 구매 할 금액 -->
-	    		<input type="text" name="selectedDNum" value="selectedDNum" />					<!-- 배송지번호 -->
-	    		<input type="text" id="contextPath" value="<%= ctxPath%>" />
-	    		<input type="text" name="fk_m_id" value="${sessionScope.loginuser.m_id}" />		<!-- 로그인된 세션 아이디 -->
-	    		<input type="text" name="o_cnt" value="${fn:length(requestScope.index)}" />		<!-- 주문수 (div 개수) -->
+	    		<input type="hidden" name="totalInput" value="${requestScope.totalTotal}" />		<!-- 구매 할 금액 -->
+	    		<input type="hidden" name="selectedDNum" value="selectedDNum" />					<!-- 배송지번호 -->
+	    		<input type="hidden" id="contextPath" value="<%= ctxPath%>" />
+	    		<input type="hidden" name="fk_m_id" value="${sessionScope.loginuser.m_id}" />		<!-- 로그인된 세션 아이디 -->
+	    		<input type="hidden" name="o_cnt" value="${fn:length(requestScope.index)}" />		<!-- 주문수 (div 개수) -->
 
 			</div> <!-- payment_go_box -->
 			

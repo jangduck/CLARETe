@@ -82,9 +82,9 @@ public class CartDAO_imple implements CartDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " SELECT c_num, fk_p_num, fk_op_num, p_name, op_ml, op_price, fk_m_id, c_count, p_image, p_num "
+			String sql = " SELECT c_num, fk_p_num, fk_op_num, p_name, op_ml, op_price, fk_m_id, c_count, p_image, p_num, p_price, p_sale "
 					   + " FROM ( "
-					   + "    SELECT C.c_num, C.fk_p_num, C.fk_op_num, P.p_name, OP.op_ml, OP.op_price, C.fk_m_id, C.c_count, P.p_image, P.p_num "
+					   + "    SELECT C.c_num, C.fk_p_num, C.fk_op_num, P.p_name, OP.op_ml, OP.op_price, C.fk_m_id, C.c_count, P.p_image, P.p_num, P.p_price, P.p_sale "
 					   + "    FROM tbl_cart C "
 					   + "    JOIN tbl_product P "
 					   + "    ON C.fk_p_num = P.p_num "
@@ -119,6 +119,8 @@ public class CartDAO_imple implements CartDAO {
 
 				pvo.setP_image(rs.getString("p_image"));
 				pvo.setP_num(rs.getInt("p_num"));
+				pvo.setP_price(rs.getInt("p_price"));
+				pvo.setP_sale(rs.getString("p_sale"));
 				cvo.setPvo(pvo);
 				
 				cartList.add(cvo);

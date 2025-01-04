@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import order.domain.OrderVO;
+import orderdetail.domain.orderdetailVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 
@@ -263,6 +265,34 @@ public class OrderDAO_imple implements OrderDAO {
 		
 		return ovo;
 		
+	}
+
+	// 주문상세 select
+	@Override
+	public List<orderdetailVO> selectOrderDetail(String pnum) throws SQLException {
+		
+		List<orderdetailVO> odvoList = new ArrayList<>();
+		
+		try {
+
+			conn = ds.getConnection();
+
+			String sql = " select od_num, fk_p_num, fk_o_num, od_count, od_price, fk_op_num ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pnum);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+
+			}
+
+		} finally {
+			close();
+		}
+		
+		return odvoList;
 	}
 
 	

@@ -8,7 +8,8 @@ public class orderdetailVO {
 	int fk_p_num; // ��ǰ������ȣ
 	int od_count; // �ֹ���
 	int fk_op_num; //  �ɼǹ�ȣ
-
+	String od_price; // ����
+	
 	// OptionVO 조인
 	private OptionVO optionvo;
 
@@ -29,7 +30,7 @@ public class orderdetailVO {
 	public void setFk_op_num(int fk_op_num) {
 		this.fk_op_num = fk_op_num;
 	}
-	String od_price; // ����
+	
 	
 	public int getOd_num() {
 		return od_num;

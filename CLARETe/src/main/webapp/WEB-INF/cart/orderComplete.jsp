@@ -57,12 +57,11 @@ String ctxPath = request.getContextPath();
 
 			<div id="ordernum">
 				<span>${fn:substring(requestScope.ovo.o_date, 0, 10)} 주문하신 향수의</span><br> <span>주문번호는 <span
-					id="num">1234</span> 입니다
+					id="num">C${fn:replace(fn:substring(requestScope.ovo.o_date, 0, 10), '-', '')}${sessionScope.pnum}</span> 입니다
 				</span>
+				<!-- 주문번호형식 : C + 주문날짜 + 주문번호 -->
+				
 			</div> <!-- div#ordernum -->
-	
-			<input type="text" name="o_num" value="" />	<!-- 주문번호 -->
-			<input type="text" name="o_num" value="" />	<!-- 주문번호 -->
 			
 			
 		</div> <!-- div#secondDiv -->
@@ -76,27 +75,25 @@ String ctxPath = request.getContextPath();
 				</div>
 				
 				<div id="productList">
-				
-					<div id="productInfo">
-						<div style="width: 64px; height: 64px; background-color: black; "></div>
-	                	<div class="perfume">
-							향수이름
-							<br>
-							32,500
+
+					<c:forEach var="i" begin="0" end="${requestScope.ovo.o_cnt - 1}">
+						<div id="productInfo">
+							<div style="width: 64px; height: 64px; background-color: black;"></div>
+							<div class="perfume">
+								${sessionScope.perfumeName[i]}  <br> <fmt:formatNumber value="${sessionScope.productprice[i]}" pattern="#,###,###"/>	
+							</div>
+							<div class="option">
+								<c:choose>
+									<c:when test="${sessionScope.option[i] == '1'}">25ml</c:when>
+									<c:when test="${sessionScope.option[i] == '2'}">50ml</c:when>
+									<c:when test="${sessionScope.option[i] == '3'}">75ml</c:when>
+								</c:choose>
+								/ ${sessionScope.quantity[i]}개
+							</div>
 						</div>
-	                	<div class="option"><span class="optionSpan">- 옵션 50ml</span>/1개</div>
-					</div>
-				
-					<div id="productInfo">
-						<div style="width: 64px; height: 64px; background-color: black; "></div>
-	                	<div class="perfume">
-							향수이름
-							<br>
-							32,500
-						</div>
-	                	<div class="option"><span class="optionSpan">- 옵션 50ml</span>/1개</div>
-					</div>
-					
+					</c:forEach>
+
+
 				</div> <!-- div#productList -->
 
 			</div> <!-- div#productInfoDiv -->
@@ -137,7 +134,7 @@ String ctxPath = request.getContextPath();
 				<table>
 					<tr>
 						<td class="priceTd">상품금액</td>
-						<td>76,000</td>
+						<td><fmt:formatNumber value="${sessionScope.totalProduct}" pattern="#,###,###"/></td>
 					</tr>
 					<tr>
 						<td class="priceTd">포인트 사용금액</td>

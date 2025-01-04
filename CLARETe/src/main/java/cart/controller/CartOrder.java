@@ -46,7 +46,6 @@ public class CartOrder extends AbstractController {
 
         String shipping = request.getParameter("input_total_shipping");
         session.setAttribute("shipping", shipping);
-        
 	    
         // 로그인 사용자 정보를 JSP에 전달
         request.setAttribute("m_name", loginuser.getM_name());
@@ -74,12 +73,27 @@ public class CartOrder extends AbstractController {
         String[] option = request.getParameterValues("option");
         String[] selectedCNum = request.getParameterValues("selectedCNum");
         String[] p_num = request.getParameterValues("p_num");
-
+        String[] productprice = request.getParameterValues("productprice");
+        
+        
+        session.setAttribute("index", index);
+        session.setAttribute("perfumeName", perfumeName);
+        session.setAttribute("quantity", quantity);
+        session.setAttribute("price", price);
+        session.setAttribute("priceQuantity", priceQuantity);
+        session.setAttribute("option", option);
+        session.setAttribute("selectedCNum", selectedCNum);
+        session.setAttribute("p_num", p_num);
+        session.setAttribute("productprice", productprice);
+        
+        
         // input 태그 값 받아오기 (가격)
         String totalProduct = request.getParameter("totalProduct");
         String totalShipping = request.getParameter("totalShipping");
         String totalTotal = request.getParameter("totalTotal");
 
+        session.setAttribute("totalProduct", totalProduct);
+        
         // 배송 정보 조회하기
         CartDAO cdao = new CartDAO_imple();
         List<DeliveryVO> deliveryList = cdao.selectDeliveryList(loginuser.getM_id());

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import order.domain.OrderVO;
+import orderdetail.domain.orderdetailVO;
 
 public interface OrderDAO {
 
@@ -28,6 +29,9 @@ public interface OrderDAO {
 
 	// 주문 select
 	OrderVO selectOrder(String pnum) throws SQLException;
+
+	// 주문상세 select
+	List<orderdetailVO> selectOrderDetail(String pnum) throws SQLException;
 
 
 

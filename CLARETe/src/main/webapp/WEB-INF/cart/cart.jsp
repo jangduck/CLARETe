@@ -58,10 +58,10 @@
 								<div class="infoDiv">
 									${cvo.pvo.p_name}	<!-- 향수 이름 -->								
 									<br>
-									<fmt:formatNumber value="${cvo.opvo.op_price}" pattern="#,###,###"/>	<!-- 향수 가격 -->		
+									<fmt:formatNumber value="${cvo.pvo.p_price - (cvo.pvo.p_price * cvo.pvo.p_sale / 100) + cvo.opvo.op_price}" pattern="#,###,###"/>	<!-- 향수 가격 -->		
 								</div>	
-								<span class="priceSpan" data-price="${cvo.opvo.op_price}">
-								    <fmt:formatNumber value="${cvo.opvo.op_price * cvo.c_count}" pattern="#,###,###"/>	<!-- 향수 가격 * 구매 수량 -->	
+								<span class="priceSpan" data-price="${cvo.pvo.p_price - (cvo.pvo.p_price * cvo.pvo.p_sale / 100) + cvo.opvo.op_price}">
+								    <fmt:formatNumber value="${(cvo.pvo.p_price - (cvo.pvo.p_price * cvo.pvo.p_sale / 100) + cvo.opvo.op_price) * cvo.c_count}" pattern="#,###,###"/>	<!-- 향수 가격 * 구매 수량 -->	
 								</span>
 								<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6D6D6D" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
 								  <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -89,14 +89,15 @@
 						</div>
 						
 						<!-- 값 넘기는 용도 -->
-						<input type="text" name="index" value="${status.index}">
-						<input type="text" name="perfumeName" value="${cvo.pvo.p_name}">
-						<input type="text" id="quantity${status.index}" name="quantity" value="${cvo.c_count}">
-						<input type="text" name="price" value="${cvo.opvo.op_price}">
-						<input type="text" id="priceQuantity${status.index}" name="priceQuantity" value="${cvo.opvo.op_price * cvo.c_count}">
-						<input type="text" name="option" value="${cvo.opvo.op_ml}">
-						<input type="text" name="cartNum" value="${cvo.c_num}">
-						<input type="text" name="p_num" value="${cvo.pvo.p_num}">
+						<input type="hidden" name="index" value="${status.index}">
+						<input type="hidden" name="perfumeName" value="${cvo.pvo.p_name}">
+						<input type="hidden" id="quantity${status.index}" name="quantity" value="${cvo.c_count}">	<!-- 구매 개수 -->
+						<input type="hidden" name="price" value="${cvo.opvo.op_price}">
+						<input type="hidden" id="priceQuantity${status.index}" name="priceQuantity" value="${cvo.opvo.op_price * cvo.c_count}">
+						<input type="hidden" name="option" value="${cvo.opvo.op_ml}">
+						<input type="hidden" name="cartNum" value="${cvo.c_num}">
+						<input type="hidden" name="p_num" value="${cvo.pvo.p_num}">
+						<input type="hidden" name="productprice" value="${cvo.pvo.p_price - (cvo.pvo.p_price * cvo.pvo.p_sale / 100) + cvo.opvo.op_price}">
 						
 					</div> <!-- product 하나 끝 -->
 				
@@ -149,9 +150,9 @@
 				<a id="total_total"></a>	<!-- 총 구매 금액 -->
 			</div>	
 			
-			<input type="text" id="input_total_product" name="totalProduct" value=""> 
-			<input type="text" name="input_total_shipping" id="input_total_shipping" name="totalShipping" value="">
-			<input type="text" id="input_total_total" name="totalTotal" value="">
+			<input type="hidden" id="input_total_product" name="totalProduct" value=""> 
+			<input type="hidden" name="input_total_shipping" id="input_total_shipping" name="totalShipping" value="">
+			<input type="hidden" id="input_total_total" name="totalTotal" value="">
 			
 		</div>
 			
