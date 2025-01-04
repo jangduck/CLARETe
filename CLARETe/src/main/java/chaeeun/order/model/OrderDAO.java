@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import member.domain.MemberVO;
 import order.domain.OrderVO;
 
 public interface OrderDAO {
@@ -28,6 +29,9 @@ public interface OrderDAO {
 
 	// 주문 select
 	OrderVO selectOrder(String pnum) throws SQLException;
+
+	// 로그인한 회원의 주문내역을 가져오는 메소드
+	List<OrderVO> recentOrder(Map<String, String> paraMap) throws SQLException;
 
 
 

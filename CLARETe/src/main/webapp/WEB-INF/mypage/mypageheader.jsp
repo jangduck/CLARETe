@@ -33,7 +33,7 @@
                         <li>
                             <div>향수</div>
                             <ul>
-                                <li><a href="<%= ctxPath%>/mypage/mypage_recent_orders.cl">최근 주문 향수</a></li>
+                                <li><a href="<%= ctxPath%>/mypage/mypage_recent_orders.cl">나의 주문 향수</a></li>
                                 <li><a href="<%= ctxPath%>/mypage/mypage_current_product.cl">최근 본 향수</a></li>
                                 <li><a href="<%= ctxPath%>/mypage/mypageCart.cl">장바구니</a></li>
                             </ul>

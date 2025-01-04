@@ -1,10 +1,13 @@
 package chaeeun.order.model;
 
 import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +16,12 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import delivery.domain.DeliveryVO;
+import member.domain.MemberVO;
+import option.domain.OptionVO;
 import order.domain.OrderVO;
+import orderdetail.domain.orderdetailVO;
+import product.domain.ProductVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 
@@ -263,6 +271,77 @@ public class OrderDAO_imple implements OrderDAO {
 		
 		return ovo;
 		
+	}
+
+	
+	// 로그인한 회원의 주문내역을 가져오는 메소드
+	@Override
+	public List<OrderVO> recentOrder(Map<String, String> paraMap) throws SQLException {
+		
+		List<OrderVO> orderList = new ArrayList<>();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select d.d_name, d.d_address, d.d_detail_address, d.d_extra, d.d_mobile "
+					+ " , p.p_image, p.p_name, od.od_count, op.op_ml, o.o_price, o.status "
+					+ " from tbl_order o join tbl_delivery d "
+					+ " on o.fk_d_num = d.d_num "
+					+ " join tbl_orderdetail od "
+					+ " on o.o_num = od.fk_o_num "
+					+ " join tbl_product p "
+					+ " on od.fk_p_num = p.p_num "
+					+ " join tbl_option op "
+					+ " on od.fk_op_num = op.op_num "
+					+ " where o.fk_m_id = ? "; 
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, paraMap.get("m_id")); // 로그인 한 회원아이디
+
+			System.out.println("ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ"+paraMap.get("m_id"));
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {// 한 행씩 처리하기
+				
+				OrderVO ovo = new OrderVO();
+				ovo.setO_price(rs.getString("o_price"));
+				ovo.setStatus(rs.getInt("status"));
+
+				OptionVO opvo = new OptionVO();
+				opvo.setOp_ml(rs.getString("op_ml"));
+				ovo.setOptionvo(opvo);
+
+				ProductVO pvo = new ProductVO();
+				pvo.setP_name(rs.getString("p_name"));
+				pvo.setP_image(rs.getString("p_image"));
+				ovo.setProductvo(pvo);
+
+				DeliveryVO dvo = new DeliveryVO();
+				dvo.setD_name(rs.getString("d_name"));
+				dvo.setD_address(rs.getString("d_address"));
+				dvo.setD_detail_address(rs.getString("d_detail_address"));
+				dvo.setD_extra(rs.getString("d_extra"));
+				dvo.setD_mobile((rs.getString("d_mobile")));
+				ovo.setDeliveryvo(dvo);
+
+				orderdetailVO odvo = new orderdetailVO();
+				odvo.setOd_count(rs.getInt("od_count"));
+				ovo.setOrderdetailvo(odvo);
+				
+				orderList.add(ovo);
+			
+			  
+			} // end of while(rs.next())--------------------------------------------
+			
+		} catch( SQLException e) {
+			 e.printStackTrace();		
+		} finally {
+			close();
+		}
+		return orderList;
 	}
 
 	

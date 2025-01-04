@@ -61,4 +61,16 @@ public class DeliveryVO {
 	}
 
 	
+	
+	
+	
+	
+	
+	public String getDaddress() {
+		
+		String dAddress = d_address+d_detail_address+d_extra;
+		
+		return dAddress;
+	}
+	
 }

@@ -34,4 +34,24 @@ public class OptionVO {
 	
 	
 	
+	
+	
+	
+	
+	
+	// 용량 변경 메소드
+	public String getMl() {
+		
+		if("1".equals(op_ml)) {
+			op_ml = "50";
+		} else if("2".equals(op_ml)) {
+			op_ml = "75";
+		} else {
+			op_ml = "100";
+		}
+		
+		return op_ml;
+		
+	}
+	
 }

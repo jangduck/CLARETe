@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+
 <%
  String ctxPath = request.getContextPath();
 %>
@@ -21,6 +26,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
 </head>
+
+<style>
+body {
+.arrow {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border: solid #333;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+        transition: transform 0.2s ease;
+    }
+
+    .arrow-container.active .arrow {
+        transform: rotate(-135deg);
+    }
+
+    .additional-info {
+        transition: max-height 0.3s ease, padding 0.3s ease;
+        max-height: 0;
+    }
+
+    .additional-info.show {
+        display: block;
+        max-height: 200px; /* 충분히 큰 값 설정 (추가 정보의 최대 높이) */
+        padding: 10px 0;   /* 애니메이션 시 여백 추가 */
+    }
+</style>
+
 <body> 
 	<%-- 해더 include 받아옴 --%>
     <jsp:include page="../header.jsp"></jsp:include>
@@ -34,7 +68,7 @@
 		<%-- =============================================== --%>
         <div class="mypage_contants_bottom">
                 <div style="height: auto; display: flex; align-items: center; gap: 4px;">
-                    <span class="recent-orders-title">최근 주문 향수</span>
+                    <span class="recent-orders-title">나의 주문 향수</span>
                     <span>
                         <div class="select-container">
                             <select class="select">
@@ -45,98 +79,108 @@
                 </div>
 
                 <!-- === for문 대상 시작 === -->
-
-                <div class="recent-orders">
-                    <div>
-                        <ul>
-                            <li>
-                                <div class="recent-img">img</div> <!-- 상품 이미지 넣는 자리입니다 -->
-                            </li>
-                            <li>
-                                <div>
-                                    <div>상품명이 들어설 자리입니다.</div> <!-- 상품명 넣는 자리입니다 -->
-                                </div>
-                                <div>
-                                    <span>1</span><span>개</span> <!-- 상품 개수 넣는 자리입니다 -->
-                                    <span>/</span>
-                                    <span>50</span><span>ml</span> <!-- 상품 옵션 넣는 자리입니다 -->
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <div>이곳은 주소가 들어설 자리입니다. (행정동) 202호</div> <!-- 배달받는 사람 주소 넣는 자리입니다 -->
-                                </div>
-                                <div>
-                                    <span>이순신</span> <!-- 배달받는 사람 이름 넣는 자리입니다 -->
-                                    <span>/</span>
-                                    <span>010-2020-3030</span> <!-- 배달받는 사람 전화번호 넣는 자리입니다 -->
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <span>50,000</span><span>원</span> <!-- 상품 가격 넣는 자리입니다 -->
-                                </div>
-                            </li>
-                            <li>
-                                <div style="display: flex; justify-content: space-around;">
-                                    <div class="delivery-status">배송중</div> <!-- 배송상태 넣는 자리입니다 -->
-                                    <span class="confirmed-btn">구매확정</span> <!-- 구매확정이 되어야 리뷰를 달 수 있게 처리해주세요 -->
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
+ 			<c:if test="${not empty requestScope.orderList}">
+				<c:forEach var="ovo" items="${requestScope.orderList}"> 
+	                <div class="recent-orders">
+	                    <div>
+	                        <ul>
+	                            <li>
+	                                <div class="recent-img">
+	                                	<img>
+	                                </div> <!-- 상품 이미지 넣는 자리입니다 -->
+	                            </li>
+	                            <li>
+	                                <div>
+	                                    <div>${ovo.productvo.p_name}</div> <!-- 상품명 넣는 자리입니다 -->
+	                                </div>
+	                                <div>
+	                                    <span>${ovo.orderdetailvo.od_count}</span><span>개</span> <!-- 상품 개수 넣는 자리입니다 -->
+	                                    <span>/</span>
+	                                    <span>${ovo.optionvo.ml}</span><span>ml</span> <!-- 상품 옵션 넣는 자리입니다 -->
+	                                </div>
+	                            </li>
+	                            <li>
+	                                <div>
+	                                    <div>${ovo.deliveryvo.daddress}</div> <!-- 배달받는 사람 주소 넣는 자리입니다 -->
+	                                </div>
+	                                <div>
+	                                    <span>${ovo.deliveryvo.d_name}</span> <!-- 배달받는 사람 이름 넣는 자리입니다 -->
+	                                    <span>/</span>
+	                                    <span>${ovo.deliveryvo.d_mobile}</span> <!-- 배달받는 사람 전화번호 넣는 자리입니다 -->
+	                                </div>
+	                            </li>
+	                            <li>
+	                                <div>
+	                                    <span><fmt:formatNumber value="${ovo.o_price}" type="number" groupingUsed="true" /></span><span>원</span>
+										 <!-- 상품 가격 넣는 자리입니다 -->
+	                                </div>
+	                            </li>
+	                            <li>
+	                                <div style="display: flex; justify-content: space-around;">
+	                                    <div class="delivery-status">${ovo.dstatus}</div> <!-- 배송상태 넣는 자리입니다 -->
+	                                </div>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                </div>
+	 			</c:forEach>
+			</c:if> 
                 <!-- === for문 대상 끝 === -->
 
+                <c:if test="${empty requestScope.orderList}">
+                	최근 주문 상품이 없습니다.
+                </c:if>
                 
 
-                <div class="recent-orders">
-                    <div>
-                        <ul>
-                            <li>
-                                <div class="recent-img">img</div> <!-- 상품 이미지 넣는 자리입니다 -->
-                            </li>
-                            <li>
-                                <div>
-                                    <div>상품명이 들어설 자리입니다.</div> <!-- 상품명 넣는 자리입니다 -->
-                                </div>
-                                <div>
-                                    <span>1</span><span>개</span> <!-- 상품 개수 넣는 자리입니다 -->
-                                    <span>/</span>
-                                    <span>50</span><span>ml</span> <!-- 상품 옵션 넣는 자리입니다 -->
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <div>이곳은 주소가 들어설 자리입니다. (행정동) 202호</div> <!-- 배달받는 사람 주소 넣는 자리입니다 -->
-                                </div>
-                                <div>
-                                    <span>이순신</span> <!-- 배달받는 사람 이름 넣는 자리입니다 -->
-                                    <span>/</span>
-                                    <span>010-2020-3030</span> <!-- 배달받는 사람 전화번호 넣는 자리입니다 -->
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <span>50,000</span><span>원</span> <!-- 상품 가격 넣는 자리입니다 -->
-                                </div>
-                            </li>
-                            <li>
-                                <div style="display: flex; justify-content: space-around;">
-                                    <div class="delivery-status">배송중</div> <!-- 배송상태 넣는 자리입니다 -->
-                                    <span class="confirmed-btn">구매확정</span> <!-- 구매확정이 되어야 리뷰를 달 수 있게 처리해주세요 -->
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+              <div class="recent-orders">
+			    <div>
+			        <ul>
+			            <li>
+			                <div class="recent-img">img</div> <!-- 상품 이미지 넣는 자리입니다 -->
+			            </li>
+			            <li>
+			                <div>
+			                    <div>${pvo.name}</div> <!-- 상품명 넣는 자리입니다 -->
+			                </div>
+			                <div>
+			                    <span>1</span><span>개</span> <!-- 상품 개수 넣는 자리입니다 -->
+			                    <span>/</span>
+			                    <span>50</span><span>ml</span> <!-- 상품 옵션 넣는 자리입니다 -->
+			                </div>
+			            </li>
+			            <li>
+			                <div>
+			                    <div>이곳은 주소가 들어설 자리입니다. (행정동) 202호</div> <!-- 배달받는 사람 주소 넣는 자리입니다 -->
+			                </div>
+			                <div>
+			                    <span>이름</span> <!-- 배달받는 사람 이름 넣는 자리입니다 -->
+			                    <span>/</span>
+			                    <span>010-2020-3030</span> <!-- 배달받는 사람 전화번호 넣는 자리입니다 -->
+			                </div>
+			            </li>
+			            <li>
+			                <div>
+			                    <span>50,000</span><span>원</span> <!-- 상품 가격 넣는 자리입니다 -->
+			                </div>
+			            </li>
+			            <li>
+			                <div style="display: flex; justify-content: space-around; align-items: center;">
+			                    <div class="delivery-status">배송중</div> <!-- 배송상태 넣는 자리입니다 -->
+			                    <div class="arrow-container" style="cursor: pointer;">
+			                        <span class="arrow"></span>
+			                    </div>
+			                </div>
+			            </li>
+			        </ul>
+			    </div>
+			    
+			    <div class="addInfo" style="height: 100px; width: 100%; border: 1px solid red; background-color: #dbdbdb">
+                      추가정보가 들어갈 자리입니다.
                 </div>
+			    
+			</div>
 
-
-
-
-            </div>
-        </div>
+          </div>
 		<%-- =============================================== --%>
 		
 		
@@ -175,6 +219,9 @@
 	
 		// === 년도 구해서 -5년도까지 option 태그에 넣기 === //
 
+		$('.arrow').click(function(e){
+         $(this).parent().parent().parent().parent().parent().find('.addInfo').slideToggle();
+      })
 </script><!-- 제이쿼리 이용해서 현재 년도의 -5년도까지 option으로 넣음 이거 클릭시 값 넘어가게 처리하세요 .on() 으로 해야합니다 참고! -->
 </body>
 </html>
