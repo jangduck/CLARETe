@@ -1,6 +1,5 @@
 package mypage.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import member.domain.MemberVO;
 import order.domain.OrderVO;
-import orderdetail.domain.orderdetailVO;
 
 public class Mypage_recent_orders extends AbstractController {
 
@@ -26,21 +24,21 @@ public class Mypage_recent_orders extends AbstractController {
 		HttpSession session = request.getSession();
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginuser");
 		String m_id = loginUser.getM_id();
+	//	String select = request.getParameter("select");
 		Map<String, String> paraMap = new HashMap<>();
 		paraMap.put("m_id", m_id);
 
+	//	int currentYear = Calendar.getInstance().get(Calendar.YEAR); // 현재 년도 가져오기
+    //    System.out.println(currentYear);
+        
 		// 로그인한 회원의 주문내역을 가져오는 메소드
 		List<OrderVO> orderList = odao.recentOrder(paraMap);
 		
-		System.out.println("orderListsize"+ orderList.size());
-		
+	//	System.out.println("orderListsize"+ orderList.size());
         request.setAttribute("orderList", orderList);
-		
+	//	request.setAttribute("select", String.valueOf(currentYear));
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/mypage/mypage_recent_orders.jsp");
-		
-		
-		
 		
 	}
 

@@ -47,12 +47,32 @@ body {
         transition: max-height 0.3s ease, padding 0.3s ease;
         max-height: 0;
     }
+    
 
     .additional-info.show {
         display: block;
         max-height: 200px; /* 충분히 큰 값 설정 (추가 정보의 최대 높이) */
         padding: 10px 0;   /* 애니메이션 시 여백 추가 */
     }
+    
+	    /* 커스텀 스크롤바 스타일 */
+	.scrollbar {
+	    overflow-y: auto; /* 세로 스크롤 활성화 */
+	}
+	
+	.scrollbar::-webkit-scrollbar {
+	    width: 4px; /* 스크롤바 폭 */
+	}
+	
+	.scrollbar::-webkit-scrollbar-thumb {
+	    background: black; /* 스크롤바 색상 (크림슨) */
+	    border-radius: 10px; /* 둥근 모서리 */
+	}
+	
+	.scrollbar::-webkit-scrollbar-track {
+	    background: white; /* 스크롤바 트랙 배경색 */
+	}
+    
 </style>
 
 <body> 
@@ -71,8 +91,7 @@ body {
                     <span class="recent-orders-title">나의 주문 향수</span>
                     <span>
                         <div class="select-container">
-                            <select class="select">
-                                
+                            <select class="select" >
                             </select>
                         </div>
                     </span>
@@ -86,7 +105,7 @@ body {
 	                        <ul>
 	                            <li>
 	                                <div class="recent-img">
-	                                	<img>
+	                                	<img src="/CLARETe/images/${ovo.productvo.p_image}" style="width: 100%;">
 	                                </div> <!-- 상품 이미지 넣는 자리입니다 -->
 	                            </li>
 	                            <li>
@@ -100,29 +119,54 @@ body {
 	                                </div>
 	                            </li>
 	                            <li>
-	                                <div>
-	                                    <div>${ovo.deliveryvo.daddress}</div> <!-- 배달받는 사람 주소 넣는 자리입니다 -->
-	                                </div>
-	                                <div>
-	                                    <span>${ovo.deliveryvo.d_name}</span> <!-- 배달받는 사람 이름 넣는 자리입니다 -->
-	                                    <span>/</span>
-	                                    <span>${ovo.deliveryvo.d_mobile}</span> <!-- 배달받는 사람 전화번호 넣는 자리입니다 -->
-	                                </div>
+	                               <div>
+	                               	<span id="orderDate">주문일자: ${ovo.o_date}</span>
+	                               </div>
 	                            </li>
 	                            <li>
 	                                <div>
-	                                    <span><fmt:formatNumber value="${ovo.o_price}" type="number" groupingUsed="true" /></span><span>원</span>
+	                                    <span><fmt:formatNumber value="${ovo.orderdetailvo.od_price}" type="number" groupingUsed="true" /></span><span>원</span>
 										 <!-- 상품 가격 넣는 자리입니다 -->
 	                                </div>
 	                            </li>
 	                            <li>
 	                                <div style="display: flex; justify-content: space-around;">
 	                                    <div class="delivery-status">${ovo.dstatus}</div> <!-- 배송상태 넣는 자리입니다 -->
+	                                	<div class="arrow-container" style="cursor: pointer;">
+			                        		<span class="arrow"></span>
+			                    		</div>
 	                                </div>
 	                            </li>
 	                        </ul>
 	                    </div>
-	                </div>
+
+					<div class="addInfo scrollbar"
+						style="height: 100px; width: 100%; border: 1px solid #D9D9D9; background-color: white; color: black; display: none;">
+						<div>
+							<span>주문번호: ${ovo.o_num}</span>
+						</div>
+						<div>
+							<span>계절: ${ovo.productvo.pseason}</span>
+						</div>
+						<div>
+							<span>성별: ${ovo.productvo.gender}</span>
+						</div>
+						<div>
+							<div>배송지: ${ovo.deliveryvo.daddress}</div>
+							<!-- 배달받는 사람 주소 넣는 자리입니다 -->
+						</div>
+						<div>
+							<span>받는사람: ${ovo.deliveryvo.d_name}</span>
+							<!-- 배달받는 사람 이름 넣는 자리입니다 -->
+						</div>
+						<div>
+							<span>받는사람 전화번호: ${ovo.deliveryvo.d_mobile}</span>
+							<!-- 배달받는 사람 전화번호 넣는 자리입니다 -->
+						</div>
+					</div>
+
+
+				</div>
 	 			</c:forEach>
 			</c:if> 
                 <!-- === for문 대상 끝 === -->
@@ -130,55 +174,6 @@ body {
                 <c:if test="${empty requestScope.orderList}">
                 	최근 주문 상품이 없습니다.
                 </c:if>
-                
-
-              <div class="recent-orders">
-			    <div>
-			        <ul>
-			            <li>
-			                <div class="recent-img">img</div> <!-- 상품 이미지 넣는 자리입니다 -->
-			            </li>
-			            <li>
-			                <div>
-			                    <div>${pvo.name}</div> <!-- 상품명 넣는 자리입니다 -->
-			                </div>
-			                <div>
-			                    <span>1</span><span>개</span> <!-- 상품 개수 넣는 자리입니다 -->
-			                    <span>/</span>
-			                    <span>50</span><span>ml</span> <!-- 상품 옵션 넣는 자리입니다 -->
-			                </div>
-			            </li>
-			            <li>
-			                <div>
-			                    <div>이곳은 주소가 들어설 자리입니다. (행정동) 202호</div> <!-- 배달받는 사람 주소 넣는 자리입니다 -->
-			                </div>
-			                <div>
-			                    <span>이름</span> <!-- 배달받는 사람 이름 넣는 자리입니다 -->
-			                    <span>/</span>
-			                    <span>010-2020-3030</span> <!-- 배달받는 사람 전화번호 넣는 자리입니다 -->
-			                </div>
-			            </li>
-			            <li>
-			                <div>
-			                    <span>50,000</span><span>원</span> <!-- 상품 가격 넣는 자리입니다 -->
-			                </div>
-			            </li>
-			            <li>
-			                <div style="display: flex; justify-content: space-around; align-items: center;">
-			                    <div class="delivery-status">배송중</div> <!-- 배송상태 넣는 자리입니다 -->
-			                    <div class="arrow-container" style="cursor: pointer;">
-			                        <span class="arrow"></span>
-			                    </div>
-			                </div>
-			            </li>
-			        </ul>
-			    </div>
-			    
-			    <div class="addInfo" style="height: 100px; width: 100%; border: 1px solid red; background-color: #dbdbdb">
-                      추가정보가 들어갈 자리입니다.
-                </div>
-			    
-			</div>
 
           </div>
 		<%-- =============================================== --%>
@@ -195,33 +190,65 @@ body {
     
 <script>
 
-		//=== 년도 구해서 -5년도까지 option 태그에 넣기 === //
-		let today = new Date();
-		
-		console.log(today);
-		
-		let year = today.getFullYear();
-		let yearsAgo
-		let html = '';
-		
-		// console.log(year-1);
-		
-		for(let i=0; i<5; i++){
-			console.log(year - i);
-			
-			html += '<option name="option-year" value="' + (year - i) + '">' + (year - i) + '년</option>';
-		    // 여기서 해당 셀랙터를 잡으려면 .on을 해야 잘 잡히겠죠..? 기억 하시죠?
-		    	console.log(html);
-		}
-		
-		$(".select").html(html);
-		
-	
-		// === 년도 구해서 -5년도까지 option 태그에 넣기 === //
+$(document).ready(function() {
+    // 초기 로드 시 "모든 연도"와 현재 연도부터 5년 전까지 추가
+    let html = '';
+    let currentYear = new Date().getFullYear(); // 현재 연도
+    let allYears = ['모든 연도']; // "모든 연도"를 첫 번째 옵션으로 추가
+    let yearsToShow = [];  // 현재 연도부터 5년 전까지 연도를 넣을 배열
+    
+    // 현재 연도부터 5년 전까지의 연도를 배열에 추가
+    for (let i = currentYear; i > currentYear - 5; i--) {
+        yearsToShow.push(i);
+    }
 
-		$('.arrow').click(function(e){
-         $(this).parent().parent().parent().parent().parent().find('.addInfo').slideToggle();
-      })
+    // "모든 연도"를 select 옵션에 추가
+    html += '<option name="option-year" value="all">모든 연도</option>';
+
+    // 현재 연도부터 5년 전까지의 연도를 select 옵션에 추가
+    for (let i = 0; i < yearsToShow.length; i++) {
+        html += '<option name="option-year" value="' + yearsToShow[i] + '">' + yearsToShow[i] + '년</option>';
+    }
+    
+    $(".select").html(html); // 옵션을 select 태그 안에 추가
+
+    // 초기 페이지 로드 시 "모든 연도"를 선택한 상태로 모든 주문을 보여주도록 설정
+    filterOrdersByYear("all"); // 기본적으로 "모든 연도"가 선택되었을 때 모든 주문을 보여줌
+
+    // === 년도가 선택될 때마다 해당 연도에 맞는 주문만 보이도록 처리 === //
+    $(".select").on("change", function() {
+        const selectedYear = $(this).val(); // 선택된 연도 값
+        console.log("선택된 연도: ", selectedYear);
+
+        // 주문일자에서 연도를 추출하여 비교
+        filterOrdersByYear(selectedYear);  // 연도 선택 시 필터링
+    });
+
+    function filterOrdersByYear(year) {
+        // 주문일자에서 연도를 추출하여 비교
+        $("span[id^='orderDate']").each(function() {
+            const orderDateText = $(this).text().trim();  // "주문일자: 2025-01-01" 또는 "주문일자: 2025"
+            const orderYear = orderDateText.substring(6, 10);  // 주문일자에서 연도를 추출 (예: "2025")
+            console.log("주문일자 연도: ", orderYear);
+            
+            // "모든 연도" 선택 시 모든 주문을 보여줌
+            if (year === "all" || orderYear === year) {
+                $(this).closest(".recent-orders").show(); // 연도가 맞거나 "모든 연도"를 선택하면 해당 주문을 표시
+            } else {
+                $(this).closest(".recent-orders").hide(); // 연도가 맞지 않으면 해당 주문을 숨김
+            }
+        });
+    }
+
+    // === 클릭시 화살표 토글 === //
+    $('.arrow').click(function(e) {
+        $(this).parent().parent().parent().parent().parent().next().toggle();
+    });
+});
+
+
+
+
 </script><!-- 제이쿼리 이용해서 현재 년도의 -5년도까지 option으로 넣음 이거 클릭시 값 넘어가게 처리하세요 .on() 으로 해야합니다 참고! -->
 </body>
 </html>

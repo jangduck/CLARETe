@@ -1,6 +1,7 @@
 package myshop.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import common.controller.AbstractController;
@@ -21,7 +22,8 @@ public class ProdView extends AbstractController {
 	ProductDAO pdao = new ProductDAO_imple();
 	OptionDAO odao = new OptionDAO_imple();
 	private ReviewDAO rdao = new ReviewDAO_imple();
-	
+	// 민규코드 시작 //
+	List<String> pnumList = new ArrayList<>();
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
@@ -47,8 +49,15 @@ public class ProdView extends AbstractController {
 			
 			int p_num = Integer.parseInt(request.getParameter("p_num"));
 			
+			pnumList.add(String.valueOf(p_num));
+			
+			session.setAttribute("pnumList", pnumList);
+			
+			// 민규코드 끝 //
+			
 			System.out.println(p_num); 
 			session.setAttribute("p_num", p_num);
+			
 			ProductVO pvo = pdao.selectProductOne(p_num); // 상품 상세페이지의 정보를 알아온다
 			List<OptionVO> ovo = odao.selectOption(p_num); // 상품 옵션 정보를 알아온다
 			

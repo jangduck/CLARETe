@@ -285,7 +285,7 @@ public class OrderDAO_imple implements OrderDAO {
 			conn = ds.getConnection();
 			
 			String sql = " select d.d_name, d.d_address, d.d_detail_address, d.d_extra, d.d_mobile "
-					+ " , p.p_image, p.p_name, od.od_count, op.op_ml, o.o_price, o.status "
+					+ " , p.p_image, p.p_name, od.od_count, op.op_ml, od.od_price, o.status, p.p_gender, p.p_season, o.o_date, o.o_num "
 					+ " from tbl_order o join tbl_delivery d "
 					+ " on o.fk_d_num = d.d_num "
 					+ " join tbl_orderdetail od "
@@ -300,15 +300,15 @@ public class OrderDAO_imple implements OrderDAO {
 			
 			pstmt.setString(1, paraMap.get("m_id")); // 로그인 한 회원아이디
 
-			System.out.println("ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ"+paraMap.get("m_id"));
 			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {// 한 행씩 처리하기
 				
 				OrderVO ovo = new OrderVO();
-				ovo.setO_price(rs.getString("o_price"));
 				ovo.setStatus(rs.getInt("status"));
+				ovo.setO_date(rs.getString("o_date"));
+				ovo.setO_num(rs.getInt("o_num"));
 
 				OptionVO opvo = new OptionVO();
 				opvo.setOp_ml(rs.getString("op_ml"));
@@ -317,6 +317,8 @@ public class OrderDAO_imple implements OrderDAO {
 				ProductVO pvo = new ProductVO();
 				pvo.setP_name(rs.getString("p_name"));
 				pvo.setP_image(rs.getString("p_image"));
+				pvo.setP_gender(rs.getInt("p_gender"));
+				pvo.setP_season(rs.getString("p_season"));
 				ovo.setProductvo(pvo);
 
 				DeliveryVO dvo = new DeliveryVO();
@@ -329,6 +331,7 @@ public class OrderDAO_imple implements OrderDAO {
 
 				orderdetailVO odvo = new orderdetailVO();
 				odvo.setOd_count(rs.getInt("od_count"));
+				odvo.setOd_price(rs.getString("od_price"));
 				ovo.setOrderdetailvo(odvo);
 				
 				orderList.add(ovo);
