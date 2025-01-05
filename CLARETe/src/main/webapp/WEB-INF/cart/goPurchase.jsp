@@ -80,14 +80,14 @@
 						
 						<!-- 값 넘기는 용도 -->
 						<input type="hidden" name="index" value="${status.index}">
-						<input type="text" name="perfumeName" value="${requestScope.pvo.p_name}">
-						<input type="text" id="quantity" name="quantity" value="${cvo.c_count}">	<!-- 구매 개수 -->
+						<input type="hidden" name="perfumeName" value="${requestScope.pvo.p_name}">
+						<input type="hidden" id="quantity" name="quantity" value="${cvo.c_count}">	<!-- 구매 개수 -->
 						<input type="hidden" name="price" value="${cvo.opvo.op_price}">
 						<input type="hidden" id="priceQuantity${status.index}" name="priceQuantity" value="${cvo.opvo.op_price * cvo.c_count}">
-						<input type="text" name="option" value="${requestScope.opvo.op_num}">
+						<input type="hidden" name="option" value="${requestScope.opvo.op_num}">
 						<input type="hidden" name="cartNum" value="${cvo.c_num}">
-						<input type="text" name="p_num" value="${requestScope.pvo.p_num}">
-						<input type="text" name="productprice" value="">
+						<input type="hidden" name="p_num" value="${requestScope.pvo.p_num}">
+						<input type="hidden" name="productprice" value="">
 						
 					</div> <!-- product 하나 끝 -->
 				

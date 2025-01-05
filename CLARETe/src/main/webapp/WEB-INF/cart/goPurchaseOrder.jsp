@@ -153,10 +153,10 @@
 						        </div>
 						    </div>
 
-						    <input type="text" name="fk_p_num" value="${requestScope.pvo.p_num}" />				<!-- 상품 번호 fk_p_num -->
-						    <input type="text" name="od_count" value="${requestScope.quantity}" />			<!-- 각 제품 구매개수 od_count -->
-						    <input type="text" name="fk_op_num" value="${requestScope.opvo.op_num}" />			<!-- 옵션번호 fk_op_num  -->
-						    <input type="text" name="od_price" value="${requestScope.pvo.p_price - ((requestScope.pvo.p_price * requestScope.pvo.p_sale / 100) + requestScope.opvo.op_price).intValue()}" />		<!-- 제품 가격  od_price -->
+						    <input type="hidden" name="fk_p_num" value="${requestScope.pvo.p_num}" />				<!-- 상품 번호 fk_p_num -->
+						    <input type="hidden" name="od_count" value="${requestScope.quantity}" />			<!-- 각 제품 구매개수 od_count -->
+						    <input type="hidden" name="fk_op_num" value="${requestScope.opvo.op_num}" />			<!-- 옵션번호 fk_op_num  -->
+						    <input type="hidden" name="od_price" value="${requestScope.pvo.p_price - ((requestScope.pvo.p_price * requestScope.pvo.p_sale / 100) + requestScope.opvo.op_price).intValue()}" />		<!-- 제품 가격  od_price -->
 						    
 						    
 						
@@ -207,8 +207,8 @@
 	    		<button type="button" id="btn-order" >결제하기</button>
 	    		
 	    		<!-- 값 넘기기 용도 -->
-	    		<input type="text" name="totalInput" value="" />		<!-- 구매 할 금액 -->
-	    		<input type="text" name="selectedDNum" value="selectedDNum" />					<!-- 배송지번호 -->
+	    		<input type="hidden" name="totalInput" value="" />		<!-- 구매 할 금액 -->
+	    		<input type="hidden" name="selectedDNum" value="selectedDNum" />					<!-- 배송지번호 -->
 	    		<input type="hidden" id="contextPath" value="<%= ctxPath%>" />
 	    		<input type="hidden" name="fk_m_id" value="${sessionScope.loginuser.m_id}" />		<!-- 로그인된 세션 아이디 -->
 

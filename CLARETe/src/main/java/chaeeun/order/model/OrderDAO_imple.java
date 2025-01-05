@@ -479,5 +479,108 @@ public class OrderDAO_imple implements OrderDAO {
 			
 	}
 
+	
+	// 제품 하나 구매 (바로 구매하기)
+	@Override
+	public int oneOrderTransaction(Map<String, String> paraMap, Map<String, String> paraMap2, Map<String, String> paraMap3, Map<String, String> paraMap4) throws SQLException {
+
+		int pnum = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			conn.setAutoCommit(false);	// 수동 커밋쓰
+
+			// 1. 채번하기
+			String sql = " select seq_order.nextval as pnum from dual ";
+			try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+				rs = pstmt.executeQuery();
+				if (rs.next()) {
+					pnum = rs.getInt("pnum");
+				}
+			}
+
+			
+			// 2. tbl_order에 insert
+			sql = " insert into tbl_order (o_num, fk_m_id, fk_d_num, o_date, status, o_price, o_cnt) "
+				+ "	values(?, ?, ?, sysdate, 0, ?, 1) ";
+			try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+				
+				pstmt.setInt(1, pnum);
+				pstmt.setString(2, paraMap.get("m_id"));
+				pstmt.setInt(3, Integer.parseInt(paraMap.get("d_num")));
+				pstmt.setString(4, paraMap.get("o_price"));		// o_price 컬럼 NVARCHAR2임
+				
+				pstmt.executeUpdate(); 
+				
+			}
+			
+			
+			// 3. tbl_orderdetail에 insert
+			sql = " insert into tbl_orderdetail (od_num, fk_p_num, fk_o_num, od_count, od_price, fk_op_num) "
+				+ " values (seq_orderdetail.nextVal, ?, ?, ?, ?, ?) ";
+			try (PreparedStatement pstmt = conn.prepareStatement(sql)) { 
+				
+				pstmt.setInt(1, Integer.parseInt(paraMap2.get("p_num")));
+				pstmt.setInt(2, pnum);
+				pstmt.setInt(3, Integer.parseInt(paraMap2.get("od_count")));
+				pstmt.setString(4, paraMap2.get("od_price"));
+				pstmt.setInt(5, Integer.parseInt(paraMap2.get("op_num")));
+				
+				pstmt.executeUpdate(); 
+				
+			}
+			
+			
+			// 4. 포인트 사용액 차감 update
+			sql = " update tbl_member set m_point = m_point - ? "
+				+ " where m_id = ? ";
+			try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+				
+				pstmt.setInt(1, Integer.parseInt(paraMap3.get("m_point")));
+				pstmt.setString(2, paraMap.get("m_id"));
+				
+				pstmt.executeUpdate(); 
+
+			}
+			
+			
+			// 5. 구매금액의 1% 포인트로 update
+			int pointsToAdd = (int) Math.floor(Integer.parseInt(paraMap4.get("o_price")) * 0.01);
+			sql = " update tbl_member set m_point = m_point + ? " 
+			    + " where m_id = ? ";
+			try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+				
+				pstmt.setInt(1, pointsToAdd);
+				pstmt.setString(2, paraMap4.get("m_id"));
+				
+				pstmt.executeUpdate();
+			}
+			
+			conn.commit();		// 다 성공해야 커밋쓰
+			
+		} catch (SQLException e) {
+			
+			if (conn != null) {
+				conn.rollback();	// 하나라도 실패시 롤백~~
+				pnum = 0;
+			}
+			e.printStackTrace();
+			
+		} finally {
+			
+			if (conn != null) {
+	            try {
+	                conn.setAutoCommit(true); 
+	                conn.close(); // 반드시 연결 닫기
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+		}
+		
+		return pnum;
+	}
+
 
 }
