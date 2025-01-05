@@ -53,7 +53,7 @@
 						<div class="upDiv">
 							
 							<input type="checkbox" class="product-checkbox" name="selectedCNum" value="${cvo.c_num}" >
-								<img src="${cvo.pvo.p_image}" />
+								<img src="/CLARETe/images/${cvo.pvo.p_image}" />
 								<!-- <div style="width: 64px; height: 64px; background-color: black; "></div> -->
 								<div class="infoDiv">
 									${cvo.pvo.p_name}	<!-- 향수 이름 -->								
@@ -94,7 +94,7 @@
 						<input type="hidden" id="quantity${status.index}" name="quantity" value="${cvo.c_count}">	<!-- 구매 개수 -->
 						<input type="hidden" name="price" value="${cvo.opvo.op_price}">
 						<input type="hidden" id="priceQuantity${status.index}" name="priceQuantity" value="${cvo.opvo.op_price * cvo.c_count}">
-						<input type="hidden" name="option" value="${cvo.opvo.op_ml}">
+						<input type="hidden" name="option" value="${cvo.fk_op_num}">
 						<input type="hidden" name="cartNum" value="${cvo.c_num}">
 						<input type="hidden" name="p_num" value="${cvo.pvo.p_num}">
 						<input type="hidden" name="productprice" value="${cvo.pvo.p_price - (cvo.pvo.p_price * cvo.pvo.p_sale / 100) + cvo.opvo.op_price}">

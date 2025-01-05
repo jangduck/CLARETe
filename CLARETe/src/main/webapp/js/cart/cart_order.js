@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		const fk_op_numValues = Array.from(fk_op_numInputs).map(input => input.value);	// 옵션번호 fk_op_num
 		
 		const od_priceInputs = document.querySelectorAll('input[name="od_price"]');
-		const od_priceValues = Array.from(od_priceInputs).map(input => input.value);	// 제품 1개의 가격 od_price
+		const od_priceValues = Array.from(od_priceInputs).map(input => input.value);	// 이거 수정~~~~~~~~~~~~~~~~
 				
 		IMP.request_pay(
 			{

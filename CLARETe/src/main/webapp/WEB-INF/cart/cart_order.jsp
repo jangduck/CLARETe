@@ -137,7 +137,7 @@
 					
 						<c:forEach var="i" begin="0" end="${fn:length(requestScope.index) - 1}">
 						    <div id="productInfo">
-						        <div style="width: 64px; height: 64px; background-color: black;"></div>
+						        <img src="/CLARETe/images/${cvo.pvo.p_image}" />
 						        <div class="perfume">
 						            ${requestScope.perfumeName[i]} 
 						            <br>
@@ -157,8 +157,8 @@
 						    <input type="hidden" name="selectedCNum" value="${requestScope.selectedCNum[i]}" />	<!-- 장바구니 번호 -->
 						    <input type="hidden" name="fk_p_num" value="${requestScope.p_num[i]}" />				<!-- 상품 번호 fk_p_num -->
 						    <input type="hidden" name="od_count" value="${requestScope.quantity[i]}" />			<!-- 각 제품 구매개수 od_count -->
-						    <input type="hidden" name="fk_op_num" value="${requestScope.option[i]}" />			<!-- 옵션번호 fk_op_num -->
-						    <input type="hidden" name="od_price" value="${(requestScope.priceQuantity[i] / requestScope.quantity[i]).intValue()}" />		<!-- 제품 가격  od_price -->
+						    <input type="hidden" name="fk_op_num" value="${requestScope.option[i]}" />			<!-- 옵션번호 fk_op_num  -->
+						    <input type="text" name="od_price" value="${(requestScope.priceQuantity[i] / requestScope.quantity[i]).intValue()}" />		<!-- 제품 가격  od_price -->
 						    
 						    
 						</c:forEach>

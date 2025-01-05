@@ -61,18 +61,6 @@ public class OrderComplete extends AbstractController {
 		    JSONArray fk_op_numArray = jsonObject.getJSONArray("fk_op_numValues");
 		    JSONArray od_priceArray = jsonObject.getJSONArray("od_priceValues");
     
-			// 채번하기
-			int pnum = odao.getPnum();
-			
-			// 세션에 정보 저장
-		    HttpSession session = request.getSession();
-		    session.setAttribute("fk_d_num", fk_d_num);		// 배송지 번호
-		    session.setAttribute("pnum", pnum);				// 주문번호
-		    session.setAttribute("o_cnt", o_cnt);			// 한 주문에 제품 몇개인지?
-		    session.setAttribute("m_point", m_point);		// 사용된 포인트
-		    
-		    
-		    
 		    
 			// tbl_order 테이블에 insert
 			Map<String, String> paraMap = new HashMap<>();
@@ -80,10 +68,9 @@ public class OrderComplete extends AbstractController {
 			paraMap.put("fk_d_num", fk_d_num);
 			paraMap.put("o_price", String.valueOf(o_price));
 			paraMap.put("o_cnt", String.valueOf(o_cnt));
-			int n = odao.insertOrder(paraMap, pnum);
 			
 			
-			// tbl_orderdetail 테이블에 insert
+			// 주문번호 리스트 얻어오기
 			List<Map<String, String>> orderList = new ArrayList<>();
 			for (int i = 0; i < fk_p_numArray.length(); i++) {
 				Map<String, String> paraMap2 = new HashMap<>();
@@ -91,44 +78,45 @@ public class OrderComplete extends AbstractController {
 				paraMap2.put("fk_p_num", fk_p_numArray.getString(i));
 				paraMap2.put("od_count", od_countArray.getString(i));
 				paraMap2.put("fk_op_num", fk_op_numArray.getString(i));
-				paraMap2.put("od_price", od_priceArray.getString(i));
+				paraMap2.put("od_price", od_priceArray.getString(i));	// 이거 수정
 				
 				orderList.add(paraMap2);
 			}
 			
-			int n1 = odao.insertOrderDetail(orderList, pnum);
 			
+			// 장바구니 번호 리스트 얻어오기
+			List<String> CNumList = new ArrayList<>();
+			for (int i = 0; i < selectedCNumArray.length(); i++) {
+				CNumList.add(selectedCNumArray.getString(i)); 
+			}
 
-			if (n == 1) {
-				
-				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ결제한 거 장바구니 테이블에서 삭제ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-				List<String> CNumList = new ArrayList<>();
-				for (int i = 0; i < selectedCNumArray.length(); i++) {
-					CNumList.add(selectedCNumArray.getString(i)); 
-				}
-				
-				odao.deleteCart(CNumList);		
-				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+			
+			// 포인트 사용금액 얻어오기
+			paraMap.put("fk_m_id", fk_m_id);
+			paraMap.put("m_point", String.valueOf(m_point));
 				
 				
-				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ포인트 사용액 차감하기 (테이블 업데이트)ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-				paraMap = new HashMap<>();
-				paraMap.put("fk_m_id", fk_m_id);
-				paraMap.put("m_point", toString().valueOf(m_point));
-				
-				odao.updatePoint(paraMap);
-				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+			// 구매금액 얻어오기 (1% 포인트로~)
+			paraMap.put("fk_m_id", fk_m_id);
+			paraMap.put("o_price", String.valueOf(o_price));
 				
 				
-				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ구매금액의 1% 포인트로 추가 (테이블 업데이트)ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-				paraMap = new HashMap<>();
-				paraMap.put("fk_m_id", fk_m_id);
-				paraMap.put("o_price", String.valueOf(o_price));
+			// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+			// 진짜로 주문 (수동커밋)
+			int pnum = odao.orderTransaction(paraMap, orderList, CNumList);
 				
-				odao.addPurchasePoints(paraMap);
-				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+			if (pnum > 0) {
 				
+				System.out.println("수동커밋 성공 ~~~");
+				int n = 1;
 				
+				// 세션에 정보 저장
+			    HttpSession session = request.getSession();
+			    session.setAttribute("fk_d_num", fk_d_num);		// 배송지 번호
+			    session.setAttribute("pnum", pnum);				// 주문번호
+			    session.setAttribute("o_cnt", o_cnt);			// 한 주문에 제품 몇개인지?
+			    session.setAttribute("m_point", m_point);		// 사용된 포인트
+			    
 				JSONObject jsonOBJ = new JSONObject();
 				jsonOBJ.put("n", n); 	
 				
@@ -142,17 +130,15 @@ public class OrderComplete extends AbstractController {
 				
 				String message = "결제에 실패하였습니다.";
 				String loc = "javascript:history.back()";
-				
+					
 				request.setAttribute("message", message);
 				request.setAttribute("loc", loc);
 
 				super.setViewPage("/WEB-INF/msg.jsp");
 
 				return;
-				
 			}
-			
-			
+
 		}
  
 	}

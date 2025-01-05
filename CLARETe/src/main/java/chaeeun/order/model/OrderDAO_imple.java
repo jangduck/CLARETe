@@ -14,8 +14,10 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import option.domain.OptionVO;
 import order.domain.OrderVO;
 import orderdetail.domain.orderdetailVO;
+import product.domain.ProductVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 
@@ -245,7 +247,7 @@ public class OrderDAO_imple implements OrderDAO {
 					   + " where o_num = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, pnum);
+	        pstmt.setInt(1, Integer.parseInt(pnum));
 	        
 	        rs = pstmt.executeQuery();
 	        
@@ -259,6 +261,7 @@ public class OrderDAO_imple implements OrderDAO {
 	        	ovo.setO_cnt(rs.getInt("o_cnt"));
 	        }
 			
+	        
 		} finally {
 			close();
 		}
@@ -295,8 +298,186 @@ public class OrderDAO_imple implements OrderDAO {
 		return odvoList;
 	}
 
-	
+	// 주문 수동커밋
+	@Override
+	public int orderTransaction(Map<String, String> paraMap, List<Map<String, String>> orderList, List<String> cNumList) throws SQLException {
+
+		int pnum = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			conn.setAutoCommit(false);	// 수동 커밋쓰
+			
+			// 1. 채번하기 (뭐를? 주문번호를)
+			String sql = " select seq_order.nextval as pnum from dual ";
+			try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+				rs = pstmt.executeQuery();
+				if (rs.next()) {
+					pnum = rs.getInt("pnum");
+				}
+			}
+			
+			
+			// 2. tbl_order에 insert
+			sql = " insert into tbl_order (o_num, fk_m_id, fk_d_num, o_date, status, o_price, o_cnt) "
+				+ "	values(?, ?, ?, sysdate, 0, ?, ?) ";
+			try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+				
+				pstmt.setInt(1, pnum);
+				pstmt.setString(2, paraMap.get("fk_m_id"));
+				pstmt.setInt(3, Integer.parseInt(paraMap.get("fk_d_num")));
+				pstmt.setString(4, paraMap.get("o_price"));		// o_price 컬럼 NVARCHAR2임
+				pstmt.setInt(5, Integer.parseInt(paraMap.get("o_cnt")));
+				
+				pstmt.executeUpdate(); 
+			}
+			
+			
+			// 3. tbl_orderdetail에 insert
+			sql = " insert into tbl_orderdetail (od_num, fk_p_num, fk_o_num, od_count, od_price, fk_op_num) "
+				+ " values (seq_orderdetail.nextVal, ?, ?, ?, ?, ?) ";
+			try (PreparedStatement pstmt = conn.prepareStatement(sql)) { 
+				
+				for (int i = 0; i < orderList.size(); i++) {
+					Map<String, String> orderDetail = orderList.get(i);
+					pstmt.setInt(1, Integer.parseInt(orderDetail.get("fk_p_num")));
+					pstmt.setInt(2, pnum);
+					pstmt.setInt(3, Integer.parseInt(orderDetail.get("od_count")));
+					pstmt.setString(4, orderDetail.get("od_price"));
+					pstmt.setInt(5, Integer.parseInt(orderDetail.get("fk_op_num")));
+
+					pstmt.executeUpdate(); 
+				}
+				
+			}
+
+			
+			// 4. tbl_cart에서 delete
+			sql = " delete from tbl_cart where c_num = ? ";
+			try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+				for (String cNum : cNumList) {
+		            pstmt.setString(1, cNum); 
+		            pstmt.executeUpdate(); 
+		        }
+			}
+			
+			
+			// 5. 포인트 사용액 차감 update
+			sql = " update tbl_member set m_point = m_point - ? "
+				+ " where m_id = ? ";
+			try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+				pstmt.setInt(1, Integer.parseInt(paraMap.get("m_point")));
+				pstmt.setString(2, paraMap.get("fk_m_id"));
+				pstmt.executeUpdate(); 
+			}
+			
+			
+			// 6. 구매금액의 1% 포인트로 update
+			int pointsToAdd = (int) Math.floor(Integer.parseInt(paraMap.get("o_price")) * 0.01);
+			sql = " update tbl_member set m_point = m_point + ? " 
+			    + " where m_id = ? ";
+			try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+				pstmt.setInt(1, pointsToAdd);
+				pstmt.setString(2, paraMap.get("fk_m_id"));
+				pstmt.executeUpdate();
+			}
+			
+			
+			conn.commit();		// 다 성공해야 커밋쓰
+			
+		} catch (SQLException e) {
+			
+			if (conn != null) {
+				conn.rollback();	// 하나라도 실패시 롤백~~
+				pnum = 0;
+			}
+			e.printStackTrace();
+			
+		} finally {
+			
+			if (conn != null) {
+	            conn.setAutoCommit(true); // 자동 커밋 복구
+	            conn.close();
+	        }
+			
+		}
+		
+		return pnum;
+	}
 
 	
+	@Override
+	public ProductVO purchaseProduct(String p_num) throws SQLException {
+
+		ProductVO pvo = new ProductVO();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select p_num, p_name, p_sale, p_image, p_price "
+					   + " from tbl_product "
+					   + " where p_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(p_num));
+
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				
+				pvo.setP_num(rs.getInt("p_num"));
+				pvo.setP_name(rs.getString("p_name"));
+				pvo.setP_sale(rs.getString("p_sale"));
+				pvo.setP_image(rs.getString("p_image"));
+				pvo.setP_price(rs.getInt("p_price"));
+				
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return pvo;
+	}
+
+	
+	@Override
+	public OptionVO purchaseProductOption(String op_num, String p_num) throws SQLException {
+		
+		OptionVO opvo = new OptionVO();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select op_num, fk_p_num, op_ml, op_price "
+				       + " from tbl_option "
+				       + " where op_num = ? and fk_p_num = ?";
+		
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, Integer.parseInt(op_num));
+		pstmt.setInt(2, Integer.parseInt(p_num));
+		
+		rs = pstmt.executeQuery();
+		
+		if (rs.next()) {
+			
+			opvo.setOp_num(rs.getInt("op_num"));
+			opvo.setFk_p_num(rs.getInt("fk_p_num"));
+			opvo.setOp_ml(rs.getString("op_ml"));
+			opvo.setOp_price(rs.getString("op_price"));
+			
+		}
+		
+		} finally {
+			close();
+		}
+		
+		return opvo;
+			
+	}
+
 
 }

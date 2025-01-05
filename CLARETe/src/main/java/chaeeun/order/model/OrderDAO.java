@@ -4,8 +4,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import option.domain.OptionVO;
 import order.domain.OrderVO;
 import orderdetail.domain.orderdetailVO;
+import product.domain.ProductVO;
 
 public interface OrderDAO {
 
@@ -32,6 +34,13 @@ public interface OrderDAO {
 
 	// 주문상세 select
 	List<orderdetailVO> selectOrderDetail(String pnum) throws SQLException;
+
+	// 주문 수동커밋
+	int orderTransaction(Map<String, String> paraMap, List<Map<String, String>> orderList, List<String> cNumList) throws SQLException;
+
+	ProductVO purchaseProduct(String p_num) throws SQLException;
+
+	OptionVO purchaseProductOption(String op_num, String p_num) throws SQLException;
 
 
 

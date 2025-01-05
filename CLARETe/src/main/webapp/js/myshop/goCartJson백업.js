@@ -38,10 +38,7 @@ $(document).ready(function(){
 	});
 
 	
-	$('select[name="selectOption"]').change(function() {
-		const selectedValue = $(this).val();  // 선택한 옵션 값
-		$('input[name="op_num"]').val(selectedValue);  // input[name="op_num"]에 실시간 반영
-	});
+	
 	
 
 }) // end of $(document).ready(function()----------------------
@@ -144,33 +141,12 @@ function ReviewUpload(){
 
 
 
+
 /* 상품 바로 구매 함수 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~` */
-function goPurchaseProduct() {
-
-	let checkOK = check();
-
-	if (checkOK == true) {	// 옵션 선택 잘 했을 때
-
-		const op_num = $('select[name="selectOption"]').val(); // 선택한 옵션pk
-		const p_num = $('input[name="p_num"]').val(); // 상품pk
-		const m_id = $('input[name="m_id"]').val(); // 로그인한 id
-
-		console.log(op_num + " , " + p_num + " , " + m_id)
-
-		if (m_id == 0) {
-			alert('로그인 후 이용가능한 서비스입니다.');
-		}
-		else {
-			// alert('로그인 했을 경우')
-			const frm = document.goPurchase;
-			frm.action = "/CLARETe/cart/goPurchase.cl";
-			frm.method = "post";
-			frm.submit();
-			
-		}
-
-	}
-
+function goPurchase() {
+	
+	alert("클릭");	
+	
 }
 
 

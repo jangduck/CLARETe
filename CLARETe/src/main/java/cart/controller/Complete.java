@@ -24,7 +24,7 @@ public class Complete extends AbstractController {
 		
 		HttpSession session = request.getSession();
 		String d_num = (String) session.getAttribute("fk_d_num");		// 배송지번호
-		String pnum = String.valueOf(session.getAttribute("pnum"));		// 주문번호
+		String pnum = (String) session.getAttribute("pnum");		// 주문번호
 
 
 		// 배송지 select
