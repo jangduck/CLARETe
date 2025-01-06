@@ -72,9 +72,9 @@
 							<span class="optionSpan"> <!-- 향수 용량 -->	
 								-옵션 	
 								<c:choose>	
-									<c:when test="${cvo.opvo.op_ml == 1}">25ml</c:when>
-									<c:when test="${cvo.opvo.op_ml == 2}">50ml</c:when>
-									<c:when test="${cvo.opvo.op_ml == 3}">75ml</c:when>
+									<c:when test="${cvo.opvo.op_ml == 1}">50ml</c:when>
+									<c:when test="${cvo.opvo.op_ml == 2}">75ml</c:when>
+									<c:when test="${cvo.opvo.op_ml == 3}">100ml</c:when>
 								</c:choose>	
 							</span>
 							

@@ -146,9 +146,9 @@
 						        <div class="option">
 						            <span class="optionSpan">- 옵션 
 							            <c:choose>
-									        <c:when test="	${requestScope.option[i] == '1'}">25ml</c:when>
-									        <c:when test="${requestScope.option[i] == '2'}">50ml</c:when>
-									        <c:when test="${requestScope.option[i] == '3'}">75ml</c:when>
+									        <c:when test="	${requestScope.option[i] == '1'}">50ml</c:when>
+									        <c:when test="${requestScope.option[i] == '2'}">75ml</c:when>
+									        <c:when test="${requestScope.option[i] == '3'}">100ml</c:when>
 									    </c:choose>
 						            </span>/ ${requestScope.quantity[i]}개
 						        </div>

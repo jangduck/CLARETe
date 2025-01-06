@@ -84,9 +84,9 @@ String ctxPath = request.getContextPath();
 							</div>
 							<div class="option">
 								<c:choose>
-									<c:when test="${sessionScope.option[i] == '1'}">25ml</c:when>
-									<c:when test="${sessionScope.option[i] == '2'}">50ml</c:when>
-									<c:when test="${sessionScope.option[i] == '3'}">75ml</c:when>
+									<c:when test="${sessionScope.option[i] == '1'}">50ml</c:when>
+									<c:when test="${sessionScope.option[i] == '2'}">75ml</c:when>
+									<c:when test="${sessionScope.option[i] == '3'}">100ml</c:when>
 								</c:choose>
 								/ ${sessionScope.quantity[i]}개
 							</div>
