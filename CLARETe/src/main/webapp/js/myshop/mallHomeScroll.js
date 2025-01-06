@@ -8,7 +8,7 @@ $(document).ready(function(){
 	
 	let cname = $('span.cname').text();
 	// console.log($('span.cname').text());
-    let selectVal =  $('.select').val(); 
+    var selectVal =  $('.select').val(); 
     // 페이지 들어갔을 때의 select태그의 값
 	
     $('span#totalHITCount').hide();
@@ -51,6 +51,7 @@ $(document).ready(function(){
         // console.log("전체 문서 높이 ", $(document).height()); // 전체 문서 높이
 
         if( $(window).scrollTop() >= $('footer').offset().top - 600) {
+			selectVal =  $('.select').val(); 
         
             // alert("기존 문서내용을 끝까지 봤습니다. 이제 새로운 내용을 읽어다가 보여드리겠습니다.");
 

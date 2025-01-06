@@ -40,7 +40,7 @@
 <section class="section1">
             <div class="mypage_container">
                 <div class="mypage_sadebar">
-                    <div class="mapage_hello">WELLCOME!</div>
+                    <div class="mapage_hello">WELCOME!</div>
                     <ul>
                         <li>
                             <div>내 정보</div>

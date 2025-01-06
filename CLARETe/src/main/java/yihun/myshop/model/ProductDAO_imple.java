@@ -121,6 +121,8 @@ public class ProductDAO_imple implements ProductDAO {
 					 
 					 pstmt = conn.prepareStatement(sql);
 					 
+					 
+					 
 					 pstmt.setInt(1, cname);
 					 pstmt.setInt(2, Integer.parseInt(paraMap.get("start")));
 					 pstmt.setInt(3, Integer.parseInt(paraMap.get("end")));
@@ -167,32 +169,35 @@ public class ProductDAO_imple implements ProductDAO {
 				 String sql = " SELECT p_num, p_name, p_season, p_image, p_sale, p_price, p_register, p_gender, is_delete "
 				 		    + " FROM  "
 				 		    + " ( "
-						    + "     SELECT row_number() over(order by p_num desc) AS RNO "
-						    + "          , p_num, p_name, p_season, p_image, p_sale, p_price, p_gender, is_delete "
-						    + "          , to_char(p_register, 'yyyy-mm-dd') AS p_register "
-						    + "     FROM tbl_product ";
+						    + "     SELECT row_number() over(order by ";
+				 
+			    switch (selectStatus) {
+				case "신상품순":
+					sql += " p_register desc, p_num ";
+					break;
+					
+				case "높은금액순":
+					sql += " p_price desc, p_num asc ";
+					break;
+
+				case "낮은금액순":
+					sql += " p_price asc, p_num ";
+					break;
+				} // end of switch (selectStatus)------------
+			    
+					sql += ") AS RNO "
+					     + "          , p_num, p_name, p_season, p_image, p_sale, p_price, p_gender, is_delete "
+					     + "          , to_char(p_register, 'yyyy-mm-dd') AS p_register "
+					     + "     FROM tbl_product where is_delete = 0 ";
 						   
 				 if("0".equals(paraMap.get("cname"))) {
 					 // 전체 all 을 클릭한 경우
 					sql += " ) V "
-						 + " WHERE (rno between ? and ?) and is_delete = 0 "; 
-					
-					switch (selectStatus) {
-					case "신상품순":
-						sql += " order by p_register desc ";
-						break;
-						
-					case "높은금액순":
-						sql += " order by p_price desc ";
-						break;
-	
-					case "낮은금액순":
-						sql += " order by p_price asc ";
-						break;
-					} // end of switch (selectStatus)------------ 
-					
+						 + " WHERE (rno between ? and ?) "; 
 					
 					pstmt = conn.prepareStatement(sql);
+					
+					// System.out.println(paraMap.get("start")+" 그리고 끝 "+paraMap.get("end"));
 					
 					pstmt.setInt(1, Integer.parseInt(paraMap.get("start")));
 					pstmt.setInt(2, Integer.parseInt(paraMap.get("end")));
@@ -212,49 +217,25 @@ public class ProductDAO_imple implements ProductDAO {
 					 }
 					 
 					 // 남자 또는 여자를 선택한 경우
-					 sql += " WHERE p_gender = ? "
+					 sql += " and p_gender = ? "
 					         + " ) V "
-					   	     + " WHERE (rno between ? and ?) and is_delete = 0 ";
+					   	     + " WHERE (rno between ? and ?) ";
 						
-					 switch (selectStatus) {
-					 case "신상품순":
-						 sql += " order by p_register desc ";
-						 break;
-						
-					 case "높은금액순":
-						 sql += " order by p_price desc ";
-						 break;
-	
-					 case "낮은금액순":
-						 sql += " order by p_price asc ";
-						 break;
-					 } // end of switch (selectStatus)------------
 					
 					 pstmt = conn.prepareStatement(sql);
 	
+					 
+					 
 					 pstmt.setInt(1, cname);
 					 pstmt.setInt(2, Integer.parseInt(paraMap.get("start")));
 					 pstmt.setInt(3, Integer.parseInt(paraMap.get("end")));
 				 }
 				 else {
 					// 카테고리 봄, 여름, 가을, 겨울 줄 하나를 클릭한 경우
-					sql += " WHERE p_season = ? "
+					sql += " and p_season = ? "
 				         + " ) V "
-				   	     + " WHERE (rno between ? and ?) and is_delete = 0 ";
+				   	     + " WHERE (rno between ? and ?) ";
 					
-					switch (selectStatus) {
-					case "신상품순":
-						sql += " order by p_register desc ";
-						break;
-						
-					case "높은금액순":
-						sql += " order by p_price desc ";
-						break;
-	
-					case "낮은금액순":
-						sql += " order by p_price asc ";
-						break;
-					} // end of switch (selectStatus)------------
 					
 					pstmt = conn.prepareStatement(sql);
 	
@@ -266,6 +247,7 @@ public class ProductDAO_imple implements ProductDAO {
 				rs = pstmt.executeQuery();
 				
 				while(rs.next()) {
+					System.out.println(rs.getInt("p_num"));
 					
 					ProductVO pvo = new ProductVO();
 					
