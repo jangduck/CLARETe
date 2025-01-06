@@ -47,6 +47,9 @@
                         </li>
                         <li>
                             <div>문의하기</div>
+                            <ul>
+                                <li><a href="<%= ctxPath%>/mypage/mypage_ask.cl">1:1 문의사항</a></li>                          
+                            </ul>
                         </li>
                     </ul>
                 </div>

@@ -30,11 +30,12 @@
 	<%-- 마이페이지해더 include 받아옴 --%>
     <jsp:include page="mypageheader.jsp"></jsp:include>    
 	<%-- 마이페이지해더 include 받아옴 --%>
-	
+<%--	
 <form name="mypageFrm" action="/CLARETe/mypage/mypage_myreview.cl" method="get">
 	<input type="text" name="fk_m_id" value="<%=session.getAttribute("id")%>"/>
 	<button>보내기</button>
 </form>
+--%>
 
 		<%-- =============================================== --%>
         <div class="mypage_contants_bottom">

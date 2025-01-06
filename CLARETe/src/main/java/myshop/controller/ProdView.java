@@ -61,12 +61,22 @@ public class ProdView extends AbstractController {
 			ProductVO pvo = pdao.selectProductOne(p_num); // 상품 상세페이지의 정보를 알아온다
 			List<OptionVO> ovo = odao.selectOption(p_num); // 상품 옵션 정보를 알아온다
 			
+			
+			// =========================== 유진작성 =========================== //
+			List<ReviewVO> rvo = rdao.reviewList(p_num); // 해당 제품에 달린 리뷰들을 불러온다
+			// =========================== 유진작성 =========================== //
+			
+			
 			// System.out.println("리스트 사이즈 : "+ovo.size());
 			
 			request.setAttribute("pvo", pvo);
 			request.setAttribute("ovo", ovo);
 			request.setAttribute("m_id", m_id);
 			
+			
+			// =========================== 유진작성 =========================== //
+			request.setAttribute("rvo", rvo);
+			// =========================== 유진작성 =========================== //
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/myshop/prodView.jsp");
 			
@@ -80,7 +90,7 @@ public class ProdView extends AbstractController {
 			
 			
 			
-			// 리뷰작성
+			// =========================== 리뷰작성 =========================== //
 			
 			String p_num = request.getParameter("p_num");
 			String fk_m_id = request.getParameter("fk_m_id");
@@ -102,8 +112,8 @@ public class ProdView extends AbstractController {
 			try {				
 				
 				//boolean isExist= false;
-				int n = rdao.OderReviewCheck(fk_m_id, p_num);
-				System.out.println("OderReviewCheck = "+n);
+				boolean isExist = rdao.OderReviewCheck(fk_m_id, p_num);
+				System.out.println("OderReviewCheck = "+isExist);
 				/*
 				for(int i=0;i<OderReviewCheck.size();i++) {
 					int listP = OderReviewCheck.get(i).getFk_p_num();
@@ -114,9 +124,9 @@ public class ProdView extends AbstractController {
 				}
 				*/					
 				
-				if (n == 0) {
-					System.out.println("구매 이력에 없는 제품입니다.");
-					message = "구매 이력에 없는 제품입니다.";
+				if (!isExist) {
+					System.out.println("구매후 배송완료된 이력에 없는 제품입니다.");
+					message = "구매후 배송완료된 이력에 없는 제품입니다.";
 					loc = request.getContextPath()  + "/index.cl";
 					return;
 				}
@@ -141,7 +151,7 @@ public class ProdView extends AbstractController {
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);
 			
-			
+			// =========================== 리뷰작성 =========================== //
 			
 			
 		}

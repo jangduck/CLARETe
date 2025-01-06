@@ -8,6 +8,8 @@ import common.controller.AbstractController;
 import faq.domain.FaqVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import member.domain.MemberVO;
 import qna.domain.QnaVO;
 import youjin.qna.model.QnaDAO;
 import youjin.qna.model.QnaDAO_imple;
@@ -19,6 +21,12 @@ public class Mypage_ask extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		HttpSession session = request.getSession();
+		
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String m_id = loginuser.getM_id();
+		
 		String method = request.getMethod(); // "GET" 또는 "POST"
 		System.out.println(method);
 		
@@ -32,8 +40,8 @@ public class Mypage_ask extends AbstractController {
 		
 
 		try {
-			List<QnaVO> qnaList = qdao.qnaList();
-			request.setAttribute("qnaList", qnaList);
+			List<QnaVO> myQnaList = qdao.myQnaList(m_id);
+			request.setAttribute("myQnaList", myQnaList);
 			
 			super.setRedirect(false);		
 			super.setViewPage("/WEB-INF/mypage/mypage_ask.jsp");

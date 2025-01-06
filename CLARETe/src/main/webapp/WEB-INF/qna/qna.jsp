@@ -73,9 +73,11 @@
 	                                    <td><textarea name="q_ask" id="q_ask" placeholder="내용을 입력하세요"></textarea></td>
 	                                	
 	                                </tr>
+	                               <%--
 	                                <tr>
 	                                	<td>이미지 파일 첨부</td>
 	                                </tr>
+	                                 
 	                                <tr>
 	                                	<td> 답변 수신 여부 (선택)</td>	                                   
 				                            <td>  
@@ -105,6 +107,7 @@
 			                                   </ul>
 		                                   </td>                           	                                   
 	                                </tr>
+	                                --%>
 	                                
 	                            </table>
 	                             
@@ -112,7 +115,7 @@
 		                            <span><input type="button" id="btnSubmit" value="등록" class="btn btn-primary " onclick="QnaUpload()" /></span>
 	                 				<span><input type="reset"  class="btn" value="취소"/></span>
                  				</div>   
-								<input type="text" name="fk_m_id" value="<%=session.getAttribute("id")%>"/>
+								<input type="hidden" name="fk_m_id" value="<%=session.getAttribute("id")%>"/>
 								
 								<!-- style="display:none;"  -->
 						       

@@ -50,10 +50,10 @@
         <span id="qnaSpan3">문의유형</span> <%-- 답변상태 X --%>
          <hr id="second">
          
-         
+     <%--  
        <input type="text" name="fk_m_id" value="<%=session.getAttribute("id")%>"/>
        <input type="text" name="fk_m_id" value="${qvo.fk_m_id}"/>
-       
+      --%>    
        
             
        <%-- 시작 --%>    
@@ -70,7 +70,14 @@
 				     		
 				      
 				      		<%-- <span>${status.count}</span> --%>				    
-								<span id="qnaSpan1">${qvo.q_title}</span><span id="qnaSpan2">${qvo.q_register}</span>          		                       
+								<span id="qnaSpan1">${qvo.q_title}</span>
+								<span id="qnaSpan2">${qvo.q_register}</span>
+								<c:choose>
+									    <c:when test="${qvo.q_category == 1}"><td class="category">결제/교환/환불</td></c:when>
+									    <c:when test="${qvo.q_category == 2}"><td class="category">상품문의</td></c:when>
+									    <c:when test="${qvo.q_category == 3}"><td class="category">매장문의</td></c:when>
+									    <c:when test="${qvo.q_category == 4}"><td class="category">배송문의</td></c:when>      
+								</c:choose>        		                       
 				   	            
 				            </a>
 				        </div>
@@ -80,7 +87,7 @@
 							  <div class="panel-body">  
 							  		<div id="qnaAsk">${qvo.q_ask}</div>           
 							  		<hr>				       		
-							    	<span id="qnaSpan1">${qvo.q_answer}</span>
+							    	<span id="qnaSpan1">${qvo.q_answer}</span>			    	
 							  </div>      		
 						 </div>
 					 </div>

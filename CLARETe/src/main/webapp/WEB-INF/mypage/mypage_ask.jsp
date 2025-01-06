@@ -23,17 +23,17 @@
     
     <!-- Optional JavaScript -->
     <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.7.1.min.js"></script>
-	<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js" ></script>
+	<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js" ></script> -->
 	
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.2-dist/css/bootstrap.min.css" >
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.2-dist/css/bootstrap.min.css" >  
 	
-	<%-- jQueryUI CSS 및 JS --%>
+	<%-- jQueryUI CSS 및 JS 
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
-	<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script> 
+	<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script>  --%>
 	
-	<!-- Font Awesome 6 Icons -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+	<!-- Font Awesome 6 Icons 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"> -->
 
 	<%-- 해더 include 받아옴 --%>
     <jsp:include page="../header.jsp"></jsp:include>
@@ -46,7 +46,41 @@
 
 
 	<%-- =============================================== --%>
+
+<script type="text/javascript">
+
+
+var txt = "aaaaaaaaaaaaaaaaaaaaaazzzzzzaaaaaaaaaaaaaaa";//$('td.ask').val($(this).attr('id'));
+console.log(txt);
+
+var len = 5;
+var lastTxt = "...";
+
+
+function textLengthOverCut(txt, len, lastTxt) {
+	     /*    if (txt.length <= len) { // 기본값
+	            return txt;
+	        }
+	        else {
+	            return txt.slice(0,len) + (lastTxt || "");		       
+	        } */
 	
+	 if (len == "" || len == null) { // 기본값
+		            len = 20;
+		        }
+		        if (lastTxt == "" || lastTxt == null) { // 기본값
+		            lastTxt = "...";
+		        }
+		        if (txt.length > len) {
+		            txt = txt.substr(0, len) + lastTxt;
+		        }
+		        return txt;
+			
+	    }
+//alert(txt);
+
+
+</script>	
 	
 	    
 	
@@ -133,14 +167,20 @@
 	      
 	    </tr>
 	   
-	    <c:if test="${not empty requestScope.qnaList}">
-			<c:forEach var="qvo" items="${requestScope.qnaList}" varStatus="status">
+	    <c:if test="${not empty requestScope.myQnaList}">
+			<c:forEach var="qvo" items="${requestScope.myQnaList}" varStatus="status">
 			 <tr>
 				  <td class="num">${status.count}</td>
 			      <td class="title" id="askModal"><a style="cursor: pointer;" data-toggle="modal" data-target="#correctDeleteAsk" data-dismiss="modal">${qvo.q_title}</a></td>
-			      <td class="ask">${qvo.q_ask}</td>
+			      <td class="ask" style="overflow: hidden; text-overflow=ellipsis;">${qvo.q_ask}</td>
 			      <td class="registerday">${qvo.q_register}</td>
-			      <td class="category">${qvo.q_category}</td>
+			      
+			      <c:choose>
+			      <c:when test="${qvo.q_category == 1}"><td class="category">결제/교환/환불</td></c:when>
+			      <c:when test="${qvo.q_category == 2}"><td class="category">상품문의</td></c:when>
+			      <c:when test="${qvo.q_category == 3}"><td class="category">매장문의</td></c:when>
+			      <c:when test="${qvo.q_category == 4}"><td class="category">배송문의</td></c:when>      
+			      </c:choose>
 			</tr>
 			 </c:forEach>            
 			</c:if>

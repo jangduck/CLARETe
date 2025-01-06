@@ -26,32 +26,40 @@ public class Mypage_write_review extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	
+			HttpSession session = request.getSession();
+			
+			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+			
+			String m_id = loginuser.getM_id();
 
-			String fk_m_id = request.getParameter("fk_m_id");
-			System.out.println("fk_m_id = "+fk_m_id);
+			String method = request.getMethod();
+			
+			if("get".equalsIgnoreCase(method)) {
+				
+				// String fk_m_id = request.getParameter("fk_m_id");
+				System.out.println("나 서블릿!~ = "+m_id);
+							
+				try {
+					List<ReviewVO> myreviewUpList = rdao.myreviewUpList(m_id);
+					request.setAttribute("myreviewUpList", myreviewUpList);
 					
-
-			try {
-				List<ReviewVO> myreviewUpList = rdao.myreviewUpList(fk_m_id);
-				request.setAttribute("myreviewUpList", myreviewUpList);
+					System.out.println("리뷰작성 가능한 상품 몇개? "+ myreviewUpList.size());
+					
+					super.setRedirect(false);
+					super.setViewPage("/WEB-INF/mypage/mypage_write_review.jsp");
 				
+					
+					// System.out.println("아이디값 받옴"+fk_m_id);
+				} catch(SQLException e) {
+					e.printStackTrace();
+					super.setRedirect(true);
+					super.setViewPage(request.getContextPath()+"index.cl"); ///error.up 은 없어서 일단 메인
 				
-				super.setRedirect(false);
-				super.setViewPage("/WEB-INF/mypage/mypage_write_review.jsp");
-			
-				
-				System.out.println("아이디값 받옴"+fk_m_id);
-			} catch(SQLException e) {
-				e.printStackTrace();
-				super.setRedirect(true);
-				super.setViewPage(request.getContextPath()+"index.cl"); ///error.up 은 없어서 일단 메인
-			
-				
-				
+					
+					
+				}
 			}
-			
-	
-	
+
 	
 	}
 

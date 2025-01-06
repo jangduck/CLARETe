@@ -96,7 +96,7 @@
                             <a>BOARD</a>
                             <div class="depth">
                                 <ul>
-                                    <li><a href="#">FAQ</a></li>
+                                    <li><a href="<%= ctxPath%>/faq/faq_board.cl">FAQ</a></li>
                                     <li><a href="#">INQUIRY</a></li>
                                 </ul>
                             </div>
