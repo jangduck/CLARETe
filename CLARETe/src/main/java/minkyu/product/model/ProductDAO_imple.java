@@ -27,7 +27,7 @@ public class ProductDAO_imple implements ProductDAO {
 	private AES256 aes;
 
 	// »ý¼ºÀÚ
-	public OrderDAO_imple() {
+	public ProductDAO_imple() {
 
 		try {
 			Context initContext = new InitialContext();
@@ -79,9 +79,9 @@ public class ProductDAO_imple implements ProductDAO {
 					   + " from tbl_product "
 					   + " where p_num = ? ";
 			
-			for(String p_num : pnumList) {
+	//		for(String p_num : pnumList) {
 				
-			}
+	//		}
 			
 		} finally {
 			close();

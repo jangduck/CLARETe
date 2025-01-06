@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import chaeeun.order.model.OrderDAO;
-import chaeeun.order.model.OrderDAO_imple;
+import minkyu.order.model.OrderDAO;
+import minkyu.order.model.OrderDAO_imple;
 import common.controller.AbstractController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
