@@ -174,4 +174,23 @@ public void setM_mobile(String m_mobile) {
 	}
 
 	
+	
+	
+	
+	public String getDstatus() {
+		
+		String dstatus = "";
+		
+		if(status == 0) {
+			dstatus = "배송전";
+		} else if (status == 1) {
+			dstatus = "배송중";
+		} else {
+			dstatus = "배송완료";
+		}
+		
+		return dstatus;
+	}
+	
+	
 }

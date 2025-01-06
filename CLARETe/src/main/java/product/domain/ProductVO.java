@@ -124,4 +124,40 @@ public class ProductVO {
    }
 
    
+   
+   
+   
+   // 주문향수 계절 가져오기
+   public String getPseason() {
+	   
+	   String pseason = "";
+	   
+	   if("1".equals(p_season)) {
+		   pseason = "봄";
+	   } else if("2".equals(p_season)) {
+		   pseason = "여름";
+	   } else if("3".equals(p_season)) {
+		   pseason = "가을";
+	   } else if("4".equals(p_season)) {
+		   pseason = "겨울";
+	   }
+	   
+	   return pseason;
+   }
+   
+   // 주문향수 성별 가져오기
+   public String getGender() {
+	   
+	   String gender = "";
+	   
+	   if("1".equals(p_gender)) {
+		   gender = "남성";
+	   }
+	   else {
+		   gender = "여성";
+	   }
+	   
+	   return gender;
+   }
+   
 }
