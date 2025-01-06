@@ -1,5 +1,10 @@
 package delivery.domain;
 
+import member.domain.MemberVO;
+import order.domain.OrderVO;
+import orderdetail.domain.orderdetailVO;
+import product.domain.ProductVO;
+
 public class DeliveryVO {
 
 	 int d_num; 				//배송지번호
@@ -11,6 +16,63 @@ public class DeliveryVO {
 	 String d_mobile;			//받는사람 전화번호
 	 String d_name;				//받는사람 이름
 	 
+	 
+		// MemberVO 조인
+		private MemberVO membervo;
+
+		public MemberVO getMembervo() {
+			return membervo;
+		}
+
+		public void setMembervo(MemberVO membervo) {
+			this.membervo = membervo;
+		}
+
+		// ProductVO 조인
+		private ProductVO productvo;
+
+		public ProductVO getProductvo() {
+			return productvo;
+		}
+
+		public void setProductvo(ProductVO productvo) {
+			this.productvo = productvo;
+		}
+
+		public ProductVO getProduct() {
+			return this.productvo;
+		}
+
+		// OrderdetailVO 조인
+		private orderdetailVO orderdetailvo;
+
+		public orderdetailVO getOrderdetailvo() {
+			return orderdetailvo;
+		}
+
+		public void setOrderdetailvo(orderdetailVO orderdetailvo) {
+			this.orderdetailvo = orderdetailvo;
+		}
+		
+		
+		// OrderVO 조인
+		private OrderVO ordervo;
+
+		public OrderVO getOrdervo() {
+			return ordervo;
+		}
+
+		public void setOrdervo(OrderVO ordervo) {
+			this.ordervo = ordervo;
+		}
+		
+		
+		
+		
+		
+		
+
+
 	public int getD_num() {
 		return d_num;
 	}

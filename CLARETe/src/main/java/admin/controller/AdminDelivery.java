@@ -34,8 +34,9 @@ public class AdminDelivery extends AbstractController {
 			String searchType = request.getParameter("searchType");
 			String searchWord = request.getParameter("searchWord");
 			String currentShowPageNo = request.getParameter("currentShowPageNo");
-
-			String sizePerPage = "10"; // 페이지에서 보여줄 상품 수
+			String sizePerPage = request.getParameter("sizePerPage"); 
+			String status = request.getParameter("status"); // 배송 상태 추가
+//			String sizePerPage = "10"; // 페이지에서 보여줄 상품 수
 
 			if (searchType == null || (!"d_name".equals(searchType) && !"m_id".equals(searchType))) {
 				searchType = "";
@@ -49,6 +50,13 @@ public class AdminDelivery extends AbstractController {
 			if (searchWord == null) {
 				searchWord = "";
 			}
+			
+			if(sizePerPage == null || 
+			         (!"0".equals(sizePerPage) &&
+			          !"1".equals(sizePerPage) &&
+			          !"2".equals(sizePerPage) ) ) {
+			           sizePerPage = "10";
+			}
 
 			if (currentShowPageNo == null) {
 				currentShowPageNo = "1";
@@ -59,6 +67,7 @@ public class AdminDelivery extends AbstractController {
 			paraMap.put("searchWord", searchWord);
 			paraMap.put("currentShowPageNo", currentShowPageNo);
 			paraMap.put("sizePerPage", sizePerPage); // 한페이지당 보여줄 행의 개수
+			paraMap.put("status", status);
 
 //        System.out.println("searchType: " + paraMap.get("searchType"));
 //        System.out.println("searchWord: " + paraMap.get("searchWord"));
@@ -150,6 +159,8 @@ public class AdminDelivery extends AbstractController {
 				request.setAttribute("sizePerPage", sizePerPage);
 				request.setAttribute("pageBar", pageBar);
 				request.setAttribute("currentURL", currentURL);
+				request.setAttribute("status", status); // 현재 선택된 상태 전달
+
 
 				int totalDeliveryCount = adao.getDeliveryCount(paraMap);
 				request.setAttribute("totalDeliveryCount", totalDeliveryCount);

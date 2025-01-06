@@ -34,7 +34,7 @@ public class AdminOrder extends AbstractController {
         	String searchType = request.getParameter("searchType");
 	        String searchWord = request.getParameter("searchWord");
 	        String currentShowPageNo = request.getParameter("currentShowPageNo");
-	        String sizePerPage = "3";  // 페이지에서 보여줄 상품 수 
+	        String sizePerPage = "5";  // 페이지에서 보여줄 상품 수 
 	        
 	        if (searchType == null ||
 	                (!"m_id".equals(searchType) &&
@@ -74,7 +74,7 @@ public class AdminOrder extends AbstractController {
 	        
 			String pageBar = "";
 
-			int blockSize = 1; ///////////// 데이터 많아지면 여기서 바꾸기!!!
+			int blockSize = 5; ///////////// 데이터 많아지면 여기서 바꾸기!!!
 			// blockSize 는 블럭(토막)당 보여지는 페이지 번호의 개수이다.
 
 			int loop = 1;

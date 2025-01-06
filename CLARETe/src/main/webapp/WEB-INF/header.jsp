@@ -18,6 +18,19 @@
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
+    <!-- Bootstrap CSS -->
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.2-dist/css/bootstrap.min.css" > 
+
+	<!-- Font Awesome 6 Icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    
+    <!-- 직접 만든 CSS -->
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/template/template.css" />
+    
+    <!-- Optional JavaScript -->
+<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.7.1.min.js"></script>
+<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js" ></script> 
+    
     <!-- 해더, 푸터 css -->
     <link rel="stylesheet" href="<%= ctxPath %>/css/index/header.css">
 	<link rel="stylesheet" href="<%= ctxPath %>/css/index/footer.css">
@@ -36,9 +49,11 @@
                         <li class="hamburger"></li>
                     </ul>
                 </div>
-                <a href="<%= ctxPath%>/">
-                	<div class="header-logo"></div>
-                </a>
+                <div class="header-logo">
+                    <a href="<%= ctxPath%>/">
+                        
+                    </a>
+                </div>
                 <div>
                     <div class="header-icon-wrapper">
                         <ul>
@@ -52,8 +67,27 @@
                             	<li><a href="<%= ctxPath%>/member/memberRegister.cl">Sign Up</a></li>
                             	<li><a href="<%= ctxPath%>/login/loginView.cl">My Page</a></li>
                         	</c:if>
-                            
-                        </ul>
+
+							<c:if
+								test="${not empty sessionScope.loginuser and sessionScope.loginuser.m_id == 'admin' }">
+								<!-- admin 으로 로그인 했으면 -->
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle menufont_size text-primary"
+									   href="#" id="navbarDropdown" data-toggle="dropdown"> 관리자전용
+									</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item text-primary" href="<%=ctxPath%>/admin/admin.cl">회원목록</a>
+										<a class="dropdown-item text-primary" href="<%=ctxPath%>/admin/adminProductInsertGo.cl">제품등록</a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item text-primary" href="<%=ctxPath%>/admin/adminOrder.cl">전체주문내역</a>
+									</div>
+								</li>
+							</c:if>
+
+						</ul>
+						
+						
+						
                     </div>
                 </div>
             </header>

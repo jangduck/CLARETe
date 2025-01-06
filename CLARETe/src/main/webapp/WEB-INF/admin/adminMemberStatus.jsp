@@ -35,6 +35,13 @@ div#pageBar {
    div#pageBar > nav {
       margin: auto;
    }
+   
+button.btn.btn-primary {
+	width: 60px; /* 너비를 줄임 */
+	height: 30px; /* 높이를 조정 */
+	font-size: 12px; /* 텍스트 크기 조정 */
+	padding: 3px; /* 내부 여백 조정 */
+}   
 </style>
 
 <script type="text/javascript">
