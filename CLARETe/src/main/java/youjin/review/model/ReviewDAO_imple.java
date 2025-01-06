@@ -14,6 +14,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import delivery.domain.DeliveryVO;
+import faq.domain.FaqVO;
 import member.domain.MemberVO;
 import order.domain.OrderVO;
 import orderdetail.domain.orderdetailVO;
@@ -95,83 +96,6 @@ public class ReviewDAO_imple implements ReviewDAO {
 	}//end of public int ReviewUpload(ReviewVO rvo) throws SQLException {}
 
 	
-/*
-	@Override
-	public List<ReviewVO> myreviewUploadList(Map<String, String> paraMap) throws SQLException {
-		
-		List<ReviewVO> myReviewList = new ArrayList();		
-		
-		
-		try {
-			conn = ds.getConnection();
-			
-			System.out.println("리뷰작성가능게시판!");
-			String sql = " SELECT m_id, m_name, m_address, m_detail_address, m_extra, m_mobile "
-					+ "     ,o_num, o_date "
-					+ "     ,od_count, fk_op_num , od_price  "
-					+ "     ,p_image, p_name "
-					//+ "     ,r_msg "
-					+ " FROM tbl_member M "
-					+ " join tbl_order O "
-					+ " ON M.m_id = O.fk_m_id "
-					+ " join tbl_orderdetail D "
-					+ " ON O.o_num = D.fk_o_num "
-					+ " join tbl_product P "
-					+ " ON D.fk_p_num = P.p_num ";
-					//+ " join tbl_review R "
-					//+ " ON P.p_num = R.fk_p_num "
-					//+ " WHERE m_id = ? ";
-			
-			pstmt = conn.prepareStatement(sql);			
-			//pstmt.setString(1,fk_m_id);		
-			
-			//System.out.println("보여줄 아이디값"+fk_m_id);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				ReviewVO rvo = new ReviewVO();
-				//rvo.setR_msg(rs.getString("r_msg"));
-				
-				
-				MemberVO mvo = new MemberVO();
-				mvo.setM_id(rs.getString("fk_m_id"));
-				mvo.setM_name(rs.getString("m_name"));
-				mvo.setM_address(rs.getString("m_address"));
-				mvo.setM_detail_address(rs.getString("m_detail"));
-				mvo.setM_detail_address(rs.getString("m_detail_address"));
-				mvo.setM_extra(rs.getString("m_extra"));
-				mvo.setM_mobile(rs.getString("m_mobile"));
-				rvo.setMvo(mvo);
-				
-				OrderVO ovo = new OrderVO();
-				ovo.setO_num(rs.getInt("o_num"));
-				ovo.setO_date(rs.getString("o_date"));				
-				rvo.setOvo(ovo);
-				
-				orderdetailVO odvo = new orderdetailVO();
-				odvo.setOd_count(rs.getInt("od_count"));
-				odvo.setFk_op_num(rs.getInt("fk_op_num"));
-				odvo.setOd_price(rs.getString("od_price"));
-				rvo.setOdvo(odvo);
-				
-				ProductVO pvo = new ProductVO();
-				pvo.setP_image(rs.getString("p_image"));
-				pvo.setP_name(rs.getString("p_name"));
-				rvo.setPvo(pvo);
-				
-				
-				myReviewList.add(rvo);
-				System.out.println("리뷰작성가능 불러오기");
-			}
-			} finally {
-				close();
-			}			
-			return myReviewList;
-		
-	}// end of public List<ReviewVO> myreviewUploadList(String fk_m_id) throws SQLException ------------------
-
-*/
-	
 	
 	
 	// 리뷰 작성 가능한 목록보기
@@ -196,18 +120,19 @@ public class ReviewDAO_imple implements ReviewDAO {
 					+ " ON O.o_num = OD.fk_o_num "
 					+ " join tbl_product P "
 					+ " ON OD.fk_p_num = P.p_num "
-					+ " WHERE m_id = ? ";
+					+ " WHERE m_id = ? and status = 2 "
+					+ " order by o_num desc ";
 			
 			pstmt = conn.prepareStatement(sql);
 				
-			pstmt.setString(1,fk_m_id);		
-			System.out.println("보여줄 아이디값"+fk_m_id);
+			pstmt.setString(1,fk_m_id);	
+			System.out.println("보여줄 아이디값 나 임플~ "+fk_m_id);
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) {
+			while(rs.next()) {
 				ReviewVO rvo = new ReviewVO();
 				
-				System.out.println("됨??");
+				// System.out.println("됨??");
 				
 				MemberVO mvo = new MemberVO();	
 				mvo.setM_id("m_id");
@@ -247,9 +172,9 @@ public class ReviewDAO_imple implements ReviewDAO {
 				
 				myreviewUpList.add(rvo);
 				
-				System.out.println(rvo.getMvo().getM_name());
+				// System.out.println(rvo.getMvo().getM_name());
 				
-				System.out.println("myreviewUpList 에 담음");
+				// System.out.println("myreviewUpList 에 담음");
 			}
 			
 			} catch (SQLException e) {		
@@ -267,7 +192,7 @@ public class ReviewDAO_imple implements ReviewDAO {
 	@Override
 	public List<ReviewVO> myreviewList(String fk_m_id) throws SQLException {
 		
-		List<ReviewVO> myreviewList = new ArrayList<ReviewVO>();
+		List<ReviewVO> myreviewList = new ArrayList<>();
 
 		try {
 			conn = ds.getConnection();
@@ -282,7 +207,8 @@ public class ReviewDAO_imple implements ReviewDAO {
 					+ " on P.p_num = R.fk_p_num "
 					+ " join tbl_orderdetail OD "
 					+ " ON P.p_num = OD.fk_p_num "
-					+ " where M.m_id = ? ";
+					+ " where M.m_id = ? "
+					+ " order by r_register desc ";
 			
 			pstmt = conn.prepareStatement(sql);
 				
@@ -290,7 +216,7 @@ public class ReviewDAO_imple implements ReviewDAO {
 			System.out.println("보여줄 아이디값"+fk_m_id);
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) {
+			while(rs.next()) {
 				ReviewVO rvo = new ReviewVO();
 				rvo.setR_register(rs.getString("r_register"));
 				rvo.setR_msg(rs.getString("r_msg"));
@@ -328,8 +254,8 @@ public class ReviewDAO_imple implements ReviewDAO {
 
 	// 구매한 제품이 맞는지 확인하기
 	@Override
-	public int OderReviewCheck(String fk_m_id, String p_num) throws SQLException {
-		int n = 0;
+	public boolean OderReviewCheck(String fk_m_id, String p_num) throws SQLException {
+		boolean isEx = false;
 		//List<ReviewVO> OderReviewCheck = new ArrayList<ReviewVO>();
 		try {
 			  conn = ds.getConnection();
@@ -340,15 +266,17 @@ public class ReviewDAO_imple implements ReviewDAO {
 				  		 + " on O.o_num = OD.fk_o_num "
 				  		 + " join tbl_product P "
 				  		 + " on  P.p_num = OD.fk_p_num "
-				  		 + " where fk_m_id = ?  and p_num = ? "; 
+				  		 + " where fk_m_id = ?  and p_num = ? and status = 2 "; 
 				  
 						  		  
 			  pstmt = conn.prepareStatement(sql);
 				
 			  pstmt.setString(1,fk_m_id);
 			  pstmt.setString(2,p_num);	
-			  //rs = pstmt.executeQuery();
-			  n = pstmt.executeUpdate();
+			  rs = pstmt.executeQuery();
+			  
+			  isEx = rs.next();
+			  // n = pstmt.executeUpdate();
 			  System.out.println("리뷰작성준비");
 			  /*
 			  if(rs.next()) {
@@ -372,9 +300,49 @@ public class ReviewDAO_imple implements ReviewDAO {
 		} finally {
 			close();
 		}
-			return n;
+			return isEx;
 
 	}// end of public int OderReviewCheck(ReviewVO rvo) throws SQLException {}
+
+
+	
+	
+	
+	// 해당 제품에 달린 리뷰들을 불러온다
+	@Override
+	public List<ReviewVO> reviewList(int p_num) throws SQLException {
+		
+		List<ReviewVO> reviewList = new ArrayList<>();
+	
+		try {		
+			conn = ds.getConnection();
+			
+			String sql = " select fk_p_num, fk_m_id, r_star, r_msg, r_register "
+					   + " from tbl_review "
+					   + " where fk_p_num = ? "
+					   + " order by r_register desc ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,p_num);			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ReviewVO rvo = new ReviewVO();		
+				rvo.setFk_m_id(rs.getString("fk_m_id"));
+				rvo.setR_star(rs.getInt("r_star"));
+				rvo.setR_msg(rs.getString("r_msg"));
+				rvo.setR_register(rs.getString("r_register"));
+			
+				reviewList.add(rvo);
+				
+			}
+					
+		}   finally {
+			close();
+		}
+		
+		return reviewList;
+	}
 
 
 

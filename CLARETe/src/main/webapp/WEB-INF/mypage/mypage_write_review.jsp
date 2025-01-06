@@ -53,12 +53,12 @@ this.document.getElementById("mypageFrm").submit();
                 </span>
             </div>
 
-
+<%-- 
 <form name="mypageFrm" action="/CLARETe/mypage/mypage_write_review.cl" method="get">
 	<input type="text" name="fk_m_id" value="<%=session.getAttribute("id")%>"/>
 	<button>보내기</button>
 </form>
-
+--%>
             <!-- === for문 대상 시작 === -->           
 			<c:if test="${not empty requestScope.myreviewUpList}">
 			<c:forEach var="rvo" items="${requestScope.myreviewUpList}">

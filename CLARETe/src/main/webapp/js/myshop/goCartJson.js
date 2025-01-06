@@ -4,17 +4,7 @@
 
 $(document).ready(function(){
 
-    $('div#reviewWi').click(function(){
-		// alert('확인~');
-
-		$('.toggleBack').css({
-			'display': 'block'
-		});
-		
-		$('.toggleCon').css({
-			'display': 'block'
-		});
-	});
+   
 	
 	$('#x').click(function(){
 		$('.toggleBack').css({

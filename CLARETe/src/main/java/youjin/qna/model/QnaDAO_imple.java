@@ -93,10 +93,9 @@ public class QnaDAO_imple implements QnaDAO {
 	@Override
 	public List<QnaVO> qnaList() throws SQLException {
 		List<QnaVO> qnaList = new ArrayList<>();
-		
-		
+				
 		try {
-			System.out.println("qna게시판!");
+			//System.out.println("qna게시판!");
 			conn = ds.getConnection();
 			
 			String sql = " select q_num, fk_m_id, q_title, q_ask, q_register, q_category, q_answer, q_answerdate "
@@ -205,6 +204,54 @@ public class QnaDAO_imple implements QnaDAO {
 			close();
 		}
 			return n;		
+	}
+
+	
+	// 회원 1:1문의 리스트
+	@Override
+	public List<QnaVO> myQnaList(String fk_m_id) throws SQLException {
+		
+		List<QnaVO> myQnaList = new ArrayList<>();
+		
+		try {
+			//System.out.println("qna게시판!");
+			conn = ds.getConnection();
+			
+			String sql = " select q_num, fk_m_id, q_title, q_ask, q_register, q_category, q_answer, q_answerdate "
+					   + " from tbl_qna "
+					   + " where fk_m_id = ? "
+				       + " order by q_num desc ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,fk_m_id);
+			rs = pstmt.executeQuery();
+			
+			
+			while(rs.next()) {
+				QnaVO qvo = new QnaVO();
+			
+				
+				qvo.setQ_num(rs.getInt("q_num"));
+				qvo.setFk_m_id(rs.getString("fk_m_id"));
+				qvo.setQ_title(rs.getString("q_title"));
+				qvo.setQ_ask(rs.getString("q_ask"));
+				qvo.setQ_register(rs.getString("q_register"));
+				qvo.setQ_category(rs.getInt("q_category"));
+				qvo.setQ_answer(rs.getString("q_answer"));
+				qvo.setQ_answerdate(rs.getString("q_answerdate"));
+
+				
+				
+				myQnaList.add(qvo);
+				
+			}
+			
+		}  finally {
+			close();
+		}
+		
+		return myQnaList;
+		
 	}
 	
 	

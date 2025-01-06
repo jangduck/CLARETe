@@ -140,12 +140,12 @@ $(document).ready(function(){
 	      <th class="fk_m_id">회원아이디</th>
 	      <th class="registerday">등록일자</th>
 	      <th class="category">문의유형</th>
-	      <th class="q_num">Q&A넘버</th>
+	     <%--  <th class="q_num">Q&A넘버</th> --%>
 	      
 	    </tr>
 	   
 	    <c:if test="${not empty requestScope.qnaList}">
-			<c:forEach var="qvo" items="${requestScope.qnaList}" varStatus="status">
+			<c:forEach var="qvo" items="${requestScope.qnaList}" varStatus="status">  <!-- qnaList 확인 -->
 			 <tr>
 				  <td class="num">${status.count}</td>
 			      <%-- <td class="title" id="askModal"><a style="cursor: pointer;" data-toggle="modal" data-target="#askAnswerUpload" data-dismiss="modal">${qvo.q_title}</a></td> --%>
@@ -154,9 +154,14 @@ $(document).ready(function(){
 			      <td class="title">${qvo.q_title}</td>
 			      <td class="ask">${qvo.q_ask}</td>
 			      <td class="fk_m_id">${qvo.fk_m_id}</td>
-			      <td class="registerday">${qvo.q_register}</td>
-			      <td class="category">${qvo.q_category}</td>
-			      <td class="q_num">${qvo.q_num}</td>
+			      <td class="registerday">${qvo.q_register}</td>			     
+			      <c:choose>
+				      <c:when test="${qvo.q_category == 1}"><td class="category">결제/교환/환불</td></c:when>
+				      <c:when test="${qvo.q_category == 2}"><td class="category">상품문의</td></c:when>
+				      <c:when test="${qvo.q_category == 3}"><td class="category">매장문의</td></c:when>
+				      <c:when test="${qvo.q_category == 4}"><td class="category">배송문의</td></c:when>      
+			      </c:choose>
+			      <%-- <td class="q_num">${qvo.q_num}</td> --%>
 			</tr>
 			 </c:forEach>            
 			</c:if>

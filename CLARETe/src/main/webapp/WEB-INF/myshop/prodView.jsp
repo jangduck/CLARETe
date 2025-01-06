@@ -80,41 +80,69 @@
                         
                         
                         
+                        
+                        
+                        
+                        <%-- ======================== 유진 작성함 ======================== --%>
                         <%-- 리뷰modal include 받아옴 --%>
-						<%-- <jsp:include page="./ReviewModal.jsp"></jsp:include> --%>
-						    
-                                         
+						<%-- <jsp:include page="./ReviewModal.jsp"></jsp:include> --%>                                        
                         <!-- 가능하면 include 해서 따로 뺀 후에 보기 좋게 구현 해주세요 -->
                        <div class="review_container"> 
                             <div>
                                 <div>향수리뷰</div>
                                 <div id="reviewWi">리뷰작성</div>
                             </div>
+                                                        
                             <div class="review_box">
-                                <ul>
-                                    <li>대충 리뷰내용 등등</li> <!-- 리뷰 내용 for문 돌려주시고 페이징처리 잊지마세요 -->
-                                    <li>대충 리뷰내용 등등</li> <!-- 리뷰 없을 때 없다고 처리 꼭 해주세요 -->
-                                    <li>대충 리뷰내용 등등</li>
-                                    <li>대충 리뷰내용 등등</li>
-                                    <li>대충 리뷰내용 등등</li>
+                                <ul class="reviewcontent"><!-- 리뷰 목록-->
+                                
+                               	<c:if test="${not empty requestScope.rvo}">
+									<c:forEach var="rvo" items="${requestScope.rvo}" varStatus="status">
+	                                    <li class="reveiwDetail">
+		                                    <div class="review-div">
+		                                    	<span style="color:gray; font-size: 10pt; ">${rvo.fk_m_id}</span>							                   
+							                    <span style="color:gray; font-size: 10pt;">작성일자 ${rvo.r_register}</span><br><!--별점이 들어가는 곳-->
+							                    
+							                    <c:choose>							                    
+								                    <c:when test="${rvo.r_star == 1}"><span calss="reviewRank">★☆☆☆☆</span></c:when>
+								                    <c:when test="${rvo.r_star == 2}"><span calss="reviewRank">★★☆☆☆</span></c:when>
+								                    <c:when test="${rvo.r_star == 3}"><span calss="reviewRank">★★★☆☆</span></c:when>
+								                    <c:when test="${rvo.r_star == 4}"><span calss="reviewRank">★★★★☆</span></c:when>
+								                    <c:when test="${rvo.r_star == 5}"><span calss="reviewRank">★★★★★</span></c:when>							                    
+							                    </c:choose>
+							                    							                   
+							                </div>
+							                <div style="display: flex; align-items: center;">
+							                     <div class="review-img"></div> <span class = "detail" >${rvo.r_msg}</span><div class="moreReview"></div><!--리뷰내용 [더보기]-->
+							                </div>
+						                <!-- 더보기를 누르면 더 자세한 리뷰가 나오게 한다.-->				                
+	                					</li> <!-- 리뷰 내용 for문 돌려주시고 페이징처리 잊지마세요 -->
+	                                </c:forEach>            
+							   </c:if>  
+                               <c:if test="${empty requestScope.rvo}">
+                               	 	<li>등록된 리뷰가 없습니다.</li> <!-- 리뷰 없을 때 없다고 처리 꼭 해주세요 -->
+                               </c:if>
+                                                                      
                                 </ul>
                             </div>
-                        </div>
+                        </div> <%-- <div class="review_container">  --%>
+                        
                         <div style="display: flex; justify-content: space-between; margin-top: 60px;">
                             <span>처음</span>  <span>1  2  3  ... 19</span>  <span>끝</span>
                         </div>
                         <!-- 가능하면 include 해서 따로 뺀 후에 보기 좋게 구현 해주세요 -->
-                    </aside>
-                    
+                    </aside>                    
                 </div>
-
             	<div class="toggleBack">
             		
             	</div>
             	<div class="toggleCon">
             		<div class="toggleinner">
             		<span id="x">&times;</span>
-	            		<form name="reviewFrm"> 
+            		
+            		<c:if test="${empty sessionScope.loginuser.m_id}">리뷰를 작성하시려면 로그인 해주세요.</c:if>
+            		 <c:if test="${!empty sessionScope.loginuser.m_id  or sessionScope.loginuser.m_id == 'admin' }"> 
+            			<form name="reviewFrm"> 
 	            		   <div class="toRow">
 	            		       <span>작성자</span>
 	            		       <span>
@@ -132,22 +160,15 @@
 	            		   <div class="toRow"> 
 				               <span>별점을 선택해주세요</span>
 				               <span>
-				               <input type="hidden"  name="star" />  
-			                       <div class ="star_rating"> <%-- 작성 상품 별점 --%>   
-									  <input  type="hidden"  name="r_star" value="1"><span class="star on"></span></input>
-									  <input  type="hidden"  name="r_star" value="2"><span class="star"></span></input>
-									  <input  type="hidden"  name="r_star" value="3"><span class="star"></span></input>
-									  <input  type="hidden"  name="r_star" value="4"><span class="star"></span></input>
-									  <input  type="hidden"  name="r_star" value="5"><span class="star"></span></input>
-									  
-									 <!-- <input  type="hidden"  name="r_star" ><span value="1" class="star on"></span>
-																			<span value="2" class="star"></span>
-																			<span value="3" class="star"></span>
-																			<span value="4" class="star"></span>
-																			<span  value="5" class="star"></span></input>
-									   -->
+				               <input type="hidden"  name="r_star" />  
+			                       <div class ="star_rating"> <%-- 작성 상품 별점 --%>   									   
+									  <span class="star on" id="1"></span>
+									  <span class="star" id="2"></span>
+									  <span class="star" id="3"></span>
+									  <span class="star" id="4"></span>
+									  <span class="star" id="5"></span>																  									   									  
+									  <input type="hidden" name="r_star" value="1"></input>									  						  
 									</div>
-
 				               </span>
 			               </div>  
 			               <div class="toRow">
@@ -159,8 +180,15 @@
 		           			   <span><input type="reset" id="btnReset" class="btn" value="취소"/></span>
 	          			   </div>                     
 		        		</form>
+            		</c:if>            		
 	        		</div>
-            	</div>
+            	</div><%-- <div class="toggleCon"> --%>
+         	    <%-- ======================== 유진 작성함 ======================== --%>
+            
+            
+            
+            
+            
             
             
 				
@@ -275,12 +303,35 @@
      	// === select 태그 변경시 + 옵션가격 된 금액 표출 === //
      	
      	
-     	$('.star_rating > .star').click(function() {
+     	
+     	
+     	
+     	// 선택한 별점을 name에 담아주자 //
+     	$('.star_rating > .star').click(function(e) {
+     		const selectStar = $('.star');
+     		
+     		// alert(selectStar)
+     		// alert($(this).attr('id'));
+     		 $('input[name="r_star"]').val($(this).attr('id'));
+     		
 		  $(this).parent().children('span').removeClass('on');
 		  $(this).addClass('on').prevAll('span').addClass('on');
-		})
 
+		})		
+     	// 선택한 별점을 name에 담아주자 //
      	
+         	
+		 $('div#reviewWi').click(function(){
+				// alert('확인~');
+								
+					$('.toggleBack').css({
+						'display': 'block'
+					});
+					
+					$('.toggleCon').css({
+						'display': 'block'
+					});								
+		 });
     });
 </script>
 <jsp:include page="../footer.jsp"></jsp:include>

@@ -18,6 +18,9 @@ public interface QnaDAO {
 
 	// 1:1문의 답변 등록
 	int qnaAnswerUpload(QnaVO qvo) throws SQLException;
+
+	// 회원 1:1문의 리스트
+	List<QnaVO> myQnaList(String fk_m_id) throws SQLException;
 	
 	
 
