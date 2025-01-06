@@ -135,6 +135,7 @@ public class AdminDAO_imple implements AdminDAO {
            		+ "    m.m_name, "
            		+ "    m.m_email, "
            		+ "    m.m_mobile, "
+           		+ "    d.d_name, "
            		+ "    o.fk_m_id "
            		+ " FROM  "
            		+ "    tbl_member m "
@@ -143,7 +144,10 @@ public class AdminDAO_imple implements AdminDAO {
            		+ " JOIN "
            		+ "    tbl_orderdetail od ON od.fk_o_num = o.o_num "
            		+ " JOIN "
-           		+ "    tbl_product p ON od.fk_p_num = p.p_num"; 
+           		+ "    tbl_product p ON od.fk_p_num = p.p_num"
+           		+ " JOIN "
+           		+ "    tbl_delivery d ON o.fk_d_num = d.d_num ";
+
 
 
            pstmt = conn.prepareStatement(sql); 
@@ -155,6 +159,7 @@ public class AdminDAO_imple implements AdminDAO {
                MemberVO member = new MemberVO();
                ProductVO product = new ProductVO();
                orderdetailVO orderdetail = new orderdetailVO();
+               DeliveryVO delivery = new DeliveryVO();
 
                // 주문 정보 설정
                order.setO_num(rs.getInt("o_num"));          
@@ -187,9 +192,13 @@ public class AdminDAO_imple implements AdminDAO {
                orderdetail.setOd_count(rs.getInt("od_count"));
                orderdetail.setFk_op_num(rs.getInt("fk_op_num")); 
                
+               delivery.setD_name(rs.getString("d_name"));
+
+               
                order.setProductvo(product);
                order.setOrderdetailvo(orderdetail);
                order.setMembervo(member);
+               order.setDeliveryvo(delivery);
 
                
                orderList.add(order);
@@ -334,31 +343,28 @@ public class AdminDAO_imple implements AdminDAO {
     		
     		 conn = ds.getConnection();
     		
-    		    String sql = " SELECT RNO, m_id, m_name, m_email, m_gender, m_mobile, m_address, m_birth, m_point, m_register, m_postcode, m_detail_address, m_extra "
-    	                   + " FROM ( "
-    	                   + "  SELECT rownum AS RNO, m_id, m_name, m_email, m_gender, m_mobile, m_address, m_birth, m_point, m_register, m_postcode, m_detail_address, m_extra "
-    	                   + "  FROM ( "
-    	                   + "    SELECT m_id, m_name, m_email, m_gender, m_mobile, m_address, m_birth, m_point, m_register, m_postcode, m_detail_address, m_extra "
-    	                   + "    FROM tbl_member ";
-    		
-    		 String searchType = paraMap.get("searchType");
-    	     String searchWord = paraMap.get("searchWord");
-    	     
+    		 String sql = " SELECT RNO, m_id, m_name, m_email, m_gender, m_mobile, m_address, m_birth, m_point, m_register, m_postcode, m_detail_address, m_extra "
+                     + " FROM ( "
+                     + "  SELECT rownum AS RNO, m_id, m_name, m_email, m_gender, m_mobile, m_address, m_birth, m_point, m_register, m_postcode, m_detail_address, m_extra "
+                     + "  FROM ( "
+                     + "    SELECT m_id, m_name, m_email, m_gender, m_mobile, m_address, m_birth, m_point, m_register, m_postcode, m_detail_address, m_extra "
+                     + "    FROM tbl_member ";
 
-//    	     System.out.println(searchWord);
-//    	     System.out.println(searchType);
-    	     
-    	     // 검색어가 있을 때만 WHERE 절 추가
-    	        if (!searchType.isBlank() && !searchWord.isBlank()) {
-    	            sql += " WHERE " + searchType + " like '%'|| ? ||'%' ";
-    	        }
+			  String searchType = paraMap.get("searchType");
+			  String searchWord = paraMap.get("searchWord");
+			
+			  // 검색어가 있을 때만 WHERE 절 추가
+			  if (!searchType.isBlank() && !searchWord.isBlank()) {
+			      sql += " WHERE " + searchType + " like '%'|| ? ||'%' ";
+			  }
+			
+			  // 최신순으로 정렬하기 위해 m_register 컬럼 기준으로 내림차순 정렬
+			  sql += " order by m_register desc "
+			         +  "  ) V "
+			         +  " ) T "
+			         +  " WHERE T.RNO BETWEEN ? AND ? ";
+
     	        
-    	        sql += " order by m_extra desc "
-    	                +  "  ) V "
-    	                +  " ) T "
-    	                +  " WHERE T.RNO BETWEEN ? AND ? ";
-    	        
-//    	        sql = "SELECT * FROM tbl_member WHERE 1=1";
     	        
     	        pstmt = conn.prepareStatement(sql);
     		
@@ -518,39 +524,40 @@ public class AdminDAO_imple implements AdminDAO {
     	try {
     		
     		 conn = ds.getConnection();
-    		// RNO SELECT 문으로 바꾸기  
-    		 String sql = " SELECT RNO, o_num, o_date, fk_m_id, m_name, m_email, m_mobile, p_name, od_count, o_price, status, fk_d_num, op_ml, fk_op_num, fk_d_num "
-    		 		+ "    FROM (  "
-    		 		+ "        SELECT rownum AS RNO, o_num, o_date, fk_m_id, m_name, m_email, m_mobile, p_name, od_count, o_price, status, fk_d_num, op_ml, fk_op_num, fk_d_num "
-    		 		+ "        FROM (  "
-    		 		+ "            SELECT o_num, o_date, m_name, m_email, m_mobile, fk_m_id, p_name, od_count, o_price, status, fk_d_num, op_ml, fk_op_num, fk_d_num "
-    		 		+ "            FROM tbl_member m JOIN tbl_order o "
-    		 		+ "            ON m.m_id = o.fk_m_id "
-    		 		+ "            JOIN tbl_orderdetail od "
-    		 		+ "            ON od.fk_o_num = o.o_num "
-    		 		+ "            JOIN tbl_product p "
-    		 		+ "            ON od.fk_p_num = p.p_num "
-    		 		+ "            JOIN tbl_option op "
-    		 		+ "            ON od.fk_op_num = op.op_num ";
+    		// RNO SELECT 문으로 바꾸기 
+    		 String sql = " SELECT RNO, o_num, o_date, fk_m_id, m_name, m_email, m_mobile, p_name, od_count, o_price, status, fk_d_num, op_ml, fk_op_num "
+    	             + "    FROM (  "
+    	             + "        SELECT rownum AS RNO, o_num, o_date, fk_m_id, m_name, m_email, m_mobile, p_name, od_count, o_price, status, fk_d_num, op_ml, fk_op_num "
+    	             + "        FROM (  "
+    	             + "            SELECT o_num, o_date, m_name, m_email, m_mobile, fk_m_id, p_name, od_count, o_price, status, fk_d_num, op_ml, fk_op_num "
+    	             + "            FROM tbl_member m JOIN tbl_order o "
+    	             + "            ON m.m_id = o.fk_m_id "
+    	             + "            JOIN tbl_orderdetail od "
+    	             + "            ON od.fk_o_num = o.o_num "
+    	             + "            JOIN tbl_product p "
+    	             + "            ON od.fk_p_num = p.p_num "
+    	             + "            JOIN tbl_option op "
+    	             + "            ON od.fk_op_num = op.op_num ";
 
+	    	String searchType = paraMap.get("searchType");
+	    	String searchWord = paraMap.get("searchWord");
+	
+	    	// 검색어가 있을 때만 WHERE 절 추가
+	    	if (!searchType.isBlank() && !searchWord.isBlank()) {
+	    	    if ("m_id".equals(searchType)) {
+	    	        searchType = "fk_m_id"; // 열 이름을 올바르게 변경
+	    	    }
+	    	    sql += "WHERE " + searchType + " LIKE '%' || ? || '%' ";
+	    	}
+	
+	    	// 최신순 정렬: 주문 날짜(o_date)를 기준으로 내림차순으로 정렬
+	    	sql += " order by o_date desc "  // 변경된 부분
+	    	       +  "  ) V "
+	    	       +  " ) T "
+	    	       +  " WHERE T.RNO BETWEEN ? AND ? ";
+	
+	    	pstmt = conn.prepareStatement(sql);
 
-    		
-    		 String searchType = paraMap.get("searchType");
-    	     String searchWord = paraMap.get("searchWord");
-
-   	  	  // 검색어가 있을 때만 WHERE 절 추가
-	  	     if (!searchType.isBlank() && !searchWord.isBlank()) {
-	             if ("m_id".equals(searchType)) {
-	                 searchType = "fk_m_id"; // 열 이름을 올바르게 변경
-	             }
-	             sql += "WHERE " + searchType + " LIKE '%' || ? || '%' ";
-	         }
-		        sql += " order by fk_d_num desc "
-	               +  "  ) V "
-	               +  " ) T "
-	               +  " WHERE T.RNO BETWEEN ? AND ? ";
-		            
-		        pstmt = conn.prepareStatement(sql);
     	     /*
 	             === 페이징처리의 공식 ===
 	             where RNO between (조회하고자하는페이지번호 * 한페이지당보여줄행의개수) - (한페이지당보여줄행의개수 - 1) and (조회하고자하는페이지번호 * 한페이지당보여줄행의개수); 
@@ -582,6 +589,7 @@ public class AdminDAO_imple implements AdminDAO {
 				    ProductVO product = new ProductVO();
 				    orderdetailVO orderdetail = new orderdetailVO();
 				    OptionVO option = new OptionVO();
+//				    DeliveryVO delivery = new DeliveryVO();
 
 				    // 주문 정보 설정
 				    order.setO_num(rs.getInt("o_num"));           // 주문번호
@@ -602,11 +610,14 @@ public class AdminDAO_imple implements AdminDAO {
 				    // 옵션 정보 설정
 				    option.setOp_ml(rs.getString("op_ml"));            // 용량
 //				    System.out.println("확인 미리~ "+rs.getString("op_ml"));
+				    
+//				    delivery.setD_name(rs.getString("d_name"));
 
 				    order.setProductvo(product);
 				    order.setOrderdetailvo(orderdetail);  
 				    order.setMembervo(member);
 				    order.setOptionvo(option);
+//				    order.setDeliveryvo(delivery);
 				    
 				    // 주문 객체를 리스트에 추가
 				    orderList.add(order);
@@ -626,91 +637,115 @@ public class AdminDAO_imple implements AdminDAO {
     	}
 	
 	
-	
+
 	
 	
 	// 배송주문조회 검색기능
 	@Override
 	public List<DeliveryVO> searchDelivery(Map<String, String> paraMap) throws SQLException {
-		 
-		List<DeliveryVO> deliveryList = new ArrayList<>();
 
-	       try {
-	           conn = ds.getConnection();
+	    List<DeliveryVO> deliveryList = new ArrayList<>();
 
-	           String sql = " SELECT RNO, d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, d_name "
-		           		 + "    FROM ( "
-		           		 + "    SELECT rownum AS RNO, d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, d_name "
-		           		 + "    	FROM ( "
-		           		 + "       		SELECT d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, d_name "
-		           		 + "        	FROM tbl_delivery ";
-	           
-	           String searchType = paraMap.get("searchType");
-	  	       String searchWord = paraMap.get("searchWord");
-	        
-	  	  // 검색어가 있을 때만 WHERE 절 추가
-	  	     if (!searchType.isBlank() && !searchWord.isBlank()) {
-	             if ("m_id".equals(searchType)) {
-	                 searchType = "fk_m_id"; // 열 이름을 올바르게 변경
-	             }
-	             sql += "WHERE " + searchType + " LIKE '%' || ? || '%' ";
-	         }
-		        sql += " order by d_name desc "
-	               +  "  ) V "
-	               +  " ) T "
-	               +  " WHERE T.RNO BETWEEN ? AND ? ";
-		            
-		        pstmt = conn.prepareStatement(sql);
+	    try {
+	        conn = ds.getConnection();
 
-		        /*
-				   === 페이징처리의 공식 === where RNO between (조회하고자하는페이지번호 * 한페이지당보여줄행의개수) -
-				   (한페이지당보여줄행의개수 - 1) and (조회하고자하는페이지번호 * 한페이지당보여줄행의개수);
-				*/
-				int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
-				int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+	        String sql = " SELECT RNO, d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, "
+	                + "       d_name, m_name, m_mobile, p_name, od_count, o_status "
+	                + " FROM ( "
+	                + "    SELECT ROWNUM AS RNO, d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, "
+	                + "           d_name, m_name, m_mobile, p_name, od_count, o_status "
+	                + "    FROM ( "
+	                + "        SELECT d.d_num, d.fk_m_id, d.d_address, d.d_detail_address, d.d_postcode, d.d_extra, d.d_mobile, "
+	                + "               d.d_name, m.m_name, m.m_mobile, p.p_name, od.od_count, o.status AS o_status "
+	                + "        FROM tbl_delivery d "
+	                + "        JOIN tbl_member m ON d.fk_m_id = m.m_id "
+	                + "        JOIN tbl_order o ON d.d_num = o.fk_d_num "
+	                + "        JOIN tbl_orderdetail od ON o.o_num = od.fk_o_num "
+	                + "        JOIN tbl_product p ON od.fk_p_num = p.p_num ";
 
-		        // 검색어가 있을 경우 파라미터 설정
-		        if (!searchType.isBlank() && !searchWord.isBlank()) {
-		            pstmt.setString(1, searchWord);
-		            pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) ); // 공식 
-		            pstmt.setInt(3, (currentShowPageNo * sizePerPage));
-		        }
-		        else {
-		             // 검색이 없는 경우 
-		             pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) ); // 공식 
-		             pstmt.setInt(2, (currentShowPageNo * sizePerPage));
-		        }
+	        String searchType = paraMap.get("searchType");
+	        String searchWord = paraMap.get("searchWord");
+	        String status = paraMap.get("status");
 
-		        rs = pstmt.executeQuery();
-	           
-	           
+	     if (searchType != null && !searchType.isBlank() && searchWord != null && !searchWord.isBlank()) {
+	         sql += " WHERE " + searchType + " LIKE '%' || ? || '%' ";
+	     }
 
-	           while (rs.next()) {
-	        	   
-	        	   DeliveryVO delivery = new DeliveryVO();
-	        	   MemberVO member = new MemberVO();
-	               
-	               delivery.setD_num(rs.getInt("d_num"));  	
-	               delivery.setFk_m_id(rs.getString("fk_m_id"));      
-	               delivery.setD_address(rs.getString("d_address"));  				
-	               delivery.setD_detail_address(rs.getString("d_detail_address"));  					
-	               delivery.setD_postcode(rs.getString("d_postcode")); 		
-	               delivery.setD_extra(rs.getString("d_extra")); 
-	               delivery.setD_mobile(rs.getString("d_mobile")); 
-	               delivery.setD_name(rs.getString("d_name")); 
+	     if (status != null && !status.isBlank()) {
+	         sql += " AND o.status = ? ";
+	     }
 
-	               deliveryList.add(delivery);
-	           }
-		    } 
-		    catch (SQLException e) {
-		        e.printStackTrace();
-		    } 
-		    finally {
-		        close();
-		    }
+	     sql += " order by o.o_date desc "  // 변경된 부분
+	    	      + "  ) V "
+	    	      + " ) T "
+	    	      + " WHERE T.RNO BETWEEN ? AND ? ";
 
-		    return deliveryList;  
-		}
+	     pstmt = conn.prepareStatement(sql);
+
+	        int index = 1;
+
+	        // 검색어 파라미터 설정
+	        if (searchType != null && !searchType.isBlank() && searchWord != null && !searchWord.isBlank()) {
+	            pstmt.setString(index++, searchWord);
+	        }
+
+	        // 배송 상태 파라미터 설정
+	        if (status != null && !status.isBlank()) {
+	            pstmt.setInt(index++, Integer.parseInt(status));
+	        }
+
+	        // 페이징 파라미터 설정
+	        int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+	        int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+
+	        pstmt.setInt(index++, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 시작 번호
+	        pstmt.setInt(index, (currentShowPageNo * sizePerPage)); // 끝 번호
+
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            DeliveryVO delivery = new DeliveryVO();
+	            MemberVO member = new MemberVO();
+	            ProductVO product = new ProductVO();
+	            orderdetailVO orderdetail = new orderdetailVO();
+	            OrderVO order = new OrderVO();
+
+	            delivery.setD_num(rs.getInt("d_num"));
+	            delivery.setFk_m_id(rs.getString("fk_m_id"));
+	            delivery.setD_address(rs.getString("d_address"));
+	            delivery.setD_detail_address(rs.getString("d_detail_address"));
+	            delivery.setD_postcode(rs.getString("d_postcode"));
+	            delivery.setD_extra(rs.getString("d_extra"));
+	            delivery.setD_mobile(rs.getString("d_mobile"));
+	            delivery.setD_name(rs.getString("d_name"));
+
+	            member.setM_name(rs.getString("m_name"));
+	            member.setM_mobile(aes.decrypt(rs.getString("m_mobile")));
+
+	            product.setP_name(rs.getString("p_name"));
+
+	            orderdetail.setOd_count(rs.getInt("od_count")); // 제품 수량
+
+//	            order.setStatus(rs.getInt("status")); // 배송 현황
+	            order.setStatus(rs.getInt("o_status")); // 수정
+
+
+	            delivery.setMembervo(member);
+	            delivery.setProductvo(product);
+	            delivery.setOrderdetailvo(orderdetail);
+	            delivery.setOrdervo(order);
+
+	            deliveryList.add(delivery);
+	        }
+	    } catch (GeneralSecurityException | UnsupportedEncodingException e) {
+	        e.printStackTrace();
+	    } finally {
+	        close();
+	    }
+
+	    return deliveryList;
+	}
+
 	
 	
 //////////////////////////////////////////////////////////////////////// 페이징처리 시작	

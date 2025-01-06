@@ -1,6 +1,7 @@
 package myshop.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import common.controller.AbstractController;
@@ -21,11 +22,13 @@ public class ProdView extends AbstractController {
 	ProductDAO pdao = new ProductDAO_imple();
 	OptionDAO odao = new OptionDAO_imple();
 	private ReviewDAO rdao = new ReviewDAO_imple();
+	List pnumList = new ArrayList<>();
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String method = request.getMethod();
+		 
 		
 		if("get".equalsIgnoreCase(method)) { // get 으로 들어온 경우
 			
@@ -52,6 +55,12 @@ public class ProdView extends AbstractController {
 			ProductVO pvo = pdao.selectProductOne(p_num); // 상품 상세페이지의 정보를 알아온다
 			List<OptionVO> ovo = odao.selectOption(p_num); // 상품 옵션 정보를 알아온다
 			
+			
+		      pnumList.add(session.getAttribute("p_num"));
+		      
+		      session.setAttribute("pnumList", pnumList);
+		      
+		      System.out.println("pnumList사이즈 확인"+pnumList.size());
 			// System.out.println("리스트 사이즈 : "+ovo.size());
 			
 			request.setAttribute("pvo", pvo);

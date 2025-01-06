@@ -27,16 +27,31 @@
 
 <style type="text/css">
 div#pageBar {
-      border: solid 0px red;
-      width: 80%;
-      margin: 3% auto 0 auto;
-      display: flex;
-   }
-   
-   div#pageBar > nav {
-      margin: auto;
-   }
+	border: solid 0px red;
+	width: 80%;
+	margin: 3% auto 0 auto;
+	display: flex;
+}
+
+div#pageBar>nav {
+	margin: auto;
+}
+
+/* button.btn.btn-primary {
+	width: 60px; /* 너비를 줄임 */
+	height: 30px; /* 높이를 조정 */
+	font-size: 12px; /* 텍스트 크기 조정 */
+	padding: 3px; /* 내부 여백 조정 */
+}
+
+button.btn.btn-secondary {
+        width: 60px; /* 너비 조정 */
+        height: 30px; /* 높이 조정 */
+        font-size: 12px; /* 텍스트 크기 */
+        padding: 5px; /* 내부 여백 */
+} */
 </style>
+
 
 <script type="text/javascript">
 
