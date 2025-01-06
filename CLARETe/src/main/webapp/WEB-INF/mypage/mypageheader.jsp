@@ -3,10 +3,30 @@
     
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     
 <%
     String ctxPath = request.getContextPath();
     //    /CLARETe
+%>
+
+<%@ page import="jakarta.servlet.http.HttpSession" %>
+<%@ page import="member.domain.MemberVO" %>
+<% 
+
+	HttpSession session_name = request.getSession(); 
+	MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	String username = "";
+	int point = 0;
+	
+	if( loginuser != null ){
+		username = loginuser.getM_name();
+	}
+	
+	if( loginuser != null ){
+		point = loginuser.getM_point();	
+	}
+	
 %>
 
 <%-- 직접 만든 JS --%>
@@ -26,7 +46,7 @@
                             <div>내 정보</div>
                             <ul>
                                 <li><a onclick="goSubmit()" href="<%= ctxPath%>/mypage/mypage_memberUpdate.cl">내 정보 수정</a></li>
-                                <li><a href="#">배송지 입력</a></li>
+                                <li><a href="<%= ctxPath%>/mypage/insertDelivery.cl">배송지 입력</a></li>
                                 <li><a href="<%= ctxPath%>/mypage/memberDelete.cl">회원탈퇴</a></li>
                             </ul>
                         </li>
@@ -54,7 +74,7 @@
                 <div class="mypage_contants">
                     <div class="mypage_contants_top">
                         <div class="top_title">
-                            <span>강이훈</span><span>님 반갑습니다.</span>
+                            <span><%= username%></span><span>님 반갑습니다.</span>
                             <div><a href="#">회원 정보 수정</a></div>
                         </div>
                         <div class="top_contants">
@@ -64,7 +84,10 @@
                                         장바구니
                                     </div>
                                     <div>
-                                        <span>3</span><span>개</span>
+                                        <span> 
+                                        <c:forEach var="cartList" items="${requestScope.cartList}">
+                                         ${cartList.c_count}
+                                        </c:forEach></span><span>개</span>
                                     </div>
                                 </li>
                                 <li>
@@ -80,7 +103,7 @@
                                         POINT
                                     </div>
                                     <div>
-                                        <span>500</span><span>P</span>
+                                        <span><fmt:formatNumber value="<%= point%>" pattern="#,###,###"/></span><span>P</span>
                                     </div>
                                 </li>
                             </ul>

@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	$("div.delivery_Insert").hide(); 
+	$("span.error").hide();
 	
 	$("button#toggleButton").click(function(){
 		//console.log("~~~~확인용 클릭함.");
@@ -9,7 +10,147 @@ $(document).ready(function(){
 	$("button.toggleColse").click(function(){
 		$("div.delivery_Insert").hide();
 	})
+	
+	
+	 $("input.d_name").blur((e)=>{
+		const d_name = $("input.d_name").val().trim();
+			
+			if(d_name == ""){
+				
+				$(".delivery_Insert :input").prop("disabled", true);
+	            $(e.target).prop("disabled", false);
+	            $(e.target).val("").focus();
 
+				        //  $(e.target).next().show();
+				        //  또는
+				         $(e.target).parent().find("span.error").show();
+			}
+			
+			else{
+				$(".delivery_Insert :input").prop("disabled", false);
+				  $(e.target).parent().find("span.error").hide();
+			}
+	 });
+	
+	 
+	 
+	
+	//------------------- 이름 부분 ------------------------------- //
+	
+	///^[ㄱ-ㅎ가-힣a-zA-Z0-9]+$/
+	
+	$("input.d_monbile").blur((e)=>{
+		
+		const regExp__d_mobile = /^[ㄱ-ㅎ가-힣a-zA-Z]+$/ //한국어나 일본어가 들어갔을때
+		const bool = regExp__d_mobile.test($(e.target).val());
+		
+		if(bool){
+			
+			$(e.target).prop("disabled", false);
+			$(e.target).val("").focus();
+			$(e.target).parent().find("span.error").show();
+		}		
+		
+		else{
+			$(".delivery_Insert :input").prop("disabled", false);
+		    $(e.target).parent().find("span.error").hide();
+		}
+	
+	});
+	
+	
+	
+	
+	//----------------- 전화번호가 한국어나 영어 들어갔는지 확인----------------------------------//
+	
+	$("input.d_postcode").blur((e) => {
+		
+		
+		const regExp_postcode = /^\d{5}$/;//우편번호가 5글자 
+		const bool = regExp_postcode.test($(e.target).val());
+		
+		if(!bool){
+			$(e.target).prop("disabled", true);
+			$(e.target).val("").focus();
+			$(e.target).parent().find("span.error").show();
+		}
+		
+		else{
+			$(".delivery_Insert :input").prop("disabled", false);
+			$(e.target).parent().find("span.error").hide();
+			}
+		
+	});
+	
+	//-------------------- 우편번호 -------------------------------//
+	
+	
+	$("input.d_address").blur((e)=>{
+		const d_addresss = $("input.d_address").val().trim();
+		
+		if(d_addresss == ""){
+			
+			$(".delivery_Insert :input").prop("disabled", true);
+			            $(e.target).prop("disabled", false);
+			            $(e.target).val("").focus();
+
+						        //  $(e.target).next().show();
+						        //  또는
+						         $(e.target).parent().find("span.error").show();
+					}
+					
+		else{
+			$(".delivery_Insert :input").prop("disabled", false);
+			  $(e.target).parent().find("span.error").hide();
+		}
+			
+	});
+	//--------------------------- 주소 공백 --------------------------//
+	
+	
+	$("input.d_detailaddress").blur((e)=>{
+		
+		const d_detailaddress = $("input.d_detailaddress").val().trim();
+		
+		if(d_detailaddress == "")		{
+					
+		$(".delivery_Insert :input").prop("disabled", true);
+		            $(e.target).prop("disabled", false);
+		            $(e.target).val("").focus();
+
+			        //  $(e.target).next().show();
+			        //  또는
+			         $(e.target).parent().find("span.error").show();
+				}
+				
+		else{
+			$(".delivery_Insert :input").prop("disabled", false);
+			$(e.target).parent().find("span.error").hide();
+		}
+		
+	});
+	
+	//------------------- 상세주소 공백 --------------------- //
+	
+	$("input.d_extra").blur((e)=>{
+		
+		const d_extra = $("input.d_extra").val().trim();
+		
+		if(d_extra == ""){
+			$(e.target).prop("disabled",  true);
+            $(e.target).val("").focus();
+
+	        //  $(e.target).next().show();
+	        //  또는
+	         $(e.target).parent().find("span.error").show();
+		}
+							
+		else{
+			$(".delivery_Insert :input").prop("disabled", false);
+			$(e.target).parent().find("span.error").hide();
+		}
+		
+	});
 	
 	// ==== "우편번호찾기"를 클릭했을 때 이벤트 처리하기 ==== //
 	       $(".PostCodeFind").click(function(){
@@ -47,7 +188,9 @@ $(document).ready(function(){
 	                       // 조합된 참고항목을 해당 필드에 넣는다.
 	                       document.getElementById("extra").value = extraAddr;
 	                   
-	                   } else {
+	                   } 
+					   
+					   else {
 	                       document.getElementById("extra").value = '';
 	                   }
 	       
@@ -137,7 +280,8 @@ function goInsertDelivery(){
   	frm.action = "insertDelivery.cl";
   	frm.method = "post";
   	frm.submit();
-	location.reload();
+	
+
 	};
 	
 	

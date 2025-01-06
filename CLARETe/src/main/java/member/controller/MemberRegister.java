@@ -59,8 +59,9 @@ public class MemberRegister extends AbstractController {
 			
 			try {
 				int n = mdao.registerMember(member);
+				int m = mdao.regiterMemberDelivery(member);//회원가입에서 입력한 주소값넣기
 				
-				if (n == 1) {	
+				if (n == 1 && m == 1) {	
 					message = "회원가입 성공";
 					loc = request.getContextPath()  + "/index.cl";	// 시작페이지로 이동한다. (돌아갈 페이지가 JSP라서 request.getContextPath() 필요)			
 				}

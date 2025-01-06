@@ -18,12 +18,20 @@
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
+    
+    
     <!-- 해더, 푸터 css -->
     <link rel="stylesheet" href="<%= ctxPath %>/css/index/header.css">
 	<link rel="stylesheet" href="<%= ctxPath %>/css/index/footer.css">
 	
 	<!-- Optional JavaScript -->
 	<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.7.1.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
+	<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script> 
+	
+	
+	
 </head>
 <body> 
     <div id="container">
@@ -96,7 +104,7 @@
                             <a>BOARD</a>
                             <div class="depth">
                                 <ul>
-                                    <li><a href="#">FAQ</a></li>
+                                    <li><a href="<%= ctxPath%>/faq/faq_board.cl">FAQ</a></li>
                                     <li><a href="#">INQUIRY</a></li>
                                 </ul>
                             </div>

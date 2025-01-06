@@ -3,15 +3,21 @@ package mypage.controller;
 import java.sql.SQLException;
 import java.util.List;
 
+import cart.domain.CartVO;
+import chaeeun.cart.model.CartDAO;
+import chaeeun.cart.model.CartDAO_imple;
 import common.controller.AbstractController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import member.domain.MemberVO;
 import review.domain.ReviewVO;
 import youjin.review.model.ReviewDAO;
 import youjin.review.model.ReviewDAO_imple;
 
 public class Mypage_myreview extends AbstractController {
 	private ReviewDAO rdao = new ReviewDAO_imple();
+	CartDAO cdao = new CartDAO_imple();
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -35,10 +41,24 @@ public class Mypage_myreview extends AbstractController {
 			e.printStackTrace();
 			super.setRedirect(true);
 			super.setViewPage(request.getContextPath()+"index.cl"); ///error.up 은 없어서 일단 메인
-		
-			
 			
 		}
+		
+		String method = request.getMethod();
+		
+		if("GET".equalsIgnoreCase(method)) {
+			
+			HttpSession session = request.getSession();
+			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+			String m_id = loginuser.getM_id();
+			
+			List<CartVO> cartList = cdao.cartListCount(m_id);
+			
+			System.out.println("cartList: " + cartList);
+			
+			request.setAttribute("cartList",cartList);
+			
+		} 
 		
 	}
 

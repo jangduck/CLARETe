@@ -60,6 +60,6 @@
             </div>
         </footer>
     </div>
-
+ <script src="<%= ctxPath%>/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 </body>
 </html>

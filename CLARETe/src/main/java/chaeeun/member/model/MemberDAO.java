@@ -44,4 +44,7 @@ public interface MemberDAO {
    
    // 휴면해제
    int idleUpdate(Map<String, String> paraMap) throws SQLException;
+
+   //회원가입에서 입력한 주소값넣기
+   int regiterMemberDelivery(MemberVO member) throws SQLException;
 }

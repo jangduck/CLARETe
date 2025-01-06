@@ -46,16 +46,16 @@
         
 	    <div class="content-flex" >
 	    	<form id="deliveryDeletFrm" name="deliveryDeletFrm" action="deleteDelivery.cl" method="post" style="display:flex;">
-      			<c:forEach var="dvo" items="${requestScope.deliveryList}" >
+      			<c:forEach var="dvo" items="${requestScope.deliveryList}">
 	        		<div class="delivery-content-box">
-	        		<ul class="delivery-info">
-		           		<li><span id="info_title">받는 사람 주소</span>${dvo.d_address}</li>
-	                    <li><span id="info_title">받는 사람 상세 주소</span>${dvo.d_detail_address}</li>
-	                    <li><span id="info_title">받는 우편 번호</span>${dvo.d_postcode}</li>
-	                    <li><span id="info_title">받는 사람 참고 항목</span>${dvo.d_extra}</li>
-	                    <li><span id="info_title">받는 사람 전화번호</span>${dvo.d_mobile}</li>
-	                    <li><span id="info_title">받는 사람 이름</span>${dvo.d_name}</li>
-		           	</ul>
+		        		<ul class="delivery-info">
+			           		<li><span id="info_title">받는 사람 주소</span>${dvo.d_address}</li>
+		                    <li><span id="info_title">받는 사람 상세 주소</span>${dvo.d_detail_address}</li>
+		                    <li><span id="info_title">받는 우편 번호</span>${dvo.d_postcode}</li>
+		                    <li><span id="info_title">받는 사람 참고 항목</span>${dvo.d_extra}</li>
+		                    <li><span id="info_title">받는 사람 전화번호</span>${dvo.d_mobile}</li>
+		                    <li><span id="info_title">받는 사람 이름</span>${dvo.d_name}</li>
+			           	</ul>
 		           <div class="deletebutton">
 		           		<input type="hidden" name="d_num" class="deliveryD_num" value="${dvo.d_num}">
 	                    <input type="button" class="delivery_info_delete" value="삭제" onclick="goDeliveryDel()" >
@@ -93,36 +93,37 @@
              			<ul style="margin-top: 5%;">
 	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
 		             			<label id="infotitle">받는 사람<span class="asterisk">*</span></label><br>
-		             			<input type="text" name="d_name" id="userinfo" class="d_deliveryInfo" ></input>
+		             			<input type="text" name="d_name" id="userinfo" class="d_deliveryInfo d_name" placeholder="이름을 입력해주세요"></input>
+		             			<span class = "error"> 이름을 입력해주세요!</span>
 	             			</li>
 	             			
 	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
 	             			<label id="infotitle">받는 사람 전화번호<span class="asterisk">*</span></label><br>
-	             			<input type="text" name="d_mobile" id="userinfo" class="d_deliveryInfo" maxlength="11"></input>
+	             			<input type="text" name="d_mobile" id="userinfo" class="d_deliveryInfo d_monbile" maxlength="11" placeholder="' - '를 빼고 숫자만 입력해주세요"></input>
+	             			<span class = "error"> 숫자로 입력하세요!</span>
 	             			</li>
 	             			
 	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
 		             			<label id="infotitle">받는 사람 우편번호<span class="asterisk">*</span></label><br>
-		             			<input type="text" name="d_postcode" id="postcode" class="d_deliveryInfo" value=""></input>
-		             			<input type="button" name="postCodeButton" id="postCodeButton"  class="PostCodeFind" value="우편번호검색"/>
+		             			<input type="text" name="d_postcode" id="postcode" class="d_deliveryInfo d_postcode" value="" style="width:215px;" placeholder="우편번호를 입력해주세요."></input>
+		             			<input type="button" name="postCodeButton" id="postCodeButton"  class="PostCodeFind " value="우편번호검색"/>
+		             			<span class = "error"> 5글자 이내로 적어주세요!</span>
 	             			</li>
 	             			
 	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
 		             			<label id="infotitle">받는 사람 주소<span class="asterisk">*</span></label><br>
-		             			<input type="text" name="d_address" id="address" class="d_deliveryInfo" value=""></input>
+		             			<input type="text" name="d_address" id="address" class="d_deliveryInfo d_address" value="" placeholder="주소" style="width:350px;"></input>
+		             			<span class="error">주소를 입력해주세요!</span>
 	             			</li>
 	             			
 	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
 		             			<label id="infotitle">받는 사람 상세주소<span class="asterisk">*</span></label><br>
-		             			<input type="text" name="d_detail_address" id="detailaddress" class="d_deliveryInfo" value=""></input>
+		             			<input type="text" name="d_detail_address" id="detailaddress" class="d_deliveryInfo d_detailaddress" value="" placeholder="상세주소"></input>
+		             			<input type="text" name="d_extra" id="extra" class="d_deliveryInfo d_extra" placeholder="참고항목"></input>
+		             			<span class="error">상세주소를 입력해주세요!</span>
 	             			</li>
-	             			
-	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
-		             			<label id="infotitle">받는 사람 참고항목<span class="asterisk">*</span></label><br>
-		             			<input type="text" name="d_extra" id="extra" class="d_deliveryInfo"></input>
-	             			</li>
-	             			
-	             			 <li style="margin-top: 30px; text-align: center;" >
+	             	
+	             			 <li style="margin-top: 30px; text-align: center; padding-bottom: 30px;"  >
 	             			 	
 		             				<input type="button" class="btn_success" value="배송지 입력" id="insertBtn" onclick="goInsertDelivery()" />
 		             				<input type="reset"  class="btn_reset" value="취소하기" id="insertBtn" />

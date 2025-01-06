@@ -253,4 +253,42 @@ public class CartDAO_imple implements CartDAO {
 		return n;
 	}
 
+	// 마이페이지 장바구니 수
+	@Override
+	public List<CartVO> cartListCount(String m_id) throws SQLException {
+		
+		List<CartVO> cartListCount = new ArrayList<>();
+
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select NVL(MAX(c_count), 0) as c_count "
+					   + " from tbl_cart "
+					   + " where fk_m_id = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m_id);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int c_count = rs.getInt("c_count");
+	            System.out.println("DB에서 조회된 c_count: " + c_count); // 디버깅 출력
+				CartVO cvo = new CartVO();
+				
+				cvo.setC_count(rs.getInt("c_count"));
+				
+				cartListCount.add(cvo);
+				
+				
+			}// end of while(rs.next())--------------------------------------
+
+			
+		} finally {close();}
+		
+		
+		return cartListCount;
+	}
+
 }

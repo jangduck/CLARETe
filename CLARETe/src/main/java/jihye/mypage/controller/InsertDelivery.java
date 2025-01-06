@@ -1,13 +1,12 @@
 package jihye.mypage.controller;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
-import javax.mail.Session;
 
-import org.json.JSONObject;
-
+import cart.domain.CartVO;
+import chaeeun.cart.model.CartDAO;
+import chaeeun.cart.model.CartDAO_imple;
 import common.controller.AbstractController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,6 +18,7 @@ import delivery.domain.*;
 public class InsertDelivery extends AbstractController {
 	
 	DeliveryDAO ddao = new DeliveryDAO_imple();
+	CartDAO cdao = new CartDAO_imple();
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -35,13 +35,19 @@ public class InsertDelivery extends AbstractController {
 			
 			List<DeliveryVO> deliveryList = ddao.selectDeliveryList(m_id);
 			request.setAttribute("deliveryList", deliveryList);
+			
+	
+			List<CartVO> cartList = cdao.cartListCount(m_id);
+			request.setAttribute("cartList",cartList);
 
 			
-			
+
 	        System.out.println(deliveryList.size()); 
+	        
+	    	
+			super.setRedirect(false);
+			super.setViewPage("/WEB-INF/mypage/mypage_delivery_detail.jsp");
 			
-		   super.setRedirect(false);
-		   super.setViewPage("/WEB-INF/mypage/mypage_delivery_detail.jsp");
 		}
 		
 		
@@ -90,13 +96,15 @@ public class InsertDelivery extends AbstractController {
 				*/
 				
 				
-				super.setRedirect(false);
-				super.setViewPage("/WEB-INF/mypage/mypage_delivery_detail.jsp");
+				
 			}
 			
-		
-
+			super.setRedirect(true);
+			super.setViewPage(request.getContextPath()+"/mypage/insertDelivery.cl");
 		}
+		
+	
+		
 	}
 
 }
