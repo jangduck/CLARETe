@@ -524,6 +524,39 @@ public class MemberDAO_imple implements MemberDAO {
  		return result;
  	}
 
+ 	
+ 	//회원가입에서 입력한 주소값넣기
+	@Override
+	public int regiterMemberDelivery(MemberVO member) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_delivery(d_num, d_address, d_detail_address, d_extra,  d_name, d_postcode, d_mobile, fk_m_id) "
+					   + " values(seq_delivery.NEXTVAL,?,?,?,?,?,?,?) ";
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, member.getM_address());
+			pstmt.setString(2, member.getM_detail_address());
+			pstmt.setString(3, member.getM_extra());
+			pstmt.setString(4, member.getM_name());
+			pstmt.setString(5, member.getM_postcode());
+			pstmt.setString(6, member.getM_mobile());
+			pstmt.setString(7, member.getM_id());
+			
+			 result = pstmt.executeUpdate();
+			
+ 		} finally {
+ 			close();
+ 		}
+		
+		return result;
+	}
+
     
 
 }

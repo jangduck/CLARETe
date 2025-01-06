@@ -108,7 +108,8 @@ public class DeliveryDAO_imple implements DeliveryDAO {
 			
 			String sql = "  select d_num, d_address, d_detail_address, d_postcode, d_extra, d_mobile, d_name "
 					   + "  from tbl_delivery "
-					   + "  where fk_m_id = ? and d_status = 0 ";
+					   + "  where fk_m_id = ? and d_status = 0"
+					   + " order by d_num desc ";
 			
 			pstmt = conn.prepareStatement(sql);
 			

@@ -25,4 +25,7 @@ public interface CartDAO {
 	// 장바구니에서 삭제
 	int deleteCart(Map<String, String> paraMap) throws SQLException;
 
+	//마이페이지 장바구니 갯수 
+	List<CartVO> cartListCount(String m_id) throws SQLException;
+
 }
