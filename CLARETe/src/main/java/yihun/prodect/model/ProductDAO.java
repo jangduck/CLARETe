@@ -25,4 +25,7 @@ public interface ProductDAO {
 	// 선택한 상품들을 일괄삭제해주는 메소드
 	int deleteAll(List<Object> list) throws SQLException;
 
+	// 메인페이지에서 상품을 보여주는 메소드
+	List<ProductVO> mainSelectProduct() throws SQLException;
+
 }

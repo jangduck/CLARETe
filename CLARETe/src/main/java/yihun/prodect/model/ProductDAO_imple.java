@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -327,5 +328,53 @@ public class ProductDAO_imple implements ProductDAO {
 		
 		return result;
 	} // end of public int deleteAll(List<Object> list) throws SQLException--------------
+
+
+	// 메인페이지에서 상품을 보여주는 메소드
+	@Override
+	public List<ProductVO> mainSelectProduct() throws SQLException {
+
+		List<ProductVO> mainList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select rno, p_num, p_name, p_season, p_image, p_sale, p_price, p_register "
+					   + " from ( "
+					   + " select row_number() over (order by nvl(sum(OD_COUNT), 0) desc) as rno, "
+					   + " p.p_num, p.p_name, p.p_season, p.p_image, p.p_sale, p.p_price, p.p_register, "
+					   + " nvl(sum(OD_COUNT), 0) as total_sales "
+					   + " from tbl_product p "
+					   + " left outer join tbl_orderdetail od "
+					   + " on p_num = fk_p_num "
+					   + " where is_delete = 0 "
+					   + " group by p.p_num, p.p_name, p.p_season, p.p_image, p.p_sale, p.p_price, p.p_register "
+					   + " ) v "
+					   + " where rno between 1 and 8 ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ProductVO pvo = new ProductVO();
+				
+				pvo.setP_num(rs.getInt("p_num"));
+				pvo.setP_name(rs.getString("p_name"));
+				pvo.setP_season(rs.getString("p_season"));
+				pvo.setP_image(rs.getString("p_image"));
+				pvo.setP_sale(rs.getString("p_sale"));
+				pvo.setP_price(rs.getInt("p_price"));
+				pvo.setP_register(rs.getString("p_register"));
+				
+				mainList.add(pvo);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return mainList;
+	} // end of public List<String> mainSelectProduct() throws SQLException--------------
 
 }
