@@ -437,11 +437,11 @@ public class AdminDAO_imple implements AdminDAO {
     	try {
     		 conn = ds.getConnection();
     		
-    		    String sql = " SELECT RNO, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
+    		    String sql = " SELECT RNO, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender, p_image "
 	    		    	   + "     FROM ( "
-	    		    	   + "     SELECT rownum AS RNO, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
+	    		    	   + "     SELECT rownum AS RNO, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender, p_image "
 	    		    	   + "    	   FROM ( "
-	    		    	   + "    	   SELECT p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
+	    		    	   + "    	   SELECT p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender, p_image "
 	    		    	   + "    	   FROM tbl_product ";
     		
     		 String searchType = paraMap.get("searchType");
@@ -498,7 +498,8 @@ public class AdminDAO_imple implements AdminDAO {
     	            product.setP_release(rs.getString("p_release"));
     	            product.setP_sale(rs.getString("p_sale"));
     	            product.setP_gender(rs.getInt("p_gender"));
-
+    	            product.setP_image(rs.getString("p_image"));
+    	            
     	            productList.add(product);
     	        }
     	    } 
