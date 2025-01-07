@@ -23,7 +23,7 @@ public class ProdView extends AbstractController {
 	OptionDAO odao = new OptionDAO_imple();
 	private ReviewDAO rdao = new ReviewDAO_imple();
 	// 민규코드 시작 //
-	List<String> pnumList = new ArrayList<>();
+	List<Integer> pnumList = new ArrayList<>();
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
@@ -49,10 +49,9 @@ public class ProdView extends AbstractController {
 			
 			int p_num = Integer.parseInt(request.getParameter("p_num"));
 			
-			pnumList.add(String.valueOf(p_num));
+			pnumList.add(p_num);
 			
 			session.setAttribute("pnumList", pnumList);
-			
 			// 민규코드 끝 //
 			
 			System.out.println(p_num); 
