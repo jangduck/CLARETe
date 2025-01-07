@@ -276,7 +276,6 @@ public class CartDAO_imple implements CartDAO {
 			
 			while(rs.next()) {
 				int c_count = rs.getInt("c_count");
-	            System.out.println("DB에서 조회된 c_count: " + c_count); // 디버깅 출력
 				CartVO cvo = new CartVO();
 				
 				cvo.setC_count(rs.getInt("c_count"));

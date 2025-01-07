@@ -39,8 +39,6 @@ public class Login extends AbstractController {
 			String id = request.getParameter("id");
 			String pwd = request.getParameter("pwd");
 			
-			System.out.println("id : " + id);
-			System.out.println("pwd : " + pwd);
 			
 			String clientip = request.getRemoteAddr();
 			
@@ -54,9 +52,6 @@ public class Login extends AbstractController {
 			MemberVO loginuser = mdao.login(paraMap); 
 			
 			if(loginuser != null) {
-				System.out.println(id + "로그인 성공");
-				System.out.println("Logged-in User: " + loginuser.getM_id());
-				System.out.println("Logged-in User: " + loginuser.getM_idle());
 				
 				if (loginuser.getM_idle() == 0) {
 					// 휴면계정이면
@@ -82,7 +77,6 @@ public class Login extends AbstractController {
 				session.setAttribute("m_detail_address", loginuser.getM_detail_address());
 				session.setAttribute("m_extra", loginuser.getM_extra());
 				
-				System.out.println(loginuser.getM_id());
 				
 				if(loginuser.isRequirePwdChange() ) {
 					 // 비밀번호를 변경한지 3개월 이상된 경우
