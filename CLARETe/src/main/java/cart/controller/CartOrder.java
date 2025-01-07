@@ -76,7 +76,6 @@ public class CartOrder extends AbstractController {
         String[] productprice = request.getParameterValues("productprice");
         String[] productimg = request.getParameterValues("productimg");
         
-        
         session.setAttribute("index", index);
         session.setAttribute("perfumeName", perfumeName);
         session.setAttribute("quantity", quantity);

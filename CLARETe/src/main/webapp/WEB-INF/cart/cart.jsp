@@ -93,7 +93,7 @@
 						<input type="hidden" name="perfumeName" value="${cvo.pvo.p_name}">
 						<input type="hidden" id="quantity${status.index}" name="quantity" value="${cvo.c_count}">	<!-- 구매 개수 -->
 						<input type="hidden" name="price" value="${cvo.opvo.op_price}">
-						<input type="hidden" id="priceQuantity${status.index}" name="priceQuantity" value="${cvo.opvo.op_price * cvo.c_count}">
+						<input type="text" id="priceQuantity${status.index}" name="priceQuantity" value="${(cvo.pvo.p_price - (cvo.pvo.p_price * cvo.pvo.p_sale / 100) + cvo.opvo.op_price) * cvo.c_count}">
 						<input type="hidden" name="option" value="${cvo.fk_op_num}">
 						<input type="hidden" name="cartNum" value="${cvo.c_num}">
 						<input type="hidden" name="p_num" value="${cvo.pvo.p_num}">
