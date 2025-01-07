@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
+<%-- 채은 코드 추가하겠씁니다요~~~~~~~~~~~~~~~~~~~~~~~ --%>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
+<%-- 채은 코드 추가하겠씁니다요~~~~~~~~~~~~~~~~~~~~~~~ --%>
+
 <%
  String ctxPath = request.getContextPath();
 		
@@ -43,64 +48,23 @@
             </div>
 
             <ul class="cardcontainer">
-                <!-- === for문 대상 시작 === -->
-                <li class="cardbox">
-                    <a href="#">
-                        <div class="cardimg">
-
-                        </div>
-                        <div class="cardname">
-                            상품명
-                        </div>
-                        <div class="cardprice">
-                            ##,###원
-                        </div>
-                    </a>
-                </li>
-                <!-- === for문 대상 끝 === -->
-                 
-                <li class="cardbox">
-                    <a href="#">
-                        <div class="cardimg">
-
-                        </div>
-                        <div class="cardname">
-                            상품명
-                        </div>
-                        <div class="cardprice">
-                            ##,###원
-                        </div>
-                    </a>
-                </li>
-
-                <li class="cardbox">
-                    <a href="#">
-                        <div class="cardimg">
-
-                        </div>
-                        <div class="cardname">
-                            상품명
-                        </div>
-                        <div class="cardprice">
-                            ##,###원
-                        </div>
-                    </a>
-                </li>
-
-                <li class="cardbox">
-                    <a href="#">
-                        <div class="cardimg">
-
-                        </div>
-                        <div class="cardname">
-                            상품명
-                        </div>
-                        <div class="cardprice">
-                            ##,###원
-                        </div>
-                    </a>
-                </li>
-
+            	<%-- 채은 코드 추가하겠씁니다요~~~~~~~~~~~~~~~~~~~~~~~ --%>
+                <c:forEach var="cvo" items="${cartList2}">
+                	<li class="cardbox">
+	                    <a href="/CLARETe/shop/prodView.cl?p_num=${cvo.fk_p_num}">
+	                        <div class="cardimg">
+								<img src="/CLARETe/images/${cvo.pvo.p_image}" style="width: 100%; display: block;" />
+	                        </div>
+	                        <div class="cardname">
+	                            ${cvo.pvo.p_name}
+	                        </div>
+	                        <div class="cardprice">
+	                            <fmt:formatNumber value="${cvo.pvo.p_price - (cvo.pvo.p_price * cvo.pvo.p_sale / 100) + cvo.opvo.op_price}" pattern="#,###,###"/>
+	                        </div>
+	                    </a>
+	                </li>
+                </c:forEach>
+                <%-- 채은 코드 추가하겠씁니다요~~~~~~~~~~~~~~~~~~~~~~~ --%>
 
             </ul>
         </div>

@@ -98,8 +98,8 @@ public class MypageCart extends AbstractController {
 			
 			
 			// 채은 코드 추가함....... (장바구니 보여주기 위한 코드)
-			
-			
+			List<CartVO> cartList2 = cdao.selectCart(m_id);
+			request.setAttribute("cartList2",cartList2);
 			
 			
 			
