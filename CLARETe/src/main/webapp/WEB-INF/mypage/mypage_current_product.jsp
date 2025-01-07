@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
  String ctxPath = request.getContextPath();
 		
@@ -41,79 +43,31 @@
 
             <ul class="cardcontainer">
                 <!-- === for문 대상 시작 === -->
-                <li class="cardbox">
-                    <a href="#">
-                        <div class="cardimg">
-
-                        </div>
-                        <div class="cardname">
-                            상품명
-                        </div>
-                        <div class="cardprice">
-                            ##,###원
-                        </div>
-                    </a>
-                </li>
-                <!-- === for문 대상 끝 === -->
-                 
-                <li class="cardbox">
-                    <a href="#">
-                        <div class="cardimg">
-
-                        </div>
-                        <div class="cardname">
-                            상품명
-                        </div>
-                        <div class="cardprice">
-                            ##,###원
-                        </div>
-                    </a>
-                </li>
-
-                <li class="cardbox">
-                    <a href="#">
-                        <div class="cardimg">
-
-                        </div>
-                        <div class="cardname">
-                            상품명
-                        </div>
-                        <div class="cardprice">
-                            ##,###원
-                        </div>
-                    </a>
-                </li>
-
-                <li class="cardbox">
-                    <a href="#">
-                        <div class="cardimg">
-
-                        </div>
-                        <div class="cardname">
-                            상품명
-                        </div>
-                        <div class="cardprice">
-                            ##,###원
-                        </div>
-                    </a>
-                </li>
-
-                <li class="cardbox">
-                    <a href="#">
-                        <div class="cardimg">
-
-                        </div>
-                        <div class="cardname">
-                            상품명
-                        </div>
-                        <div class="cardprice">
-                            ##,###원
-                        </div>
-                    </a>
-                </li>
-
+                <c:if test="${not empty requestScope.pvoList}">
+                	<c:forEach var="pvoList" items="${requestScope.pvoList}">
+		                <li class="cardbox">
+		                    <a href="#">
+		                        <div class="cardimg">
+		                        	<img src="/CLARETe/images/${pvoList.p_image}" style="width: 100%; display: block;">
+		                        </div>
+		                        <div class="cardname">
+		                            ${pvoList.p_name}
+		                        </div>
+		                        <div class="cardprice">
+		                            <span><fmt:formatNumber value="${pvoList.p_price}" type="number" groupingUsed="true"></fmt:formatNumber> </span><span>원</span>
+		                        </div>
+		                    </a>
+		                </li>
+	                </c:forEach>
+                </c:if>
+                
+                 <c:if test="${empty requestScope.pvoList}">
+                	최근 본 향수가 없습니다.
+           		 </c:if>
+                <!-- === for문 대상 끝 === -->    
             </ul>
         </div>
+           
 		<%-- =============================================== --%>
 		
 		

@@ -24,14 +24,14 @@ import util.security.SecretMyKey;
 
 public class OrderDAO_imple implements OrderDAO {
 
-	private DataSource ds; // DataSource ds ´Â ¾ÆÆÄÄ¡ÅèÄ¹ÀÌ Á¦°øÇÏ´Â DBCP(DB Connection Pool)ÀÌ´Ù.
+	private DataSource ds; // DataSource ds ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½Ä¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ DBCP(DB Connection Pool)ï¿½Ì´ï¿½.
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 
 	private AES256 aes;
 
-	// »ý¼ºÀÚ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public OrderDAO_imple() {
 
 		try {
@@ -40,7 +40,7 @@ public class OrderDAO_imple implements OrderDAO {
 			ds = (DataSource) envContext.lookup("jdbc/semioracle");
 
 			aes = new AES256(SecretMyKey.KEY);
-			// SecretMyKey.KEY Àº ¿ì¸®°¡ ¸¸µç ¾ÏÈ£È­/º¹È£È­ Å°ÀÌ´Ù.
+			// SecretMyKey.KEY ï¿½ï¿½ ï¿½ì¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£È­/ï¿½ï¿½È£È­ Å°ï¿½Ì´ï¿½.
 			//
 
 		} catch (NamingException e) {
@@ -50,7 +50,7 @@ public class OrderDAO_imple implements OrderDAO {
 		}
 	}
 
-	// »ç¿ëÇÑ ÀÚ¿øÀ» ¹Ý³³ÇÏ´Â close() ¸Þ¼Òµå »ý¼ºÇÏ±â
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ý³ï¿½ï¿½Ï´ï¿½ close() ï¿½Þ¼Òµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 	private void close() {
 		try {
 			if (rs != null) {
@@ -71,7 +71,7 @@ public class OrderDAO_imple implements OrderDAO {
 	}// end of private void close()---------------
 	
 	
-	// ·Î±×ÀÎÇÑ È¸¿øÀÇ ÁÖ¹®³»¿ªÀ» °¡Á®¿À´Â ¸Þ¼Òµå
+	// ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 	   @Override
 	   public List<OrderVO> recentOrder(Map<String, String> paraMap) throws SQLException {
 	      
@@ -91,16 +91,17 @@ public class OrderDAO_imple implements OrderDAO {
 	               + " on od.fk_p_num = p.p_num "
 	               + " join tbl_option op "
 	               + " on od.fk_op_num = op.op_num "
-	               + " where o.fk_m_id = ? "; 
+	               + " where o.fk_m_id = ?"
+	               + " order by o.o_date desc ";
 	         
 	         pstmt = conn.prepareStatement(sql);
 	         
-	         pstmt.setString(1, paraMap.get("m_id")); // ·Î±×ÀÎ ÇÑ È¸¿ø¾ÆÀÌµð
+	         pstmt.setString(1, paraMap.get("m_id")); // ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½
 
 	         
 	         rs = pstmt.executeQuery();
 	         
-	         while(rs.next()) {// ÇÑ Çà¾¿ Ã³¸®ÇÏ±â
+	         while(rs.next()) {// ï¿½ï¿½ ï¿½à¾¿ Ã³ï¿½ï¿½ï¿½Ï±ï¿½
 	            
 	            OrderVO ovo = new OrderVO();
 	            ovo.setStatus(rs.getInt("status"));

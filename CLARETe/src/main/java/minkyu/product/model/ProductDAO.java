@@ -7,7 +7,7 @@ import product.domain.ProductVO;
 
 public interface ProductDAO {
 
-	// ÃÖ±Ù º» »óÇ° Á¶È¸ÇÏ´Â ¸®½ºÆ®
-	List<ProductVO> selectProduct(List pnumList) throws SQLException;
+	// ï¿½Ö±ï¿½ ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½È¸ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
+	List<ProductVO> selectProduct(List<Integer> pnumList) throws SQLException;
 
 }
