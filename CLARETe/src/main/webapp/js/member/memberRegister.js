@@ -138,8 +138,7 @@ $(document).ready(function() {
 		
 		if (!bool) {
 			// 우편번호가 정규표현식에 위배된 경우 
-			$("input[type='button'][value='우편번호 검색']").prop("disabled", false); // 검색 버튼 활성화
-			$("form[name='registerFrm'] :input").prop("disabled", true);
+			$("form[name='registerFrm'] :input").not("#zipcodeSearch").prop("disabled", true); // 검색 버튼 제외하고 비활성화
 			$(e.target).prop("disabled", false);			
 			$(e.target).val("").focus();
 			$(e.target).parent().find("span.error").show();
@@ -196,14 +195,23 @@ $(document).ready(function() {
 	// "약관 보기" 클릭 이벤트
    	$("#toggleTerms1").click((e) => {
        	e.preventDefault(); // 링크 기본 동작 방지
-       	$("#termsContent1").toggle(); // 약관 내용 보이기/숨기기
+		  const termsContent = $("#termsContent1");
+		  if (termsContent.is(":visible")) {
+			  termsContent.slideUp(); // 숨기기 애니메이션
+		  } else {
+			  termsContent.slideDown(); // 보이기 애니메이션
+		  }
    	});
 	
-	// "약관 보기" 클릭 이벤트
-   	$("#toggleTerms2").click((e) => {
-       	e.preventDefault(); // 링크 기본 동작 방지
-       	$("#termsContent2").toggle(); // 약관 내용 보이기/숨기기
-   	});
+	$("#toggleTerms2").click((e) => {
+	    e.preventDefault(); // 기본 링크 동작 방지
+	    const termsContent = $("#termsContent2");
+	    if (termsContent.is(":visible")) {
+	        termsContent.slideUp(); // 숨기기 애니메이션
+	    } else {
+	        termsContent.slideDown(); // 보이기 애니메이션
+	    }
+	});
 		
 });
 

@@ -209,6 +209,7 @@ span#mandatoryNote {
 #termsContent1, #termsContent2 {
 	max-height: 200px;
 	overflow-y: auto;
+	margin-bottom: 20px;
 }
 
 span.star {
