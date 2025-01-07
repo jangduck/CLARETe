@@ -28,10 +28,10 @@ function goLogin() {
     if ($("input#id").val().trim() == "") {
         alert("암호를 입력하세요.");
         $("input#loginPwd").val("").focus();
-        return;     // goLogin() 함수 종료
+        return;     // goLogin() 함수 종료ㄴ
     }
 
-	// 아이디 기억
+	// 아이디 저장
 	if ($('input:checkbox[id="saveid"]').prop('checked')) {
 		localStorage.setItem('saveid', $('input#id').val());
 	}
@@ -41,7 +41,5 @@ function goLogin() {
 	
     const frm = document.loginFrm;
     frm.submit();
-
-
-    //alert("로그인 처리");
+	
 }

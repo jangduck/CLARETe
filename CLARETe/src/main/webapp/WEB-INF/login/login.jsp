@@ -23,6 +23,22 @@
 <%-- 직접 만든 JS --%>
 <script type="text/javascript" src="<%= ctxPath%>/js/login/login.js"></script>
 
+<script>
+
+	$(document).ready(function(){
+		
+		if(${empty sessionScope.loginuser}){
+    		
+    		const loginUserid = localStorage.getItem('saveid');
+    		if(loginUserid != null){
+    			$('input#id').val(loginUserid);
+    			$('input:checkbox[id="saveid"]').prop('checked', true);
+    		}
+    	}
+		
+	});
+
+</script>
 
 <%-- 로그인 폼 --%>
 <c:if test="${empty sessionScope.loginuser}"> 
@@ -33,7 +49,7 @@
 			<input type="text" name="id" id="id" placeholder="아이디를 입력해주세요" class="input-field">
 			<input type="password" name="pwd" id="pwd" placeholder="비밀번호를 입력해주세요" class="input-field">
 			<div class="options">
-	    		<label><input type="checkbox"> 아이디 기억</label>
+	    		<label><input type="checkbox" id="saveid"> 아이디 저장</label>
 	    		<div class="find-links">
 	        		<a href="<%= ctxPath%>/member/id_find.cl">아이디 찾기</a> | <a href="<%= ctxPath%>/member/pwd_find_1.cl">비밀번호 찾기</a>
 	    		</div>
