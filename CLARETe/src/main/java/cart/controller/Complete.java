@@ -20,13 +20,14 @@ public class Complete extends AbstractController {
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		
 		
 		HttpSession session = request.getSession();
 		String d_num = (String) session.getAttribute("fk_d_num");		// 배송지번호
-		String pnum = (String) session.getAttribute("pnum");		// 주문번호
-
-
+		String pnum = String.valueOf(session.getAttribute("pnum"));	// 주문번호
+		
+		System.out.println("피넘쓰" + pnum);
+		
 		// 배송지 select
 		DeliveryVO dvo = ddao.selectOneDelivery(d_num);
 		request.setAttribute("dvo", dvo);
@@ -37,9 +38,9 @@ public class Complete extends AbstractController {
 		request.setAttribute("ovo", ovo);
 		
 		
-		// 주문상세 select
-		//List<orderdetailVO> odvoList = odao.selectOrderDetail(pnum);
-		//request.setAttribute("odvoList", odvoList);
+		//주문상세 select
+		List<orderdetailVO> odvoList = odao.selectOrderDetail(pnum);
+		request.setAttribute("odvoList", odvoList);
 		
 		
 		

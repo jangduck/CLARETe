@@ -138,7 +138,7 @@
 						    <div id="productInfo">
 						        <img src="/CLARETe/images/${requestScope.pvo.p_image}" />
 						        <div class="perfume">
-						            ${requestScope.pvo.p_name} 
+						            <span>${requestScope.pvo.p_name}</span>
 						            <br>
 						            <fmt:formatNumber value="${requestScope.pvo.p_price - (requestScope.pvo.p_price * requestScope.pvo.p_sale / 100) + requestScope.opvo.op_price}" pattern="#,###,###"/>	            
 						        </div>

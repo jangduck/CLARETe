@@ -33,6 +33,11 @@
     --size930 : clamp(900px, 48.4375vw, 10000px);
 }
 
+img {
+	width: 64px;
+	height: 64px;
+}
+
 
 #all_container {
 	height: auto;
@@ -231,7 +236,7 @@ span.shipping_price {
 span.point {
 	margin-left: var(--size20);
 	margin-bottom: 10px;
-	margin-right: 156px;
+	margin-right: 148px;
 }
 
 .point_price {

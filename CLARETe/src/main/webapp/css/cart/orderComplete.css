@@ -33,6 +33,25 @@
     --size930 : clamp(900px, 48.4375vw, 10000px);
 }
 
+
+/* 25/01/07 추가함 채은이가 */
+img {
+	width: 64px;	
+	height: 64px;
+}
+
+div#ordernum > span {
+	font-size: 18px;
+}
+
+#goOrder {
+	cursor: pointer;
+}
+
+/* 25/01/07 추가함 채은이가 */
+
+
+
 #all_container {
 	height: auto;
 }
@@ -54,6 +73,7 @@
 }
 
 .step{
+	font-size: var(--size16);
 	margin-bottom: var(--size20);
 }
 /*-----------------------------------------------*/
@@ -62,9 +82,12 @@
 /*-----------------------------------------------*/
 #secondDiv {
 	height: 170px;
-	margin-left: 820px;
-	margin-right: 820px;
+	margin: 20px auto 0 auto;
 	margin-top: 20px;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 #orderImg {
@@ -79,7 +102,7 @@ img {
 #ordernum {
 	text-align: center;	
 	margin-top: 20px;
-	font-size: 16pt;
+	width: 300px;
 }
 
 #num {

@@ -74,6 +74,7 @@ public class CartOrder extends AbstractController {
         String[] selectedCNum = request.getParameterValues("selectedCNum");
         String[] p_num = request.getParameterValues("p_num");
         String[] productprice = request.getParameterValues("productprice");
+        String[] productimg = request.getParameterValues("productimg");
         
         
         session.setAttribute("index", index);
@@ -85,7 +86,7 @@ public class CartOrder extends AbstractController {
         session.setAttribute("selectedCNum", selectedCNum);
         session.setAttribute("p_num", p_num);
         session.setAttribute("productprice", productprice);
-        
+        session.setAttribute("productimg", productimg);
         
         // input 태그 값 받아오기 (가격)
         String totalProduct = request.getParameter("totalProduct");
@@ -107,6 +108,7 @@ public class CartOrder extends AbstractController {
         request.setAttribute("option", option);
         request.setAttribute("selectedCNum", selectedCNum);
         request.setAttribute("p_num", p_num);
+        request.setAttribute("productimg", productimg);
 
         request.setAttribute("totalProduct", totalProduct);
         request.setAttribute("totalShipping", totalShipping);
