@@ -85,11 +85,8 @@ $(document).ready(function() {
                 <li>
                     <div>상품관리</div>
                     <ul>
-                        <a href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a>
-                        <li>상품 카테고리 별 조회</li>
-                        <li>상품등록</li>
-                        <li>상품 재고 관리</li>
-                        <li>상품 삭제</li>
+						<a href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a>
+						<li><a href="<%= request.getContextPath() %>/admin/adminProductInsertGo.cl">상품등록</li>
                     </ul>
                 </li>
                 <li>

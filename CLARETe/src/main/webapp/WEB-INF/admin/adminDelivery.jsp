@@ -67,7 +67,7 @@ $(document).ready(function() {
 
 
 
-<title>주문 배송 관리</title>
+<title>주문배송관리</title>
 
 <header class="side-header">
     <nav class="header-nav">
@@ -83,10 +83,7 @@ $(document).ready(function() {
 				<div>상품관리</div>
 				<ul>
 					<a href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a>
-					<li>상품 카테고리 별 조회</li>
-					<li>상품등록</li>
-					<li>상품 재고 관리</li>
-					<li>상품 삭제</li>
+					<li><a href="<%= request.getContextPath() %>/admin/adminProductInsertGo.cl">상품등록</li>
 				</ul>
 			</li>
 			<li>
@@ -120,7 +117,6 @@ $(document).ready(function() {
 					<select name="searchType">
 						<!-- required 속성이 있으면, 사용자가 값을 선택하지 않을 경우 브라우저가 기본적으로 유효성 검사를 수행 -->
 						<option value="">검색대상</option>
-						<option value="m_name">회원명</option>
 						<option value="m_id">회원아이디</option>
 						<option value="d_name">받는사람 이름</option>
 					</select> <input type="text" name="searchWord" placeholder="검색어 입력" required />
@@ -159,7 +155,7 @@ $(document).ready(function() {
 	<!-- 주문배송 테이블 -->
 	<div class="second-div">
 		<h4
-			style="font-weight: bold; text-align: center; margin-top: 50px; padding: 2% 0;">주문배송조회</h4>
+			style="font-weight: bold; text-align: center; margin-top: 50px; padding: 2% 0;">주문배송관리</h4>
 		<div class="table-container">
 			<table style="width: 100% !important;" class="table">
 				<thead class="thead-light">
@@ -167,7 +163,6 @@ $(document).ready(function() {
 						<th>번호</th>
 						<th>배송지번호</th>
 						<th>회원아이디</th>
-						<th>회원명</th>
 						<th>받는사람 이름</th>
 						<th>받는사람 우편번호</th>
 						<th>받는사람 주소</th>
@@ -196,7 +191,6 @@ $(document).ready(function() {
 	                           			 데이터개수 - (페이지번호 - 1) * 1페이지당보여줄개수 - 인덱스번호 => 순번 --%>
 								<td>${delivery.d_num}</td>
 								<td>${delivery.fk_m_id}</td>
-								<td>${delivery.membervo.m_name}</td>
 								<td>${delivery.d_name}</td>
 								<td>${delivery.d_postcode}</td>
 								<td>${delivery.d_address}</td>
@@ -222,7 +216,6 @@ $(document).ready(function() {
 										data-target="#exampleModal_centered" 
 										data-num="${delivery.d_num}"
 										data-id="${delivery.fk_m_id}"
-										data-mname="${delivery.membervo.m_name}"
 										data-mmobile="${fn:substring(delivery.membervo.m_mobile, 0, 3)}-${fn:substring(delivery.membervo.m_mobile, 3, 7)}-${fn:substring(delivery.membervo.m_mobile, 7, 11)}"
 										data-dname="${delivery.d_name}"
 										data-postcode="${delivery.d_postcode}"
@@ -281,7 +274,6 @@ $(document).ready(function() {
                 <p><strong>상품명:</strong> <span id="modal-pname"></span></p>
                 <p><strong>주문수:</strong> <span id="modal-odcount"></span></p>
 				<p><strong>회원아이디:</strong> <span id="modal-id"></span></p>
-                <p><strong>회원명:</strong> <span id="modal-mname"></span></p>
                 <p><strong>회원전화번호:</strong> <span id="modal-mmobile"></span></p>
                 <p><strong>받는사람 이름:</strong> <span id="modal-dname"></span></p>
                 <p><strong>받는사람 우편번호:</strong> <span id="modal-postcode"></span></p>
@@ -328,7 +320,6 @@ document.addEventListener("DOMContentLoaded", function () {
         	const pname = this.getAttribute("data-pname");
         	const odcount = this.getAttribute("data-odcount");
             const id = this.getAttribute("data-id");
-            const mname = this.getAttribute("data-mname");
             const mmobile = this.getAttribute("data-mmobile");
             const dname = this.getAttribute("data-dname");
             const postcode = this.getAttribute("data-postcode");
@@ -344,7 +335,6 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("modal-pname").textContent = pname;
             document.getElementById("modal-odcount").textContent = odcount;
             document.getElementById("modal-id").textContent = id;
-            document.getElementById("modal-mname").textContent = mname;
             document.getElementById("modal-mmobile").textContent = mmobile;
             document.getElementById("modal-dname").textContent = dname;
             document.getElementById("modal-postcode").textContent = postcode;

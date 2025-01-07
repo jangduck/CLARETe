@@ -50,7 +50,9 @@ public class Mypage_recent_orders extends AbstractController {
 		// 로그인한 회원의 주문내역을 가져오는 메소드
 		List<OrderVO> orderList = odao.recentOrder(paraMap);
 		
-	//	System.out.println("orderListsize"+ orderList.size());
+//		System.out.println("orderListsize"+ orderList.size());
+//		System.out.println("orderList: " + orderList);
+
         request.setAttribute("orderList", orderList);
 	//	request.setAttribute("select", String.valueOf(currentYear));
 		super.setRedirect(false);
