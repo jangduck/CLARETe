@@ -177,6 +177,10 @@ tr > td:last-child{
 	position: relative;
 }
 
+.info {
+	cursor: pointer;
+}
+
 .infoback{
 	position:fixed;
 	top:0px;
