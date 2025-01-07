@@ -19,7 +19,7 @@
 	<link rel="stylesheet" href="<%= ctxPath %>/css/mypage/mapage.css">
 	<link rel="stylesheet" href="<%= ctxPath %>/css/mypage/media_nav.css">    
 	<link rel="stylesheet" href="<%= ctxPath %>/css/mypage/recent_mypage.css">
-	<link rel="stylesheet" href="<%= ctxPath %>/css/mypage/product_mypage.css">
+	<link rel="stylesheet" href="<%= ctxPath %>/css/mypage/product_mypageMain.css">
 	
 	<link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -166,30 +166,32 @@ body {
 		            </div>
 		</c:if>
 		
-		
+		<br>
+	 	
+		<div class="recent-orders-title">최근 본 향수</div>
+		<ul class="cardcontainer">
 		<c:if test="${not empty requestScope.pvoList}">
 			<c:forEach var="pvoList" items="${requestScope.pvoList}">
-	 			<div class="recent-orders-title">최근 본 향수</div>
-	 			<li class="cardbox" style="width: 100%;">
-                   <a href="#">
-                       <div class="cardimg">
-                       	<img src="/CLARETe/images/${pvoList.p_image}" style="width: 100%; display: block;">
-                       </div>
-                       <div class="cardname">
-                           ${pvoList.p_name}
-                       </div>
-                       <div class="cardprice">
-                           <span><fmt:formatNumber value="${pvoList.p_price}" type="number" groupingUsed="true"></fmt:formatNumber> </span><span>원</span>
-                       </div>
-                   </a>
-		       </li>
+		 			<li class="cardbox" style="width: 100%; list-style: none;">
+	                   <a href="/CLARETe/shop/prodView.cl?p_num=${pvoList.p_num}">
+	                       <div class="cardimg">
+	                       	<img src="/CLARETe/images/${pvoList.p_image}" style="width: 100%;  display: block;">
+	                       </div>
+	                       <div class="cardname">
+	                           ${pvoList.p_name}
+	                       </div>
+	                       <div class="cardprice">
+	                           <span><fmt:formatNumber value="${pvoList.p_price}" type="number" groupingUsed="true"></fmt:formatNumber> </span><span>원</span>
+	                       </div>
+	                   </a>
+			       </li>
  			</c:forEach>
 		</c:if>
+		</ul>
 		
 		
 		<c:if test="${empty requestScope.pvoList}">
 			<div class="mypage_contants_bottom">
-	            <div class="recent-orders-title">최근 본 향수</div>
 	            <div class="recent-orders-box">
 	                <div>최근 본 상품이 없습니다.</div>
 	            </div>

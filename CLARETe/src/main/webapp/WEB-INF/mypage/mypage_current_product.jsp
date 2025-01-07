@@ -46,7 +46,7 @@
                 <c:if test="${not empty requestScope.pvoList}">
                 	<c:forEach var="pvoList" items="${requestScope.pvoList}">
 		                <li class="cardbox">
-		                    <a href="#">
+		                    <a  href="/CLARETe/shop/prodView.cl?p_num=${pvoList.p_num}">
 		                        <div class="cardimg">
 		                        	<img src="/CLARETe/images/${pvoList.p_image}" style="width: 100%; display: block;">
 		                        </div>
