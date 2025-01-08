@@ -173,10 +173,10 @@ img {
 
 .perfume {
 	margin-left: 20px;
+	flex: 1;
 }
 
 .option {
-	margin-left: 820px;
 	margin-top: 40px;
 }
 
@@ -211,6 +211,7 @@ img {
 hr {
 	width: 360px;
 	margin-left: var(--size20);
+	margin-top: 15px;
 }
 
 span.product_amount {
