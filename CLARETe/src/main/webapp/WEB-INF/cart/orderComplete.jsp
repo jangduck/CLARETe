@@ -157,7 +157,7 @@ String ctxPath = request.getContextPath();
 			
 		</div> <!-- div#fourth -->
 		
-		<a id="goOrder">주문 계속하기</a>
+		<div id="continueShopping"><a href="<%= ctxPath%>/">주문 계속하기</a></div>
 	</div> <!-- div#all_container -->
 
 </section>

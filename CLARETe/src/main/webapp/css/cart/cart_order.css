@@ -118,7 +118,10 @@ img {
 
 .triangle {
 	color: #6D6D6D;
+	cursor: pointer;
+	pointer-events: auto;
 }
+
 #orderInfoDiv {
 	width: 1136px;
 }
@@ -170,10 +173,10 @@ img {
 
 .perfume {
 	margin-left: 20px;
+	flex: 1;
 }
 
 .option {
-	margin-left: 820px;
 	margin-top: 40px;
 }
 
@@ -187,14 +190,13 @@ img {
 .payment_go_box {
 	width: var(--size400);
 	height: 900px;
-	margin-left: 120px;
+	margin-left: 40px;
 	margin-top: var(--size72);
 }
 
 .payment_info {
 	border: 1px solid #000; 
 	width: var(--size400);
-	height: 260px;
 }
 
 .order_product {
@@ -209,6 +211,7 @@ img {
 hr {
 	width: 360px;
 	margin-left: var(--size20);
+	margin-top: 15px;
 }
 
 span.product_amount {
