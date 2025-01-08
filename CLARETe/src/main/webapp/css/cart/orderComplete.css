@@ -224,7 +224,7 @@ tr > td:nth-child(2) {
 
 
 /*-----------------------------------------------*/
-a {
+.all_container a{
 	display: block;
 	font-size: 20pt;
 	text-align: center;

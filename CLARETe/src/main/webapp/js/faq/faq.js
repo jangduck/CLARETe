@@ -22,7 +22,7 @@ function FAQupload(){
 			return; //   함수 종료
 	}
 	const frm = document.faqFrm;
-	frm.action = "/CLARETe/faq/faq_board.cl";
+	//frm.action = "/CLARETe/faq/faq_board.cl";
 	frm.method = "post";
 	frm.submit();
 		

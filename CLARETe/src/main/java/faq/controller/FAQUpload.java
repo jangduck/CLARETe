@@ -25,13 +25,10 @@ public class FAQUpload extends AbstractController {
 		
 		if("GET".equalsIgnoreCase(method)) {			
 			// GET 방식이면 페이지 이동 안되게
-			System.out.println("겟으로 들어옴");
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/faq/faq.jsp");
 		
 		} else {
-			System.out.println("포스트로 들어옴");
-
 			String ask = request.getParameter("ask");
 			String answer = request.getParameter("answer");
 			
