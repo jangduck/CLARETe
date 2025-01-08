@@ -2,6 +2,7 @@ package youjin.qna.model;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import qna.domain.QnaVO;
 
@@ -21,6 +22,15 @@ public interface QnaDAO {
 
 	// 회원 1:1문의 리스트
 	List<QnaVO> myQnaList(String fk_m_id) throws SQLException;
+
+	// 답변등록하기
+	int updateAnswer(Map<String, String> paraMap) throws SQLException;
+
+	// 페이징 처리를 위한 총페이지수 알아오기 //
+	int getTotalPage(Map<String, String> paraMap) throws SQLException;
+
+	
+	int getTotalQnaCount(Map<String, String> paraMap) throws SQLException;
 	
 	
 

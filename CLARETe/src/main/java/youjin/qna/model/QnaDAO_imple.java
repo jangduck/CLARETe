@@ -1,11 +1,14 @@
 package youjin.qna.model;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -100,7 +103,7 @@ public class QnaDAO_imple implements QnaDAO {
 			
 			String sql = " select q_num, fk_m_id, q_title, q_ask, q_register, q_category, q_answer, q_answerdate "
 					   + " from tbl_qna "
-				       + " order by q_num desc ";
+				       + " order by q_answer desc, q_num desc ";
 			
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -252,6 +255,95 @@ public class QnaDAO_imple implements QnaDAO {
 		
 		return myQnaList;
 		
+	}
+
+
+	// 답변등록하기
+	@Override
+	public int updateAnswer(Map<String, String> paraMap) throws SQLException {
+
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_qna set q_answer = ?, q_answerdate = to_date(sysdate, 'yyyy/mm/dd') "
+					   + " where q_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+		    pstmt.setString(1, paraMap.get("q_answer"));
+		    pstmt.setInt(2, Integer.parseInt(paraMap.get("q_num")));
+			  
+		    n = pstmt.executeUpdate();
+		    
+		} finally {
+			close();
+		}
+		
+		return n;
+	} // end of public int updateAnswer(Map<String, String> paraMap) throws SQLException---------------
+
+
+	// 페이징 처리를 위한 총페이지수 알아오기 //
+	@Override
+	public int getTotalPage(Map<String, String> paraMap) throws SQLException {
+		int totalPage = 0;
+	      
+	      try {
+	          conn = ds.getConnection();
+	          
+	          String sql = " select ceil(count(*)/?) "
+	                   + " from tbl_qna "
+	                    + " where fk_m_id != 'admin' "; 
+	          
+	          pstmt = conn.prepareStatement(sql);
+	          
+	          pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")));
+	          
+	          
+	          rs = pstmt.executeQuery();
+	          
+	          rs.next();
+	          
+	          totalPage = rs.getInt(1);
+	          
+	      } finally {
+	         close();
+	      }
+	      
+	      return totalPage;
+	}
+
+
+	/* >>> 뷰단(adminBoard.jsp)에서 "페이징 처리시 보여주는 순번 공식" 에서 사용하기 위해 게시물의 총개수 알아오기 시작 <<< */
+	@Override
+	public int getTotalQnaCount(Map<String, String> paraMap) throws SQLException {
+		
+		int totalMemberCount = 0;
+	      
+	      try {
+	          conn = ds.getConnection();
+	          
+	          String sql = " select count(*) "
+	                   + " from tbl_qna "
+	                    + " where fk_m_id != 'admin' "; 
+	          
+	          
+	          pstmt = conn.prepareStatement(sql);
+	          
+	          
+	          rs = pstmt.executeQuery();
+	          
+	          rs.next();
+	          
+	          totalMemberCount = rs.getInt(1);
+	          
+	      } finally {
+	         close();
+	      }
+	      
+	      return totalMemberCount;    
 	}
 	
 	

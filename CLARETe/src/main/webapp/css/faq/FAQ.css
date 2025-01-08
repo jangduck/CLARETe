@@ -43,11 +43,12 @@
     border: 0px solid red;
     box-sizing: border-box;
     padding: 4.5rem;
+    margin-bottom: var(--size100);
 }
 
 .board_container{
     width: calc(100% -160px);
-    height: 100%;
+    height: auto;
     margin: auto;
     border: 0px solid blue;
 }

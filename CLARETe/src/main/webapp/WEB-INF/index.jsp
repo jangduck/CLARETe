@@ -539,7 +539,7 @@
             // alert();
 
             $('.category_box li > a').eq($(this).index()).css({
-                'transform': 'translateY(-60%)'
+                'transform': 'translateY(-51%)'
             })
 
             

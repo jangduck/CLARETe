@@ -249,6 +249,7 @@ $(document).ready(function() {
 			<table class="table table-hover table-bordered align-middle table-responsive">
 				<thead>
 					<tr>
+						<th>번호</th>
 						<th>문의번호</th>
 						<th>문의제목</th>
 						<th>문의날짜</th>
@@ -260,6 +261,10 @@ $(document).ready(function() {
 				<tbody>
 				<c:forEach var="qvo" items="${requestScope.qnaList}" varStatus="status">
 					<tr>
+						<fmt:parseNumber var="currentShowPageNo" value="${requestScope.currentShowPageNo}" />
+	                    <fmt:parseNumber var="sizePerPage" value="${requestScope.sizePerPage}" /> 
+	                    <%-- fmt:parseNumber 은 문자열을 숫자형식으로 형변환 시키는 것이다. --%>
+	          			<td>${(requestScope.totalMemberCount) - (currentShowPageNo - 1) * sizePerPage - (status.index)}</td>
 						<td>${qvo.q_num}</td>
 						<td>${qvo.q_title}</td>
 						<td>${qvo.q_register}</td>
@@ -299,66 +304,20 @@ $(document).ready(function() {
                            		</table>
                            		
                            		<div>답변달기</div>
-				   				<form name="faqFrm">        
-		               <table class="table table-hover table-bordered align-middle table-responsive" style="padding-top:50px" align=center border=0 cellpadding=2>
-		   
-	                        <tr>
-	                       	<td>문의유형</td>
-	                       	<td>
-	                           <select>
-	                           	<option id="1">결제/교환/환불</option>
-	                           	<option id="2">상품문의</option>
-	                           	<option id="3">매장문의</option>
-	                           	<option id="4">배송문의</option>
-	                           	<!-- <option id="5">기타</option> -->
-	                           </select>
-	                          </td>
-	                        </tr>
-	                        
-	
-	                            <tr>
-	                                <td>문의 제목</td>
-	                                <td><input type="text" name="q_title" id="q_title" placeholder="질문을 입력하세요" maxlength=20 ${qvo.q_ask} /></td>
-	                            </tr>
-	                            <tr>
-	                                <td>문의 내용</td>
-	                                <td><textarea name="q_ask" id="q_ask" placeholder="내용을 입력하세요">${qvo.q_ask}</textarea></td>
-	                            	
-	                            </tr>
-	                              
-	                            <tr>
-	                             	<td> 답변 수신 여부 (선택)	</td>	                                   
-		                            <td>  
-			                           <ul>
-				                           <li>     			                           				                         		
-				                         		<input id="SMS" class="form-check-input" type="checkbox" value=""/>
-				                         		<label for="SMS">SMS</label>
-				                         		<input type="text" name="hp1" id="hp1" size="6 maxlength="3" value="010" readonly/>	&nbsp;-&nbsp;
-				                         		<input type="text" name="hp2" id="hp2" size="6 maxlength="4" />	&nbsp;-&nbsp;
-				                         		<input type="text" name="hp3" id="hp3" size="6 maxlength="4" />	
-				                         					                       
-				                           </li>
-				                           
-				                           <li>       			                           			                         		
-				                         		<input id="E-mail" class="form-check-input" type="checkbox" value=""/>
-				                         		<label for="E-mail">E-mail</label>
-				                         		<input type="text" name="email" id="email1" size="6 maxlength="4"/>
-				                         		&nbsp;@&nbsp;
-				                         		<input type="text" name="email" id="email2" />
-				                         		 <select>
-				                         		    <option>직접입력</option>	
-					                            	<option name="email2" value="gmail">gmail.com</option>
-					                            	<option name="email2" value="naver">naver.com</option>
-					                            	<option name="email2" value="daum">daum.net</option>					                            						                            	
-					                            </select>
-				                            </li>
-		                                </ul>
-		                             </td>                           	                                   
-	                             </tr>
-	                              
-							       
-		                </table>         
-	        		</form>
+				   				<form name="faqFrm" action="<%= ctxPath%>/admin/adminAnswer.cl" method="post">        
+			               		<table class="table table-hover table-bordered align-middle table-responsive" style="padding-top:50px" align=center border=0 cellpadding=2>
+		                            <tr>
+		                                <td>
+		                                	답변내용
+		                                	<input type="text" name="q_num" value="${qvo.q_num}"/>
+		                                </td>
+		                                <td><textarea type="text" name="q_answer" id="q_title" placeholder="질문을 입력하세요" maxlength=20 ${qvo.q_ask}> </textarea></td>
+		                            </tr>
+		                            <tr>
+		                            	<button type="submit">전송</button>
+		                            </tr>
+			                	</table>         
+	        					</form>
                            		
                            		<div class="closeB">닫기</div>
 							</div>
@@ -368,8 +327,9 @@ $(document).ready(function() {
 				</c:forEach>
 				</tbody>
 			</table>
-			
-			
+			<div>
+				<ul class="pagination">${requestScope.pageBar}</ul>
+			</div>
 		</div>
 		<!-- 세컨 -->
 </section>
