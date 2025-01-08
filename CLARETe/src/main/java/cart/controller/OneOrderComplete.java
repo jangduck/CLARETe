@@ -50,13 +50,17 @@ public class OneOrderComplete extends AbstractController {
 		OptionVO one_opvo = pdao.selectOption(op_num);
 		request.setAttribute("opvo", one_opvo);
 		
+		// 배송비 뿌려주기
+		String shipping = String.valueOf(session.getAttribute("input_total_shipping"));
 		
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		/*
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginusesr");
 		System.out.println("세션 포인트 : " + loginuser.getM_point());
 		System.out.println("차감 포인트 : " + session.getAttribute("one_m_point"));
 		System.out.println("증가 포인트(1%) : " + session.getAttribute("one_o_price"));
 		
 		loginuser.setM_point(loginuser.getM_point() - Integer.parseInt(String.valueOf(session.getAttribute("one_m_point"))));	// 사용한 포인트만큼 차감
+		*/
 		
 		super.setRedirect(false);
 	    super.setViewPage("/WEB-INF/cart/oneOrderComplete.jsp");

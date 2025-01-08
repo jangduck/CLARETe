@@ -211,7 +211,8 @@
 	    		<input type="hidden" name="selectedDNum" value="selectedDNum" />					<!-- 배송지번호 -->
 	    		<input type="hidden" id="contextPath" value="<%= ctxPath%>" />
 	    		<input type="hidden" name="fk_m_id" value="${sessionScope.loginuser.m_id}" />		<!-- 로그인된 세션 아이디 -->
-
+				<input type="hidden" name="shipping" value="${requestScope.input_total_shipping}" />	<!-- 배송비 -->
+				
 			</div> <!-- payment_go_box -->
 			
 			

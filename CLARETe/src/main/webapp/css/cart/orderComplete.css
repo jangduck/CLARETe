@@ -207,7 +207,7 @@ img {
 }
 
 table {
-	width: 60%;
+	width: 1000%;
 	border-collapse: collapse;
 	
 }
@@ -215,6 +215,7 @@ table {
 td {
 	padding-bottom: 5px;
 	padding-top: 5px;
+	width: auto;
 }
 
 .infoTd {
