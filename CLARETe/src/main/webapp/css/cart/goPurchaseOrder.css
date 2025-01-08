@@ -118,7 +118,10 @@ img {
 
 .triangle {
 	color: #6D6D6D;
+	cursor: pointer;
+	pointer-events: auto;
 }
+
 #orderInfoDiv {
 	width: 1136px;
 }

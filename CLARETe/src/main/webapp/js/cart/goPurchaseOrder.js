@@ -1,10 +1,18 @@
 document.addEventListener("DOMContentLoaded", function() {
 
+	$('#menu1 > span').click(function(){
+        $('#memberInfo').slideToggle();
+    });
+		
     $('#menu2 > span').click(function(){
         $('#orderInfo').slideToggle();
         $('#selectDelivery').slideToggle();
     });
 
+	$('#menu3 > span').click(function(){
+        $('#productList').slideToggle();
+    });
+	
     const modal = document.getElementById("deliveryModal");
     const radioButtons = modal.querySelectorAll('input[type="radio"]');
     const closeButton = document.querySelector(".close");
