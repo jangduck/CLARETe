@@ -36,6 +36,47 @@
     
     <jsp:include page="adminheader.jsp"></jsp:include>
     
+    <header class="side-header">
+    <nav class="header-nav">
+        <ul>
+			<li>
+				<div>회원관리</div>
+				<ul>
+					<li><a href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
+					<li><a href="<%= request.getContextPath() %>/admin/adminMemberStatus.cl">탈퇴회원조회</a></li>
+				</ul>
+			</li>
+			<li>
+				<div>상품관리</div>
+				<ul>
+					<a href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a>
+					<li><a href="<%= request.getContextPath() %>/admin/adminProductInsertGo.cl">상품등록</li>
+				</ul>
+			</li>
+			<li>
+				<div>주문관리</div>
+				<ul>
+					<li><a
+						href="<%=request.getContextPath()%>/admin/adminOrder.cl">주문회원조회</a></li>
+					<li><a
+						href="<%=request.getContextPath()%>/admin/adminDelivery.cl">주문배송관리</a></li>
+				</ul>
+			</li>
+		</ul>
+    </nav>
+</header>
+    
+<nav class="top-nav">
+    <div class="nav-logo">
+        <div>LOGO</div>
+    </div>
+    <div class="nav-btn">
+        <a href="<%=request.getContextPath()%>/index.cl"><div class="home-btn">홈으로</div></a>
+        <a href="<%=request.getContextPath()%>/login/logout.cl"><div class="end-btn">종료</div></a>
+    </div>
+</nav>    
+    
+    
     <section>
         <div style="display: flex; flex-wrap: wrap;">
 	        <div style="margin-left: 10px; color:#999;"><span class="text-danger">*</span>은 필수입력항목입니다.</div>

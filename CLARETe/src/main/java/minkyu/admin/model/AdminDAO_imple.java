@@ -437,11 +437,11 @@ public class AdminDAO_imple implements AdminDAO {
     	try {
     		 conn = ds.getConnection();
     		
-    		    String sql = " SELECT RNO, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
+    		    String sql = " SELECT RNO, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender, p_image "
 	    		    	   + "     FROM ( "
-	    		    	   + "     SELECT rownum AS RNO, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
+	    		    	   + "     SELECT rownum AS RNO, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender, p_image "
 	    		    	   + "    	   FROM ( "
-	    		    	   + "    	   SELECT p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender "
+	    		    	   + "    	   SELECT p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender, p_image "
 	    		    	   + "    	   FROM tbl_product ";
     		
     		 String searchType = paraMap.get("searchType");
@@ -498,7 +498,8 @@ public class AdminDAO_imple implements AdminDAO {
     	            product.setP_release(rs.getString("p_release"));
     	            product.setP_sale(rs.getString("p_sale"));
     	            product.setP_gender(rs.getInt("p_gender"));
-
+    	            product.setP_image(rs.getString("p_image"));
+    	            
     	            productList.add(product);
     	        }
     	    } 
@@ -649,33 +650,33 @@ public class AdminDAO_imple implements AdminDAO {
 	    try {
 	        conn = ds.getConnection();
 
-	        String sql = " SELECT RNO, d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, "
-	                + "       d_name, m_name, m_mobile, p_name, od_count, o_status "
-	                + " FROM ( "
-	                + "    SELECT ROWNUM AS RNO, d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, "
-	                + "           d_name, m_name, m_mobile, p_name, od_count, o_status "
-	                + "    FROM ( "
-	                + "        SELECT d.d_num, d.fk_m_id, d.d_address, d.d_detail_address, d.d_postcode, d.d_extra, d.d_mobile, "
-	                + "               d.d_name, m.m_name, m.m_mobile, p.p_name, od.od_count, o.status AS o_status "
-	                + "        FROM tbl_delivery d "
-	                + "        JOIN tbl_member m ON d.fk_m_id = m.m_id "
-	                + "        JOIN tbl_order o ON d.d_num = o.fk_d_num "
-	                + "        JOIN tbl_orderdetail od ON o.o_num = od.fk_o_num "
-	                + "        JOIN tbl_product p ON od.fk_p_num = p.p_num ";
+	        String sql = " SELECT RNO, d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile,  "
+	        		+ "       d_name, m_mobile, p_name, od_count, o_status "
+	        		+ "  FROM ( "
+	        		+ "         SELECT ROWNUM AS RNO, d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, "
+	        		+ "                d_name, m_mobile, p_name, od_count, o_status "
+	        		+ "           FROM ( "
+	        		+ "                  SELECT d.d_num, d.fk_m_id, d.d_address, d.d_detail_address, d.d_postcode, d.d_extra, d.d_mobile, "
+	        		+ "                         d.d_name, m.m_mobile, p.p_name, od.od_count, o.status AS o_status "
+	        		+ "                    FROM tbl_delivery d "
+	        		+ "                  JOIN tbl_member m ON d.fk_m_id = m.m_id "
+	        		+ "                  JOIN tbl_order o ON d.d_num = o.fk_d_num "
+	        		+ "                  JOIN tbl_orderdetail od ON o.o_num = od.fk_o_num "
+	        		+ "                  JOIN tbl_product p ON od.fk_p_num = p.p_num ";
 
 	        String searchType = paraMap.get("searchType");
 	        String searchWord = paraMap.get("searchWord");
 	        String status = paraMap.get("status");
 
 	     if (searchType != null && !searchType.isBlank() && searchWord != null && !searchWord.isBlank()) {
-	         sql += " WHERE " + searchType + " LIKE '%' || ? || '%' ";
+	         sql += " WHERE d." + searchType + " LIKE '%' || ? || '%' ";
 	     }
 
 	     if (status != null && !status.isBlank()) {
 	         sql += " AND o.status = ? ";
 	     }
 
-	     sql += " order by o.o_date desc "  // 변경된 부분
+	     sql += " order by o.o_date desc "  
 	    	      + "  ) V "
 	    	      + " ) T "
 	    	      + " WHERE T.RNO BETWEEN ? AND ? ";
@@ -719,7 +720,6 @@ public class AdminDAO_imple implements AdminDAO {
 	            delivery.setD_mobile(rs.getString("d_mobile"));
 	            delivery.setD_name(rs.getString("d_name"));
 
-	            member.setM_name(rs.getString("m_name"));
 	            member.setM_mobile(aes.decrypt(rs.getString("m_mobile")));
 
 	            product.setP_name(rs.getString("p_name"));

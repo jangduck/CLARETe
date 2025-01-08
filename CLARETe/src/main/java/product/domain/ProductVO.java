@@ -2,6 +2,7 @@ package product.domain;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import option.domain.OptionVO;
 
@@ -159,5 +160,24 @@ public class ProductVO {
 	   
 	   return gender;
    }
+   
+   
+   
+   
+   
+   // 최근 본 향수 중복제거
+   @Override
+   public boolean equals(Object obj) {
+       if (this == obj) return true;
+       if (obj == null || getClass() != obj.getClass()) return false;
+       ProductVO that = (ProductVO) obj;
+       return Objects.equals(p_num, that.p_num); // pnum 기준으로 비교
+   }
+
+   @Override
+   public int hashCode() {
+       return Objects.hash(p_num); // pnum을 기준으로 hashCode 생성
+   }
+   
    
 }

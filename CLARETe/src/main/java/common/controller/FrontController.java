@@ -7,12 +7,16 @@ import java.util.*;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebInitParam;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@MultipartConfig ( // 위의 location 을 기입하지 않으면 Windows 는 자동적으로 C:\Windows\Temp 디렉토리를 사용하도록 되어있다.
+	      maxFileSize = 20971520,
+	      maxRequestSize = 31457280)
 @WebServlet(
 		description = "사용자가 웹에서 *.cl 을 했을 경우 이 서블릿이 응답을 해주도록 한다.",
 		urlPatterns = {"*.cl"},

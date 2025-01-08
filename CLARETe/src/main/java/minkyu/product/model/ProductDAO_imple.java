@@ -19,14 +19,14 @@ import util.security.SecretMyKey;
 
 public class ProductDAO_imple implements ProductDAO {
 
-	private DataSource ds; // DataSource ds ´Â ¾ÆÆÄÄ¡ÅèÄ¹ÀÌ Á¦°øÇÏ´Â DBCP(DB Connection Pool)ÀÌ´Ù.
+	private DataSource ds; // DataSource ds ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½Ä¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ DBCP(DB Connection Pool)ï¿½Ì´ï¿½.
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 
 	private AES256 aes;
 
-	// »ý¼ºÀÚ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public ProductDAO_imple() {
 
 		try {
@@ -35,7 +35,7 @@ public class ProductDAO_imple implements ProductDAO {
 			ds = (DataSource) envContext.lookup("jdbc/semioracle");
 
 			aes = new AES256(SecretMyKey.KEY);
-			// SecretMyKey.KEY Àº ¿ì¸®°¡ ¸¸µç ¾ÏÈ£È­/º¹È£È­ Å°ÀÌ´Ù.
+			// SecretMyKey.KEY ï¿½ï¿½ ï¿½ì¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£È­/ï¿½ï¿½È£È­ Å°ï¿½Ì´ï¿½.
 			//
 
 		} catch (NamingException e) {
@@ -45,7 +45,7 @@ public class ProductDAO_imple implements ProductDAO {
 		}
 	}
 
-	// »ç¿ëÇÑ ÀÚ¿øÀ» ¹Ý³³ÇÏ´Â close() ¸Þ¼Òµå »ý¼ºÇÏ±â
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ý³ï¿½ï¿½Ï´ï¿½ close() ï¿½Þ¼Òµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 	private void close() {
 		try {
 			if (rs != null) {
@@ -65,30 +65,46 @@ public class ProductDAO_imple implements ProductDAO {
 		}
 	}// end of private void close()---------------
 	
-	// ÃÖ±Ù º» »óÇ° Á¶È¸ÇÏ´Â ¸®½ºÆ®
+	// ï¿½Ö±ï¿½ ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½È¸ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 	@Override
-	public List<ProductVO> selectProduct(List pnumList) throws SQLException {
+	public List<ProductVO> selectProduct(List<Integer> pnumList) throws SQLException {
+	    List<ProductVO> pvoList = new ArrayList<>();
+	    
+	    
 
-		List<ProductVO> pvoList = new ArrayList<>();
-		
-		try {
-			
-			conn = ds.getConnection();
-			
-			String sql = " select p_num, p_name, p_price, p_sale, p_image "
-					   + " from tbl_product "
-					   + " where p_num = ? ";
-			
-	//		for(String p_num : pnumList) {
-				
-	//		}
-			
-		} finally {
-			close();
-		}
+	    try {
+	        conn = ds.getConnection();
+
+	        String sql = " select p_num, p_name, p_price, p_sale, p_image "
+	                   + " from tbl_product "
+	                   + " where p_num = ? ";
+
+	        pstmt = conn.prepareStatement(sql);
+	        if(pnumList != null) {
+		    	
+		        for (int p_num : pnumList) {
+		            pstmt.setInt(1, p_num);
+		            rs = pstmt.executeQuery();
 	
-		
-		return pvoList;
+		            if (rs.next()) {
+		            	
+		                ProductVO pvo = new ProductVO();
+		                pvo.setP_num(rs.getInt("p_num"));
+		                pvo.setP_name(rs.getString("p_name"));
+		                pvo.setP_price(rs.getInt("p_price"));
+		                pvo.setP_sale(rs.getString("p_sale"));
+		                pvo.setP_image(rs.getString("p_image"));
+	
+		                pvoList.add(pvo);
+		            }
+		        }
+	        }
+	    } finally {
+	        close();
+	    }
+
+	    return pvoList;
 	}
+
 
 }

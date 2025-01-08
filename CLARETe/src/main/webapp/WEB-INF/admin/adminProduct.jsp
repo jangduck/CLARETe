@@ -226,11 +226,11 @@ $(document).ready(function() {
 	                           		<td>
 	                           			<input type="checkbox" name="checkbox${product.p_num}"/>
 	                           			<input type="hidden" name="allPnum${product.p_num}" value="${product.p_num}"/>
-	                           			<div>${product.p_image}</div>
+	                           			
 	                           		</td>
 									<td>${product.p_num}</td>
 									<td>
-										<span><img src='/CLARETe/images/${product.p_image}' style='width: 100' /></span>
+										<span><img src="/CLARETe/images/${product.p_image}" style="width: 100" /></span>
 									</td>
 									<td><c:choose>
 											<c:when test="${product.p_season == '1'}">봄</c:when>
