@@ -22,7 +22,7 @@
     
 <div id="container">
       
-      <h2>LOGO</h2>
+      <h2><img src="/CLARETe/images/logo.png" style="width: 4.5rem; height: 4.5rem;" /></h2>
       <form name="registerFrm">
          <h4>회원가입</h4>
          <span id="mandatoryNote" ><span class="star">*</span> 필수입력사항</span>
