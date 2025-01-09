@@ -55,12 +55,16 @@ public class AdminDelivery extends AbstractController {
 			         (!"0".equals(sizePerPage) &&
 			          !"1".equals(sizePerPage) &&
 			          !"2".equals(sizePerPage) ) ) {
-			           sizePerPage = "10";
+			           sizePerPage = "5";
 			}
 
 			if (currentShowPageNo == null) {
 				currentShowPageNo = "1";
 			}
+			
+			if (status == null || status.isEmpty()) {
+                status = ""; // 기본값 설정
+            }
 
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("searchType", searchType);
@@ -75,7 +79,9 @@ public class AdminDelivery extends AbstractController {
 			// **** 페이징 처리를 한 모든 회원목록 또는 검색되어진 회원목록 보여주기 **** //
 			// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 회원에 대한 총페이지수 알아오기 //
 			int totalPage = adao.getDeliveryPage(paraMap);
-
+//			System.out.println("totalPage" + totalPage);
+			
+			
 			try {
 				if (Integer.parseInt(currentShowPageNo) > totalPage || Integer.parseInt(currentShowPageNo) <= 0) {
 					currentShowPageNo = "1";
@@ -88,7 +94,7 @@ public class AdminDelivery extends AbstractController {
 
 			String pageBar = "";
 
-			int blockSize = 10; ///////////// 데이터 많아지면 여기서 바꾸기!!!
+			int blockSize = 3; ///////////// 데이터 많아지면 여기서 바꾸기!!!
 			// blockSize 는 블럭(토막)당 보여지는 페이지 번호의 개수이다.
 
 			int loop = 1;
@@ -101,12 +107,12 @@ public class AdminDelivery extends AbstractController {
 			// *** [맨처음][이전] 만들기 *** //
 			pageBar += "<li class='page-item'><a class='page-link' href='adminDelivery.cl?searchType=" + searchType
 					+ "&searchWord=" + searchWord + "&sizePerPage=" + sizePerPage
-					+ "&currentShowPageNo=1'>[맨처음]</a></li>";
+					+ "&status=" + status + "&currentShowPageNo=1 '>[맨처음]</a></li>";
 
 			if (pageNo != 1) {
 				pageBar += "<li class='page-item'><a class='page-link' href='adminDelivery.cl?searchType=" + searchType
 						+ "&searchWord=" + searchWord + "&sizePerPage=" + sizePerPage + "&currentShowPageNo="
-						+ (pageNo - 1) + "'>[이전]</a></li>";
+						+ (pageNo - 1) + "&status=" + status + "'>[이전]</a></li>";
 			}
 
 			while (!(loop > blockSize || pageNo > totalPage)) {
@@ -119,7 +125,7 @@ public class AdminDelivery extends AbstractController {
 				} else {
 					pageBar += "<li class='page-item'><a class='page-link' href='adminDelivery.cl?searchType="
 							+ searchType + "&searchWord=" + searchWord + "&sizePerPage=" + sizePerPage
-							+ "&currentShowPageNo=" + pageNo + "'>" + pageNo + "</a></li>";
+							+ "&currentShowPageNo=" + pageNo + "&status=" + status + "'>" + pageNo + "</a></li>";
 				}
 
 				loop++; // 1 2 3 4 5 6 7 8 9 10 11 12 13 ...
@@ -135,11 +141,11 @@ public class AdminDelivery extends AbstractController {
 			if (pageNo <= totalPage) {
 				pageBar += "<li class='page-item'><a class='page-link' href='adminDelivery.cl?searchType=" + searchType
 						+ "&searchWord=" + searchWord + "&sizePerPage=" + sizePerPage + "&currentShowPageNo=" + pageNo
-						+ "'>[다음]</a></li>";
+						+ "&status=" + status + "'>[다음]</a></li>";
 
 			}
 			pageBar += "<li class='page-item'><a class='page-link' href='adminDelivery.cl?searchType=" + searchType
-					+ "&searchWord=" + searchWord + "&sizePerPage=" + sizePerPage + "&currentShowPageNo=" + totalPage
+					+ "&searchWord=" + searchWord + "&sizePerPage=" + sizePerPage + "&status=" + status + "&currentShowPageNo=" + totalPage
 					+ "'>[마지막]</a></li>";
 			// ==== 페이지바 만들기 끝 ==== //
 

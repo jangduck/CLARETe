@@ -23,7 +23,6 @@
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
 <script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script> 
 
-<jsp:include page="adminheader.jsp" />
 
 <style type="text/css">
 div#pageBar {
@@ -155,6 +154,9 @@ $(document).ready(function() {
 		<div class="second-div">
 			<h4
 				style="font-weight: bold; text-align: center; margin-top: 50px; padding: 2% 0;">모든회원조회</h4>
+				<div class="total-count" style="text-align: left; margin: 10px; font-weight: bold; font-size: 13pt;">
+				    총 회원 수: ${totalMemberCount}명
+				</div>
 
 			<div class="table-container" style="overflow-x: auto">
 				<table style="width: 100% !important;"
@@ -234,7 +236,7 @@ $(document).ready(function() {
 
 						<c:if test="${empty requestScope.memberList}">
 						  <tr>
-						    <td colspan="11" class="no-data">데이터가 존재하지 않습니다.</td>
+						    <td colspan="11" class="no-data">회원데이터가 존재하지 않습니다.</td>
 						  </tr>
 						</c:if>
 

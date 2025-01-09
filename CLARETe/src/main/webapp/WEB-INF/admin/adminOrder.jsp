@@ -160,6 +160,9 @@ $(document).ready(function() {
 	<div class="second-div">
 		<h4
 			style="font-weight: bold; text-align: center; margin-top: 50px; padding: 2% 0;">주문회원조회</h4>
+		<div class="total-count" style="text-align: left; margin: 10px; font-weight: bold; font-size: 13pt;">
+				    총 주문 수: ${requestScope.totalMemberCount}개
+		</div>
 		<div class="table-container">
 			<table style="width: 100% !important;" class="table">
 				<thead class="thead-light">

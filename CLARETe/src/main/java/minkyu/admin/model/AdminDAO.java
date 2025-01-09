@@ -77,23 +77,35 @@ public interface AdminDAO {
 	// "탈퇴회원" 검색이 있는 또는 검색이 없는 주문의 총개수 알아오기 시작
 	int getTotalMemberstatusCount(Map<String, String> paraMap) throws SQLException;
 
+	// 배송주문조회 배송현황 업데이트 기능
+	int updateDeliveryStatus(String d_num, int status) throws SQLException;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

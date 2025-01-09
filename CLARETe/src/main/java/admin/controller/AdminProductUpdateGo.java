@@ -48,7 +48,7 @@ public class AdminProductUpdateGo extends AbstractController {
 		
 		if( loginuser != null && "admin".equals(loginuser.getM_id()) ) {
 		
-			if("post".equalsIgnoreCase(method)) {
+			if("POST".equalsIgnoreCase(method)) {
 				// 상품수정 가보자잇 레츠기릿!
 				
 					

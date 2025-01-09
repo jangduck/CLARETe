@@ -141,23 +141,15 @@ $(document).ready(function() {
 				        frm.submit();
 				    }
 				</script>
-				
-<!-- 				<script type="text/javascript">
-				    function checkHangul(input) {
-				        if (/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(input.value)) {
-				            alert("이메일 검색에는 한글을 입력할 수 없습니다.");
-				            input.value = input.value.replace(/[ㄱ-ㅎㅏ-ㅣ가-힣]/g, ''); // 한글 제거
-				        }
-				    }
-				</script> -->
-				
 			</div>
 		</div>
 
 		<div class="second-div">
 			<h4
 				style="font-weight: bold; text-align: center; margin-top: 50px; padding: 2% 0;">탈퇴 회원 조회</h4>
-
+				<div class="total-count" style="text-align: left; margin: 10px; font-weight: bold; font-size: 13pt;">
+				    총 탈퇴회원 수: ${requestScope.memberstatusList.size()}명
+				</div>
 			<div class="table-container" style="overflow-x: auto">
 				<table style="width: 100% !important;"
 					class="table table-bordered text-center table-responsive">
@@ -167,7 +159,6 @@ $(document).ready(function() {
 							<th>번호</th>
 							<th>회원이름</th>
 							<th>회원아이디</th>
-<!-- 							<th>이메일</th> -->
 							<th>전화번호</th>
 							<th>주소</th>
 							<th>성별</th>
@@ -175,7 +166,6 @@ $(document).ready(function() {
 							<th>포인트</th>
 							<th>가입일자</th>
 							<th>회원탈퇴</th>
-<!-- 							<th>상세보기</th> -->
 						</tr>
 					</thead>
 
@@ -236,7 +226,7 @@ $(document).ready(function() {
 
 						<c:if test="${empty requestScope.memberstatusList}">
 						  <tr>
-						    <td colspan="11" class="no-data">데이터가 존재하지 않습니다.</td>
+						    <td colspan="11" class="no-data">탈퇴회원데이터가 존재하지 않습니다.</td>
 						  </tr>
 						</c:if>
 					</tbody>
