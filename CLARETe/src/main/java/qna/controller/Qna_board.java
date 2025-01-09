@@ -46,7 +46,7 @@ public class Qna_board extends AbstractController {
 			paraMap.put("currentShowPageNo", currentShowPageNo); 
 			
 			// 페이징 처리를 위한 총페이지수 알아오기 //
-			int totalPage = qdao.getTotalPage(paraMap);
+			int totalPage = qdao.getTotalPageA(paraMap);
 			
 			
 			try {

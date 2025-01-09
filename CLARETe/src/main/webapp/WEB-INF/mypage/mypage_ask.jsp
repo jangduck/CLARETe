@@ -50,9 +50,38 @@ $(document).ready(function(){
 	       frm.submit();
 	 });
 
+
+
+
+
+});
+
+/* 
+modal.addEventListener("click", e => {
+    const evTarget = e.target
+    if(evTarget.classList.contains("modal")) {
+        modal.style.display = "none"
+}
+ */
+
+
+function closeModal() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+}
+
+// 자식 창에서 메시지를 받을 이벤트 리스너 추가
+window.addEventListener("message", function(event) {
+    if (event.data === "closeModal") {
+        closeModal();
+    }
+});
+
+
+
+
 	
-	
-});// $(document).ready(function()-------------------
+
 
 
 </script>
@@ -75,6 +104,7 @@ $(document).ready(function(){
            
        </thead>
        <tbody>
+       <c:if test="${not empty requestScope.qnaList}">
        <c:forEach var="qnaList" items="${requestScope.qnaList}" varStatus="status">
       		 <tr>
                <fmt:parseNumber var="currentShowPageNo" value="${requestScope.currentShowPageNo}" />
@@ -95,7 +125,11 @@ $(document).ready(function(){
                      
                  </tr>
                  
-					</c:forEach>
+		</c:forEach>
+		</c:if>
+		<c:if test="${empty requestScope.qnaList}">
+			<tr><td colspan="4" style="height: 80px;">문의사항이 없습니다.</td></tr>
+		</c:if>
                   </tbody>
               </table>
       		<div style="display: flex; justify-content: center">

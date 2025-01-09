@@ -45,15 +45,15 @@ public class IdleEnd extends AbstractController {
 			paraMap.put("m_name", (String) session.getAttribute("m_name"));
 			paraMap.put("m_mobile", (String) session.getAttribute("m_mobile"));
 
-		//	System.out.println("paramap: m_name = " + paraMap.get("m_name"));
+			System.out.println("paramap: m_name = " + paraMap.get("m_name"));
 			
 			String certification = request.getParameter("certification"); // ? 媛� ��泥닿� ����
-		//	System.out.println("uuuuuuuuuuuuuuuuuuuu" + certification);
+			System.out.println("uuuuuuuuuuuuuuuuuuuu" + certification);
 
 			
 			String certification_code = (String) session.getAttribute("certification_code");
 			
-		//	System.out.println("certification_code          " + certification_code);
+			System.out.println("certification_code          " + certification_code);
 
 			if (certification.equals(certification_code)) {
 				

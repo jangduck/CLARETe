@@ -34,6 +34,8 @@ public interface QnaDAO {
 
 	// 내 자신의 qna 리스트 페이징 조회
 	List<QnaVO> select_qna_paging(Map<String, String> paraMap) throws SQLException;
+
+	int getTotalPageA(Map<String, String> paraMap) throws SQLException;
 	
 	
 

@@ -2,9 +2,12 @@ package mypage.controller;
 
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import cart.domain.CartVO;
 import chaeeun.cart.model.CartDAO;
@@ -15,6 +18,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import member.domain.MemberVO;
+import minkyu.product.model.ProductDAO;
+import minkyu.product.model.ProductDAO_imple;
+import product.domain.ProductVO;
 import qna.domain.QnaVO;
 import youjin.qna.model.QnaDAO;
 import youjin.qna.model.QnaDAO_imple;
@@ -32,6 +38,7 @@ public class Mypage_ask extends AbstractController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
 		String m_id = loginuser.getM_id();
+		
 		
 		
 		/*
@@ -59,9 +66,17 @@ public class Mypage_ask extends AbstractController {
 			
 			List<CartVO> cartList = cdao.cartListCount(m_id);
 			
-			System.out.println("cartList: " + cartList);
+			//System.out.println("cartList 길이 " + cartList.size());
 			
-			request.setAttribute("cartList",cartList);
+			request.setAttribute("cartList",cartList.size());
+			
+			
+			List<Integer> pnumList = (List<Integer>) session.getAttribute("pnumList");
+			ProductDAO pdao = new ProductDAO_imple();
+			List<ProductVO> pvoList = pdao.selectProduct(pnumList);
+			Set<ProductVO> pvoSet = new HashSet<>(pvoList);
+			pvoList = new ArrayList<>(pvoSet);
+			request.setAttribute("pvoListCount", pvoList.size());
 			
 			
 //			=== 페이징 처리해주기 =============================================================
@@ -112,10 +127,10 @@ public class Mypage_ask extends AbstractController {
 			
 			
 			// === !!! [맨처음][이전] 만들기 === *** //        
-	        pageBar += "<li class='page-item'><a class='page-link' href='adminBoard.cl?sizePerPage="+sizePerPage+"&currentShowPageNo=1'>[맨처음]</a></li>";
+	        pageBar += "<li class='page-item'><a class='page-link' href='mypage_ask.cl?sizePerPage="+sizePerPage+"&currentShowPageNo=1'>[맨처음]</a></li>";
 	        
 	        if(pageNo != 1) {
-	        	pageBar += "<li class='page-item'><a class='page-link' href='adminBoard.cl?sizePerPage="+sizePerPage+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+	        	pageBar += "<li class='page-item'><a class='page-link' href='mypage_ask.cl?sizePerPage="+sizePerPage+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
 	        }
 	        
 	        while(!(loop > blockSize || pageNo > totalPage)) {

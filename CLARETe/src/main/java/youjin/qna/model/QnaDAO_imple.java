@@ -332,6 +332,37 @@ public class QnaDAO_imple implements QnaDAO {
 	      
 	      return totalPage;
 	}
+	
+	
+	
+	// 페이징 처리를 위한 총페이지수 알아오기 //
+		@Override
+		public int getTotalPageA(Map<String, String> paraMap) throws SQLException {
+			int totalPage = 0;
+		      
+		      try {
+		          conn = ds.getConnection();
+		          
+		          String sql = " select ceil(count(*)/?) "
+		                   + " from tbl_qna "; 
+		          
+		          pstmt = conn.prepareStatement(sql);
+		          
+		          pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")));
+		          
+		          
+		          rs = pstmt.executeQuery();
+		          
+		          rs.next();
+		          
+		          totalPage = rs.getInt(1);
+		          
+		      } finally {
+		         close();
+		      }
+		      
+		      return totalPage;
+		}
 
 
 	/* >>> 뷰단(adminBoard.jsp)에서 "페이징 처리시 보여주는 순번 공식" 에서 사용하기 위해 게시물의 총개수 알아오기 시작 <<< */

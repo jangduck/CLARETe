@@ -42,11 +42,13 @@
             <div style="height: auto; display: flex; align-items: center; gap: 4px;">
                 <span class="recent-orders-title">내가 쓴 리뷰</span>
                 <span>
+                <%-- 
                     <div class="select-container">
                         <select>
                             <!-- 제이쿼리 이용해서 현재 년도의 -5년도까지 option으로 넣음 이거 클릭시 값 넘어가게 처리하세요 .on() 으로 해야합니다 참고! -->
                         </select>
                     </div>
+                --%>	
                 </span>
             </div>
 
@@ -62,7 +64,9 @@
                 <a href="#">
                     <div class="review_box">
                         <div>
-                            <div class="review_img"></div>
+                            <div class="review_img">
+                            	<img src="/CLARETe/images/${rvo.pvo.p_image}" style="width: 100%" />
+                            </div>
                             <div class="review_info_box">
                                 <div class="reviw_info">
                                     <div>${rvo.pvo.p_name}</div> <!-- 상품명 넣는 자리입니다 -->
