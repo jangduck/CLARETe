@@ -44,6 +44,7 @@ this.document.getElementById("mypageFrm").submit();
         <div class="mypage_contants_bottom">
             <div style="height: auto; display: flex; align-items: center; gap: 4px;">
                 <span class="recent-orders-title">리뷰 작성 가능 향수</span>
+                <%--
                 <span>
                     <div class="select-container">
                         <select>
@@ -51,6 +52,7 @@ this.document.getElementById("mypageFrm").submit();
                         </select>
                     </div>
                 </span>
+                --%>
             </div>
 
 <%-- 
@@ -68,7 +70,9 @@ this.document.getElementById("mypageFrm").submit();
                 <div>
                     <ul>
                         <li>
-                            <div class="recent-img">img </div> <!-- 상품 이미지 넣는 자리입니다  ${rvo.pvo.p_image}-->
+                            <div class="recent-img">
+								<img src="/CLARETe/images/${rvo.pvo.p_image}" style="width: 100%" />
+							</div> <!-- 상품 이미지 넣는 자리입니다  ${rvo.pvo.p_image}-->
                         </li>
                         <li>
                             <div>
