@@ -1,5 +1,8 @@
 $(document).ready(function() {
 
+	$("input[name='id']").val('');
+    $("input[name='pwd']").val('');
+	
     // "로그인" 버튼 click 이벤트 처리
     $("button#login-btn").click(() => {
         goLogin();  // 로그인 시도

@@ -4,6 +4,7 @@
 <%-- 채은 코드 추가하겠씁니다요~~~~~~~~~~~~~~~~~~~~~~~ --%>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%-- 채은 코드 추가하겠씁니다요~~~~~~~~~~~~~~~~~~~~~~~ --%>
 
 <%
@@ -49,31 +50,38 @@
 
             <ul class="cardcontainer">
             	<%-- 채은 코드 추가하겠씁니다요~~~~~~~~~~~~~~~~~~~~~~~ --%>
-                <c:forEach var="cvo" items="${cartList2}">
-                	<li class="cardbox">
-	                    <a href="/CLARETe/shop/prodView.cl?p_num=${cvo.fk_p_num}">
-	                        <div class="cardimg">
-								<img src="/CLARETe/images/${cvo.pvo.p_image}" style="width: 100%; display: block;" />
-	                        </div>
-	                        <div class="cardname">
-	                            ${cvo.pvo.p_name}
-	                        </div>
-	                        <div class="cardprice">
-	                            <fmt:formatNumber value="${cvo.pvo.p_price - (cvo.pvo.p_price * cvo.pvo.p_sale / 100) + cvo.opvo.op_price}" pattern="#,###,###"/>
-	                        </div>
-	                    </a>
-	                </li>
-                </c:forEach>
+            	<c:if test="${fn:length(cartList2) != 0}">
+	                <c:forEach var="cvo" items="${cartList2}">
+	                	<li class="cardbox">
+		                    <a href="/CLARETe/shop/prodView.cl?p_num=${cvo.fk_p_num}">
+		                        <div class="cardimg">
+									<img src="/CLARETe/images/${cvo.pvo.p_image}" style="width: 100%; display: block;" />
+		                        </div>
+		                        <div class="cardname">
+		                            ${cvo.pvo.p_name}
+		                        </div>
+		                        <div class="cardprice">
+		                            <fmt:formatNumber value="${cvo.pvo.p_price - (cvo.pvo.p_price * cvo.pvo.p_sale / 100) + cvo.opvo.op_price}" pattern="#,###,###"/>
+		                        </div>
+		                    </a>
+		                </li>
+	                </c:forEach>
+                </c:if>
                 <%-- 채은 코드 추가하겠씁니다요~~~~~~~~~~~~~~~~~~~~~~~ --%>
-
+				
+				<c:if test="${fn:length(cartList2) == 0}">
+                	장바구니가 비어있습니다.
+           		 </c:if>
+				
             </ul>
         </div>
         <div class="cartbox">
-            <div>
-                <div class="cartgo"><a href="<%= ctxPath%>/cart/cart.cl">모두 구매하기</a></div>
-            </div>
+			<c:if test="${fn:length(cartList2) != 0}">
+			    <div>
+			        <div class="cartgo"><a href="<%= ctxPath%>/cart/cart.cl">모두 구매하기</a></div>
+			    </div>
+			</c:if>
         </div>
-		<%-- =============================================== --%>
 		
 		
 
