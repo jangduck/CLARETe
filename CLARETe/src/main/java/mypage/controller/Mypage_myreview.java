@@ -31,7 +31,7 @@ public class Mypage_myreview extends AbstractController {
 		if("get".equalsIgnoreCase(method)) {
 			
 			String fk_m_id = request.getParameter("fk_m_id");
-			System.out.println("fk_m_id = "+fk_m_id);
+			//System.out.println("fk_m_id = "+fk_m_id);
 			
 
 			try {
@@ -41,15 +41,15 @@ public class Mypage_myreview extends AbstractController {
 				
 				List<CartVO> cartList = cdao.cartListCount(m_id);
 				
-				System.out.println("cartList: " + cartList);
+				//System.out.println("cartList: " + cartList);
 				
-				request.setAttribute("cartList",cartList);
+				request.setAttribute("cartList",cartList.size());
 				
 				super.setRedirect(false);
 				super.setViewPage("/WEB-INF/mypage/mypage_myreview.jsp");
 			
 				
-				System.out.println("아이디값 받옴"+fk_m_id);
+				//System.out.println("아이디값 받옴"+fk_m_id);
 			} catch(SQLException e) {
 				e.printStackTrace();
 				super.setRedirect(true);

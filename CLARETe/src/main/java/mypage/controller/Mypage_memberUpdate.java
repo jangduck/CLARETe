@@ -70,9 +70,9 @@ public class Mypage_memberUpdate extends AbstractController {
 			
 			List<CartVO> cartList = cdao.cartListCount(m_id);
 			
-			System.out.println("cartList: " + cartList);
+			//System.out.println("cartList: " + cartList);
 			
-			request.setAttribute("cartList",cartList);
+			request.setAttribute("cartList",cartList.size());
 			
 		} 
 	}

@@ -34,9 +34,10 @@ public class MyPage extends AbstractController {
 			
 			List<CartVO> cartList = cdao.cartListCount(m_id);
 			
-			//System.out.println("cartList: " + cartList); 채은이가 주석처리 함
 			
-			request.setAttribute("cartList",cartList);
+			//System.out.println("dddddddcartList: " + cartList.size()); 
+			
+			request.setAttribute("cartList",cartList.size());
 			
 			
 			Map<String, String> paraMap = new HashMap<>();

@@ -43,9 +43,9 @@ public class Mypage_recent_orders extends AbstractController {
 		
 		List<CartVO> cartList = cdao.cartListCount(m_id2);
 		
-		System.out.println("cartList: " + cartList);
+		//System.out.println("cartList: " + cartList);
 		
-		request.setAttribute("cartList",cartList);
+		request.setAttribute("cartList",cartList.size());
         
 		// 로그인한 회원의 주문내역을 가져오는 메소드
 		List<OrderVO> orderList = odao.recentOrder(paraMap);

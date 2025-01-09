@@ -88,9 +88,8 @@
                                     </div>
                                     <div>
                                         <span> 
-                                        <c:forEach var="cartList" items="${requestScope.cartList}">
-                                         ${cartList.c_count}
-                                        </c:forEach></span><span>개</span>
+                                         ${requestScope.cartList}
+                                        </span><span>개</span>
                                     </div>
                                 </li>
                                 <li>
