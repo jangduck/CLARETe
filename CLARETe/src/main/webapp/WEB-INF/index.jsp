@@ -36,9 +36,9 @@
             <div class="black_title"><span>FOR YOU</span></div>
 
             <div class="drawsvg">
-                <svg version="1.1" viewBox="0 0 2000 500">
+                <svg version="1.1" viewBox="0 0 104.1667vw 26.0417vw">
                 <symbol id="fade-text">
-                    <text x="45%" y="40%" text-anchor="middle">Objet Perfume</text>
+                    <text x="46.8750vw" y="10.4167vw" text-anchor="middle">Objet Perfume</text>
                     <!--<text x="55%" y="80%" text-anchor="middle">Brand</text> -->
                 </symbol>
                 <g>
@@ -539,7 +539,7 @@
             // alert();
 
             $('.category_box li > a').eq($(this).index()).css({
-                'transform': 'translateY(-60%)'
+                'transform': 'translateY(-51%)'
             })
 
             

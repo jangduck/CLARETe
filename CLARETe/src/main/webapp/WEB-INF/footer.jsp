@@ -14,7 +14,7 @@
     <title>금쪽이</title>
 </head>
 <body> 
-    <div id="container">
+    <div class="container">
 
 
         <footer>
