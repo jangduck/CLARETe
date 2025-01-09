@@ -72,7 +72,7 @@
 
 </style>
 </head>
-<body>
+<body class="allbody" style="background-color: #F1F5F9 !important; width: 100% !important;">
 
 <header class="side-header">
     <nav class="header-nav">
@@ -116,46 +116,7 @@
 </nav>
 
 <section>
-    <div style="display: flex; flex-wrap: wrap;">
-        <div class="first-div">
-            <div style="margin: 30px 0px 0px 30px;">
-                <form>
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <div class="input-box">
-                            <div><label for="userid">유저 아이디</label></div>
-                            <div>
-                                <input type="text" id="userid" name="userid" placeholder="유저 아이디를 입력하세요">
-                            </div>
-                        </div>
-                        <div class="input-box">
-                            <div><label for="username">유저명</label></div>
-                            <div>
-                                <input type="text" id="username" name="username" placeholder="유저명을 입력하세요">
-                            </div>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <div class="input-box">
-                            <div><label for="deleteStatus">삭제여부</label></div>
-                            <div>
-                                <input type="text" id="deleteStatus" name="deleteStatus" placeholder="전체">
-                            </div>
-                        </div>
-                        <div class="input-box">
-                            <div><label for="dormantStatus">휴면여부</label></div>
-                            <div>
-                                <input type="text" id="dormantStatus" name="dormantStatus" placeholder="전체">
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div class="form-btn-box">
-                    <input type="submit" class="btn search" value="검색"/>
-                    <input type="reset" class="btn reset" value="초기화"/>
-                </div>
-            </div>
-        </div>
-    </div>
+   
     <div class="second-div">
     <script src="<%= ctxPath %>/Highcharts-10.3.1/code/highcharts.js"></script>
     <script src="<%= ctxPath %>/Highcharts-10.3.1/code/modules/data.js"></script>
