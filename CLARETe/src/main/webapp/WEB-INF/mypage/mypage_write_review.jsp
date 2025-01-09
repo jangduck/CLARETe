@@ -59,6 +59,8 @@ this.document.getElementById("mypageFrm").submit();
 	<button>보내기</button>
 </form>
 --%>
+
+			<c:if test="${empty requestScope.myreviewUpList}">현재 리뷰 작성 가능한 제품이 없습니다.</c:if>
             <!-- === for문 대상 시작 === -->           
 			<c:if test="${not empty requestScope.myreviewUpList}">
 			<c:forEach var="rvo" items="${requestScope.myreviewUpList}">

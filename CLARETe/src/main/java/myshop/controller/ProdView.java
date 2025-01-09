@@ -2,7 +2,11 @@ package myshop.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.json.JSONObject;
 
 import common.controller.AbstractController;
 import jakarta.servlet.http.HttpServletRequest;
@@ -62,7 +66,107 @@ public class ProdView extends AbstractController {
 			
 			
 			// =========================== 유진작성 =========================== //
-			List<ReviewVO> rvo = rdao.reviewList(p_num); // 해당 제품에 달린 리뷰들을 불러온다
+			
+			boolean orderCheck = rdao.OderCheck(m_id, p_num); // 구매확정된 제품이면 리뷰입력창 보여주기
+			int reviewCnt = rdao.reviewCnt(p_num); // 해당 제품의 리뷰 개수를 불러옴
+			System.out.println("orderCheck = "+orderCheck);
+			
+			
+			String currentShowPageNo = request.getParameter("currentShowPageNo");
+			String sizePerPage = "3";
+			if (sizePerPage == null || !"3".equals(sizePerPage)) {
+				sizePerPage = "3";
+			}
+			if (currentShowPageNo == null) {
+				currentShowPageNo = "1";
+			}
+			//String str_p_num =
+			Map<String, String> paraMap = new HashMap<>();
+			paraMap.put("currentShowPageNo", currentShowPageNo);
+			paraMap.put("sizePerPage", sizePerPage); // 한페이지당 보여줄 행의 개수
+			paraMap.put("p_num",String.valueOf(p_num));
+	
+			int totalReview = rdao.getReviewCnt(paraMap); // 페이징처리된 리뷰
+			List<ReviewVO> rvo = rdao.reviewList(paraMap); // 해당 제품에 달린 리뷰들을 불러온다
+			
+			try {
+				if (Integer.parseInt(currentShowPageNo) > totalReview || Integer.parseInt(currentShowPageNo) <= 0) {
+					currentShowPageNo = "1";
+					paraMap.put("currentShowPageNo", currentShowPageNo);
+				}
+			} catch (NumberFormatException e) {
+				currentShowPageNo = "1";
+				paraMap.put("currentShowPageNo", currentShowPageNo);
+			}
+			
+			
+			String pageBar = "";
+			int blockSize = 3;
+			// blockSize 는 블럭(토막)당 보여지는 페이지 번호의 개수이다.
+
+			int loop = 1;
+			// loop 는 1 부터 증가하여 1개 블럭을 이루는 페이지번호의 개수(지금은 10개)까지만 증가하는 용도이다.
+
+			// ==== !!! 다음은 pageNo 구하는 공식이다. !!! ==== //
+			int pageNo = ((Integer.parseInt(currentShowPageNo) - 1) / blockSize) * blockSize + 1;
+			// pageNo 는 페이지바에서 보여지는 첫번째 번호이다.
+			
+			// *** [맨처음] 만들기 *** //
+						
+						if(totalReview != 0) {
+							pageBar += "<li class='page-item'><a class='page-link' href='/CLARETe/shop/prodView.cl?p_num="+p_num
+									+ "&sizePerPage=" + sizePerPage +"&currentShowPageNo=1#review_box'>처음</a></li>";
+						}
+										
+						if (pageNo != 1) {
+							pageBar += "<li class='page-item'><a class='page-link' href='/CLARETe/shop/prodView.cl?p_num=" +p_num
+									+ "&sizePerPage=" +sizePerPage + "&currentShowPageNo="
+									+ (pageNo - 1) + "#review_box'>이전</a></li>";
+						}
+						
+					
+						while (!(loop > blockSize || pageNo > totalReview)) {
+
+							if (pageNo == Integer.parseInt(currentShowPageNo)) {
+								pageBar += "<li class='page-item active'><a class='page-link' href='#'>" + pageNo + "</a></li>";
+
+							} else {
+								pageBar += "<li class='page-item'><a class='page-link' href='/CLARETe/shop/prodView.cl?p_num="+p_num
+										+ "&sizePerPage=" + sizePerPage+"&currentShowPageNo="
+										 + pageNo + "#review_box'>" + pageNo + "</a></li>";
+							}
+
+							loop++; // 1 2 3 4 5 6 7 8 9 10 11 12 13 ...
+
+							pageNo++; // 1 2 3 4 5 6 7 8 9 10 ...
+										// 11 12 13 14 15 16 17 18 19 20 ...
+										// 21 22 23 24 25 26 27 28 29 30 ...
+										// 31 32
+						} // end of while()-----------------------------
+
+						// *** [다음][마지막] 만들기 *** //
+						// pageNo ==> 11
+						
+						
+						
+						if (pageNo <= totalReview) {
+							pageBar += "<li class='page-item'><a class='page-link' href='/CLARETe/shop/prodView.cl?p_num="+p_num
+									+ "&sizePerPage=" + sizePerPage + "&currentShowPageNo=" + pageNo
+									+ "'>다음</a></li>";
+						}
+						if(totalReview != 0) {
+						pageBar += "<li class='page-item'><a class='page-link' href='/CLARETe/shop/prodView.cl?p_num="+p_num
+								+ "&sizePerPage=" + sizePerPage +"&currentShowPageNo=" + totalReview
+								+ "'>마지막</a></li>";
+						}
+						
+					  
+						
+						
+					
+						
+						// ==== 페이지바 만들기 끝 ==== //
+			
 			// =========================== 유진작성 =========================== //
 			
 			
@@ -75,6 +179,11 @@ public class ProdView extends AbstractController {
 			
 			// =========================== 유진작성 =========================== //
 			request.setAttribute("rvo", rvo);
+			request.setAttribute("orderCheck", orderCheck);
+			request.setAttribute("pageBar", pageBar);
+			request.setAttribute("totalReview", totalReview);
+			request.setAttribute("sizePerPage", sizePerPage);
+			request.setAttribute("reviewCnt", reviewCnt);				
 			// =========================== 유진작성 =========================== //
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/myshop/prodView.jsp");
@@ -111,8 +220,9 @@ public class ProdView extends AbstractController {
 			try {				
 				
 				//boolean isExist= false;
-				boolean isExist = rdao.OderReviewCheck(fk_m_id, p_num);
-				System.out.println("OderReviewCheck = "+isExist);
+				//여기boolean isExist = rdao.OderReviewCheck(fk_m_id, p_num);
+				//System.out.println("OderReviewCheck = "+isExist);
+							
 				/*
 				for(int i=0;i<OderReviewCheck.size();i++) {
 					int listP = OderReviewCheck.get(i).getFk_p_num();
@@ -122,14 +232,14 @@ public class ProdView extends AbstractController {
 					}
 				}
 				*/					
-				
+				/*
 				if (!isExist) {
 					System.out.println("구매후 배송완료된 이력에 없는 제품입니다.");
 					message = "구매후 배송완료된 이력에 없는 제품입니다.";
 					loc = request.getContextPath()  + "/index.cl";
 					return;
 				}
-				else {					
+				else {	*/				
 					int Review = rdao.ReviewUpload(rvo);
 					
 					if (Review == 1) {	
@@ -140,7 +250,7 @@ public class ProdView extends AbstractController {
 					else {
 						message = "리뷰 등록에 실패했습니다.";
 					}										
-				}
+					/* } */
 				
 			} catch (SQLException e) {
 				e.printStackTrace();

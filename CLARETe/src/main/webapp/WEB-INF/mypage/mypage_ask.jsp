@@ -80,6 +80,33 @@ function textLengthOverCut(txt, len, lastTxt) {
 //alert(txt);
 
 
+
+
+});
+
+/* 
+modal.addEventListener("click", e => {
+    const evTarget = e.target
+    if(evTarget.classList.contains("modal")) {
+        modal.style.display = "none"
+}
+ */
+
+
+function closeModal() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+}
+
+// 자식 창에서 메시지를 받을 이벤트 리스너 추가
+window.addEventListener("message", function(event) {
+    if (event.data === "closeModal") {
+        closeModal();
+    }
+});
+
+
+
 </script>	
 	
 	    

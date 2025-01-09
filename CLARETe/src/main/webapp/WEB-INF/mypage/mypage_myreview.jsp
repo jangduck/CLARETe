@@ -55,7 +55,7 @@
 
 
 
-
+		    <c:if test="${empty requestScope.myreviewList}">내가 작성한 리뷰가 없습니다.</c:if>
                 <!-- === for문 대상 시작 === -->
             <c:if test="${not empty requestScope.myreviewList}">
 			<c:forEach var="rvo" items="${requestScope.myreviewList}">

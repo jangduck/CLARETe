@@ -208,7 +208,7 @@ public class ReviewDAO_imple implements ReviewDAO {
 					+ " join tbl_orderdetail OD "
 					+ " ON P.p_num = OD.fk_p_num "
 					+ " where M.m_id = ? "
-					+ " order by r_register desc ";
+					+ " order by r_num desc ";
 			
 			pstmt = conn.prepareStatement(sql);
 				
@@ -252,6 +252,7 @@ public class ReviewDAO_imple implements ReviewDAO {
 		
 	}
 
+	/*
 	// 구매한 제품이 맞는지 확인하기
 	@Override
 	public boolean OderReviewCheck(String fk_m_id, String p_num) throws SQLException {
@@ -278,6 +279,110 @@ public class ReviewDAO_imple implements ReviewDAO {
 			  isEx = rs.next();
 			  // n = pstmt.executeUpdate();
 			  System.out.println("리뷰작성준비");
+			  
+			
+		}
+	    catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		} finally {
+			close();
+		}
+			return isEx;
+
+	}// end of public int OderReviewCheck(ReviewVO rvo) throws SQLException {}
+
+    */
+	
+	
+	
+	// 해당 제품에 달린 리뷰들을 불러온다
+	@Override
+	public List<ReviewVO> reviewList(Map<String, String> paraMap) throws SQLException {
+		
+		List<ReviewVO> reviewList = new ArrayList<>();
+	
+		try {		
+			conn = ds.getConnection();
+			
+			String sql = "  select RNO, o.* "
+					+ " from "
+					+ " ( "
+					+ "    select rownum AS RNO, x.* "
+					+ "     from( "
+					+ "     select fk_p_num, fk_m_id, r_star, r_msg, r_register "
+					+ "                           from tbl_review "
+					+ "                           where fk_p_num = ?                "
+					+ "                           order by r_num desc "
+					+ "    ) x "
+					+ " )o "
+					+ "where o.RNO  between ? and ? ";
+					 //  + " where rownum between ? and ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			int p_num = Integer.parseInt(paraMap.get("p_num"));
+			pstmt.setInt(1,p_num);
+								
+			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+			
+			System.out.println("currentShowPageNo = "+currentShowPageNo);
+			System.out.println("sizePerPage = "+sizePerPage);
+		
+			
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 시작 번호
+	        pstmt.setInt(3, (currentShowPageNo * sizePerPage)); // 끝 번호			
+			//currentShowPageNo = 1
+	        //sizePerPage = 3
+	        
+	        
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ReviewVO rvo = new ReviewVO();		
+				rvo.setFk_m_id(rs.getString("fk_m_id"));
+				rvo.setR_star(rs.getInt("r_star"));
+				rvo.setR_msg(rs.getString("r_msg"));
+				rvo.setR_register(rs.getString("r_register"));
+			
+				reviewList.add(rvo);
+				
+			}
+					
+		}   finally {
+			close();
+		}
+		
+		return reviewList;
+	}
+
+	// 구매확정된 제품이면 리뷰입력창 보여주기
+	@Override
+	public boolean OderCheck(String m_id, int p_num) throws SQLException {
+		boolean isEx = false;
+		//List<ReviewVO> OderReviewCheck = new ArrayList<ReviewVO>();
+		try {
+			  conn = ds.getConnection();
+			  
+			  String sql = " select p_num, fk_m_id, o_num "
+				  		 + " from tbl_order O "
+				  		 + " join tbl_orderdetail OD "
+				  		 + " on O.o_num = OD.fk_o_num "
+				  		 + " join tbl_product P "
+				  		 + " on  P.p_num = OD.fk_p_num "
+				  		 + " where fk_m_id = ?  and p_num = ? and status = 2 "; 
+				  
+						  		  
+			  pstmt = conn.prepareStatement(sql);
+				
+			  pstmt.setString(1,m_id);
+			  pstmt.setInt(2,p_num);	
+			  rs = pstmt.executeQuery();
+			  
+			  isEx = rs.next();
+			  // n = pstmt.executeUpdate();
+			  System.out.println("리뷰작성가능 제품인지 확인중...");
 			  /*
 			  if(rs.next()) {
 					ReviewVO rvo = new ReviewVO();
@@ -301,47 +406,62 @@ public class ReviewDAO_imple implements ReviewDAO {
 			close();
 		}
 			return isEx;
+	}
 
-	}// end of public int OderReviewCheck(ReviewVO rvo) throws SQLException {}
-
-
-	
-	
-	
-	// 해당 제품에 달린 리뷰들을 불러온다
+	// 페이징 처리한 리뷰수 알아오기
 	@Override
-	public List<ReviewVO> reviewList(int p_num) throws SQLException {
+	public int getReviewCnt(Map<String, String> paraMap) throws SQLException {
 		
-		List<ReviewVO> reviewList = new ArrayList<>();
-	
-		try {		
+		int n = 0;
+		try {
 			conn = ds.getConnection();
 			
-			String sql = " select fk_p_num, fk_m_id, r_star, r_msg, r_register "
+			String sql = " select ceil(count(*) / ?) "
 					   + " from tbl_review "
-					   + " where fk_p_num = ? "
-					   + " order by r_register desc ";
+				  	   + " where fk_p_num = ? ";
 			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1,p_num);			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				ReviewVO rvo = new ReviewVO();		
-				rvo.setFk_m_id(rs.getString("fk_m_id"));
-				rvo.setR_star(rs.getInt("r_star"));
-				rvo.setR_msg(rs.getString("r_msg"));
-				rvo.setR_register(rs.getString("r_register"));
-			
-				reviewList.add(rvo);
-				
-			}
-					
-		}   finally {
-			close();
-		}
+	  		  
+			  pstmt = conn.prepareStatement(sql);
+			  pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")));			  
+			  pstmt.setInt(2,Integer.parseInt(paraMap.get("p_num")));	
+			  rs = pstmt.executeQuery();
+			  
+			  rs.next();
+	          n = rs.getInt(1);
+	        
+			  
+		}finally {
+           close();
+        }
 		
-		return reviewList;
+		return n;
+	}
+
+	// 해당 제품의 리뷰 개수를 불러옴
+	@Override
+	public int reviewCnt(int p_num) throws SQLException {
+		int n = 0;
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select ceil(count(*)) "
+					   + " from tbl_review "
+				  	   + " where fk_p_num = ? ";
+			
+	  		  
+			  pstmt = conn.prepareStatement(sql);					  
+			  pstmt.setInt(1,p_num);	
+			  rs = pstmt.executeQuery();
+			  
+			  rs.next();
+	          n = rs.getInt(1);
+	        
+			  
+		}finally {
+           close();
+        }
+		
+		return n;
 	}
 
 
