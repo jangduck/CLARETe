@@ -5,12 +5,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import delivery.domain.DeliveryVO;
 import option.domain.OptionVO;
 import product.domain.ProductVO;
 import util.security.AES256;
@@ -129,6 +132,54 @@ public class ProductDAO_imple implements ProductDAO {
 		
 		return opvo;
 	}
+
+	
+	public List<OptionVO> selectOptionMl(String[] option) throws SQLException {
+
+	    List<OptionVO> optionList = new ArrayList<>();
+
+	    if (option == null || option.length == 0) {
+	        return optionList; 
+	    }
+
+	    try {
+	        conn = ds.getConnection();
+
+	        StringBuilder sql = new StringBuilder("SELECT op_num, op_ml, op_price FROM tbl_option WHERE op_num IN (");
+
+	        for (int i = 0; i < option.length; i++) {
+	            sql.append("?");
+	            if (i < option.length - 1) {
+	                sql.append(", ");
+	            }
+	        }
+	        sql.append(")");
+
+	        pstmt = conn.prepareStatement(sql.toString());
+
+	        for (int i = 0; i < option.length; i++) {
+	            pstmt.setInt(i + 1, Integer.parseInt(option[i]));
+	        }
+
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            OptionVO opvo = new OptionVO();
+	            opvo.setOp_num(rs.getInt("op_num"));
+	            opvo.setOp_ml(rs.getString("op_ml"));
+	            opvo.setOp_price(rs.getString("op_price"));
+	            optionList.add(opvo);
+	        }
+
+	    } finally {
+	        close();
+	    }
+
+	    return optionList;
+	}
+
+	
+	
 
 	
 }

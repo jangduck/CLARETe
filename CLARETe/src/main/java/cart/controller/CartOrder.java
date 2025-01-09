@@ -4,15 +4,19 @@ import java.util.List;
 
 import chaeeun.cart.model.CartDAO;
 import chaeeun.cart.model.CartDAO_imple;
+import chaeeun.product.model.ProductDAO_imple;
 import common.controller.AbstractController;
 import delivery.domain.DeliveryVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import member.domain.MemberVO;
+import option.domain.OptionVO;
 
 public class CartOrder extends AbstractController {
 
+	private ProductDAO_imple pdao = new ProductDAO_imple();
+	
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -99,6 +103,10 @@ public class CartOrder extends AbstractController {
         List<DeliveryVO> deliveryList = cdao.selectDeliveryList(loginuser.getM_id());
         request.setAttribute("deliveryList", deliveryList);
 
+		// 옵션 select
+		List<OptionVO> optionList = pdao.selectOptionMl(option);
+		request.setAttribute("optionList", optionList);
+     		
         request.setAttribute("index", index);
         request.setAttribute("perfumeName", perfumeName);
         request.setAttribute("quantity", quantity);

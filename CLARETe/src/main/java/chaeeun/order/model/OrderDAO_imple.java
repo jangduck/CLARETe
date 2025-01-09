@@ -144,15 +144,19 @@ public class OrderDAO_imple implements OrderDAO {
 
 			conn = ds.getConnection();
 
-			String sql = " select od_num, fk_p_num, fk_o_num, od_count, od_price, fk_op_num "
-					   + " from tbl_orderdetail where fk_p_num = ?";
+			String sql = " SELECT od.od_num, od.fk_p_num, od.fk_o_num, od.od_count, od.od_price, od.fk_op_num, "
+			           + " op.op_num, op.op_ml, op.op_price "
+			           + " FROM tbl_orderdetail od "
+			           + " JOIN tbl_option op "
+			           + " ON od.fk_op_num = op.op_num "
+			           + " WHERE od.fk_o_num = ?";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, pnum);
 
 			rs = pstmt.executeQuery();
 
-			if (rs.next()) {
+			while (rs.next()) {
 				
 				orderdetailVO odvo = new orderdetailVO();
 				
@@ -161,7 +165,12 @@ public class OrderDAO_imple implements OrderDAO {
 				odvo.setFk_o_num(rs.getInt("fk_o_num"));
 				odvo.setOd_count(rs.getInt("od_count"));
 				odvo.setOd_price(rs.getString("od_price"));
-				odvo.setFk_op_num(rs.getInt("fk_op_num"));
+
+				OptionVO opvo = new OptionVO();
+				opvo.setOp_num(rs.getInt("op_num")); 
+	            opvo.setOp_ml(rs.getString("op_ml"));
+	            opvo.setOp_price(rs.getString("op_price")); 
+				odvo.setOptionvo(opvo);
 				
 				odvoList.add(odvo);
 			}
