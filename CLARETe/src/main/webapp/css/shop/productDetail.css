@@ -422,3 +422,16 @@ div#btn{
 #reviewWi{
 	cursor: pointer;
 }
+
+.pagination > ul{
+	list-style: none;
+	display: flex;
+	gap: var(--size8);
+	justify-content: center;
+}
+
+
+.pagination > ul  li  a{
+	color: #000;
+	text-decoration: none;	
+}

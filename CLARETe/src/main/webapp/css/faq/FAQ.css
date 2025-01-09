@@ -35,6 +35,7 @@
     --size670 : clamp(650px, 34.8958vw, 2000px);
     --size700 : clamp(680px, 36.4583vw, 3000px);
     --size930 : clamp(900px, 48.4375vw, 10000px);
+ 
 }
 
 .section{

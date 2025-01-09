@@ -112,24 +112,12 @@ function goAjax(p_num, op_num, m_id){
 
 
 function ReviewUpload(){
-	
-	
+		
 	const frm = document.reviewFrm;
-
-	
-	
-	
-	/*
-	var r_star = document.getElementById("r_star").value;
 		
-	const r_star = $(e.target).parent().find("span#r_star").val();  
-		frm.r_star.value = r_star;
-		alert(r_star);*/
-		
-		frm.action = "/CLARETe/shop/prodView.cl";
+		//frm.action = "/CLARETe/shop/prodView.cl";
 		frm.method = "post";
-		frm.submit();
-		
+		frm.submit();		
 }
 
 

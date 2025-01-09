@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
     String ctxPath = request.getContextPath();
@@ -90,12 +91,20 @@
                                 <div id="reviewWi">리뷰작성</div>
                             </div>
                                                         
-                            <div class="review_box">
+                            <div class="review_box" id="review_box">
                                 <ul class="reviewcontent"><!-- 리뷰 목록-->
                                 
-                                  <c:if test="${not empty requestScope.rvo}">
-                           <c:forEach var="rvo" items="${requestScope.rvo}" varStatus="status">
-                                       <li class="reveiwDetail">
+                                  <c:if test="${not empty requestScope.rvo}">                                   		  
+                           		  <c:forEach var="rvo" items="${requestScope.rvo}" varStatus="status">
+                           		  
+                           		  
+                           		  
+              					  <fmt:parseNumber var="currentShowPageNo" value="${requestScope.currentShowPageNo}" />
+                      			  <fmt:parseNumber var="sizePerPage" value="${requestScope.sizePerPage}" />
+                                   
+                                   
+                                                         		  
+                                       <li class="reveiwDetail"> <%-- ${(requestScope.totalReview) - (currentShowPageNo - 1) * sizePerPage - (status.index)} --%>
                                           <div class="review-div">
                                              <span style="color:gray; font-size: 10pt; ">${rvo.fk_m_id}</span>                                        
                                          <span style="color:gray; font-size: 10pt;">작성일자 ${rvo.r_register}</span><br><!--별점이 들어가는 곳-->
@@ -112,10 +121,10 @@
                                      <div style="display: flex; align-items: center;">
                                           <div class="review-img"></div> <span class = "detail" >${rvo.r_msg}</span><div class="moreReview"></div><!--리뷰내용 [더보기]-->
                                      </div>
-                                  <!-- 더보기를 누르면 더 자세한 리뷰가 나오게 한다.-->                            
-                                  </li> <!-- 리뷰 내용 for문 돌려주시고 페이징처리 잊지마세요 -->
-                                   </c:forEach>            
-                        </c:if>  
+                                 <!-- 더보기를 누르면 더 자세한 리뷰가 나오게 한다.-->                            
+                                 	</li> <!-- 리뷰 내용 for문 돌려주시고 페이징처리 잊지마세요 -->
+                                 </c:forEach>            
+                        	     </c:if>  
                                <c:if test="${empty requestScope.rvo}">
                                       <li>등록된 리뷰가 없습니다.</li> <!-- 리뷰 없을 때 없다고 처리 꼭 해주세요 -->
                                </c:if>
@@ -124,11 +133,18 @@
                             </div>
                         </div> <%-- <div class="review_container">  --%>
                         
-                        <div style="display: flex; justify-content: space-between; margin-top: 60px;">
-                            <span>처음</span>  <span>1  2  3  ... 19</span>  <span>끝</span>
+                        <div style="display: flex; justify-content: center; margin-top: 60px;">                        
+                        <span class="pagination"><ul>${requestScope.pageBar}</ul></span> <%-- 페이지바 --%>
+                        
+                      
+                  		<%-- <div>${(requestScope.totalPage) - (currentShowPageNo - 1)}</div> --%>
+                            <!-- <span>처음</span>  <span>1  2  3  ... 19</span>  <span>끝</span> -->
                         </div>
                         <!-- 가능하면 include 해서 따로 뺀 후에 보기 좋게 구현 해주세요 -->
-                    </aside>                    
+                    </aside>  
+                    
+                    
+                    <%-- ============ 토글창 ============ --%>                  
                 </div>
                <div class="toggleBack">
                   
@@ -137,8 +153,14 @@
                   <div class="toggleinner">
                   <span id="x">&times;</span>
                   
-                  <c:if test="${empty sessionScope.loginuser.m_id}">리뷰를 작성하시려면 로그인 해주세요.</c:if>
-                   <c:if test="${!empty sessionScope.loginuser.m_id  or sessionScope.loginuser.m_id == 'admin' }"> 
+                  <%-- <c:if test="${empty sessionScope.loginuser.m_id}">리뷰를 작성하시려면 로그인 해주세요.</c:if> --%>
+                  
+                  <c:choose>
+                  <c:when test="${empty sessionScope.loginuser.m_id}">리뷰를 작성하시려면 <a style=" color:gray;text-decoration: none;" href="http://localhost:9090/CLARETe/login/loginView.cl">로그인</a> 해주세요.</c:when>
+                  <c:when test="${requestScope.orderCheck == false}">제품 구매후 배송완료된 경우에만 리뷰 작성이 가능합니다.</c:when>
+                  <c:when test="${requestScope.orderCheck == true}">
+                  
+                  <%-- <c:if test="${!empty sessionScope.loginuser.m_id  or sessionScope.loginuser.m_id == 'admin' }">  --%>                
                      <form name="reviewFrm"> 
                         <div class="toRow">
                             <span>작성자</span>
@@ -177,7 +199,9 @@
                              <span><input type="reset" id="btnReset" class="btn" value="취소"/></span>
                          </div>                     
                     </form>
-                  </c:if>                  
+                    </c:when>
+                  </c:choose>
+                 <%--  </c:if>  --%>                 
                  </div>
                </div><%-- <div class="toggleCon"> --%>
                 <%-- ======================== 유진 작성함 ======================== --%>
@@ -210,11 +234,11 @@
                            <div>
                                <span>배송비</span><span>3,000(20,000원 이상 구매 시 무료)</span>
                            </div>
-                           <div>
-                               <span>사용후기</span><span>116</span> <!-- 리뷰개수가 들어설 자리입니다. -->
+                           <div>                         
+                               <span>사용후기</span><span>${requestScope.reviewCnt}</span> <!-- 리뷰개수가 들어설 자리입니다. -->
                            </div>
                            <div>
-                               <span>향수문의</span><span>67</span> <!-- 보류 -->
+                               <span>향수문의</span><span>0</span> <!-- 보류 -->
                            </div>
                            <div>
                                <span>예상 적립금</span><span>상품의 1%</span>
@@ -333,5 +357,12 @@
                });                        
        });
     });
+      
+        
+
+        
+        
+        
+        
 </script>
 <jsp:include page="../footer.jsp"></jsp:include>

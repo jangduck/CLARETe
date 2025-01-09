@@ -22,8 +22,23 @@ function QnaUpload(){
 
 
 	const frm = document.qnaFrm;
-	frm.action = "/CLARETe/qna/qna.cl";
+	
+	//frm.action = "/CLARETe/qna/qna.cl";
 	frm.method = "post";
 	frm.submit();
+	//$('#askUpload').off()
+	//window.open("about:blank","_self").close();
+	self.close();
+	
+	
+	function closeParentModal() {
+       // 부모 창으로 메시지 전송하여 모달 닫기 요청
+       window.parent.postMessage("closeModal", "*");
+	}
+		   
+		   
+		   
+		   
+		   
 		
 }// end of function FAQupload(){}				
