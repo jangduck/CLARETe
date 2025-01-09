@@ -2,12 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<<<<<<< HEAD
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>    
-    
-=======
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
->>>>>>> refs/heads/minkyu4
 <%
  String ctxPath = request.getContextPath();
 		
@@ -23,12 +18,8 @@
 
 	<link rel="stylesheet" href="<%= ctxPath %>/css/mypage/mapage.css">
 	<link rel="stylesheet" href="<%= ctxPath %>/css/mypage/media_nav.css">    
-<<<<<<< HEAD
-		<link rel="stylesheet" href="<%= ctxPath %>/css/mypage/recent_mypage.css">  
-=======
 	<link rel="stylesheet" href="<%= ctxPath %>/css/mypage/recent_mypage.css">
 	<link rel="stylesheet" href="<%= ctxPath %>/css/mypage/product_mypageMain.css">
->>>>>>> refs/heads/minkyu4
 	
 	<link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -95,57 +86,6 @@ body {
 	<%-- 마이페이지해더 include 받아옴 --%>
     <jsp:include page="mypageheader.jsp"></jsp:include>    
 	<%-- 마이페이지해더 include 받아옴 --%>
-<<<<<<< HEAD
-
-
-	<%-- =============================================== --%>
-	<div class="mypage_contants_bottom">
-		<div class="recent-orders-title">최근 주문 향수</div>
-		<div class="recent-orders-box">
-			<!-- 주문 내역이 있을 경우 -->
-			<c:if test="${not empty requestScope.orderList}">
-				<ul class="order-list">
-					<c:forEach var="ovo" items="${requestScope.orderList}">
-						<li class="order-item">
-							<!-- 상품 이미지 --> <img
-							src="/CLARETe/images/${ovo.productvo.p_image}" style="width: 10%;">
-						</li>
-
-						<!-- 주문 상세 정보 -->
-						<li>
-							<div class="order-details">
-								<div>
-									<div>${ovo.productvo.p_name}</div>
-									<!-- 상품명 넣는 자리입니다 -->
-								</div>
-						</li>
-						<li>
-							<div>
-								<span><fmt:formatNumber
-										value="${ovo.orderdetailvo.od_price}" type="number"
-										groupingUsed="true" /></span><span>원</span>
-								<!-- 상품 가격 넣는 자리입니다 -->
-							</div>
-						</li>
-					</c:forEach>
-				</ul>
-			</c:if>
-
-			<!-- 주문 내역이 없을 경우 -->
-			<c:if test="${empty requestScope.orderList}">
-				<p>최근 주문 내역이 없습니다.</p>
-			</c:if>
-		</div>
-	</div>
-
-
-	<div class="recent-orders-title">방금 본 향수</div>
-	<div class="recent-orders-box">
-		<div>장바구니의 상품이 없습니다.</div>
-	</div>
-	</div>
-	<%-- =============================================== --%>
-=======
 	<c:if test="${not empty requestScope.orderList}">
 	 <div class="recent-orders-title">나의 주문 향수</div>
 	 <c:forEach var="ovo" items="${requestScope.orderList}">
@@ -258,7 +198,6 @@ body {
 	        </div>
         </c:if>
 		<%-- =============================================== --%>
->>>>>>> refs/heads/minkyu4
 		
 		
 
