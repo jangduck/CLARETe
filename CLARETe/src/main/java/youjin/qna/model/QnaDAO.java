@@ -36,6 +36,8 @@ public interface QnaDAO {
 	List<QnaVO> select_qna_paging(Map<String, String> paraMap) throws SQLException;
 
 	int getTotalPageA(Map<String, String> paraMap) throws SQLException;
+
+	int qnaDelete(String q_num) throws SQLException;
 	
 	
 

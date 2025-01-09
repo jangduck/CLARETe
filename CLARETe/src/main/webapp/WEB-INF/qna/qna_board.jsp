@@ -32,7 +32,7 @@
                <div class="board_top">
                    <div class="title">BOARD</div>
                    <div class="selectMenu">
-                       <span><a href="#">FAQ</a></span><span><a href="#">1:1문의</a></span>
+                       <span><a href="<%= ctxPath%>/faq/faq_board.cl">FAQ</a></span><span><a href="#">1:1문의</a></span>
                    </div>
                </div>
 
