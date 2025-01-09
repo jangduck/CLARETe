@@ -12,6 +12,8 @@ public class Pwd_find_2 extends AbstractController {
 
         String method = request.getMethod(); // "GET" 또는 "POST"
 
+        if("post".equalsIgnoreCase(method)) {
+        
         String m_id = request.getParameter("m_id");
         
         // 세션불러오기
@@ -34,6 +36,16 @@ public class Pwd_find_2 extends AbstractController {
 
         super.setRedirect(false);
         request.getRequestDispatcher("/WEB-INF/member/pwd_find_2.jsp").forward(request, response);
-        
+        }
+        else {
+      	  	String message = "비정상적인 경로로 들어왔습니다.";
+            String loc = "javascript:history.back()";
+
+            request.setAttribute("message", message);
+            request.setAttribute("loc", loc);
+
+            super.setViewPage("/WEB-INF/msg.jsp");
+            return; // execute(HttpServletRequest request, HttpServletResponse response) 메서드 종료
+        }
     }
 }
