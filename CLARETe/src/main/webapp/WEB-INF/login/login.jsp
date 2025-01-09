@@ -43,7 +43,7 @@
 <%-- 로그인 폼 --%>
 <c:if test="${empty sessionScope.loginuser}"> 
 <div class="login-container">
-	<h2><img src="/CLARETe/images/logo.png" style="width: 4.5rem; height: 4.5rem;" /></h2>
+	<h2><a href="<%= ctxPath%>/"><img src="/CLARETe/images/logo.png" style="width: 4.5rem; height: 4.5rem;" /></a></h2>
 		<h4>로그인</h4>
 		<form name="loginFrm" action="<%= ctxPath%>/login/login.cl" method="post">
 			<input type="text" name="id" id="id" placeholder="아이디를 입력해주세요" class="input-field">
