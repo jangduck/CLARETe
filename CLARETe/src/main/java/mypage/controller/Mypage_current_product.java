@@ -33,12 +33,12 @@ public class Mypage_current_product extends AbstractController {
 		// 최근 본 상품 조회하는 리스트
 		List <ProductVO> pvoList = pdao.selectProduct(pnumList);
 		
-		System.out.println("pnumList사이즈 확인"+pnumList);
-		System.out.println("pvoList사이즈 확인"+pvoList);
+		//System.out.println("pnumList사이즈 확인"+pnumList);
+		//System.out.println("pvoList사이즈 확인"+pvoList);
 		
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		String m_id = loginuser.getM_id();
-		System.out.println("m_id 확인"+m_id);
+		//System.out.println("m_id 확인"+m_id);
 
 		// Set을 사용하여 중복 제거
 		Set<ProductVO> pvoSet = new HashSet<>(pvoList);
@@ -50,9 +50,9 @@ public class Mypage_current_product extends AbstractController {
 		
 		List<CartVO> cartList = cdao.cartListCount(m_id);
 		
-		System.out.println("cartList: " + cartList);
+		//System.out.println("cartList: " + cartList);
 		
-		request.setAttribute("cartList",cartList);
+		request.setAttribute("cartList",cartList.size());
 
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/mypage/mypage_current_product.jsp");

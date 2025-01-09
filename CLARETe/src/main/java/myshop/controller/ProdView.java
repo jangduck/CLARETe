@@ -54,7 +54,7 @@ public class ProdView extends AbstractController {
 			session.setAttribute("pnumList", pnumList);
 			// 민규코드 끝 //
 			
-			System.out.println(p_num); 
+			//System.out.println(p_num); 
 			session.setAttribute("p_num", p_num);
 			
 			ProductVO pvo = pdao.selectProductOne(p_num); // 상품 상세페이지의 정보를 알아온다

@@ -39,19 +39,19 @@ public class Mypage_write_review extends AbstractController {
 			if("get".equalsIgnoreCase(method)) {
 				
 				// String fk_m_id = request.getParameter("fk_m_id");
-				System.out.println("나 서블릿!~ = "+m_id);
+				//System.out.println("나 서블릿!~ = "+m_id);
 							
 				try {
 					List<ReviewVO> myreviewUpList = rdao.myreviewUpList(m_id);
 					request.setAttribute("myreviewUpList", myreviewUpList);
 					
-					System.out.println("리뷰작성 가능한 상품 몇개? "+ myreviewUpList.size());
+					//System.out.println("리뷰작성 가능한 상품 몇개? "+ myreviewUpList.size());
 					
 					List<CartVO> cartList = cdao.cartListCount(m_id);
 					
-					System.out.println("cartList: " + cartList);
+					//System.out.println("cartList: " + cartList);
 					
-					request.setAttribute("cartList",cartList);
+					request.setAttribute("cartList",cartList.size());
 
 					super.setRedirect(false);
 					super.setViewPage("/WEB-INF/mypage/mypage_write_review.jsp");

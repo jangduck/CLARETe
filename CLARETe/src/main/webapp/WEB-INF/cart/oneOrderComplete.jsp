@@ -79,7 +79,7 @@ String ctxPath = request.getContextPath();
 					<div id="productInfo">
 						<img src="/CLARETe/images/${requestScope.pvo.p_image}" />
 						<div class="perfume">
-							${requestScope.pvo.p_name}  <br> <fmt:formatNumber value="${requestScope.pvo.p_price}" pattern="#,###,###"/>	
+							${requestScope.pvo.p_name}  <br> <fmt:formatNumber value="${requestScope.pvo.p_price - (requestScope.pvo.p_price * requestScope.pvo.p_sale / 100) + requestScope.opvo.op_price}" pattern="#,###,###"/>	
 						</div>
 						<div class="option">
 							<c:choose>
@@ -106,7 +106,7 @@ String ctxPath = request.getContextPath();
 					<strong>배송정보</strong>
 				</div>
 				
-				<table >
+				<table>
 					<tr>
 						<td class="infoTd">이름</td>
 						<td>${requestScope.dvo.d_name}</td>
@@ -134,7 +134,7 @@ String ctxPath = request.getContextPath();
 				<table>
 					<tr>
 						<td class="priceTd">상품금액</td>
-						<td><fmt:formatNumber value="0" pattern="#,###,###"/></td>
+						<td><fmt:formatNumber value="${requestScope.pvo.p_price - (requestScope.pvo.p_price * requestScope.pvo.p_sale / 100) + requestScope.opvo.op_price}" pattern="#,###,###"/></td>
 					</tr>
 					<tr>
 						<td class="priceTd">포인트 사용금액</td>
@@ -142,7 +142,7 @@ String ctxPath = request.getContextPath();
 					</tr>
 					<tr>
 						<td class="priceTd">배송비</td>
-						<td><fmt:formatNumber value="0" pattern="#,###,###"/></td>
+						<td><fmt:formatNumber value="${sessionScope.input_total_shipping}" pattern="#,###,###"/></td>
 					</tr>
 					<tr>
 						<td class="priceTd total">최종 결제 금액</td>
@@ -154,7 +154,7 @@ String ctxPath = request.getContextPath();
 			
 		</div> <!-- div#fourth -->
 		
-		<a>주문 계속하기</a>
+		<div id="continueShopping"><a href="<%= ctxPath%>/">주문 계속하기</a></div>
 	</div> <!-- div#all_container -->
 
 </section>

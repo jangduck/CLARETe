@@ -4,6 +4,8 @@ package mypage.controller;
 import java.sql.SQLException;
 import java.util.List;
 
+import cart.domain.CartVO;
+import chaeeun.cart.model.CartDAO_imple;
 import common.controller.AbstractController;
 import faq.domain.FaqVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +19,7 @@ import youjin.qna.model.QnaDAO_imple;
 public class Mypage_ask extends AbstractController {
 
 	private QnaDAO qdao = new QnaDAO_imple();
-	
+	CartDAO_imple cdao = new CartDAO_imple();	// 채은 코드 추가
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -45,6 +47,28 @@ public class Mypage_ask extends AbstractController {
 			
 			super.setRedirect(false);		
 			super.setViewPage("/WEB-INF/mypage/mypage_ask.jsp");
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			// 채은 코드 추가
+			List<CartVO> cartList = cdao.cartListCount(m_id);
+			
+			//System.out.println("cartList: " + cartList);
+			
+			request.setAttribute("cartList",cartList.size());
+			// 채은 코드 끝
 			
 		} catch(SQLException e) {
 			e.printStackTrace();

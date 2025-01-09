@@ -33,6 +33,40 @@
     --size930 : clamp(900px, 48.4375vw, 10000px);
 }
 
+
+/* 25/01/07 추가함 채은이가 */
+img {
+	width: 64px;	
+	height: 64px;
+}
+
+div#ordernum > span {
+	font-size: 18px;
+}
+
+#goOrder {
+	cursor: pointer;
+}
+
+#continueShopping {
+	text-align: center;
+	margin-top: 80px;
+	font-weight: bold;
+	font-size: 16pt;
+	cursor: pointer;
+	text-decoration: none;
+	color: black;
+}
+
+#continueShopping > a {
+	color: #000;
+    text-decoration: none;
+} 
+
+/* 25/01/07 추가함 채은이가 */
+
+
+
 #all_container {
 	height: auto;
 }
@@ -54,6 +88,7 @@
 }
 
 .step{
+	font-size: var(--size16);
 	margin-bottom: var(--size20);
 }
 /*-----------------------------------------------*/
@@ -62,9 +97,12 @@
 /*-----------------------------------------------*/
 #secondDiv {
 	height: 170px;
-	margin-left: 820px;
-	margin-right: 820px;
+	margin: 20px auto 0 auto;
 	margin-top: 20px;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 #orderImg {
@@ -79,7 +117,7 @@ img {
 #ordernum {
 	text-align: center;	
 	margin-top: 20px;
-	font-size: 16pt;
+	width: 300px;
 }
 
 #num {
@@ -118,11 +156,12 @@ img {
 
 .perfume {
 	margin-left: 20px;
+	padding-top: 25px;
+	flex: 1;
 }
 
 .option {
 	padding-right: 50px;
-	margin-left: 920px;
 	margin-top: 40px;
 }
 
@@ -168,7 +207,7 @@ img {
 }
 
 table {
-	width: 60%;
+	width: 1000%;
 	border-collapse: collapse;
 	
 }
@@ -176,6 +215,7 @@ table {
 td {
 	padding-bottom: 5px;
 	padding-top: 5px;
+	width: auto;
 }
 
 .infoTd {
@@ -201,7 +241,7 @@ tr > td:nth-child(2) {
 
 
 /*-----------------------------------------------*/
-a {
+.all_container a{
 	display: block;
 	font-size: 20pt;
 	text-align: center;

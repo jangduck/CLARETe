@@ -137,7 +137,7 @@
 					
 						<c:forEach var="i" begin="0" end="${fn:length(requestScope.index) - 1}">
 						    <div id="productInfo">
-						        <img src="/CLARETe/images/${cvo.pvo.p_image}" />
+						        <img src="/CLARETe/images/${requestScope.productimg[i]}" />
 						        <div class="perfume">
 						            ${requestScope.perfumeName[i]} 
 						            <br>

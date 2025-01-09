@@ -63,6 +63,7 @@ public class GoPurchaseOrder extends AbstractController {
     	
     	String input_total_shipping= (String) request.getParameter("input_total_shipping");
     	request.setAttribute("input_total_shipping", input_total_shipping);
+    	session.setAttribute("input_total_shipping", input_total_shipping);
     	
         super.setRedirect(false);
         super.setViewPage("/WEB-INF/cart/goPurchaseOrder.jsp");

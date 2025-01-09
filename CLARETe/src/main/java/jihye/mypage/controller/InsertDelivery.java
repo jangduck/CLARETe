@@ -35,11 +35,11 @@ public class InsertDelivery extends AbstractController {
 			
 			List<DeliveryVO> deliveryList = ddao.selectDeliveryList(m_id);
 			request.setAttribute("deliveryList", deliveryList);
-			
 	
 			List<CartVO> cartList = cdao.cartListCount(m_id);
-			request.setAttribute("cartList",cartList);
-
+			request.setAttribute("cartList",cartList.size());
+			//System.out.println("배송지cartList: " + cartList.size()); 
+			
 			
 
 	        System.out.println(deliveryList.size()); 

@@ -265,7 +265,7 @@ public class CartDAO_imple implements CartDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " select NVL(MAX(c_count), 0) as c_count "
+			String sql = " select c_count "
 					   + " from tbl_cart "
 					   + " where fk_m_id = ? ";
 			
@@ -276,10 +276,9 @@ public class CartDAO_imple implements CartDAO {
 			
 			while(rs.next()) {
 				int c_count = rs.getInt("c_count");
-	            System.out.println("DB에서 조회된 c_count: " + c_count); // 디버깅 출력
 				CartVO cvo = new CartVO();
 				
-				cvo.setC_count(rs.getInt("c_count"));
+				cvo.setC_count(c_count);
 				
 				cartListCount.add(cvo);
 				

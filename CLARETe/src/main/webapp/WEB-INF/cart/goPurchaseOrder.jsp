@@ -138,14 +138,14 @@
 						    <div id="productInfo">
 						        <img src="/CLARETe/images/${requestScope.pvo.p_image}" />
 						        <div class="perfume">
-						            ${requestScope.pvo.p_name} 
+						            <span>${requestScope.pvo.p_name}</span>
 						            <br>
 						            <fmt:formatNumber value="${requestScope.pvo.p_price - (requestScope.pvo.p_price * requestScope.pvo.p_sale / 100) + requestScope.opvo.op_price}" pattern="#,###,###"/>	            
 						        </div>
 						        <div class="option">
 						            <span class="optionSpan">- 옵션 
 							            <c:choose>
-									        <c:when test="	${requestScope.opvo.op_ml == '1'}">50ml</c:when>
+									        <c:when test="${requestScope.opvo.op_ml == '1'}">50ml</c:when>
 									        <c:when test="${requestScope.opvo.op_ml == '2'}">75ml</c:when>
 									        <c:when test="${requestScope.opvo.op_ml == '3'}">100ml</c:when>
 									    </c:choose>
@@ -211,7 +211,8 @@
 	    		<input type="hidden" name="selectedDNum" value="selectedDNum" />					<!-- 배송지번호 -->
 	    		<input type="hidden" id="contextPath" value="<%= ctxPath%>" />
 	    		<input type="hidden" name="fk_m_id" value="${sessionScope.loginuser.m_id}" />		<!-- 로그인된 세션 아이디 -->
-
+				<input type="hidden" name="shipping" value="${requestScope.input_total_shipping}" />	<!-- 배송비 -->
+				
 			</div> <!-- payment_go_box -->
 			
 			

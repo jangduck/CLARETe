@@ -41,9 +41,10 @@ public class MyPage extends AbstractController {
 			
 			List<CartVO> cartList = cdao.cartListCount(m_id);
 			
-			System.out.println("cartList: " + cartList);
 			
-			request.setAttribute("cartList",cartList);
+			//System.out.println("dddddddcartList: " + cartList.size()); 
+			
+			request.setAttribute("cartList",cartList.size());
 			
 			
 			// === 민규 코드 마이페이지 메인 최근 주문 상품코드 === //
