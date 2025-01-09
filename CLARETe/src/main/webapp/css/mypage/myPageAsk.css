@@ -1,0 +1,147 @@
+.table-div{
+    display: inline-block;
+    width: 100%;
+    border: 0px blue solid;
+    margin-top: 3%;
+}
+
+.tbl-ask{
+    width:100%;
+    height: auto;
+    margin: auto;
+    border: 1px black solid;
+    text-align: center;
+    font-size: 1rem;
+    border-collapse: collapse;
+}
+
+
+.tbl-ask-header{
+   /*border-bottom: 1px black solid; */
+    padding: 13px 0;
+   /*  border-right: 1px white solid; */
+    background-color: black;
+    color:white;
+}
+
+
+
+.tbl-title{
+    display: flex;
+    justify-content: space-between;
+    height: auto;
+    align-items: end;
+}
+
+.tbl-ask-data{
+    padding: 13px 0;
+    border-bottom: 1px solid rgb(188, 188, 188);
+   
+}
+
+.tbl-ask-data:hover{
+	 cursor: pointer;
+}
+
+
+.qna-title{
+    font-size: 1.5rem;
+}
+.qna-write{
+	border : white;
+	background-color: white;
+    font-size:  1rem;
+    cursor: pointer;
+} 
+
+#ul-pagebar{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+/*======== 문의 작성하기 css ===========*/
+.ask-write-div{
+ 	position: fixed;
+ 	top: 25%;
+ 	left: 45%;
+ 	z-index: 1000;
+ 	width: 50%;
+ 	
+}
+
+
+.ask-write-main-title{
+	text-align: center;
+	margin-bottom:10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: end;
+}
+
+.asterisk{
+	color:red;
+}
+
+.note{
+	float: right;
+}
+
+.ask-div{
+    /* border: 1px black solid; */
+    width: 50%;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 3px 5px 10px gray;	
+}
+
+.wirte-font{
+	font-size:1.5rem;
+}
+
+
+.input-ask-insert{
+	width: 100%;
+	padding: 13px 5px;
+	border-radius: 5px;
+}
+
+.ask-write-title{
+	font-size: 1.2rem;
+	display: inline-block;
+	width: 20%;
+	margin: 3px;
+}
+
+
+.ask-select{
+	display: inline-block;
+	width: 50%;
+	height: 40px;
+	padding: 5px;
+	font-size: 12pt;
+}
+
+
+.ask-button{
+    text-align: center;
+    padding: 13px 0;
+}
+
+.errorMsg{
+	color:red;
+	font-style: italic;
+}
+
+
+.ask-submit, .ask-cancel{
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.ask-submit:hover, .ask-cancel:hover{
+    background-color: rgb(37, 37, 37);
+    cursor: pointer;
+}

@@ -12,7 +12,7 @@ public interface QnaDAO {
 	int qnaUpload(QnaVO qvo) throws SQLException;
 
 	// Q&A 게시판
-	List<QnaVO> qnaList() throws SQLException;
+	List<QnaVO> qnaList(Map<String, String> paraMap) throws SQLException;
 
 	// 선택한 Q&A 상세하게 보여주기	
 	QnaVO selectOneQna(int q_num) throws SQLException;
@@ -31,6 +31,9 @@ public interface QnaDAO {
 
 	
 	int getTotalQnaCount(Map<String, String> paraMap) throws SQLException;
+
+	// 내 자신의 qna 리스트 페이징 조회
+	List<QnaVO> select_qna_paging(Map<String, String> paraMap) throws SQLException;
 	
 	
 

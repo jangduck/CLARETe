@@ -32,57 +32,45 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
 
 </head>
+
+<style type="text/css">
+	table#tblProdInput {border: solid gray 1px; 
+	                    border-collapse: collapse; }
+	                    
+    table#tblProdInput td {border: solid gray 1px; 
+	                       padding-left: 10px;
+	                       height: 50px; }
+	                       
+    .prodInputName {background-color: #e6fff2; 
+                    font-weight: bold; }	                       	                    
+	
+	.error {color: red; font-weight: bold; font-size: 9pt;}
+	
+	div.fileDrop{ display: inline-block; 
+                  width: 100%; 
+                  height: 100px;
+                  overflow: auto;
+                  background-color: #fff;
+                  padding-left: 10px;}
+                 
+    div.fileDrop > div.fileList > span.delete{display:inline-block; width: 20px; border: solid 1px gray; text-align: center;} 
+    div.fileDrop > div.fileList > span.delete:hover{background-color: #000; color: #fff; cursor: pointer;}
+    div.fileDrop > div.fileList > span.fileName{padding-left: 10px;}
+    div.fileDrop > div.fileList > span.fileSize{padding-right: 20px; float:right;} 
+    span.clear{clear: both;} 
+   
+</style>
+
 <body class="allbody" style="background-color: #F1F5F9 !important; width: 100% !important;">
     
     <jsp:include page="adminheader.jsp"></jsp:include>
-    
-    <header class="side-header">
-    <nav class="header-nav">
-        <ul>
-			<li>
-				<div>회원관리</div>
-				<ul>
-					<li><a href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
-					<li><a href="<%= request.getContextPath() %>/admin/adminMemberStatus.cl">탈퇴회원조회</a></li>
-				</ul>
-			</li>
-			<li>
-				<div>상품관리</div>
-				<ul>
-					<a href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a>
-					<li><a href="<%= request.getContextPath() %>/admin/adminProductInsertGo.cl">상품등록</li>
-				</ul>
-			</li>
-			<li>
-				<div>주문관리</div>
-				<ul>
-					<li><a
-						href="<%=request.getContextPath()%>/admin/adminOrder.cl">주문회원조회</a></li>
-					<li><a
-						href="<%=request.getContextPath()%>/admin/adminDelivery.cl">주문배송관리</a></li>
-				</ul>
-			</li>
-		</ul>
-    </nav>
-</header>
-    
-<nav class="top-nav">
-    <div class="nav-logo">
-        <div>LOGO</div>
-    </div>
-    <div class="nav-btn">
-        <a href="<%=request.getContextPath()%>/index.cl"><div class="home-btn">홈으로</div></a>
-        <a href="<%=request.getContextPath()%>/login/logout.cl"><div class="end-btn">종료</div></a>
-    </div>
-</nav>    
-    
     
     <section>
         <div style="display: flex; flex-wrap: wrap;">
 	        <div style="margin-left: 10px; color:#999;"><span class="text-danger">*</span>은 필수입력항목입니다.</div>
 	            <div class="first-div">
 
-		            <form name="myFrm" method="post" action="<%= ctxPath%>/admin/adminProductInsertGo.cl">
+		            <form name="myFrm" enctype="multipart/form-data">
 			            <table class="table table-bordered">
 			            <thead class="table-dark">
 				            <th scope="col" class="w-25 p-3">컬럼</th>
@@ -174,19 +162,25 @@
 				            	<tr>
 				            		<th><label>상품이미지<span class="text-danger">*</span></label></th>
 				            		<td>
-				            			<input class="form-control w-25 p-3" type="text" name="p_image" placeholder="상품이미지" />
+				            			<img id="previewImg" width="300" height="300" />
+				            			<input class="w-50 p-3 infoData img_file" type="file" name="p_image" placeholder="상품이미지" />
+				            			
 				            			<div class="text-danger p_image_error">상품이미지는 필수 입력사항입니다.</div>	
-				            		</td>
+				            		</td>	
 				            	</tr>
 				            	
 				            	<tr>
 				            		<th><label>상품상세이미지</label></th>
-				            		<td><input class="form-control w-25 p-3" type="text" name="p_detail_image" placeholder="상품상세이미지" /></td>
+				            		<td>
+				            			<img id="previewImg2" width="600" style="min-height:300px;" />
+				            			<input class="w-50 p-3 infoData img_file2" type="file" name="p_detail_image" placeholder="상품상세이미지" />
+				            		</td>
 				            	</tr>
 			            	</tbody>
 			            </table>
 			            <div style="display: flex; justify-content: center; gap: 2%;">
-			            	<input class="btn btn-dark" type="submit" value="등록"/> <input class="btn btn-outline-dark" type="reset" value="취소"/>
+			            	<input id="btnRegister" class="btn btn-dark" type="button" value="등록"/> 
+			            	<input class="btn btn-outline-dark" type="reset" value="취소"/>
 			            </div>
 			            
 			            <input type="hidden" name="p_num" value="${requestScope.p_num}" />
@@ -315,6 +309,12 @@
 	
 	
 	
+	
+	
+	
+	
+
+	
 	// 상품명 유효성 검사 //
 	$('.p_name_error').hide();
 	let name_bool = false;
@@ -393,19 +393,7 @@
 	
 	// 상품이미지 유효성 검사 //
 	$('.p_image_error').hide();
-	let image_bool = false;
-	
-	$('input:text[name="p_image"]').blur(function(){
-		if($(this).val().trim() == ''){
-			$('.p_image_error').show();
-			$(this).focus();
-			$(this).val('');
-		}
-		else{
-			$('.p_image_error').hide();
-			image_bool = true;
-		}
-	});
+
 	// 상품이미지 유효성 검사 //
 	
 	
@@ -448,12 +436,12 @@
 	
 	
 	
-	// 등록하기 버튼 눌렀을 경우 유효성 체크 //
-	$('form[name="myFrm"]').submit(function(e){
+	// 제품등록하기 
+    $("input:button[id='btnRegister']").click(function(){
 		const input_cnt = $('input:text');
 		
 		
-		if(!name_bool){
+		if(!name_bool){	
 			$('.p_name_error').show();
 			alert('필수항목을 확인해주세요.')
 			e.preventDefault(); // 이거 return false랑 같은 역할임
@@ -483,12 +471,46 @@
 			alert('필수항목을 확인해주세요.')
 			e.preventDefault();
 		}
-		else if(!image_bool){
-			$('.p_image_error').show();
-			alert('필수항목을 확인해주세요.')
-			e.preventDefault();
+		else{
+			
+			var formData = new FormData($("form[name='myFrm']").get(0));
+			
+			
+			//////////////////////////////////////////////
+	        // 첨부한 파일의 총량이 20MB 초과시 //
+	        if(total_fileSize > 20*1024*1024) {
+	    	    alert("ㅋㅋㅋ 첨부한 파일의 총합의 크기가 20MB를 넘어서 제품등록을 할 수 없습니다.!!");
+		        return; // 종료
+	        }
+		    //////////////////////////////////////////////
+		   
+		    
+		    
+	        $.ajax({
+         	<%-- url : "<%= ctxPath%>/shop/admin/productRegister.up", --%>
+                 url : "${pageContext.request.contextPath}/admin/adminProductInsertGo.cl",
+                 type : "post",
+                 data : formData,
+                 processData:false,  // 파일 전송시 설정 
+                 contentType:false,  // 파일 전송시 설정
+                 dataType:"json",
+                 success:function(json){
+             	   	  console.log("~~~ 확인용 : " + JSON.stringify(json));
+                      // ~~~ 확인용 : {"result":1}
+                     
+             	   	  if(json.result == 1) {
+             	         location.href="${pageContext.request.contextPath}/admin/adminProduct.cl"; 
+                      }
+                     
+                 },
+                 error: function(request, status, error){
+ 				    // alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+ 				       alert("첨부된 파일의 크기의 총합이 20MB 를 초과하여 제품등록이 실패했습니다.ㅜㅜ");
+ 		        }
+                 
+          });
+		   
 		}
-		
 		
 		
 	});
@@ -508,6 +530,81 @@
 	        return false;
 	    }
 	}
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+    let total_fileSize = 0; // 첨부한 파일의 총량을 누적하는 용도
+   
+   
+	// ==>> 제품이미지 파일선택을 선택하면 화면에 이미지를 미리 보여주기 시작 <<== //
+	$(document).on("change", "input.img_file", function(e){
+		
+		const input_file = $(e.target).get(0);
+		// jQuery선택자.get(0) 은 jQuery 선택자인 jQuery Object 를 DOM(Document Object Model) element 로 바꿔주는 것이다. 
+
+		const fileReader = new FileReader();
+		   
+		fileReader.readAsDataURL(input_file.files[0]); 
+		// FileReader.readAsDataURL() --> 파일을 읽고, result속성에 파일을 나타내는 URL을 저장 시켜준다.
+		   
+		fileReader.onload = function(){  // FileReader.onload --> 파일 읽기 완료 성공시에만 작동하도록 하는 것임.
+		      
+			document.getElementById("previewImg").src = fileReader.result; 
+		
+	    }; 
+		   
+		////////////////////////////////////////////////
+        // 첨부한 파일의 총량을 누적하는 용도
+        total_fileSize += input_file.files[0].size;
+		////////////////////////////////////////////////
+	}); 
+	
+	
+	
+	$(document).on("change", "input.img_file2", function(e){
+		
+		const input_file = $(e.target).get(0);
+		// jQuery선택자.get(0) 은 jQuery 선택자인 jQuery Object 를 DOM(Document Object Model) element 로 바꿔주는 것이다. 
+
+		const fileReader = new FileReader();
+		   
+		fileReader.readAsDataURL(input_file.files[0]); 
+		// FileReader.readAsDataURL() --> 파일을 읽고, result속성에 파일을 나타내는 URL을 저장 시켜준다.
+		   
+		fileReader.onload = function(){  // FileReader.onload --> 파일 읽기 완료 성공시에만 작동하도록 하는 것임.
+		      
+			document.getElementById("previewImg2").src = fileReader.result; 
+		
+	    }; 
+		   
+		////////////////////////////////////////////////
+        // 첨부한 파일의 총량을 누적하는 용도
+        total_fileSize += input_file.files[0].size;
+		////////////////////////////////////////////////
+	}); 
+	// ==>> 제품이미지 파일선택을 선택하면 화면에 이미지를 미리 보여주기 끝 <<== //
+	
+	
+	
+	
+	// 취소하기
+    $("input[type='reset']").click(function(){
+ 	   $("span.error").hide();
+ 	   $('.text-danger').hide();
+
+ 	   //$("img#previewImg").hide();
+ 	   //$("img#previewImg2").hide();
+    });
 </script>
 
 

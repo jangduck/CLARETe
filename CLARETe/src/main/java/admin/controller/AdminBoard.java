@@ -108,7 +108,7 @@ public class AdminBoard extends AbstractController {
 				
 				
 				try {
-					List<QnaVO> qnaList = qdao.qnaList();
+					List<QnaVO> qnaList = qdao.qnaList(paraMap);
 					
 					request.setAttribute("qnaList", qnaList);
 					request.setAttribute("sizePerPage", sizePerPage);

@@ -160,8 +160,12 @@ tr > td{
     height: var(--size80);
 }
 
-tr > td:first-child{    
-    width: 60%;
+tr > td:nth-child(1){
+	padding-left: var(--size24);
+}
+
+tr > td:nth-child(2){    
+    width: 50%;
     box-sizing: border-box;
     padding: 0px var(--size24) 0px var(--size24);
 }
@@ -236,4 +240,20 @@ div.infocon > table:nth-child(2) {
 	line-height: var(--size40);
 	margin: var(--size40) auto 0px auto;
 	cursor: pointer;
+}
+
+#pageBar{
+	margin-top: var(--size40);
+}
+
+#pageBar > div > ul{
+	list-style: none;
+	display: flex;
+	gap: var(--size8);
+	justify-content: center;
+}
+
+#pageBar > div > ul li a{
+	color: #000;
+	text-decoration: none;
 }

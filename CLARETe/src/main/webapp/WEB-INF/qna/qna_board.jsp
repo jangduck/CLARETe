@@ -40,6 +40,7 @@
                <table>
                    <thead>
                        <tr>
+                       	   <th>번호</th>
                            <td>문의 제목</td>
                            <td>문의날짜</td>
                            <td>문의내용</td>
@@ -53,6 +54,11 @@
                     <c:if test="${not empty requestScope.qnaList}">
                     	<c:forEach var="qvo" items="${requestScope.qnaList}" varStatus="status">
 	                        <tr>
+		                        <fmt:parseNumber var="currentShowPageNo" value="${requestScope.currentShowPageNo}" />
+				                <fmt:parseNumber var="sizePerPage" value="${requestScope.sizePerPage}" /> 
+				                <%-- fmt:parseNumber 은 문자열을 숫자형식으로 형변환 시키는 것이다. --%> 
+				   	  			
+				   	  			<td>${(requestScope.totalMemberCount) - (currentShowPageNo - 1) * sizePerPage - (status.index)}</td> 
 	                            <td>
 	                                <span class="board_title">${qvo.q_title}</span>
 	                            </td>
@@ -109,6 +115,11 @@
 					</c:if>
                    </thead>
                </table>
+               <div id="pageBar">
+				   <div>
+				   		<ul class="pagination">${requestScope.pageBar}</ul>
+				   </div>
+			   </div>
                </div>
            </div>
        </section>
