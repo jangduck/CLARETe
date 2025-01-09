@@ -75,7 +75,7 @@ public class OneOrder extends AbstractController {
 		    // 3. tbl_member에 update 하기 위한 데이터들 (포인트 사용액 차감)
 		    Map<String, String> paraMap3 = new HashMap<>();
 		    paraMap3.put("m_id", m_id);
-		    paraMap3.put("m_point", String.valueOf(m_point));
+		    paraMap3.put("m_point", String.valueOf(m_point));	// 포인트 사용액
 		    
 		    
 		    // 4. tbl_member에 update 하기 위한 데이터들 (구매금액의 1% 추가)
@@ -97,6 +97,7 @@ public class OneOrder extends AbstractController {
 		    	session.setAttribute("one_m_point", m_point);
 		    	session.setAttribute("pnumpnum", pnum);	//채번쓰
 		    	session.setAttribute("op_num", op_num);	//채번쓰
+		    	session.setAttribute("one_o_price", o_price);
 		    	
 		    	JSONObject jsonOBJ = new JSONObject();
 				jsonOBJ.put("n", n); 	

@@ -16,7 +16,6 @@ $(document).ready(function() {
 
 		const productDiv = container.closest(".product"); // .product를 찾음
 		const quantityInput = $(`#quantity${productDiv.data("index")}`); // data-index로 연결
-		const priceInput = $(`#price${productDiv.data("index")}`); // 가격 input 연결
 		const priceQuantityInput = $(`#priceQuantity${productDiv.data("index")}`); // 총 가격 input 연결
 
 		// 감소 버튼 클릭 이벤트

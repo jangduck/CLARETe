@@ -3,9 +3,12 @@ package mypage.controller;
 import java.sql.SQLException;
 import youjin.review.model.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import cart.domain.CartVO;
 import chaeeun.cart.model.CartDAO_imple;
@@ -19,12 +22,14 @@ import member.domain.MemberVO;
 import review.domain.ReviewVO;
 import youjin.review.model.ReviewDAO;
 import youjin.review.model.ReviewDAO_imple;
-
+import minkyu.product.model.ProductDAO;
+import minkyu.product.model.ProductDAO_imple;
+import product.domain.ProductVO;
 
 public class Mypage_write_review extends AbstractController {
 	private ReviewDAO rdao = new ReviewDAO_imple();
 	CartDAO_imple cdao = new CartDAO_imple();
-	
+	private ProductVO pvo = new ProductVO();
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	
@@ -39,20 +44,27 @@ public class Mypage_write_review extends AbstractController {
 			if("get".equalsIgnoreCase(method)) {
 				
 				// String fk_m_id = request.getParameter("fk_m_id");
-				System.out.println("나 서블릿!~ = "+m_id);
+				//System.out.println("나 서블릿!~ = "+m_id);
 							
 				try {
 					List<ReviewVO> myreviewUpList = rdao.myreviewUpList(m_id);
 					request.setAttribute("myreviewUpList", myreviewUpList);
 					
-					System.out.println("리뷰작성 가능한 상품 몇개? "+ myreviewUpList.size());
+					//System.out.println("리뷰작성 가능한 상품 몇개? "+ myreviewUpList.size());
 					
 					List<CartVO> cartList = cdao.cartListCount(m_id);
 					
-					System.out.println("cartList: " + cartList);
+					//System.out.println("cartList: " + cartList);
 					
-					request.setAttribute("cartList",cartList);
+					request.setAttribute("cartList",cartList.size());
 
+					List<Integer> pnumList = (List<Integer>) session.getAttribute("pnumList");
+					ProductDAO pdao = new ProductDAO_imple();
+					List<ProductVO> pvoList = pdao.selectProduct(pnumList);
+					Set<ProductVO> pvoSet = new HashSet<>(pvoList);
+					pvoList = new ArrayList<>(pvoSet);
+					request.setAttribute("pvoListCount", pvoList.size());
+					
 					super.setRedirect(false);
 					super.setViewPage("/WEB-INF/mypage/mypage_write_review.jsp");
 				

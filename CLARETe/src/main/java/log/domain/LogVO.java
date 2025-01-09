@@ -1,10 +1,13 @@
 package log.domain;
 
+import member.domain.MemberVO;
+
 public class LogVO {
 	int l_num; // historyno
 	String fk_m_id; // fk_userid
 	String l_logindate; // logindate
 	String l_ip; // clientip
+	int login_count; // total
 	
 	public int getL_num() {
 		return l_num;
@@ -30,6 +33,47 @@ public class LogVO {
 	public void setL_ip(String l_ip) {
 		this.l_ip = l_ip;
 	}
+	
+	
+	
+	
+	// MemberVO 조인
+	// 민규 로그인 인원 성별 알아오기
+//	private MemberVO membervo;
+//	public MemberVO getMembervo() {
+//		return membervo;
+//	}
+//	public void setMembervo(MemberVO membervo) {
+//		this.membervo = membervo;
+//	}
+//	
+	// 민규 전체 로그인 인원 수 알아오는 용도
+	public void setLogin_count(int login_count) {
+		this.login_count = login_count;
+	}
+	public int getLogin_count() {
+		return login_count;
+	}
+	
+	int mLogin; // 남성회원 로그인
+	
+	public int getmLogin() {
+		return mLogin;
+	}
+	public void setmLogin(int mLogin) {
+		this.mLogin = mLogin;
+	}
+	
+	
+	int feLogin; // 여성회원 로그인
+	
+	public int getFeLogin() {
+		return feLogin;
+	}
+	public void setFeLogin(int feLogin) {
+		this.feLogin = feLogin;
+	}
+	
 	
 	
 }

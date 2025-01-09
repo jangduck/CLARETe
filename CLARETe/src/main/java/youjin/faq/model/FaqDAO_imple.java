@@ -92,7 +92,6 @@ public class FaqDAO_imple implements FaqDAO {
 		List<FaqVO> faqList = new ArrayList<>();
 		
 		try {
-			System.out.println("faq게시판!");
 			conn = ds.getConnection();
 			
 			String sql = " select faq_num, ask, answer "

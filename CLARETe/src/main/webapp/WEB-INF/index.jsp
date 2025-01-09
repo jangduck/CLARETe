@@ -434,67 +434,101 @@
         	$('.cardprice').html(Number($('.cardprice').html()).toLocaleString('en')+ "원"); // 가격 콤마표시
         	
             // ================== 맨 처음 로딩창 ================== //
-            for(let i=0; i<$('.black_title').length; i++){
-                setTimeout(function(){
-                    $('.black_title span').eq(i).css({
-                        'top': '0'
-                    })
-                }, i*120);
-            }
+             if (sessionStorage.getItem("loadingShown")) {
+                   // 로딩 애니메이션을 스킵
+                   $('.backfff').css({ 
+                      'top': '0%',
+                      'transition': 'none'
+                   });
+                   $('.section').css({ 
+                      'top': '4.5rem',
+                      'transition': 'none'
+                   });
+                   $('.sectionBack').css({ 'padding-top': '1%' });
+                   $('.header-container').css({ 'z-index': '12' });
+                   $('.hamburgerbar').css({ 'z-index': '11' });
+                   $('.nav-container').css({ 'z-index': '10' });
+                   $('.nav_inner').css({ 'z-index': '11' });
+                   $('.mainVideo_container').css({ 'height': '40%' });
+                   $('.subVideo_container').css({ 'height': '100%' });
+                   $('.black_title span').css({ 'top': '0' });
+                   
+               } else {
+            	   
+            	   // 로딩창 시간동안 스크롤 기능 막아버리기 //
+            	   $('*').on('scroll touchmove mousewheel', function(e) {
+	           		    e.preventDefault();
+	           		    e.stopPropagation();
+	           		    return false;
+	           	   });
+            	   
+            	   setTimeout(function () {
+            		   $('*').off('scroll touchmove mousewheel');
+            	   }, 4600)
+            	   // 로딩창 시간동안 스크롤 기능 막아버리기 //
+            	   
+                   // 로딩 애니메이션 실행
+                   sessionStorage.setItem("loadingShown", "true"); // 로딩창 표시 여부 기록
 
-            setTimeout(function(){
-                $('.backfff').css({
-                    'top': '0%'
-                })
-            }, 4000);
+                   for (let i = 0; i < $('.black_title').length; i++) {
+                       setTimeout(function () {
+                           $('.black_title span').eq(i).css({
+                               'top': '0'
+                           });
+                       }, i * 120);
+                   }
 
-            setTimeout(function(){
-                $('.section').css({
-                    'top': '4.5rem'
-                })
-                $('.sectionBack').css({
-                    'padding-top': '1%'
-                })
+                   setTimeout(function () {
+                       $('.backfff').css({
+                           'top': '0%'
+                       });
+                   }, 4000);
 
-                $('.header-container').css({
-                    'z-index':'12'
-                })
+                   setTimeout(function () {
+                       $('.section').css({
+                           'top': '4.5rem'
+                       });
+                       $('.sectionBack').css({
+                           'padding-top': '1%'
+                       });
 
-                $('.hamburgerbar').css({
-                    'z-index':'11'
-                })
-                $('.nav-container').css({
-                    'z-index':'10'
-                })
-                $('.nav_inner').css({
-                    'z-index':'11'
-                })
-                
+                       $('.header-container').css({
+                           'z-index': '12'
+                       });
 
-            }, 4500);
+                       $('.hamburgerbar').css({
+                           'z-index': '11'
+                       });
+                       $('.nav-container').css({
+                           'z-index': '10'
+                       });
+                       $('.nav_inner').css({
+                           'z-index': '11'
+                       });
 
-            setTimeout(function(){
-                $('.mainVideo_container').css({
-                    'height':'40%'
-                })
-                $('.subVideo_container').css({
-                    'height':'100%'
-                })
-            }, 4600);
+                   }, 4500);
 
-
-           
+                   setTimeout(function () {
+                       $('.mainVideo_container').css({
+                           'height': '40%'
+                       });
+                       $('.subVideo_container').css({
+                           'height': '100%'
+                       });
+                   }, 4600);
+               }
             // ================== 맨 처음 로딩창 ================== //
 
 
 
-
+			// ================== 상품 캐러셀 버튼 ================== //
             $('#left').click((e)=>{
                 $('.cardcontainer').css('transform', 'translateX(0%)');
             });
             $('#right').click((e)=>{
                 $('.cardcontainer').css('transform', 'translateX(-50%)');
             });
+         	// ================== 상품 캐러셀 버튼 ================== //
 
         }) // end of $(document).ready(function(){ ----------------------------------------
 
@@ -505,7 +539,7 @@
             // alert();
 
             $('.category_box li > a').eq($(this).index()).css({
-                'transform': 'translateY(-50%)'
+                'transform': 'translateY(-60%)'
             })
 
             

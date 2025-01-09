@@ -170,6 +170,18 @@ public class MemberVO {
    
     /////////////////////////////////////////////////////////////
     
-   
+   public String getGender() {
+	   
+	   String gender = "";
+	   
+	   if("1".equals(m_gender)) {
+		   gender = "남성";
+	   }
+	   else {
+		   gender = "여성";
+	   }
+	   
+	   return gender;
+   }
    
 }

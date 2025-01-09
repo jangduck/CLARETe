@@ -19,11 +19,19 @@ public interface ReviewDAO {
 	List<ReviewVO> myreviewList(String fk_m_id) throws SQLException;
 
 	// 구매한 제품이 맞는지 확인하기
-	boolean OderReviewCheck(String fk_m_id, String p_num) throws SQLException;
+	//boolean OderReviewCheck(String fk_m_id, String p_num) throws SQLException;
 
 	// 해당 제품에 달린 리뷰들을 불러온다
-	List<ReviewVO> reviewList(int p_num) throws SQLException;
+	List<ReviewVO> reviewList(Map<String, String> paraMap) throws SQLException;
+
+	// 구매확정된 제품이면 리뷰입력창 보여주기
+	boolean OderCheck(String m_id, int p_num) throws SQLException;
+
+	// 페이징처리된 리뷰
+	int getReviewCnt(Map<String, String> paraMap) throws SQLException;
+
+	// 해당 제품의 리뷰 개수를 불러옴
+	int reviewCnt(int p_num) throws SQLException;
 
 	
-
 }

@@ -107,7 +107,6 @@ public class OrderComplete extends AbstractController {
 				
 			if (pnum > 0) {
 				
-				System.out.println("수동커밋 성공 ~~~");
 				int n = 1;
 				
 				// 세션에 정보 저장

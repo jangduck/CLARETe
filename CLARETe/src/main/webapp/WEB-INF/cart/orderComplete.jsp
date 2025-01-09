@@ -44,7 +44,8 @@ String ctxPath = request.getContextPath();
 	<div id="all_container">
 
 		<div id="fistDiv">
-			<a class="cart">장바구니</a> <a class="step">1.장바구니&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;&nbsp;2.주문서
+			<a class="cart">장바구니</a> 
+			<a class="step">1.장바구니&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;&nbsp;2.주문서
 				작성&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;&nbsp;<strong>3.주문완료</strong>
 			</a>
 		</div> <!-- div#fistDiv -->
@@ -56,8 +57,10 @@ String ctxPath = request.getContextPath();
 			</div>
 
 			<div id="ordernum">
-				<span>${fn:substring(requestScope.ovo.o_date, 0, 10)} 주문하신 향수의</span><br> <span>주문번호는 <span
-					id="num">C${fn:replace(fn:substring(requestScope.ovo.o_date, 0, 10), '-', '')}${sessionScope.pnum}</span> 입니다
+				<span>${fn:substring(requestScope.ovo.o_date, 0, 10)} 주문하신 향수의</span><br> 
+				<span>주문번호는 
+					<span id="num">C${fn:replace(fn:substring(requestScope.ovo.o_date, 0, 10), '-', '')}${sessionScope.pnum}</span> 
+					입니다
 				</span>
 				<!-- 주문번호형식 : C + 주문날짜 + 주문번호 -->
 				
@@ -78,9 +81,9 @@ String ctxPath = request.getContextPath();
 
 					<c:forEach var="i" begin="0" end="${requestScope.ovo.o_cnt - 1}">
 						<div id="productInfo">
-							<div style="width: 64px; height: 64px; background-color: black;"></div>
+							<img src="/CLARETe/images/${sessionScope.productimg[i]}" />
 							<div class="perfume">
-								${sessionScope.perfumeName[i]}  <br> <fmt:formatNumber value="${sessionScope.productprice[i]}" pattern="#,###,###"/>	
+								<span>${sessionScope.perfumeName[i]}</span>  <br> <fmt:formatNumber value="${sessionScope.productprice[i]}" pattern="#,###,###"/>	
 							</div>
 							<div class="option">
 								<c:choose>
@@ -154,7 +157,7 @@ String ctxPath = request.getContextPath();
 			
 		</div> <!-- div#fourth -->
 		
-		<a>주문 계속하기</a>
+		<div id="continueShopping"><a href="<%= ctxPath%>/">주문 계속하기</a></div>
 	</div> <!-- div#all_container -->
 
 </section>

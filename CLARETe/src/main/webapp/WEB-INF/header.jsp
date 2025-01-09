@@ -97,7 +97,7 @@
                             <div class="depth">
                                 <ul>
                                     <li><a href="<%= ctxPath%>/faq/faq_board.cl">FAQ</a></li>
-                                    <li><a href="#">INQUIRY</a></li>
+                                    <li><a href="<%= ctxPath%>/qna/qna_board.cl">INQUIRY</a></li>
                                 </ul>
                             </div>
                         </li>
