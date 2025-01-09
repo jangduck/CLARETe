@@ -1,8 +1,10 @@
 package jihye.mypage.controller;
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 
 import cart.domain.CartVO;
 import chaeeun.cart.model.CartDAO;
@@ -14,11 +16,15 @@ import jakarta.servlet.http.HttpSession;
 import member.domain.MemberVO;
 import delivery.model.*;
 import delivery.domain.*;
+import minkyu.product.model.ProductDAO;
+import minkyu.product.model.ProductDAO_imple;
+import product.domain.ProductVO;
 
 public class InsertDelivery extends AbstractController {
 	
 	DeliveryDAO ddao = new DeliveryDAO_imple();
 	CartDAO cdao = new CartDAO_imple();
+	private ProductVO pvo = new ProductVO();
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -40,11 +46,16 @@ public class InsertDelivery extends AbstractController {
 			request.setAttribute("cartList",cartList.size());
 			//System.out.println("배송지cartList: " + cartList.size()); 
 			
-			
-
-	        System.out.println(deliveryList.size()); 
+	        //System.out.println(deliveryList.size()); 
 	        
 	    	
+			List<Integer> pnumList = (List<Integer>) session.getAttribute("pnumList");
+			ProductDAO pdao = new ProductDAO_imple();
+			List<ProductVO> pvoList = pdao.selectProduct(pnumList);
+			Set<ProductVO> pvoSet = new HashSet<>(pvoList);
+			pvoList = new ArrayList<>(pvoSet);
+			request.setAttribute("pvoListCount", pvoList.size());
+			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/mypage/mypage_delivery_detail.jsp");
 			

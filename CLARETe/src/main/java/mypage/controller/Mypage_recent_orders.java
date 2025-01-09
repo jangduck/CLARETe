@@ -1,8 +1,11 @@
 package mypage.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import minkyu.order.model.OrderDAO;
 import minkyu.order.model.OrderDAO_imple;
@@ -12,6 +15,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import member.domain.MemberVO;
 import order.domain.OrderVO;
+import minkyu.product.model.ProductDAO;
+import minkyu.product.model.ProductDAO_imple;
+import product.domain.ProductVO;
 
 import java.util.List;
 
@@ -23,7 +29,7 @@ public class Mypage_recent_orders extends AbstractController {
 
 	private OrderDAO odao = new OrderDAO_imple();
 	CartDAO cdao = new CartDAO_imple();
-	
+	private ProductVO pvo = new ProductVO();
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -55,6 +61,14 @@ public class Mypage_recent_orders extends AbstractController {
 
         request.setAttribute("orderList", orderList);
 	//	request.setAttribute("select", String.valueOf(currentYear));
+        
+        List<Integer> pnumList = (List<Integer>) session.getAttribute("pnumList");
+        ProductDAO pdao = new ProductDAO_imple();
+        List<ProductVO> pvoList = pdao.selectProduct(pnumList);
+        Set<ProductVO> pvoSet = new HashSet<>(pvoList);
+        pvoList = new ArrayList<>(pvoSet);
+        request.setAttribute("pvoListCount", pvoList.size());
+        
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/mypage/mypage_recent_orders.jsp");
 		

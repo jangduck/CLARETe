@@ -1,7 +1,10 @@
 package mypage.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import cart.domain.CartVO;
 import chaeeun.cart.model.CartDAO_imple;
@@ -13,10 +16,13 @@ import member.domain.MemberVO;
 import review.domain.ReviewVO;
 import youjin.review.model.ReviewDAO;
 import youjin.review.model.ReviewDAO_imple;
-
+import minkyu.product.model.ProductDAO;
+import minkyu.product.model.ProductDAO_imple;
+import product.domain.ProductVO;
 public class Mypage_myreview extends AbstractController {
 	private ReviewDAO rdao = new ReviewDAO_imple();
 	CartDAO_imple cdao = new CartDAO_imple();
+	private ProductVO pvo = new ProductVO();
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -44,6 +50,13 @@ public class Mypage_myreview extends AbstractController {
 				//System.out.println("cartList: " + cartList);
 				
 				request.setAttribute("cartList",cartList.size());
+				
+				List<Integer> pnumList = (List<Integer>) session.getAttribute("pnumList");
+				ProductDAO pdao = new ProductDAO_imple();
+				List<ProductVO> pvoList = pdao.selectProduct(pnumList);
+				Set<ProductVO> pvoSet = new HashSet<>(pvoList);
+				pvoList = new ArrayList<>(pvoSet);
+				request.setAttribute("pvoListCount", pvoList.size());
 				
 				super.setRedirect(false);
 				super.setViewPage("/WEB-INF/mypage/mypage_myreview.jsp");

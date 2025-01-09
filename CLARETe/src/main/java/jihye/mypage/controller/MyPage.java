@@ -86,7 +86,8 @@ public class MyPage extends AbstractController {
 
 			// === 민규 코드 마이페이지 메인 최근 본 상품 코드 === //
 			
-			
+			request.setAttribute("pvoListCount", pvoList.size());
+			//System.out.println("최근본상품 개수 : " + pvoList.size());
 		} 
 		
 		

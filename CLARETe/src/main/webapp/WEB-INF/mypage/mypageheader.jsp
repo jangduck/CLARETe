@@ -97,7 +97,7 @@
                                         최근 본 상품
                                     </div>
                                     <div>
-                                        <span>0</span><span>개</span>
+                                        <span>${requestScope.pvoListCount}</span><span>개</span>
                                     </div>
                                 </li>
                                 <li>

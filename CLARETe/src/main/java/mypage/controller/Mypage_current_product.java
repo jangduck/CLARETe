@@ -53,7 +53,8 @@ public class Mypage_current_product extends AbstractController {
 		//System.out.println("cartList: " + cartList);
 		
 		request.setAttribute("cartList",cartList.size());
-
+		request.setAttribute("pvoListCount", pvoList.size());
+		
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/mypage/mypage_current_product.jsp");
 		
