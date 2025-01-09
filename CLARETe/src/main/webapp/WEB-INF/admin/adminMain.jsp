@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%
     String ctxPath = request.getContextPath();
@@ -15,6 +17,60 @@
     <title>관리자 상품관리</title>
     <link rel="stylesheet" href="<%= ctxPath%>/css/admin/admin_header.css">
     <link rel="stylesheet" href="<%= ctxPath%>/css/admin/admin_section.css">
+<style type="text/css">
+        #container {
+            height: 400px;
+        }
+
+        .highcharts-figure,
+        .highcharts-data-table table {
+            min-width: 310px;
+            max-width: 800px;
+            margin: 1em auto;
+        }
+
+        #datatable {
+            font-family: Verdana, sans-serif;
+            border-collapse: collapse;
+            border: 1px solid #ebebeb;
+            margin: 10px auto;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        #datatable caption {
+            padding: 1em 0;
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        #datatable th {
+            font-weight: 600;
+            padding: 0.5em;
+        }
+
+        #datatable td,
+        #datatable th,
+        #datatable caption {
+            padding: 0.5em;
+        }
+
+        #datatable thead tr,
+        #datatable tr:nth-child(even) {
+            background: #f8f8f8;
+        }
+
+        #datatable tr:hover {
+            background: #f1f7ff;
+        }
+
+        .second-div {
+            margin: 20px;
+            text-align: center;
+        }
+
+</style>
 </head>
 <body>
 
@@ -101,11 +157,83 @@
         </div>
     </div>
     <div class="second-div">
-        <h1>관리자 메인으로 쓸 페이지입니다.!!!!!!!!!!!!</h1>
+    <script src="<%= ctxPath %>/Highcharts-10.3.1/code/highcharts.js"></script>
+    <script src="<%= ctxPath %>/Highcharts-10.3.1/code/modules/data.js"></script>
+    <script src="<%= ctxPath %>/Highcharts-10.3.1/code/modules/exporting.js"></script>
+    <script src="<%= ctxPath %>/Highcharts-10.3.1/code/modules/accessibility.js"></script>
+
+    <figure class="highcharts-figure">
+        <div class="second-div">
+            <div id="container"></div>
+        </div>
+        <p class="highcharts-description">
+            일별 방문자 수
+        </p>
+
+        <table id="datatable">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>남성</th>
+                    <th>여성</th>
+                    <th>전체</th>
+                </tr>
+            </thead>
+            <tbody>
+	            <c:if test="${not empty requestScope.log_list}">
+					<c:forEach var="lvo" items="${requestScope.log_list}"
+						varStatus="status">
+						<c:if test="${status.index < 7}">
+							<tr>
+								<th>${lvo.l_logindate}</th>
+								<td>${lvo.mLogin}</td>
+								<td>${lvo.feLogin}</td>
+								<td>${lvo.login_count}</td>
+							</tr>
+						</c:if>
+					</c:forEach>
+				</c:if>
+
+            </tbody>
+        </table>
+    </figure>
     </div>
 </section>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="<%= ctxPath %>/js/admin_header.js"></script>
+<script type="text/javascript">
+    Highcharts.chart('container', {
+        data: {
+            table: 'datatable'
+        },
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: '최근 일주일내'
+        },
+        subtitle: {
+            text:
+                'Source: <a href="https://www.ssb.no/en/statbank/table/04231" target="_blank">SSB</a>'
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            allowDecimals: false,
+            title: {
+                text: '방문자수'
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                    this.point.y + ' ' + this.point.name.toLowerCase();
+            }
+        }
+    });
+
+</script>
 </body>
 </html>
