@@ -147,7 +147,7 @@ public class CartDAO_imple implements CartDAO {
 			
 			String sql = " select d_num, fk_m_id, d_address, d_detail_address, d_postcode, d_extra, d_mobile, d_name "
 					   + " from tbl_delivery "
-					   + " where fk_m_id = ? "
+					   + " where fk_m_id = ? and d_status = 0"
 					   + " order by d_num ASC ";
 			
 			pstmt = conn.prepareStatement(sql);
