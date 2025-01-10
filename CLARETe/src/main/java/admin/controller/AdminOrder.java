@@ -34,7 +34,7 @@ public class AdminOrder extends AbstractController {
         	String searchType = request.getParameter("searchType");
 	        String searchWord = request.getParameter("searchWord");
 	        String currentShowPageNo = request.getParameter("currentShowPageNo");
-	        String sizePerPage = "5";  // 페이지에서 보여줄 상품 수 
+	        String sizePerPage = "10";  // 페이지에서 보여줄 상품 수 
 	        
 	        if (searchType == null ||
 	                (!"m_id".equals(searchType) &&

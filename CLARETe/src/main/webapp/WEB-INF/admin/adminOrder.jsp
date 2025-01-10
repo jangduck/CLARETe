@@ -34,11 +34,11 @@ div#pageBar>nav {
 	margin: auto;
 }
 
-button.btn.btn-primary {
-    width: 50px; /* 너비를 줄임 */
-    height: 25px; /* 높이를 줄임 */
-    font-size: 10px; /* 텍스트 크기 축소 */
-    padding: 3px; /* 내부 여백 축소 */
+ button.btn.btn-primary {
+	width: 60px; /* 너비를 줄임 */
+	height: 30px; /* 높이를 조정 */
+	font-size: 12px; /* 텍스트 크기 조정 */
+	padding: 3px; /* 내부 여백 조정 */
 }
 
 button.btn.btn-secondary {
@@ -46,8 +46,95 @@ button.btn.btn-secondary {
         height: 30px; /* 높이 조정 */
         font-size: 12px; /* 텍스트 크기 */
         padding: 5px; /* 내부 여백 */
+} 
+
+.aclass {
+	color: gray;
+	text-decoration: none;
 }
+
+
+
+.top-nav{
+margin-bottom: 10px;
+}
+
+.nav-title {
+	margin-bottom: 15px;
+}
+
+.blackbtn {  
+	background-color: white;
+	color:black;
+	border: 2px solid gray;
+}
+
+.blackbtn:hover {
+	background-color: white;
+	color:black;
+	border: 3px solid black;
+}
+
+.search {
+	background-color: gray;
+	border:black;
+}
+
+.search:hover {
+	background-color: gray;
+	border:black;
+}
+
+.home {
+	border: black 1px solid;
+	color:black;
+	text-decoration: none;
+}
+
+.first-div {
+	border: 1px solid black;
+}
+
+.end {
+	background-color: black;
+}
+
+.end:hover {
+	background-color: gray;
+}
+
+.adeco {
+	text-decoration: none;
+}
+
+
+.modalclose {
+	background-color: black;
+	color: white;
+	border: black 1px solid;
+}
+
+.modalclose:hover {
+	background-color: gray;
+	color: white;
+	text-decoration: none;
+	border: gray 1px solid;
+}
+
+
+th {
+    text-align: center; /* 텍스트를 가운데로 정렬 */
+    vertical-align: middle; /* 수직 가운데 정렬 */
+}
+
+table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
 </style>
+
+<body class="allbody" style="background-color: #F1F5F9 !important; width: 100% !important;">
 
 
 <script type="text/javascript">
@@ -80,43 +167,51 @@ $(document).ready(function() {
 
 <title>주문 회원 조회</title>
 
-<header class="side-header">
-    <nav class="header-nav">
-        <ul>
-			<li>
-				<div>회원관리</div>
-				<ul>
-					<li><a href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
-					<li><a href="<%= request.getContextPath() %>/admin/adminMemberStatus.cl">탈퇴회원조회</a></li>
-				</ul>
-			</li>
-			<li>
-				<div>상품관리</div>
+<header class="side-header" style="padding-top: 30px;">
+        <nav class="header-nav" >
+            <ul>
+                <li>
+                    <div>회원관리</div>
                     <ul>
-						<a href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a>
-						<li><a href="<%= request.getContextPath() %>/admin/adminProductInsertGo.cl">상품등록</li>
+                      <li><a class="aclass" href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
+                        <li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminMemberStatus.cl">탈퇴회원조회</a></li>
                     </ul>
-			</li>
-			<li>
-				<div>주문관리</div>
-				<ul>
-					<li><a
+                </li>
+                <li>
+                    <div class="nav-title">상품관리</div>
+                    <ul>
+						<li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a></li>
+						<li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminProductInsertGo.cl">상품등록</li>
+                    </ul>
+                </li>
+                <li style="margin-top:20px;">
+                    <div style="color:black; font-weight: bold;" class="nav-title" >주문관리</div>
+                    <ul>
+                        <li><a class="aclass"
 						href="<%=request.getContextPath()%>/admin/adminOrder.cl">주문회원조회</a></li>
-					<li><a
+                        <li><a class="aclass"
 						href="<%=request.getContextPath()%>/admin/adminDelivery.cl">주문배송관리</a></li>
-				</ul>
-			</li>
-		</ul>
-    </nav>
-</header>
-
+                    </ul>
+                </li>
+                
+                <li>
+                <div>문의관리</div>
+                <ul>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/faq/faq.cl">FAQ등록</a></li>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/admin/adminBoard.cl">Q&A답변</a></li>
+                </ul>
+            </li>
+            </ul>
+        </nav>
+    </header>
+    
 <nav class="top-nav">
     <div class="nav-logo">
         <div>LOGO</div>
     </div>
     <div class="nav-btn">
-        <a href="<%=request.getContextPath()%>/index.cl"><div class="home-btn">홈으로</div></a>
-        <a href="<%=request.getContextPath()%>/login/logout.cl"><div class="end-btn">종료</div></a>
+        <a class="adeco" href="<%=request.getContextPath()%>/index.cl"><div class="home-btn home">홈으로</div></a>
+        <a class="adeco" href="<%=request.getContextPath()%>/login/logout.cl"><div class="end-btn end">종료</div></a>
     </div>
 </nav>
 
@@ -130,8 +225,9 @@ $(document).ready(function() {
 						<option value="">검색대상</option>
 						<option value="m_name">회원이름</option>
 						<option value="m_id">회원아이디</option>
+<!-- 						<option value="p_name">상품명</option> -->
 					</select> <input type="text" name="searchWord" placeholder="검색어 입력" required />
-					<button type="submit" class="btn btn-secondary"
+					<button type="submit" class="btn btn-secondary search"
 						onclick="goSearch()">검색</button>
 				</form>
 
@@ -159,13 +255,13 @@ $(document).ready(function() {
 	<!-- 주문 회원 테이블 -->
 	<div class="second-div">
 		<h4
-			style="font-weight: bold; text-align: center; margin-top: 50px; padding: 2% 0;">주문회원조회</h4>
+			style="font-weight: bold; text-align: center; margin-top: 50px; padding: 2% 0;">주문 회원 조회</h4>
 		<div class="total-count" style="text-align: left; margin: 10px; font-weight: bold; font-size: 13pt;">
-				    총 주문 수: ${requestScope.totalMemberCount}개
+				    * 총 주문 수: ${totalMemberCount}개
 		</div>
 		<div class="table-container">
-			<table style="width: 100% !important;" class="table">
-				<thead class="thead-light">
+			<table style="width: 100% !important;" class="table table-hover table-bordered align-middle table-responsive" >
+				<thead class="table-dark align-center">
 					<tr>
 						<th>번호</th>
 						<th>주문번호</th>
@@ -209,7 +305,7 @@ $(document).ready(function() {
 								</c:choose></td>
 								<td>${order.orderdetailvo.od_count}</td>
 								<td>
-									<fmt:formatNumber value="${order.o_price}" pattern="#,###" />
+									<fmt:formatNumber value="${order.o_price}" pattern="#,###원" />
 								</td>
 								<td><c:choose>
 										<c:when test="${order.status == 0}">배송전</c:when>
@@ -219,7 +315,7 @@ $(document).ready(function() {
 									</c:choose></td>
 
 								<td><button style="width: 90px;" type="button"
-										class="btn btn-primary" data-toggle="modal"
+										class="btn btn-primary blackbtn" data-toggle="modal"
 										data-target="#exampleModal_centered" 
 										data-num="${order.o_num}"
 <%-- 										data-date="${order.o_date}" --%>
@@ -242,7 +338,7 @@ $(document).ready(function() {
 
 					<c:if test="${empty requestScope.orderList}">
 						<tr>
-							<td colspan="12" style="text-align: center; font-weight: bold;">
+							<td colspan="12" style="text-align: center; font-weight: bold; ">
 								주문 회원 정보가 없습니다.</td>
 						</tr>
 					</c:if>
@@ -286,7 +382,7 @@ $(document).ready(function() {
                 <p><strong>상품용량:</strong> <span id="modal-opml"></span></p>
                 <p><strong>제품수량:</strong> <span id="modal-odcount"></span></p>
                 <p><strong>주문일자:</strong> <span id="modal-date"></span></p>
-                <p><strong>주문금액:</strong> <span id="modal-price"></span></p> 
+                <p><strong>주문금액:</strong> <span id="modal-price"></span>원</p> 
                 <p><strong>옵션번호:</strong> <span id="modal-opnum"></span></p> 
                 <p><strong>배송지번호:</strong> <span id="modal-dnum"></span></p> 
 <!--                 <p><strong>받는사람이름:</strong> <span id="modal-dname"></span></p>  -->
@@ -294,7 +390,7 @@ $(document).ready(function() {
             
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-danger modalclose" data-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>

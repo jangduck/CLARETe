@@ -18,100 +18,121 @@
     <link rel="stylesheet" href="<%= ctxPath%>/css/admin/admin_header.css">
     <link rel="stylesheet" href="<%= ctxPath%>/css/admin/admin_section.css">
 <style type="text/css">
-        #container {
-            height: 400px;
-        }
+#container {
+	height: 400px;
+}
 
-        .highcharts-figure,
-        .highcharts-data-table table {
-            min-width: 310px;
-            max-width: 800px;
-            margin: 1em auto;
-        }
+.highcharts-figure, .highcharts-data-table table {
+	min-width: 310px;
+	max-width: 800px;
+	margin: 1em auto;
+}
 
-        #datatable {
-            font-family: Verdana, sans-serif;
-            border-collapse: collapse;
-            border: 1px solid #ebebeb;
-            margin: 10px auto;
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-        }
+#datatable {
+	font-family: Verdana, sans-serif;
+	border-collapse: collapse;
+	border: 1px solid #ebebeb;
+	margin: 10px auto;
+	text-align: center;
+	width: 100%;
+	max-width: 500px;
+}
 
-        #datatable caption {
-            padding: 1em 0;
-            font-size: 1.2em;
-            color: #555;
-        }
+#datatable caption {
+	padding: 1em 0;
+	font-size: 1.2em;
+	color: #555;
+}
 
-        #datatable th {
-            font-weight: 600;
-            padding: 0.5em;
-        }
+#datatable th {
+	font-weight: 600;
+	padding: 0.5em;
+}
 
-        #datatable td,
-        #datatable th,
-        #datatable caption {
-            padding: 0.5em;
-        }
+#datatable td, #datatable th, #datatable caption {
+	padding: 0.5em;
+}
 
-        #datatable thead tr,
-        #datatable tr:nth-child(even) {
-            background: #f8f8f8;
-        }
+#datatable thead tr, #datatable tr:nth-child(even) {
+	background: #f8f8f8;
+}
 
-        #datatable tr:hover {
-            background: #f1f7ff;
-        }
+#datatable tr:hover {
+	background: #f1f7ff;
+}
 
-        .second-div {
-            margin: 20px;
-            text-align: center;
-        }
+.second-div {
+	margin: 20px;
+	text-align: center;
+}
+
+.home {
+	border: black 1px solid;
+	color: black;
+	text-decoration: none;
+}
+
+.end {
+	background-color: black;
+}
+
+.end:hover {
+	background-color: gray;
+}
 
 </style>
+
+
+
 </head>
 <body class="allbody" style="background-color: #F1F5F9 !important; width: 100% !important;">
 
-<header class="side-header">
-    <nav class="header-nav">
-        <ul>
-            <li>
-                <div>회원관리</div>
+ <header class="side-header" style="padding-top: 30px;">
+        <nav class="header-nav" >
+            <ul>
+                <li>
+                    <div>회원관리</div>
+                    <ul>
+                      <li><a class="aclass" href="<%=request.getContextPath()%>/admin/admin.cl">회원조회</a></li>
+                        <li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminMemberStatus.cl">탈퇴회원조회</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="nav-title">상품관리</div>
+                    <ul>
+						<a class="aclass" href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a>
+						<li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminProductInsertGo.cl">상품등록</li>
+                    </ul>
+                </li>
+                <li style="margin-top:20px;">
+                    <div style="color:black; font-weight: bold;" class="nav-title" >주문관리</div>
+                    <ul>
+                        <li><a class="aclass"
+						href="<%=request.getContextPath()%>/admin/adminOrder.cl">주문회원조회</a></li>
+                        <li><a class="aclass"
+						href="<%=request.getContextPath()%>/admin/adminDelivery.cl">주문배송관리</a></li>
+                    </ul>
+                </li>
+                <li>
+                <div>문의관리</div>
                 <ul>
-                    <li><a href="<%= ctxPath %>/admin/admin.cl">회원조회</a></li>
-                    <li><a href="<%= ctxPath %>/admin/adminRemove.cl">탈퇴회원조회</a></li>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/faq/faq.cl">FAQ등록</a></li>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/admin/adminBoard.cl">Q&A답변</a></li>
                 </ul>
             </li>
-            <li>
-                <div>상품관리</div>
-                <ul>
-                    <li><a href="<%= ctxPath %>/admin/adminProduct.cl">상품조회</a></li>
-                    <li><a href="<%= ctxPath %>/admin/adminCategory.cl">상품 카테고리 별 조회</a></li>
-                    <li><a href="<%= ctxPath %>/admin/adminAddProduct.cl">상품등록</a></li>
-                    <li><a href="<%= ctxPath %>/admin/adminStock.cl">상품 재고 관리</a></li>
-                    <li><a href="<%= ctxPath %>/admin/adminDeleteProduct.cl">상품 삭제</a></li>
-                </ul>
             </li>
-            <li>
-                <div>주문관리</div>
-                <ul>
-                    <li><a href="<%= ctxPath %>/admin/adminOrder.cl">주문회원조회</a></li>
-                    <li><a href="<%= ctxPath %>/admin/adminDelivery.cl">주문배송관리</a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-</header>
+                
+            </ul>
+        </nav>
+    </header>
 
 <nav class="top-nav">
     <div class="nav-logo">
         <div>LOGO</div>
     </div>
     <div class="nav-btn">
-        <a href="<%=request.getContextPath()%>/index.cl"><div class="home-btn">홈으로</div></a>
-        <a href="<%=request.getContextPath()%>/login/logout.cl"><div class="end-btn">종료</div></a>
+        <a href="<%=request.getContextPath()%>/index.cl"><div class="home-btn home">홈으로</div></a>
+        <a href="<%=request.getContextPath()%>/login/logout.cl"><div class="end-btn end">종료</div></a>
     </div>
 </nav>
 

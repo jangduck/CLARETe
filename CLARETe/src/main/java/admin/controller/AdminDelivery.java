@@ -55,7 +55,7 @@ public class AdminDelivery extends AbstractController {
 			         (!"0".equals(sizePerPage) &&
 			          !"1".equals(sizePerPage) &&
 			          !"2".equals(sizePerPage) ) ) {
-			           sizePerPage = "5";
+			           sizePerPage = "10";
 			}
 
 			if (currentShowPageNo == null) {
@@ -94,7 +94,7 @@ public class AdminDelivery extends AbstractController {
 
 			String pageBar = "";
 
-			int blockSize = 3; ///////////// 데이터 많아지면 여기서 바꾸기!!!
+			int blockSize = 5; ///////////// 데이터 많아지면 여기서 바꾸기!!!
 			// blockSize 는 블럭(토막)당 보여지는 페이지 번호의 개수이다.
 
 			int loop = 1;
