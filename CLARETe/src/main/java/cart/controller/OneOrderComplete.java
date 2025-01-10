@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import member.domain.MemberVO;
 import option.domain.OptionVO;
 import order.domain.OrderVO;
+import orderdetail.domain.orderdetailVO;
 import product.domain.*;
 
 public class OneOrderComplete extends AbstractController {
@@ -40,7 +41,8 @@ public class OneOrderComplete extends AbstractController {
 		request.setAttribute("ovo", one_ovo);
 
 		// 주문상세 select
-		//orderdetailVO odvo = odao.selectOrdrDetail(pnum);
+		orderdetailVO one_odvo = odao.selectOrdrDetail(pnum);
+		request.setAttribute("odvo", one_odvo);
 		
 		// 상품 select
 		ProductVO one_pvo = pdao.selectProduct(p_num);

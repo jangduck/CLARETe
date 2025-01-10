@@ -82,7 +82,7 @@ public class Login extends AbstractController {
 					 // 비밀번호를 변경한지 3개월 이상된 경우
 					
 					String message = "비밀번호를 변경하신지 3개월이 지났습니다.\\n암호를 변경하는 페이지로 이동합니다!!"; 
-					String loc = request.getContextPath()+"/index.up";
+					String loc = request.getContextPath()+"/index.cl";
 					// 원래는 위와같이 index.up 이 아니라 암호를 변경하는 페이지로 URL을 잡아주어야 한다.!!
 					
 					request.setAttribute("message", message);
@@ -95,7 +95,7 @@ public class Login extends AbstractController {
 				} else { // 비밀번호를 변경한지 3개월 미만인 경우
 				
 					super.setRedirect(true);
-					super.setViewPage(request.getContextPath()+"/index.up");
+					super.setViewPage(request.getContextPath()+"/index.cl");
 				}
 				
 				

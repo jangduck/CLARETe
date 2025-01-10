@@ -161,7 +161,8 @@ $(document).ready(function() {
 		,showOtherMonths: true  
 		,showMonthAfterYear:true 
 		,changeYear: true        
-		,changeMonth: true                     
+		,changeMonth: true     
+		,yearRange: "1900:2100"               
 		,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12']
 		,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] 
 		,dayNamesMin: ['일','월','화','수','목','금','토'] 
@@ -218,54 +219,46 @@ $(document).ready(function() {
 
 // === "우편번호 찾기" 버튼 클릭 이벤트 === //
 function searchPostcode() {
-      
-   new daum.Postcode({
-      oncomplete: function(data) {
-         // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-    
-            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-            let addr = ''; // 주소 변수
-            let extraAddr = ''; // 참고항목 변수
-    
-            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                addr = data.roadAddress;
-            } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                addr = data.jibunAddress;
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 주소 변수
+            let addr = ''; 
+            let extraAddr = ''; // 참고항목 변수 초기화
+
+            // 사용자가 선택한 주소 타입에 따라 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { 
+                addr = data.roadAddress; // 도로명 주소 선택 시
+            } else { 
+                addr = data.jibunAddress; // 지번 주소 선택 시
             }
-    
-            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+
+            // 참고항목 로직 (도로명 주소 선택 시만)
             if(data.userSelectedType === 'R'){
-                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                // 법정동명이 존재하고, 동/로/가로 끝나는 경우 추가
+                if(data.bname && /[동|로|가]$/g.test(data.bname)){
                     extraAddr += data.bname;
                 }
-                // 건물명이 있고, 공동주택일 경우 추가한다.
-                if(data.buildingName !== '' && data.apartment === 'Y'){
-                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                // 건물명이 존재하고, 공동주택이면 추가
+                if(data.buildingName && data.apartment === 'Y'){
+                    extraAddr += (extraAddr ? ', ' + data.buildingName : data.buildingName);
                 }
-                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                if(extraAddr !== ''){
-                    extraAddr = ' (' + extraAddr + ')';
+                // 괄호로 묶기
+                if(extraAddr){
+                    extraAddr = ` (${extraAddr})`;
                 }
-                // 조합된 참고항목을 해당 필드에 넣는다.
-                document.getElementById("extraAddress").value = extraAddr;
-            
-            } else {
-                document.getElementById("extraAddress").value = '';
             }
-    
-            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+
+            // 우편번호 및 주소 입력
             document.getElementById('postcode').value = data.zonecode;
-            document.getElementById("address").value = addr;
-            // 커서를 상세주소 필드로 이동한다.
+            document.getElementById('address').value = addr;
+            document.getElementById("extraAddress").value = extraAddr; // 참고항목 업데이트
+
+            // 커서를 상세주소 필드로 이동
             document.getElementById("detailAddress").focus();
-            
         }
     }).open();            
-} // end of function searchPostcode() {}
+}
+
 
 
 // === "아이디중복확인" 버튼 클릭 이벤트 === //
