@@ -137,7 +137,7 @@ $(document).ready(function(){
 		
 			$(".delivery_Insert :input").prop("disabled", true);
 			$(".toggleColse").prop("disabled", false);
-			$("button#postCodeButton").prop("disabled", false);
+			
             $(e.target).prop("disabled", false);
             $(e.target).val("").focus();
 
