@@ -36,25 +36,51 @@
                         <li class="hamburger"></li>
                     </ul>
                 </div>
-                <a href="<%= ctxPath%>/">
+                <a href="<%= ctxPath%>/">	
                    <div class="header-logo"></div>
                 </a>
                 <div>
-                    <div class="header-icon-wrapper">
-                        <ul>
-                           <c:if test="${not empty sessionScope.loginuser}">
-                              <li><a href="<%= ctxPath%>/login/logout.cl">Logout</a></li>
-                              <li><a href="<%= ctxPath%>/mypage/mypage.cl">My Page</a></li>
-                           </c:if>
-                           
-                           <c:if test="${empty sessionScope.loginuser}">
-                              <li><a href="<%= ctxPath%>/login/loginView.cl">Login</a></li>
-                               <li><a href="<%= ctxPath%>/member/memberRegister.cl">Sign Up</a></li>
-                               <li><a href="<%= ctxPath%>/login/loginView.cl">My Page</a></li>
-                           </c:if>
-                            
-                        </ul>
-                    </div>
+
+
+<div class="header-icon-wrapper">
+    <ul>
+        <c:choose>
+            <c:when test="${not empty sessionScope.loginuser && sessionScope.loginuser.getM_id() == 'admin'}">
+                <li><a href="<%= ctxPath %>/login/logout.cl">Logout</a></li>
+                <li style="position: relative;">
+                	<div id="showAdminGo" style="cursor: pointer;">admin</div> 
+                	<div id="showAdmin" style="display:none; box-shadow: 0.1px 0.1px 0.1px gray; border-radius:8px; overflow:hidden; cursor: pointer; position: absolute; top: 3rem; background-color: #000; width: 300%; left: -100%;">
+                		<ul style="text-align: center;">
+                			<li style="box-sizing: border-box; margin:15px;">
+                				<a style="color:#fff !important;" href="<%= ctxPath %>/admin/admin.cl">회원관리</a>
+                			</li>
+                			<li style="box-sizing: border-box; margin:15px;">
+                				<a style="color:#fff;" href="<%= ctxPath %>/admin/adminProduct.cl">상품관리</a>
+                			</li>
+                			<li style="box-sizing: border-box; margin:15px;">
+                				<a style="color:#fff;" href="<%= ctxPath %>/admin/adminMain.cl">관리자메인</a>
+                			</li>
+                		</ul>
+                	</div>
+                </li>
+            </c:when>
+            
+            <c:when test="${not empty sessionScope.loginuser}">
+                <li><a href="<%= ctxPath %>/login/logout.cl">Logout</a></li>
+                <li><a href="<%= ctxPath %>/mypage/mypage.cl">My Page</a></li>
+            </c:when>
+            
+            <c:otherwise>
+                <li><a href="<%= ctxPath %>/login/loginView.cl">Login</a></li>
+                <li><a href="<%= ctxPath %>/member/memberRegister.cl">Sign Up</a></li>
+                <li><a href="<%= ctxPath %>/login/loginView.cl">My Page</a></li>
+            </c:otherwise>
+        </c:choose>
+    </ul>
+</div>
+
+
+
                 </div>
             </header>
         </div>
@@ -133,7 +159,9 @@
 
         // === --- 스크롤링 이벤트 끝 --- === //
 
-
+		$('#showAdminGo').click(function(){
+			$('#showAdmin').slideToggle();
+		})
 
 
     </script>

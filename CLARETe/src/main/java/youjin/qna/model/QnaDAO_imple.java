@@ -456,6 +456,30 @@ public class QnaDAO_imple implements QnaDAO {
 		
 		return qnaList;
 	}
+
+	// 자신 문의 삭제
+	@Override
+	public int qnaDelete(String q_num) throws SQLException {
+		int result;
+		
+		try {
+	         conn = ds.getConnection();
+
+	         String sql = " delete from tbl_qna "
+	         			+ " where q_num = ? ";
+
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, q_num);
+
+	         result = pstmt.executeUpdate();
+
+	      } finally {
+	         close();
+	      }
+		
+		return result;
+	}
 	
 	
 }	

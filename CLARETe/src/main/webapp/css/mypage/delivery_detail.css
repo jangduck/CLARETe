@@ -9,15 +9,14 @@
 
 .delivery-content-box{
 	border : solid 1px black;
-	width: 642px;
-	height: 300px;
-	margin-right: 2%;
-	margin-bottom: 2%;
+	width: 100%;
+	min-height: calc(15.6250vw + 1.0417vw);
 	box-sizing: border-box;
+	font-size: clamp(16px, 0.8333vw, 200px);
 }
 
 hr.divider {
-    margin: 20px 0;
+    margin: clamp(18px, 1.0417vw, 200px) 0;
     border: none;
     border-top: 2px solid black;
 }
@@ -28,15 +27,15 @@ hr.divider {
 }
 
 .delivery-info>li{
-	margin-bottom: 10px;
-	font-size: 14pt;
+	margin-bottom: clamp(10px, 0.6250vw, 200px);
+	font-size: clamp(16px, 0.8333vw, 200px);
 }
 
 .delivery-info>li span {
 	color:#949494;
 	/* border : solid 1px aqua */;
 	display: inline-block;
-	width: 160px;
+	width: clamp(160px, 8.3333vw, 2000px);
 	}
 	
 .deletebutton{
@@ -48,8 +47,8 @@ hr.divider {
 	border : #ffff;
 	background-color: #ffff;
 	color: black;
-	font-size: 14pt;
-	margin-bottom: 10px;
+	font-size: clamp(12px, 0.7292vw, 200px);
+	margin-bottom: clamp(10px, 0.6250vw, 200px);
 }
 
 .delivery_info_delete:hover{
@@ -175,5 +174,18 @@ input#extra, input#detailaddress{
 	color : red;
 }
 
+#deliveryDeletFrm{
+	display:grid; 
+	grid-template-columns: 1fr 1fr; 
+	gap: calc(1.5vw);
+}
 
 
+
+@media (max-width: 768px) {
+
+    #deliveryDeletFrm{
+        grid-template-columns: 1fr;
+    }
+
+}

@@ -45,7 +45,7 @@
         <div class="mypage_contants_bottom">
         
 	    <div class="content-flex" >
-	    	<form id="deliveryDeletFrm" name="deliveryDeletFrm" action="deleteDelivery.cl" method="post" style="display:flex;">
+	    	<form id="deliveryDeletFrm" name="deliveryDeletFrm" action="deleteDelivery.cl" method="post" >
       			<c:forEach var="dvo" items="${requestScope.deliveryList}">
 	        		<div class="delivery-content-box">
 		        		<ul class="delivery-info">
@@ -65,8 +65,8 @@
 	          </form>
 			</div>
  
-	         <div class="delivery_info_insert" style="text-align: center; margin-top:10%;">
-	          <button type="button" id="toggleButton" style="display:inline-block; background-color:#ffff; border:#ffff; font-size:30px;">
+	         <div class="delivery_info_insert" style="text-align: center; margin-top:8%;">
+	          <button type="button" id="toggleButton" style="display:inline-block; background-color:#ffff; border:#ffff; font-size:24px;">
 	          배송지 추가하기
 	          </button>
 	        </div>
