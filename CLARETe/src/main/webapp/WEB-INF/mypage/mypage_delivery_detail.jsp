@@ -107,7 +107,7 @@
 	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
 		             			<label id="infotitle">받는 사람 우편번호<span class="asterisk">*</span></label><br>
 		             			<input type="text" name="d_postcode" id="postcode" class="d_deliveryInfo d_postcode" value="" style="width:215px;" placeholder="우편번호를 입력해주세요."></input>
-		             			<input type="button" name="postCodeButton" id="postCodeButton"  class="PostCodeFind " value="우편번호검색"/>
+		             			<input type="button" name="postCodeButton" id="postCodeButton"  class="PostCodeFind" value="우편번호검색"/>
 		             			<span class = "error"> 5자리의 숫자로 적어주세요!</span>
 	             			</li>
 	             			
