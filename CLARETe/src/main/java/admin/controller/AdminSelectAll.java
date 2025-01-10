@@ -34,7 +34,7 @@ public class AdminSelectAll extends AbstractController {
 //        String sizePerPage = request.getParameter("sizePerPage"); 
         String currentShowPageNo = request.getParameter("currentShowPageNo");
         
-        String sizePerPage = "5";  // 페이지에서 보여줄 회원 수 
+        String sizePerPage = "10";  // 페이지에서 보여줄 회원 수 
 /////////////데이터 많아지면 여기서 바꾸기!!!
 
         // 기본값 설정

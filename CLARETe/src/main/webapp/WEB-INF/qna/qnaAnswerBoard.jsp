@@ -37,11 +37,11 @@
 
 	<%-- 해더 include 받아옴 --%>
 	<%-- <jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"> --%>
-    <jsp:include page="../header.jsp"></jsp:include>
+    <%-- <jsp:include page="../header.jsp"></jsp:include> --%>
 	<%-- 해더 include 받아옴 --%>
 	
 	<%-- 마이페이지해더 include 받아옴 --%>
-    <jsp:include page=".././mypage/mypageheader.jsp"></jsp:include>    
+   <%--  <jsp:include page=".././mypage/mypageheader.jsp"></jsp:include>     --%>
 	<%-- 마이페이지해더 include 받아옴 --%>
 	<script type="text/javascript" src="<%= ctxPath %>/js/mypage/insertDelivery.js"></script> 
 	 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> 
@@ -79,7 +79,42 @@ $(document).ready(function(){
 });// end of $(document).ready(function(){})------------
 </script>
 
-
+    <header class="side-header" style="padding-top: 30px;">
+        <nav class="header-nav" >
+            <ul>
+                <li>
+                    <div>회원관리</div>
+                    <ul>
+                      <li><a class="aclass" href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
+                        <li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminMemberStatus.cl">탈퇴회원조회</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="nav-title">상품관리</div>
+                    <ul>
+						<li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a></li>
+						<li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminProductInsertGo.cl"></a>상품등록</li>
+                    </ul>
+                </li>
+                <li style="margin-top:20px;">
+                    <div style="color:black; font-weight: bold;" class="nav-title" >주문관리</div>
+                    <ul>
+                        <li><a class="aclass"
+						href="<%=request.getContextPath()%>/admin/adminOrder.cl">주문회원조회</a></li>
+                        <li><a class="aclass"
+						href="<%=request.getContextPath()%>/admin/adminDelivery.cl">주문배송관리</a></li>
+                    </ul>
+                </li>
+                <li>
+                <div>문의관리</div>
+                <ul>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/faq/faq.cl">FAQ등록</a></li>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/admin/adminBoard.cl">Q&A답변</a></li>
+                </ul>
+            </li>
+            </ul>
+        </nav>
+    </header>
 
 
 <form name="qnaAnswerOneDetail_frm">

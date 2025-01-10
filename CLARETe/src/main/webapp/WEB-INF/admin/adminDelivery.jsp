@@ -19,6 +19,7 @@
 
 
 <style type="text/css">
+
 div#pageBar {
 	border: solid 0px red;
 	width: 80%;
@@ -30,14 +31,127 @@ div#pageBar>nav {
 	margin: auto;
 }
 
-button.btn.btn-primary {
+ button.btn.btn-primary {
 	width: 60px; /* 너비를 줄임 */
 	height: 30px; /* 높이를 조정 */
 	font-size: 12px; /* 텍스트 크기 조정 */
 	padding: 3px; /* 내부 여백 조정 */
 }
+
+button.btn.btn-secondary {
+        width: 60px; /* 너비 조정 */
+        height: 30px; /* 높이 조정 */
+        font-size: 12px; /* 텍스트 크기 */
+        padding: 5px; /* 내부 여백 */
+} 
+
+.aclass {
+	color: gray;
+	text-decoration: none;
+}
+
+
+
+.top-nav{
+margin-bottom: 10px;
+}
+
+.nav-title {
+	margin-bottom: 15px;
+}
+
+.blackbtn {  
+	background-color: white;
+	color:black;
+	border: 2px solid gray;
+}
+
+.blackbtn:hover {
+	background-color: white;
+	color:black;
+	border: 3px solid black;
+	
+}
+
+.search {
+	background-color: gray;
+	border:black;
+}
+
+.search:hover {
+	background-color: gray;
+	border:black;
+}
+
+
+.home {
+	border: black 1px solid;
+	color:black;
+	text-decoration: none;
+}
+
+.first-div {
+	border: 1px solid black;
+}
+
+.end {
+	background-color: black;
+}
+
+.end:hover {
+	background-color: gray;
+}
+
+.adeco {
+	text-decoration: none;
+}
+
+.modalclose {
+	background-color: black;
+	color: white;
+	border: black 1px solid;
+}
+
+.modalclose:hover {
+	background-color: white;
+	color: black;
+	text-decoration: none;
+	border: gray 1px solid;
+}
+
+.modalupdate {
+	background-color: black;
+	border: white 1px solid;
+	color:white;
+	text-decoration: none;
+}
+
+.modalupdate:hover {
+	background-color: gray;
+}
+
+
+.modalclose {
+	background-color: white;
+	color:black;
+	border: 1px solid black;
+}
+
+
+th {
+    text-align: center; /* 텍스트를 가운데로 정렬 */
+    vertical-align: middle; /* 수직 가운데 정렬 */
+}
+
+table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+
 </style>
 
+<body class="allbody" style="background-color: #F1F5F9 !important; width: 100% !important;">
 
 <script type="text/javascript">
 
@@ -70,43 +184,51 @@ $(document).ready(function() {
 
 <title>주문배송관리</title>
 
-<header class="side-header">
-    <nav class="header-nav">
-        <ul>
-			<li>
-				<div>회원관리</div>
-				<ul>
-					<li><a href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
-					<li><a href="<%= request.getContextPath() %>/admin/adminMemberStatus.cl">탈퇴회원조회</a></li>
-				</ul>
-			</li>
-			<li>
-				<div>상품관리</div>
-				<ul>
-					<a href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a>
-					<li><a href="<%= request.getContextPath() %>/admin/adminProductInsertGo.cl">상품등록</li>
-				</ul>
-			</li>
-			<li>
-				<div>주문관리</div>
-				<ul>
-					<li><a
+	<header class="side-header" style="padding-top: 30px;">
+        <nav class="header-nav" >
+            <ul>
+                <li>
+                    <div>회원관리</div>
+                    <ul>
+                      <li><a class="aclass" href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
+                        <li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminMemberStatus.cl">탈퇴회원조회</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="nav-title">상품관리</div>
+                    <ul>
+						<li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a></li>
+						<li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminProductInsertGo.cl">상품등록</li>
+                    </ul>
+                </li>
+                <li style="margin-top:20px;">
+                    <div style="color:black; font-weight: bold;" class="nav-title" >주문관리</div>
+                    <ul>
+                        <li><a class="aclass"
 						href="<%=request.getContextPath()%>/admin/adminOrder.cl">주문회원조회</a></li>
-					<li><a
+                        <li><a class="aclass"
 						href="<%=request.getContextPath()%>/admin/adminDelivery.cl">주문배송관리</a></li>
-				</ul>
-			</li>
-		</ul>
-    </nav>
-</header>
+                    </ul>
+                </li>
+                <li>
+                <div>문의관리</div>
+                <ul>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/faq/faq.cl">FAQ등록</a></li>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/admin/adminBoard.cl">Q&A답변</a></li>
+                </ul>
+            </li>
+                
+            </ul>
+        </nav>
+    </header>
 
 <nav class="top-nav">
     <div class="nav-logo">
         <div>LOGO</div>
     </div>
     <div class="nav-btn">
-        <a href="<%=request.getContextPath()%>/index.cl"><div class="home-btn">홈으로</div></a>
-        <a href="<%=request.getContextPath()%>/login/logout.cl"><div class="end-btn">종료</div></a>
+        <a class="adeco" href="<%=request.getContextPath()%>/index.cl"><div class="home-btn home" >홈으로</div></a>
+        <a class="adeco" href="<%=request.getContextPath()%>/login/logout.cl"><div class="end-btn end ">종료</div></a>
     </div>
 </nav>
 
@@ -121,7 +243,7 @@ $(document).ready(function() {
 						<option value="m_id">회원아이디</option>
 						<option value="d_name">받는사람 이름</option>
 					</select> <input type="text" name="searchWord" placeholder="검색어 입력" required />
-					<button type="submit" class="btn btn-secondary" onclick="goSearch()">검색</button>
+					<button type="submit" class="btn btn-secondary search" onclick="goSearch()">검색</button>
 				
    				   <span style="font-size: 12pt; font-weight: bold;">배송상태&nbsp;-&nbsp;</span>
 					<select name="status" onchange="this.form.submit()">
@@ -156,13 +278,13 @@ $(document).ready(function() {
 	<!-- 주문배송 테이블 -->
 	<div class="second-div">
 		<h4
-			style="font-weight: bold; text-align: center; margin-top: 50px; padding: 2% 0;">주문배송관리</h4>
+			style="font-weight: bold; text-align: center; margin-top: 50px; padding: 2% 0;">주문 배송 관리</h4>
 			<div class="total-count" style="text-align: left; margin: 10px; font-weight: bold; font-size: 13pt;">
-				    총 주문배송 수: ${requestScope.totalDeliveryCount}명
+				    * 총 주문배송 수: ${requestScope.totalDeliveryCount}명
 			</div>
 		<div class="table-container">
-			<table style="width: 100% !important;" class="table">
-				<thead class="thead-light">
+			<table style="width: 100% !important;" class="table table-hover table-bordered align-middle table-responsive" >
+				<thead class="table-dark align-center">
 					<tr>
 						<th>번호</th>
 						<th>주문번호</th>
@@ -217,7 +339,7 @@ $(document).ready(function() {
 
 								<td><button 
 								    type="button"
-								    class="btn btn-primary"
+								    class="btn btn-primary blackbtn"
 								    data-toggle="modal"
 								    data-target="#exampleModal_centered"
 								    data-num="${delivery.d_num}"
@@ -300,9 +422,8 @@ $(document).ready(function() {
             
             <!-- Modal footer -->
             <div class="modal-footer">
-            	<button id="update-status-btn" class="btn btn-primary">수정</button>
-            	<!-- <input type="text" name="o_num" value=""/>  -->
-                <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+            	<button id="update-status-btn" class="btn btn-primary modalupdate">수정</button>
+                <button type="button" class="btn btn-danger modalclose" data-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>
