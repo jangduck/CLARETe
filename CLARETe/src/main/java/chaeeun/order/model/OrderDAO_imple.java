@@ -466,6 +466,35 @@ public class OrderDAO_imple implements OrderDAO {
 		return pnum;
 	}
 
+	// 주문상세 뿌리기용
+	@Override
+	public orderdetailVO selectOrdrDetail(String pnum) throws SQLException {
+
+		orderdetailVO odvo = new orderdetailVO();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select fk_o_num, od_count from tbl_orderdetail where fk_o_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(pnum));
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				odvo.setFk_o_num(rs.getInt("fk_o_num"));
+				odvo.setOd_count(rs.getInt("od_count"));
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return odvo;
+	
+	}
 
 
 }

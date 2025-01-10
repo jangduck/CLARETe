@@ -437,12 +437,13 @@ public class AdminDAO_imple implements AdminDAO {
     	try {
     		 conn = ds.getConnection();
     		
-    		    String sql = " SELECT RNO, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender, p_image "
-	    		    	   + "     FROM ( "
-	    		    	   + "     SELECT rownum AS RNO, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender, p_image "
-	    		    	   + "    	   FROM ( "
-	    		    	   + "    	   SELECT p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender, p_image "
-	    		    	   + "    	   FROM tbl_product ";
+    		    String sql = " select rno, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender, p_image "
+    		    		+ " from ( "
+    		    		+ " select rownum as rno, p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender, p_image, is_delete "
+    		    		+ " from ( "
+    		    		+ " select p_num, p_season, p_name, p_ex, p_price, p_inven, p_register, p_release, p_sale, p_gender, p_image, is_delete "
+    		    		+ " from tbl_product "
+    		    		+ " where is_delete = 0 ";
     		
     		 String searchType = paraMap.get("searchType");
     	     String searchWord = paraMap.get("searchWord");
@@ -452,7 +453,7 @@ public class AdminDAO_imple implements AdminDAO {
     	     
     	     // 검색어가 있을 때만 WHERE 절 추가
     	        if (!searchType.isBlank() && !searchWord.isBlank()) {
-    	            sql += " WHERE is_delete = 0 and " + searchType + " like '%'|| ? ||'%' ";
+    	            sql += " and " + searchType + " like '%'|| ? ||'%' ";
     	        }
 //    	        sql += " WHERE RNO BETWEEN ? AND ?"; 
     	        
@@ -501,7 +502,6 @@ public class AdminDAO_imple implements AdminDAO {
     	            product.setP_image(rs.getString("p_image"));
     	            
     	            productList.add(product);
-    	            
     	        }
     	    } 
     	    catch (SQLException e) {
@@ -528,18 +528,15 @@ public class AdminDAO_imple implements AdminDAO {
     		 conn = ds.getConnection();
     		// RNO SELECT 문으로 바꾸기 
     		 String sql = " SELECT RNO, o_num, o_date, fk_m_id, m_name, m_email, m_mobile, p_name, od_count, o_price, status, fk_d_num, op_ml, fk_op_num "
-    	             + "    FROM (  "
-    	             + "        SELECT rownum AS RNO, o_num, o_date, fk_m_id, m_name, m_email, m_mobile, p_name, od_count, o_price, status, fk_d_num, op_ml, fk_op_num "
-    	             + "        FROM (  "
-    	             + "            SELECT o_num, o_date, m_name, m_email, m_mobile, fk_m_id, p_name, od_count, o_price, status, fk_d_num, op_ml, fk_op_num "
-    	             + "            FROM tbl_member m JOIN tbl_order o "
-    	             + "            ON m.m_id = o.fk_m_id "
-    	             + "            JOIN tbl_orderdetail od "
-    	             + "            ON od.fk_o_num = o.o_num "
-    	             + "            JOIN tbl_product p "
-    	             + "            ON od.fk_p_num = p.p_num "
-    	             + "            JOIN tbl_option op "
-    	             + "            ON od.fk_op_num = op.op_num ";
+    		           + "    FROM (  "
+    		           + "        SELECT rownum AS RNO, o_num, o_date, fk_m_id, m_name, m_email, m_mobile, p_name, od_count, o_price, status, fk_d_num, op_ml, fk_op_num "
+    		           + "        FROM (  "
+    		           + "            SELECT o_num, o_date, m.m_name, m.m_email, m.m_mobile, fk_m_id, p_name, od_count, o_price, status, fk_d_num, op_ml, fk_op_num "
+    		           + "            FROM tbl_member m "
+    		           + "            JOIN tbl_order o ON m.m_id = o.fk_m_id "
+    		           + "            JOIN tbl_orderdetail od ON od.fk_o_num = o.o_num "
+    		           + "            JOIN tbl_product p ON od.fk_p_num = p.p_num "
+    		           + "            JOIN tbl_option op ON od.fk_op_num = op.op_num ";
 
 	    	String searchType = paraMap.get("searchType");
 	    	String searchWord = paraMap.get("searchWord");
@@ -863,7 +860,7 @@ public class AdminDAO_imple implements AdminDAO {
 	   rs = pstmt.executeQuery();
 
        if (rs.next()) {
-           totalMemberCount = rs.getInt(1); // Fetch the count
+           totalMemberCount = rs.getInt(1);
        }
        
 	    } catch (SQLException e) {
@@ -932,6 +929,7 @@ public class AdminDAO_imple implements AdminDAO {
 	public int getTotalProductCount(Map<String, String> paraMap) {
 		
 		int totalProductCount = 0;
+		rs = null;
 
 	    try {
 	        conn = ds.getConnection();
@@ -952,6 +950,12 @@ public class AdminDAO_imple implements AdminDAO {
 	   if (!searchType.isBlank() && !searchWord.isBlank()) { 
 	       pstmt.setString(1, searchWord);
 	   }
+	   
+	   rs = pstmt.executeQuery();
+
+       if (rs.next()) {
+    	   totalProductCount = rs.getInt(1);
+       }
 
 
 	    } catch (SQLException e) {
@@ -1021,16 +1025,18 @@ public class AdminDAO_imple implements AdminDAO {
 	        conn = ds.getConnection();
 
 	        String sql = "SELECT COUNT(*) " +
-	                	"FROM tbl_order ";
+	                "FROM tbl_order o " +
+	                "JOIN tbl_member m ON o.fk_m_id = m.m_id ";
 
 	   String searchType = paraMap.get("searchType");
 	   String searchWord = paraMap.get("searchWord");
-
+	   
 	   // 검색 조건이 있는 경우 WHERE 절 추가
 	   if (!searchType.isBlank() && !searchWord.isBlank()) { 
 	       sql += " WHERE " + searchType + " LIKE '%' || ? || '%' ";
 	   }
-
+	   
+	  
 	   pstmt = conn.prepareStatement(sql);
 
 	   if (!searchType.isBlank() && !searchWord.isBlank()) { 
@@ -1064,20 +1070,17 @@ public class AdminDAO_imple implements AdminDAO {
 	    try {
 	        conn = ds.getConnection();
 
-	        String sql = "SELECT ceil(count(*) / ?) " +
-	                     "FROM tbl_delivery ";
+	        String sql = " SELECT ceil(count(*) / ?) " +
+	                     " FROM tbl_delivery ";
 
 	        String searchType = paraMap.get("searchType");
 	        String searchWord = paraMap.get("searchWord");
 
 	        // 검색 조건이 있는 경우 WHERE 절 추가
-	        if (!searchType.isBlank() && !searchWord.isBlank()) {
-	            if ("m_id".equals(searchType)) {
-	                searchType = "fk_m_id"; // 열 이름을 올바르게 변경
-	            }
-	            sql += "WHERE " + searchType + " LIKE '%' || ? || '%'";
+	        if (!searchType.isBlank() && !searchWord.isBlank()) { 
+	            sql += "WHERE " + searchType + " LIKE '%' || ? || '%' ";
 	        }
-
+	        
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")));
 
@@ -1299,14 +1302,14 @@ public class AdminDAO_imple implements AdminDAO {
 	           conn = ds.getConnection();
 
 	           String sql = " select ceil(count(*) / ?) " +
-	                        " from tbl_member ";
+	                        " from tbl_member where M_STATUS = 0 ";
 
 	           String searchType = paraMap.get("searchType");
 	           String searchWord = paraMap.get("searchWord");
 
 	           // 검색 조건이 있는 경우 WHERE 절 추가
 	           if (!searchType.isBlank() && !searchWord.isBlank()) {
-	               sql += " WHERE " + searchType + " like '%' || ? || '%' ";
+	               sql += " and " + searchType + " like '%' || ? || '%' ";
 	           }
 
 	           pstmt = conn.prepareStatement(sql);
@@ -1366,7 +1369,7 @@ public class AdminDAO_imple implements AdminDAO {
 	   rs = pstmt.executeQuery();
 
        if (rs.next()) {
-    	   totalMemberstatus = rs.getInt(1); // Fetch the count
+    	   totalMemberstatus = rs.getInt(1); 
        }
 
 

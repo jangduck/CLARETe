@@ -45,7 +45,7 @@
         <div class="mypage_contants_bottom">
         
 	    <div class="content-flex" >
-	    	<form id="deliveryDeletFrm" name="deliveryDeletFrm" action="deleteDelivery.cl" method="post" style="display:flex;">
+	    	<form id="deliveryDeletFrm" name="deliveryDeletFrm" action="deleteDelivery.cl" method="post" >
       			<c:forEach var="dvo" items="${requestScope.deliveryList}">
 	        		<div class="delivery-content-box">
 		        		<ul class="delivery-info">
@@ -65,8 +65,8 @@
 	          </form>
 			</div>
  
-	         <div class="delivery_info_insert" style="text-align: center; margin-top:10%;">
-	          <button type="button" id="toggleButton" style="display:inline-block; background-color:#ffff; border:#ffff; font-size:30px;">
+	         <div class="delivery_info_insert" style="text-align: center; margin-top:8%;">
+	          <button type="button" id="toggleButton" style="display:inline-block; background-color:#ffff; border:#ffff; font-size:24px;">
 	          배송지 추가하기
 	          </button>
 	        </div>
@@ -98,22 +98,24 @@
 	             			</li>
 	             			
 	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
-	             			<label id="infotitle">받는 사람 전화번호<span class="asterisk">*</span></label><br>
-	             			<input type="text" name="d_mobile" id="userinfo" class="d_deliveryInfo d_monbile" maxlength="11" placeholder="' - '를 빼고 숫자만 입력해주세요"></input>
-	             			<span class = "error"> 숫자로 입력하세요!</span>
+		             			<label id="infotitle">받는 사람 전화번호<span class="asterisk">*</span></label><br>
+		             			<input type="text" name="d_mobile" id="userinfo" class="d_deliveryInfo d_mobile" maxlength="11" placeholder="' - '를 빼고 숫자만 입력해주세요"></input>
+		             			<span class = "error"> 숫자로 입력하세요!</span>
+		             			<span class="none-text">전화번호를 입력해주세요!</span><!-- 유효성 검사로 span 태그에 클래스 하나 추가함 -->
 	             			</li>
 	             			
 	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
 		             			<label id="infotitle">받는 사람 우편번호<span class="asterisk">*</span></label><br>
 		             			<input type="text" name="d_postcode" id="postcode" class="d_deliveryInfo d_postcode" value="" style="width:215px;" placeholder="우편번호를 입력해주세요."></input>
-		             			<input type="button" name="postCodeButton" id="postCodeButton"  class="PostCodeFind " value="우편번호검색"/>
-		             			<span class = "error"> 5글자 이내로 적어주세요!</span>
+		             			<input type="button" name="postCodeButton" id="postCodeButton"  class="PostCodeFind" value="우편번호검색"/>
+		             			<span class = "error"> 5자리의 숫자로 적어주세요!</span>
 	             			</li>
 	             			
 	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">
 		             			<label id="infotitle">받는 사람 주소<span class="asterisk">*</span></label><br>
 		             			<input type="text" name="d_address" id="address" class="d_deliveryInfo d_address" value="" placeholder="주소" style="width:350px;"></input>
 		             			<span class="error">주소를 입력해주세요!</span>
+		             			
 	             			</li>
 	             			
 	             			<li style="margin-top:10px; margin-left: 20px;" class="formDiv">

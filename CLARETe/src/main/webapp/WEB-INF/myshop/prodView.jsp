@@ -29,12 +29,14 @@
                 <div class="product_img_container">
                     <div style="display: flex; gap: calc(2vw); width: var(--size930); height: auto; margin-bottom: 60px;">
                         <div class="product_main_img" style="background-image:url('/CLARETe/images/<c:out value="${requestScope.pvo.p_image}" />');"></div>
+                        <%-- 
                         <ul class="product_sub_imgs">
                             <!-- 서브 이미지 -->
                             <li></li>
                             <li></li>
                             <!-- 서브 이미지 -->
                         </ul>
+                        --%>
                     </div>
 
                     

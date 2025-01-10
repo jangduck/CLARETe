@@ -27,6 +27,158 @@
 	<jsp:include page="../admin/adminheader.jsp"></jsp:include>
 </body>
 
+<style type="text/css">
+div#pageBar {
+	border: solid 0px red;
+	width: 80%;
+	margin: 3% auto 0 auto;
+	display: flex;
+}
+
+div#pageBar>nav {
+	margin: auto;
+}
+
+.aclass {
+	color: gray;
+	text-decoration: none;
+}
+
+
+
+.top-nav{
+margin-bottom: 10px;
+}
+
+.nav-title {
+	margin-bottom: 15px;
+}
+
+.blackbtn {  
+	background-color: white;
+	color:black;
+	border: 2px solid gray;
+}
+
+.blackbtn:hover {
+	background-color: white;
+	color:black;
+	border: 3px solid black;
+	
+}
+
+.search {
+    width: 50px;
+    height: 25px;
+    font-size: 15px; 
+    padding: 4px; 
+    background-color: gray;
+    border: black;
+}
+
+.search:hover {
+	background-color: gray;
+	border:black;
+}
+
+
+.home {
+	border: black 1px solid;
+	color:black;
+	text-decoration: none;
+}
+
+.first-div {
+	border: 1px solid black;
+}
+
+.end {
+	background-color: black;
+}
+
+.end:hover {
+	background-color: gray;
+}
+
+.adeco {
+	text-decoration: none;
+}
+
+.modalclose {
+	background-color: black;
+	color: white;
+	border: black 1px solid;
+}
+
+.modalclose:hover {
+	background-color: gray;
+	color: white;
+	text-decoration: none;
+	border: gray 1px solid;
+}
+
+
+th {
+    text-align: center; 
+    vertical-align: middle; /* 수직 가운데 정렬 */
+}
+
+
+table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+ .nav-title{
+   margin-left: 16px;}
+</style>
+
+    <header class="side-header" style="padding-top: 30px;">
+        <nav class="header-nav" >
+            <ul>
+                <li>
+                    <div class="nav-title">회원관리</div>
+                    <ul>
+                      <li><a class="aclass" href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
+                        <li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminMemberStatus.cl">탈퇴회원조회</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="nav-title">상품관리</div>
+                    <ul>
+						<li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a></li>
+						<li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminProductInsertGo.cl"></a>상품등록</li>
+                    </ul>
+                </li>
+                <li style="margin-top:20px;">
+                    <div style="color:black; font-weight: bold;" class="nav-title" >주문관리</div>
+                    <ul>
+                        <li><a class="aclass"
+						href="<%=request.getContextPath()%>/admin/adminOrder.cl">주문회원조회</a></li>
+                        <li><a class="aclass"
+						href="<%=request.getContextPath()%>/admin/adminDelivery.cl">주문배송관리</a></li>
+                    </ul>
+                </li>
+                <li>
+                <div class="nav-title">문의관리</div>
+                <ul>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/faq/faq.cl">FAQ등록</a></li>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/admin/adminBoard.cl">Q&A답변</a></li>
+                </ul>
+            </li>
+            </ul>
+        </nav>
+    </header>
+    <nav class="top-nav">
+        <div class="nav-logo">
+            <div>LOGO</div>
+        </div>
+        <div class="nav-btn">
+            <a class="adeco" href="<%=request.getContextPath()%>/index.cl"><div class="home-btn home">홈으로</div></a>
+            <a class="adeco" href="<%=request.getContextPath()%>/login/logout.cl"><div class="end-btn end">종료</div></a>
+        </div>
+    </nav>
+
 
 <section>
 

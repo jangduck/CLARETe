@@ -1,7 +1,10 @@
 package review.domain;
 
+import java.lang.StackWalker.Option;
+
 import delivery.domain.DeliveryVO;
 import member.domain.MemberVO;
+import option.domain.OptionVO;
 import order.domain.OrderVO;
 import orderdetail.domain.orderdetailVO;
 import product.domain.ProductVO;
@@ -20,8 +23,14 @@ public class ReviewVO {
 	private orderdetailVO odvo;
 	private ProductVO pvo;
 	private DeliveryVO dvo;
+	private OptionVO opvo;
 	
-	
+	public OptionVO getOpvo() {
+		return opvo;
+	}
+	public void setOpvo(OptionVO opvo) {
+		this.opvo = opvo;
+	}
 	public DeliveryVO getDvo() {
 		return dvo;
 	}

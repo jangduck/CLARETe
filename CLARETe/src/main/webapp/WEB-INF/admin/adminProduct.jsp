@@ -39,6 +39,104 @@ div#pageBar {
    div#pageBar > nav {
       margin: auto;
    }
+   
+   .aclass {
+	color: gray;
+	text-decoration: none;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+
+
+.top-nav{
+margin-bottom: 10px;
+}
+
+.nav-title {
+	margin-bottom: 15px;
+}
+
+.blackbtn {  
+	background-color: white;
+	color:black;
+	border: 2px solid gray;
+}
+
+.blackbtn:hover {
+	background-color: white;
+	color:black;
+	border: 3px solid black;
+	
+}
+
+.home {
+	border: black 1px solid;
+	color:black;
+	text-decoration: none;
+}
+
+.first-div {
+	border: 1px solid black;
+}
+
+.end {
+	background-color: black;
+}
+
+.end:hover {
+	background-color: gray;
+}
+
+.adeco {
+	text-decoration: none;
+}
+	
+.modalupdate {
+	background-color: black;
+	border: white 1px solid;
+	color:white;
+	text-decoration: none;
+}
+
+.modalupdate:hover {
+	background-color: gray;
+}
+
+
+.modalclose {
+	background-color: white;
+	color:black;
+	border: 1px solid black;
+}
+
+.modalclose:hover {
+	border: 1px solid black;
+}
+
+.search {
+	background-color: gray;
+	border:black;
+}
+
+.search:hover {
+	background-color: gray;
+	border:black;
+}
+
+
+th {
+    text-align: center; /* 텍스트를 가운데로 정렬 */
+    vertical-align: middle; /* 수직 가운데 정렬 */
+}
+
+table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+
 </style>
 
 
@@ -72,35 +170,41 @@ $(document).ready(function() {
 
 <title>상품 회원 조회</title>
 <body class="allbody" style="background-color: #F1F5F9 !important; width: 100% !important;">
-<header class="side-header">
+<header class="side-header" style="padding-top: 30px;">
     <nav class="header-nav">
         <ul>
 			<li>
 				<div>회원관리</div>
 				<ul>
-					<li><a href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
-					<li>탈퇴회원조회</li>
+					<li><a class="aclass" href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
+					<li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminMemberStatus.cl">탈퇴회원조회</a></li>
 				</ul>
 			</li>
 			<li>
-				<div>상품관리</div>
+				<div class="nav-title">상품관리</div>
 				<ul>
-					<a href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a>
-					<li>상품 카테고리 별 조회</li>
-					<li>상품등록</li>
-					<li>상품 재고 관리</li>
-					<li>상품 삭제</li>
-				</ul>
-			</li>
-			<li>
-				<div>주문관리</div>
-				<ul>
-					<li><a
+				
+					<li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a></li>
+					<li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminProductInsertGo.cl">상품등록</li>
+                 </ul>
+             </li>
+			<li style="margin-top:20px;">
+                    <div style="color:black; font-weight: bold;" class="nav-title" >주문관리</div>
+                    <ul>
+                        <li><a class="aclass"
 						href="<%=request.getContextPath()%>/admin/adminOrder.cl">주문회원조회</a></li>
-					<li><a
+                        <li><a class="aclass"
 						href="<%=request.getContextPath()%>/admin/adminDelivery.cl">주문배송관리</a></li>
-				</ul>
-			</li>
+                    </ul>
+            </li>
+            
+            <li>
+                <div>문의관리</div>
+                <ul>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/faq/faq.cl">FAQ등록</a></li>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/admin/adminBoard.cl">Q&A답변</a></li>
+                </ul>
+            </li>
 		</ul>
     </nav>
 </header>
@@ -110,8 +214,8 @@ $(document).ready(function() {
         <div>LOGO</div>
     </div>
     <div class="nav-btn">
-        <a href="#"><div class="home-btn">홈으로</div></a>
-        <a href="#"><div class="end-btn">종료</div></a>
+       <a class="adeco" href="<%=request.getContextPath()%>/index.cl"><div class="home-btn home">홈으로</div></a>
+       <a class="adeco" href="<%=request.getContextPath()%>/login/logout.cl"><div class="end-btn end">종료</div></a>
     </div>
 </nav>
 
@@ -126,7 +230,7 @@ $(document).ready(function() {
 						<option value="p_season">카테고리</option>
 						<option value="p_gender">성별향수</option>
 					</select> <input type="text" name="searchWord" placeholder="검색어 입력" required />
-					<button type="submit" class="btn btn-secondary"
+					<button type="submit" class="btn btn-secondary search"
 						onclick="goSearch()">검색</button>
 				</form>
 
@@ -181,8 +285,11 @@ $(document).ready(function() {
 		<!-- 상품 조회 테이블 -->
 		<div class="second-div">
 			
-			<div style="display: flex; justify-content: space-between; align-items: center; padding: 2% 0px 2% 0px;">
-				<span style="font-weight: bold; text-align: center;">상품조회</span>
+			<h4
+				style="font-weight: bold; text-align: center; margin-top: 50px; padding: 2% 0;">모든 상품 조회</h4>
+				<div class="total-count" style="text-align: left; margin: 10px; font-weight: bold; font-size: 13pt;">
+				    * 총 상품 수: ${totalProductCount}개
+				</div>
 				<span>
 					<form name="allDeleteFrm">
 						<input type="hidden" name="allPnumarr"/>
@@ -208,8 +315,8 @@ $(document).ready(function() {
 							<th>제품등록일</th>
 							<th>할인률</th>
 							<th>성별</th>
-							<th style="text-align:center;">수정</th>
-							<th style="text-align:center;">삭제</th>
+							<th style="text-align:center;" >수정</th>
+							<th style="text-align:center;" class="delete-btn delete">삭제</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -393,8 +500,8 @@ $(document).ready(function() {
                 	
                 </table>
                 <div style="display: flex; justify-content: center; gap: 1%;">
-	                <input id="btnRegister" type="button" class="btn btn-primary" value="수정" />
-	                <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+	                <input id="btnRegister" type="button" class="btn btn-primary modalupdate" value="수정" />
+	                <button id="btnclose" type="button" class="btn btn-dange modalclose" data-dismiss="modal">닫기</button>
                 </div>
             </form>
             

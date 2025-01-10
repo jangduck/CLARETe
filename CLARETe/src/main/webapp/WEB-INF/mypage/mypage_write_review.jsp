@@ -81,7 +81,7 @@ this.document.getElementById("mypageFrm").submit();
                             <div>
                                 <span>${rvo.odvo.od_count}</span><span>개</span> <!-- 상품 개수 넣는 자리입니다 -->
                                 <span>/</span>
-                                <span>${rvo.odvo.fk_op_num}</span><span>ml</span> <!-- 상품 옵션 넣는 자리입니다 -->
+                                <span>${rvo.opvo.ml}</span>ml <!-- 상품 옵션 넣는 자리입니다 -->
                             </div>
                         </li>
                         <li>

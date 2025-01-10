@@ -58,12 +58,101 @@
     div.fileDrop > div.fileList > span.fileName{padding-left: 10px;}
     div.fileDrop > div.fileList > span.fileSize{padding-right: 20px; float:right;} 
     span.clear{clear: both;} 
+    
+    .aclass {
+	color: gray;
+	text-decoration: none;
+	}
+	
+	.home {
+	border: black 1px solid;
+	color:black;
+	text-decoration: none;
+	}
+	
+	.end {
+	background-color: black;
+	}
+	
+	.end:hover {
+	background-color: gray;
+	}
+	
+	.adeco {
+	text-decoration: none;
+	}
+	
+	.reset:hover{
+	background-color:white;
+	border: black 2px solid;
+	color:black;
+	}
+	
+	.update:hover {
+	background-color: gray;
+	}
+	
+	th {
+    text-align: center; /* 텍스트를 가운데로 정렬 */
+    vertical-align: middle; /* 수직 가운데 정렬 */
+}
    
+   ul, .nav-title{
+   margin-left: 16px;}
 </style>
 
 <body class="allbody" style="background-color: #F1F5F9 !important; width: 100% !important;">
     
     <jsp:include page="adminheader.jsp"></jsp:include>
+
+
+<header class="side-header" style="padding-top: 30px;">
+        <nav class="header-nav" >
+            <ul>
+                <li>
+                    <div class="nav-title">회원관리</div>
+                    <ul>
+                      <li><a class="aclass" href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
+                        <li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminMemberStatus.cl">탈퇴회원조회</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="nav-title">상품관리</div>
+                    <ul>
+						<li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a></li>
+						<li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminProductInsertGo.cl">상품등록</li>
+                    </ul>
+                </li>
+                <li style="margin-top:20px;">
+                    <div style="color:black; font-weight: bold;" class="nav-title" >주문관리</div>
+                    <ul>
+                        <li><a class="aclass"
+						href="<%=request.getContextPath()%>/admin/adminOrder.cl">주문회원조회</a></li>
+                        <li><a class="aclass"
+						href="<%=request.getContextPath()%>/admin/adminDelivery.cl">주문배송관리</a></li>
+                    </ul>
+                </li>
+                
+                <li>
+                <div class="nav-title" >문의관리</div>
+                <ul>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/faq/faq.cl">FAQ등록</a></li>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/admin/adminBoard.cl">Q&A답변</a></li>
+                </ul>
+            </li>
+            </ul>
+        </nav>
+    </header>
+    
+    <nav class="top-nav">
+        <div class="nav-logo">
+            <div>LOGO</div>
+        </div>
+        <div class="nav-btn">
+            <a class="adeco" href="<%=request.getContextPath()%>/index.cl"><div class="home-btn home">홈으로</div></a>
+            <a class="adeco" href="<%=request.getContextPath()%>/login/logout.cl"><div class="end-btn end">종료</div></a>
+        </div>
+    </nav>
     
     <section>
         <div style="display: flex; flex-wrap: wrap;">
@@ -179,8 +268,8 @@
 			            	</tbody>
 			            </table>
 			            <div style="display: flex; justify-content: center; gap: 2%;">
-			            	<input id="btnRegister" class="btn btn-dark" type="button" value="등록"/> 
-			            	<input class="btn btn-outline-dark" type="reset" value="취소"/>
+			            	<input id="btnRegister" class="btn btn-dark update" type="button" value="등록"/> 
+			            	<input class="btn btn-outline-dark reset" type="reset" value="취소"/>
 			            </div>
 			            
 			            <input type="hidden" name="p_num" value="${requestScope.p_num}" />

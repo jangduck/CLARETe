@@ -147,6 +147,46 @@ div.infocon > table:nth-child(2) {
 	cursor: pointer;
 }
 
+   .aclass {
+   color: gray;
+   text-decoration: none;
+   }
+   
+   .home {
+   border: black 1px solid;
+   color:black;
+   text-decoration: none;
+   }
+   
+   .end {
+   background-color: black;
+   }
+   
+   .end:hover {
+   background-color: gray;
+   }
+   
+   .adeco {
+   text-decoration: none;
+   }
+   
+   .reset:hover{
+   background-color:white;
+   border: black 2px solid;
+   color:black;
+   }
+   
+   .update:hover {
+   background-color: gray;
+   }
+   
+   th {
+    text-align: center; /* 텍스트를 가운데로 정렬 */
+    vertical-align: middle; /* 수직 가운데 정렬 */
+}
+   
+   .nav-title{
+   margin-left: 16px;}
 </style>
 
 
@@ -180,38 +220,44 @@ $(document).ready(function() {
 
 <title>상품 회원 조회</title>
 <body class="allbody" style="background-color: #F1F5F9 !important; width: 100% !important;">
-<header class="side-header">
-    <nav class="header-nav">
-        <ul>
-			<li>
-				<div>회원관리</div>
-				<ul>
-					<li><a href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
-					<li>탈퇴회원조회</li>
-				</ul>
-			</li>
-			<li>
-				<div>상품관리</div>
-				<ul>
-					<a href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a>
-					<li>상품 카테고리 별 조회</li>
-					<li>상품등록</li>
-					<li>상품 재고 관리</li>
-					<li>상품 삭제</li>
-				</ul>
-			</li>
-			<li>
-				<div>주문관리</div>
-				<ul>
-					<li><a
-						href="<%=request.getContextPath()%>/admin/adminOrder.cl">주문회원조회</a></li>
-					<li><a
-						href="<%=request.getContextPath()%>/admin/adminDelivery.cl">주문배송관리</a></li>
-				</ul>
-			</li>
-		</ul>
-    </nav>
-</header>
+
+<header class="side-header" style="padding-top: 30px;">
+        <nav class="header-nav" >
+            <ul>
+                <li>
+                    <div class="nav-title">회원관리</div>
+                    <ul>
+                      <li><a class="aclass" href="<%= request.getContextPath() %>/admin/admin.cl">회원조회</a></li>
+                        <li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminMemberStatus.cl">탈퇴회원조회</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="nav-title">상품관리</div>
+                    <ul>
+                  <li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminProduct.cl">상품조회</a></li>
+                  <li><a class="aclass" href="<%= request.getContextPath() %>/admin/adminProductInsertGo.cl">상품등록</li>
+                    </ul>
+                </li>
+                <li style="margin-top:20px;">
+                    <div style="color:black; font-weight: bold;" class="nav-title" >주문관리</div>
+                    <ul>
+                        <li><a class="aclass"
+                  href="<%=request.getContextPath()%>/admin/adminOrder.cl">주문회원조회</a></li>
+                        <li><a class="aclass"
+                  href="<%=request.getContextPath()%>/admin/adminDelivery.cl">주문배송관리</a></li>
+                    </ul>
+                </li>
+                
+                <li>
+                <div class="nav-title" >문의관리</div>
+                <ul>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/faq/faq.cl">FAQ등록</a></li>
+                    <li><a class="aclass" href="<%=request.getContextPath()%>/admin/adminBoard.cl">Q&A답변</a></li>
+                </ul>
+            </li>
+            </ul>
+        </nav>
+    </header>
 
 <nav class="top-nav">
     <div class="nav-logo">

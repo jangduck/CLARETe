@@ -99,6 +99,7 @@
 						<input type="hidden" name="p_num" value="${cvo.pvo.p_num}">
 						<input type="hidden" name="productprice" value="${cvo.pvo.p_price - (cvo.pvo.p_price * cvo.pvo.p_sale / 100) + cvo.opvo.op_price}">
 						<input type="hidden" name="productimg" value="${cvo.pvo.p_image}">
+						<input type="hidden" name="optionml" value="${cvo.opvo.op_ml}">
 						
 					</div> <!-- product 하나 끝 -->
 				

@@ -99,7 +99,7 @@ window.addEventListener("message", function(event) {
                <th class="tbl-ask-header">문의제목</th>
                <th class="tbl-ask-header">문의유형</th>
                <th class="tbl-ask-header">등록일자</th>
-               
+               <th class="tbl-ask-header">삭제</th>
            </tr>
            
        </thead>
@@ -122,13 +122,18 @@ window.addEventListener("message", function(event) {
 					</c:choose>
 				</td>
                      <td class="tbl-ask-data">${qnaList.q_register}</td> 
+                     <td class="tbl-ask-data">
                      
+	                     <input style="border:none; background-color: #000; color:#fff; cursor: pointer;" class="deleteOneGo" type="button" value="삭제" />
+	                     <input type="hidden" value="${qnaList.q_num}" />
+                     
+                     </td>
                  </tr>
                  
 		</c:forEach>
 		</c:if>
 		<c:if test="${empty requestScope.qnaList}">
-			<tr><td colspan="4" style="height: 80px;">문의사항이 없습니다.</td></tr>
+			<tr><td colspan="5" style="height: 80px;">문의사항이 없습니다.</td></tr>
 		</c:if>
                   </tbody>
               </table>
@@ -262,6 +267,32 @@ $(document).ready(function(){
 	        event.preventDefault();
 	    }
 	});
+	
+	
+	$('.deleteOneGo').click(function(){
+		
+		const q_num = $(this).next().val();
+		
+		if(confirm("해당 문의를 삭제하시겠습니까?")){
+			
+			$.ajax({
+				url:"updateQnaDeleteJSON.cl",
+				data:{"q_num":q_num},
+				type: "post",
+				dataType:"json",
+				success:function(json){
+					
+					alert('해당 문의가 삭제되었습니다.');
+					location.reload(true);
+					
+				},
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			})
+		}
+	})
+	
 	
 }); // end of $(document).ready(function(){});-------------------------------------------------------
 </script>

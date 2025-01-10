@@ -33,7 +33,7 @@ public class AdminMemberStatus extends AbstractController {
 			String searchWord = request.getParameter("searchWord");
 			String currentShowPageNo = request.getParameter("currentShowPageNo");
 
-			String sizePerPage = "5"; // 페이지에서 보여줄 회원 수
+			String sizePerPage = "10"; // 페이지에서 보여줄 회원 수
 /////////////데이터 많아지면 여기서 바꾸기!!!
 
 			// 기본값 설정
@@ -84,7 +84,7 @@ public class AdminMemberStatus extends AbstractController {
 
 			String pageBar = "";
 
-			int blockSize = 10; ///////////// 데이터 많아지면 여기서 바꾸기!!!
+			int blockSize = 5; ///////////// 데이터 많아지면 여기서 바꾸기!!!
 			// blockSize 는 블럭(토막)당 보여지는 페이지 번호의 개수이다.
 
 			int loop = 1;

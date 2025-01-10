@@ -74,7 +74,7 @@
                                 <div>
                                     <span>${rvo.odvo.od_count}</span><span>개</span> <!-- 상품 개수 넣는 자리입니다 -->
                                     <span>/</span>
-                                    <span>50</span><span>ml</span> <!-- 상품 옵션 넣는 자리입니다 -->
+                                    <span>${rvo.opvo.ml}</span><span>ml</span> <!-- 상품 옵션 넣는 자리입니다 -->
                                 </div>
                             </div>
                         </div>
