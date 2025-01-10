@@ -146,9 +146,9 @@
 						        <div class="option">
 						            <span class="optionSpan">- 옵션 
 							            <c:choose>
-									        <c:when test="${requestScope.optionList[i].op_ml == '1'}">50ml</c:when>
-									        <c:when test="${requestScope.optionList[i].op_ml == '2'}">75ml</c:when>
-									        <c:when test="${requestScope.optionList[i].op_ml == '3'}">100ml</c:when>
+									        <c:when test="${sessionScope.optionml[i] == '1'}">50ml</c:when>
+									        <c:when test="${sessionScope.optionml[i] == '2'}">75ml</c:when>
+									        <c:when test="${sessionScope.optionml[i] == '3'}">100ml</c:when>
 									    </c:choose>
 						            </span>/ ${requestScope.quantity[i]}개
 						        </div>
@@ -159,7 +159,7 @@
 						    <input type="hidden" name="od_count" value="${requestScope.quantity[i]}" />			<!-- 각 제품 구매개수 od_count -->
 						    <input type="hidden" name="fk_op_num" value="${requestScope.option[i]}" />			<!-- 옵션번호 fk_op_num  -->
 						    <input type="hidden" name="od_price" value="${(requestScope.priceQuantity[i] / requestScope.quantity[i]).intValue()}" />		<!-- 제품 가격  od_price -->
-						    
+						    <input type="hidden" value="${sessionScope.optionml[i]}" />
 						    
 						</c:forEach>
 						

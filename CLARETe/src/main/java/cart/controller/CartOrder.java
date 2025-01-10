@@ -79,6 +79,10 @@ public class CartOrder extends AbstractController {
         String[] p_num = request.getParameterValues("p_num");
         String[] productprice = request.getParameterValues("productprice");
         String[] productimg = request.getParameterValues("productimg");
+        String[] optionml = request.getParameterValues("optionml");
+        
+        //System.out.println("옵션0" + optionml[0]);
+        //System.out.println("옵션1" + optionml[1]);
         
         session.setAttribute("index", index);
         session.setAttribute("perfumeName", perfumeName);
@@ -90,6 +94,7 @@ public class CartOrder extends AbstractController {
         session.setAttribute("p_num", p_num);
         session.setAttribute("productprice", productprice);
         session.setAttribute("productimg", productimg);
+        session.setAttribute("optionml", optionml);
         
         // input 태그 값 받아오기 (가격)
         String totalProduct = request.getParameter("totalProduct");
