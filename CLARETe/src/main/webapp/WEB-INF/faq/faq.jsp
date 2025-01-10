@@ -129,7 +129,7 @@ table td {
     vertical-align: middle;
 }
 
- ul, .nav-title{
+ .nav-title{
    margin-left: 16px;}
 </style>
 
