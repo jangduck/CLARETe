@@ -133,7 +133,7 @@ window.addEventListener("message", function(event) {
 		</c:forEach>
 		</c:if>
 		<c:if test="${empty requestScope.qnaList}">
-			<tr><td colspan="4" style="height: 80px;">문의사항이 없습니다.</td></tr>
+			<tr><td colspan="5" style="height: 80px;">문의사항이 없습니다.</td></tr>
 		</c:if>
                   </tbody>
               </table>

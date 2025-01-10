@@ -29,7 +29,6 @@ public class UpdateQnaDeleteJSON extends AbstractController {
 
 			result = qdao.qnaDelete(q_num);
 			
-			
 			jsonObj.put("result", result);	
 			
 			String json = jsonObj.toString();		// 문자열 형태인 "{"isExists": true}" 또는 "{"isExists": false}" 로 만들어준다.
