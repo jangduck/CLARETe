@@ -39,13 +39,17 @@
     font-size: clamp(16px, 0.8333vw, 200px);
     border-radius: 8px;
     background-color: #000;
-    color: #fff;
+    color: #fff !important;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     box-sizing: border-box;
     transition: all 0.5s;
+}
+
+.cartgo > a{
+	color:#fff;
 }
 
 .cartgo:hover{
@@ -55,6 +59,9 @@
     box-sizing: border-box;
 }
 
+.cartgo > a:hover{
+	color:#000;
+}
 
 .cartbox{
     width: 100%; 
