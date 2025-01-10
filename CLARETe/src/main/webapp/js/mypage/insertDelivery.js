@@ -1,24 +1,39 @@
 $(document).ready(function(){
 	$("div.delivery_Insert").hide(); 
 	$("span.error").hide();
-	$("span.none-text").hide()
+	$("span.none-text").hide();
 	
 	$("button#toggleButton").click(function(){
 		//console.log("~~~~확인용 클릭함.");
 		$("div.delivery_Insert").show();
+		$("span.error").hide();
+	    $("span.none-text").hide();
 	});
 	
 	$("button.toggleColse").click(function(){
+		$(".delivery_Insert :input").prop("disabled", false);
+		$("span.error").hide();
+		$("span.none-text").hide();
 		$("div.delivery_Insert").hide();
 	})
 	
+	
+	$(".btn_reset").click(function(){
+		
+		$(".delivery_Insert :input").prop("disabled", false);
+			$("span.error").hide();
+			$("span.none-text").hide();
+			$("div.delivery_Insert").hide();
+		
+	});
 	
 	 $("input.d_name").blur((e)=>{
 		const d_name = $("input.d_name").val().trim();
 			
 			if(d_name == ""){
-				$("button.toggleColse").prop("disabled", false);
+			
 				$(".delivery_Insert :input").prop("disabled", true);
+				$(".toggleColse").prop("disabled", false);
 	            $(e.target).prop("disabled", false);
 	            $(e.target).val("").focus();
 
@@ -46,8 +61,9 @@ $(document).ready(function(){
 		const bool = regExp__d_mobile.test($(e.target).val());
 		
 		if(bool){
-			$("button.toggleColse").prop("disabled", false);
+			                 
 			$(".delivery_Insert :input").prop("disabled", true);
+			$(".toggleColse").prop("disabled", false);  
 			$(e.target).prop("disabled", false);
 			$(e.target).val("").focus();
 			$(e.target).parent().find("span.error").show();
@@ -55,8 +71,9 @@ $(document).ready(function(){
 		}	
 		
 		else if( d_mobile == ""){
-			$("button.toggleColse").prop("disabled", false);
+			
 			$(".delivery_Insert :input").prop("disabled", true);
+			$(".toggleColse").prop("disabled", false);
 			$(e.target).prop("disabled", false);
 			$(e.target).val("").focus();
 			$(e.target).parent().find("span.none-text").show();
@@ -83,8 +100,9 @@ $(document).ready(function(){
 		const bool = regExp_postcode.test($(e.target).val());
 		
 		if(!bool){
-			$("button.toggleColse").prop("disabled", false);
+			
 			$(".delivery_Insert :input").prop("disabled", true);
+			$("button.toggleColse").prop("disabled", false);
 			$(e.target).prop("disabled", false);
 			$(e.target).val("").focus();
 			$(e.target).parent().find("span.error").show();
@@ -92,8 +110,9 @@ $(document).ready(function(){
 		}
 		
 		else if(d_post == ""){
-			$("button.toggleColse").prop("disabled", false);
+		
 			$(".delivery_Insert :input").prop("disabled", true);
+			$("button.toggleColse").prop("disabled", false);
 			$(e.target).prop("disabled", false);
 			$(e.target).val("").focus();
 			$(e.target).parent().find("span.error").hide();
@@ -115,8 +134,10 @@ $(document).ready(function(){
 		const d_addresss = $("input.d_address").val().trim();
 		
 		if(d_addresss == ""){
-			$("button.toggleColse").prop("disabled", false);
+		
 			$(".delivery_Insert :input").prop("disabled", true);
+			$(".toggleColse").prop("disabled", false);
+			$("button#postCodeButton").prop("disabled", false);
             $(e.target).prop("disabled", false);
             $(e.target).val("").focus();
 
@@ -139,14 +160,15 @@ $(document).ready(function(){
 		const d_detailaddress = $("input.d_detailaddress").val().trim();
 		
 		if(d_detailaddress == "")		{
-					
-		$(".delivery_Insert :input").prop("disabled", true);
-		            $(e.target).prop("disabled", false);
-		            $(e.target).val("").focus();
+			
+			$(".delivery_Insert :input").prop("disabled", true);
+			$(".toggleColse").prop("disabled", false);
+	        $(e.target).prop("disabled", false);
+	        $(e.target).val("").focus();
 
-			        //  $(e.target).next().show();
-			        //  또는
-			         $(e.target).parent().find("span.error").show();
+	        //  $(e.target).next().show();
+	        //  또는
+	         $(e.target).parent().find("span.error").show();
 				}
 				
 		else{
@@ -307,7 +329,7 @@ function goInsertDelivery(){
   	frm.method = "post";
   	frm.submit();
 	
-
+ 
 	};
 	
 	
