@@ -1,23 +1,39 @@
 $(document).ready(function(){
 	$("div.delivery_Insert").hide(); 
 	$("span.error").hide();
+	$("span.none-text").hide();
 	
 	$("button#toggleButton").click(function(){
 		//console.log("~~~~확인용 클릭함.");
 		$("div.delivery_Insert").show();
+		$("span.error").hide();
+	    $("span.none-text").hide();
 	});
 	
 	$("button.toggleColse").click(function(){
+		$(".delivery_Insert :input").prop("disabled", false);
+		$("span.error").hide();
+		$("span.none-text").hide();
 		$("div.delivery_Insert").hide();
 	})
 	
+	
+	$(".btn_reset").click(function(){
+		
+		$(".delivery_Insert :input").prop("disabled", false);
+			$("span.error").hide();
+			$("span.none-text").hide();
+			$("div.delivery_Insert").hide();
+		
+	});
 	
 	 $("input.d_name").blur((e)=>{
 		const d_name = $("input.d_name").val().trim();
 			
 			if(d_name == ""){
-				
+			
 				$(".delivery_Insert :input").prop("disabled", true);
+				$(".toggleColse").prop("disabled", false);
 	            $(e.target).prop("disabled", false);
 	            $(e.target).val("").focus();
 
@@ -39,21 +55,35 @@ $(document).ready(function(){
 	
 	///^[ㄱ-ㅎ가-힣a-zA-Z0-9]+$/
 	
-	$("input.d_monbile").blur((e)=>{
-		
+	$("input.d_mobile").blur((e)=>{
+		const d_mobile = $("input.d_mobile").val().trim();
 		const regExp__d_mobile = /^[ㄱ-ㅎ가-힣a-zA-Z]+$/ //한국어나 일본어가 들어갔을때
 		const bool = regExp__d_mobile.test($(e.target).val());
 		
 		if(bool){
-			
+			                 
+			$(".delivery_Insert :input").prop("disabled", true);
+			$(".toggleColse").prop("disabled", false);  
 			$(e.target).prop("disabled", false);
 			$(e.target).val("").focus();
 			$(e.target).parent().find("span.error").show();
-		}		
+			$(e.target).parent().find("span.none-text").hide();
+		}	
+		
+		else if( d_mobile == ""){
+			
+			$(".delivery_Insert :input").prop("disabled", true);
+			$(".toggleColse").prop("disabled", false);
+			$(e.target).prop("disabled", false);
+			$(e.target).val("").focus();
+			$(e.target).parent().find("span.none-text").show();
+			$(e.target).parent().find("span.error").hide();
+		}
 		
 		else{
 			$(".delivery_Insert :input").prop("disabled", false);
 		    $(e.target).parent().find("span.error").hide();
+			$(e.target).parent().find("span.none-text").hide();
 		}
 	
 	});
@@ -65,19 +95,34 @@ $(document).ready(function(){
 	
 	$("input.d_postcode").blur((e) => {
 		
-		
+		const d_post = $("input.d_postcode");
 		const regExp_postcode = /^\d{5}$/;//우편번호가 5글자 
 		const bool = regExp_postcode.test($(e.target).val());
 		
 		if(!bool){
-			$(e.target).prop("disabled", true);
+			
+			$(".delivery_Insert :input").prop("disabled", true);
+			$("button.toggleColse").prop("disabled", false);
+			$(e.target).prop("disabled", false);
 			$(e.target).val("").focus();
 			$(e.target).parent().find("span.error").show();
+			$(e.target).parent().find("span.none-text").hide();
+		}
+		
+		else if(d_post == ""){
+		
+			$(".delivery_Insert :input").prop("disabled", true);
+			$("button.toggleColse").prop("disabled", false);
+			$(e.target).prop("disabled", false);
+			$(e.target).val("").focus();
+			$(e.target).parent().find("span.error").hide();
+			$(e.target).parent().find("span.none-text").show();
 		}
 		
 		else{
 			$(".delivery_Insert :input").prop("disabled", false);
 			$(e.target).parent().find("span.error").hide();
+			$(e.target).parent().find("span.none-text").hide();
 			}
 		
 	});
@@ -89,15 +134,17 @@ $(document).ready(function(){
 		const d_addresss = $("input.d_address").val().trim();
 		
 		if(d_addresss == ""){
-			
+		
 			$(".delivery_Insert :input").prop("disabled", true);
-			            $(e.target).prop("disabled", false);
-			            $(e.target).val("").focus();
+			$(".toggleColse").prop("disabled", false);
+			
+            $(e.target).prop("disabled", false);
+            $(e.target).val("").focus();
 
-						        //  $(e.target).next().show();
-						        //  또는
-						         $(e.target).parent().find("span.error").show();
-					}
+        //  $(e.target).next().show();
+        //  또는
+         $(e.target).parent().find("span.error").show();
+		}
 					
 		else{
 			$(".delivery_Insert :input").prop("disabled", false);
@@ -113,14 +160,15 @@ $(document).ready(function(){
 		const d_detailaddress = $("input.d_detailaddress").val().trim();
 		
 		if(d_detailaddress == "")		{
-					
-		$(".delivery_Insert :input").prop("disabled", true);
-		            $(e.target).prop("disabled", false);
-		            $(e.target).val("").focus();
+			
+			$(".delivery_Insert :input").prop("disabled", true);
+			$(".toggleColse").prop("disabled", false);
+	        $(e.target).prop("disabled", false);
+	        $(e.target).val("").focus();
 
-			        //  $(e.target).next().show();
-			        //  또는
-			         $(e.target).parent().find("span.error").show();
+	        //  $(e.target).next().show();
+	        //  또는
+	         $(e.target).parent().find("span.error").show();
 				}
 				
 		else{
@@ -281,7 +329,7 @@ function goInsertDelivery(){
   	frm.method = "post";
   	frm.submit();
 	
-
+ 
 	};
 	
 	
