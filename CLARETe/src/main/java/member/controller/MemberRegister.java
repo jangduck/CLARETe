@@ -69,7 +69,7 @@ public class MemberRegister extends AbstractController {
 			} catch (SQLException e) {
 				e.printStackTrace();
 				message = "회원가입 실패";
-				loc = "javascript:history.back";		// JS를 이용한 이전페이지로 이동하는 것
+				loc = request.getContextPath()  + "/index.cl";		// JS를 이용한 이전페이지로 이동하는 것
 			}
 			
 			request.setAttribute("message", message);

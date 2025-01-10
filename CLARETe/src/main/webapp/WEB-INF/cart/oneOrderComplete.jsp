@@ -87,7 +87,7 @@ String ctxPath = request.getContextPath();
 									<c:when test="${requestScope.opvo.op_ml == '2'}">75ml</c:when>
 									<c:when test="${requestScope.opvo.op_ml == '3'}">100ml</c:when>
 							</c:choose>
-							/ 1개
+							/ ${requestScope.odvo.od_count}개
 						</div>
 					</div>
 

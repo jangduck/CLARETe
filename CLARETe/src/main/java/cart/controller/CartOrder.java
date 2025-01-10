@@ -39,7 +39,7 @@ public class CartOrder extends AbstractController {
 
         if (loginuser == null) {
             String message = "로그인 후 이용해주세요.";
-            String loc = "javascript:history.back()";
+            String loc = request.getContextPath() + "/index.cl";
 
             request.setAttribute("message", message);
             request.setAttribute("loc", loc);

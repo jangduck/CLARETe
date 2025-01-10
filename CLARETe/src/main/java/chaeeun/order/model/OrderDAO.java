@@ -31,6 +31,9 @@ public interface OrderDAO {
 
 	// 제품 하나 구매 (바로 구매하기)
 	int oneOrderTransaction(Map<String, String> paraMap, Map<String, String> paraMap2, Map<String, String> paraMap3, Map<String, String> paraMap4) throws SQLException;
+	
+	// 주문상세 뿌리기용
+	orderdetailVO selectOrdrDetail(String pnum) throws SQLException;
 
 
 
