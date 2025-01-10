@@ -122,7 +122,6 @@ public class Login extends AbstractController {
 		        super.setRedirect(false); 
 		        super.setViewPage("/WEB-INF/msg.jsp");
 				
-
 			}
 			
 			
