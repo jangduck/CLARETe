@@ -90,11 +90,8 @@ public class MyPage extends AbstractController {
 			//System.out.println("최근본상품 개수 : " + pvoList.size());
 		} 
 		
-		
-		
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/mypage/mypage_main.jsp");
-		
 		
 		}
 }
