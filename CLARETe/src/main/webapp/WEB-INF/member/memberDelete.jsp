@@ -65,7 +65,7 @@ function goFind() {
 	<form name="memberDelete">
 	    <div class="find_check_container">
 	        <div class="find_logo">
-	            LOGO
+	            <a href="<%= ctxPath%>/"><img src="/CLARETe/images/logo.png" style="width: 4.5rem; height: 4.5rem;" /></a>
 	        </div>
 	        <div class="find_title">
 	            회원탈퇴하기

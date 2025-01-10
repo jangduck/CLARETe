@@ -123,7 +123,7 @@
 <form name="idFindFrm">
    <div class="find_check_container">
            <div class="find_logo">
-               LOGO
+               <a href="<%= ctxPath%>/"><img src="/CLARETe/images/logo.png" style="width: 4.5rem; height: 4.5rem;" /></a>
            </div>
            <div class="find_title">
                휴면 해제하기
