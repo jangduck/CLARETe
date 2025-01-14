@@ -1,9 +1,9 @@
 package faq.domain;
 
 public class FaqVO {
-	int FAQ_num; // ���ֹ���������ȣ
-	String ask; // ����
-	String answer; // �亯
+	private int FAQ_num; // ���ֹ���������ȣ
+	private String ask; // ����
+	private String answer; // �亯
 	
 	
 	public int getFAQ_num() {

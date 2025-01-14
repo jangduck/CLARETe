@@ -2,9 +2,9 @@ package carousel.domain;
 
 public class CarouselVO {
 
-	String title;			//title
-	String contents;		//contents
-	String filename;		//filename
+	private String title;			//title
+	private String contents;		//contents
+	private String filename;		//filename
 	public String getTitle() {
 		return title;
 	}

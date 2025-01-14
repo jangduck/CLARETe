@@ -7,14 +7,14 @@ import product.domain.ProductVO;
 
 public class DeliveryVO {
 
-	 int d_num; 				//배송지번호
-	 String fk_m_id; 			//fk_userid
-	 String d_address;			//받는사람 주소
-	 String d_detail_address;	//받는사람 상세주소
-	 String d_postcode;			//받는사람 우편번호
-	 String d_extra;          	//받는사람 참고항목
-	 String d_mobile;			//받는사람 전화번호
-	 String d_name;				//받는사람 이름
+	private int d_num; 				//배송지번호
+	private String fk_m_id; 			//fk_userid
+	private String d_address;			//받는사람 주소
+	private String d_detail_address;	//받는사람 상세주소
+	private String d_postcode;			//받는사람 우편번호
+	private String d_extra;          	//받는사람 참고항목
+	private String d_mobile;			//받는사람 전화번호
+	private String d_name;				//받는사람 이름
 	 
 	 
 		// MemberVO 조인

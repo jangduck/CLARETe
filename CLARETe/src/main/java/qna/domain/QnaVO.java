@@ -1,15 +1,15 @@
 package qna.domain;
 
 public class QnaVO {
-	int q_num; // Q&A¹øÈ£
-	String fk_m_id; // userid
-	int fk_p_num; // Á¦Ç°°íÀ¯¹øÈ£
-	String q_title; // Á¦¸ñ
-	String q_ask; // Áú¹®
-	String q_register; // Áú¹®µî·ÏÀÏÀÚ
-	int q_category; // ¹®ÀÇÀ¯Çü
-	String q_answer; // ´äº¯
-	String q_answerdate; // ´äº¯µî·ÏÀÏÀÚ
+	private int q_num; // Q&Aï¿½ï¿½È£
+	private String fk_m_id; // userid
+	private int fk_p_num; // ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	private String q_title; // ï¿½ï¿½ï¿½ï¿½
+	private String q_ask; // ï¿½ï¿½ï¿½ï¿½
+	private String q_register; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int q_category; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String q_answer; // ï¿½äº¯
+	private String q_answerdate; // ï¿½äº¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
 	public int getQ_num() {
 		return q_num;

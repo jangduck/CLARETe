@@ -3,12 +3,12 @@ package orderdetail.domain;
 import option.domain.OptionVO;
 
 public class orderdetailVO {
-	int od_num; // �ֹ����Ϸù�ȣ
-	int fk_o_num; // �ֹ���ȣ
-	int fk_p_num; // ��ǰ������ȣ
-	int od_count; // �ֹ���
-	int fk_op_num; //  �ɼǹ�ȣ
-	String od_price; // ����
+	private int od_num; // �ֹ����Ϸù�ȣ
+	private int fk_o_num; // �ֹ���ȣ
+	private int fk_p_num; // ��ǰ������ȣ
+	private int od_count; // �ֹ���
+	private int fk_op_num; //  �ɼǹ�ȣ
+	private String od_price; // ����
 	
 	// OptionVO 조인
 	private OptionVO optionvo;

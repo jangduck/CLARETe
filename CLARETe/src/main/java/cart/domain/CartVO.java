@@ -6,11 +6,11 @@ import product.domain.ProductVO;
 
 public class CartVO {
 
-	 int c_num;				//장바구니번호
-	 int fk_p_num;			//제품고유번호
-	 int fk_op_num;			//옵션번호
-	 String fk_m_id;		//userid
-	 int c_count;			//제품수량
+	private int c_num;				//장바구니번호
+	private int fk_p_num;			//제품고유번호
+	private int fk_op_num;			//옵션번호
+	private String fk_m_id;		//userid
+	private int c_count;			//제품수량
 	 
 	 private ProductVO pvo;
 	 private OptionVO opvo;

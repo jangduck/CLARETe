@@ -8,13 +8,13 @@ import orderdetail.domain.orderdetailVO;
 import product.domain.ProductVO;
 
 public class OrderVO {
-	int o_num; // �ֹ���ȣ
-	String fk_m_id; // fk_userid
-	int fk_d_num; // �������ȣ
-	String o_date; // �ֹ���¥
-	int status; // �����Ȳ �����0, �����1, �����2
-	String o_price; // �ֹ��ݾ�
-	int o_cnt;
+	private int o_num; // �ֹ���ȣ
+	private String fk_m_id; // fk_userid
+	private int fk_d_num; // �������ȣ
+	private String o_date; // �ֹ���¥
+	private int status; // �����Ȳ �����0, �����1, �����2
+	private String o_price; // �ֹ��ݾ�
+	private int o_cnt;
 	
 	// select용
 	

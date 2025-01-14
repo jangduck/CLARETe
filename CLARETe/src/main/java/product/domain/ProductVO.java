@@ -8,21 +8,21 @@ import option.domain.OptionVO;
 
 public class ProductVO {
    
-   int p_num;            //제품고유번호
-   String p_season;      //카테고리(계절)
-   String p_name;         //제품명
-   String p_ex;         //제품설명
-   int p_price;         //가격
-   int p_inven;         //재고
-   String p_register;      //제품등록일
-   String p_release;      //발매일
-   String p_sale;         //할인률
-   int p_gender;         //성별 향수
-   String p_image;         //상품이미지
-   String p_detail_image;   //상품상세이미지
+	private int p_num;            //제품고유번호
+	private String p_season;      //카테고리(계절)
+	private String p_name;         //제품명
+	private String p_ex;         //제품설명
+	private int p_price;         //가격
+	private int p_inven;         //재고
+	private String p_register;      //제품등록일
+	private String p_release;      //발매일
+	private String p_sale;         //할인률
+	private int p_gender;         //성별 향수
+	private String p_image;         //상품이미지
+	private String p_detail_image;   //상품상세이미지
    
    
-   Map<String, String> opMap;
+	private Map<String, String> opMap;
    
    private List<OptionVO> opVoList;
    

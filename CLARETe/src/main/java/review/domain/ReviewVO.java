@@ -10,13 +10,13 @@ import orderdetail.domain.orderdetailVO;
 import product.domain.ProductVO;
 
 public class ReviewVO {
-	int r_num; // �����ȣ
-	String fk_m_id; // userid
-	int fk_p_num; // ��ǰ������ȣ
-	int r_update; // �����������
-	String r_register; // �����ۼ�����
-	int r_star; // ����
-	String r_msg; // ���䳻��
+	private int r_num; // �����ȣ
+	private String fk_m_id; // userid
+	private int fk_p_num; // ��ǰ������ȣ
+	private int r_update; // �����������
+	private String r_register; // �����ۼ�����
+	private int r_star; // ����
+	private String r_msg; // ���䳻��
 	
 	private MemberVO mvo;
 	private OrderVO ovo;

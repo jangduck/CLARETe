@@ -3,11 +3,11 @@ package log.domain;
 import member.domain.MemberVO;
 
 public class LogVO {
-	int l_num; // historyno
-	String fk_m_id; // fk_userid
-	String l_logindate; // logindate
-	String l_ip; // clientip
-	int login_count; // total
+	private int l_num; // historyno
+	private String fk_m_id; // fk_userid
+	private String l_logindate; // logindate
+	private String l_ip; // clientip
+	private int login_count; // total
 	
 	public int getL_num() {
 		return l_num;
